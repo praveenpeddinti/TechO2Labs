@@ -1,0 +1,6 @@
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{padding:0px 6px}
+.infolink_bg{padding:5px 12px 10px;}
+time.icon{border:1px solid #bdbdbd;}
+.timeshow ul li .e_date{padding-top:0px;}
+.chat_profileareasearch .search input[type="text"]{padding:0px 6px}
+header .container .nav > li .profilewidth, header .container .nav > li .notificationwidth{border:1px solid #ccc;border-top:0;}

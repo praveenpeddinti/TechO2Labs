@@ -1,0 +1,31 @@
+body{background: #fff;font-size: 14px;line-height: 20px;}
+a{	
+    color:#333;
+    -webkit-transition: all 0s ease-in-out;
+    -moz-transition: all 0s ease-in-out;
+    -o-transition: all 0s ease-in-out;
+    -ms-transition: all 0s ease-in-out;
+    transition: all 0s ease-in-out;
+}
+.padding10{padding:10px}
+.marginT10{margin-top:10px}
+.sidebar-nav ul li a{cursor: default}
+.left_home-icon:hover {background-position: 8px top;}
+.left_curbside-icon:hover {background-position: 8px -95px;}
+.left_news-icon:hover {background-position: 8px -384px;}
+.left_games-icon:hover {background-position: 8px -287px;}
+.left_career-icon:hover {background-position: 8px -480px;}
+.left_groups-icon:hover{background-position: 8px -190px;}
+.left_quicklinks-icon:hover{background-position: 8px -1029px;}
+.sidebar-nav ul li a:hover, .sidebar-nav ul li.active a, .sidebar-nav ul li.active span, .sidebar-nav ul li:hover span {color: #818285;}
+.sp_landingpage_r p {font-size: 23px;}
+
+
+.sp_landingpage_r p .reg_now{font-size: 24px; line-height: 1.2em; color: #555;  font-family: "exo_2.0medium";  font-weight: normal;}
+.sp_landingpage_r{padding:40px 0 10px 0}
+.network_specific { padding: 10px 0 0 0;}
+.social_bar{ padding:0px;}
+
+@media (min-width: 1000px) and (max-width: 1100px){
+    .sp_landingpage_r{padding:0px 0 10px 0}
+}

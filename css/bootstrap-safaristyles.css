@@ -1,0 +1,10 @@
+/*safaristyles */
+.headermenuarea > li > .headerprofileicon, .generalprofileicon {border-width: 4px;border-style: solid;}
+.generalprofileiconborder3 {border-width: 3px;border-style: solid;}
+.generalprofileiconborder5 {border-width: 5px;border-style: solid;}
+.headermenuarea > li > .headerprofileicon, .generalprofileicon {text-align: center;border-radius:50%; overflow:hidden;-webkit-border-radius:50%;-moz-border-radius:50%;-o-border-radius:50%;-ms-border-radius:50%;}
+.headermenuarea > li > .headerprofileicon .skiptaiconinner, .generalprofileicon .skiptaiconinner {display: table-cell;-webkit-border-radius:50%;-moz-border-radius:50%;-o-border-radius:50%;-ms-border-radius:50%;border-radius:50%;text-align: center;overflow:hidden;vertical-align:middle;background:#fff;position: static;border-width:0;}
+.headermenuarea > li > .headerprofileicon .skiptaiconinner  img, .generalprofileicon .skiptaiconinner  img {max-width: 100%;max-height: 100%; vertical-align:middle;margin: auto; position: static;top: auto;left: auto;bottom: auto;right: auto;}
+.p_summary .skiptaiconinner:hover {border-width: 0px;}
+
+/*safaristyles end*/
