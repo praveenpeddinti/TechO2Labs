@@ -1,0 +1,9 @@
+2015/02/13 13:09:22 [error] [application] ------saveCookieRandomKeyForUser-------JDRQoHoJhZUwTSQN
+2015/02/13 13:09:22 [error] [application] ------saveCookieRandomKeyForUser-------NQEPdjQspEjkTfT7
+2015/02/13 13:24:15 [error] [application] ------saveCookieRandomKeyForUser-------ewiOwgnTnCKzwdyt
+2015/02/13 13:25:36 [error] [application] Normal Post
+2015/02/13 13:30:42 [error] [application] Normal Post
+2015/02/13 13:31:36 [error] [application] ------saveCookieRandomKeyForUser-------4COZRImPaufjJy0F
+2015/02/13 13:31:52 [error] [application] rolCDbCommand n'a pas pu exécuter la commande SQL : SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where UA.Active=1) A left join
+                        (SELECT UAP.UserActionId ' at line 1
+2015/02/13 13:32:13 [error] [application] ------saveCookieRandomKeyForUser-------Vg3Ce3IuC1PlTPu6

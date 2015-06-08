@@ -1,0 +1,16 @@
+
+.errorpagediv{text-align:center;  height: 100%; margin: 0; min-height: 100%; padding: 0 15px;color:#ccc}
+.e_logo{background:url(/images/system/error_img.png) no-repeat  left top;display:inline-block;margin: 5% auto ; min-height:300px}
+.e_logo p{ padding-top:230px; color:#000}
+
+	.btn{text-shadow:none}
+	.btn{font-size:13px}
+	.btn:after, .btn_gray:after {content: '';position: absolute;z-index: -1;-webkit-transition: all 0.3s;-moz-transition: all 0.3s;transition: all 0.3s;}
+.btn:before, .btn_gray:before{position: relative;-webkit-font-smoothing: antialiased;}
+.btn {-webkit-transition: none;-moz-transition: none;transition: none;border-radius: 5px 5px;}
+.btn:active, .btn_gray:active {top: 6px;}
+.btn{font-family:"latobold";}
+.btn {background:#1a95d6;color: #fff;box-shadow: 0 2px #196e9b}
+.btn:hover {box-shadow: 0 1px #196e9b;color:#fff}
+.btn:active{box-shadow: 0 0 #196e9b;}
+.bold{font-family:"latobold";font-size:18px;}

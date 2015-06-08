@@ -1,0 +1,126 @@
+<?php
+/* Assembla Class
+ * Better define the Assembla key & Assembla Secret in your project
+ * Author: shariq.gaditek@gmail.com
+ */
+ 
+class Assembla{
+	private $url		= 'https://api.assembla.com/v1/spaces/';
+	private $headers;
+	private $priority 	= array('highest'	=> 1,
+								'high'		=> 2,
+								'normal'	=> 3,
+								'low'		=> 4,
+								'lowest'	=> 5);
+	private $estimate	= array('none'=>0,
+								'small'=>1,
+								'medium'=>3,
+								'large'=>7);
+	private $method		= 'GET';
+	private $data		= array();
+	
+	function __construct($format='json'){
+		$this->headers	= array( 'X-Api-Key:'.ASSEMBLA_KEY, 'X-Api-Secret:'.ASSEMBLA_SECRET, 'Accept: application/'.$format );
+	}
+	
+	/* Function to create the ticket in Assembla
+	 * Parameters: Ticket title, Ticket description
+	 * Optional Parameters: Priority(highest, high, normal, low, lowest), estimate(none, small, medium, large),
+	 *  milestone id(from assembla space), custom field[array](custom_field_id=>value)
+	 * Return Ticket details upon success (200)
+	 */
+	function createTicket($title, $description='', $priority='normal', $estimate='small', $milestone_id=false, $custom_fields=array()){
+		$this->data = array(
+			'priority'		=> $this->priority[strtolower($priority)],
+			'status'		=> 0,
+			'summary'		=> $title,
+			'description'	=> $description,
+			'estimate'		=> $this->estimate[strtolower($estimate)],
+		);
+
+		if($milestone_id)
+			$this->data['milestone_id'] = $milestone_id;
+		if(sizeof($custom_fields)>0)
+			$this->data['custom_fields'] = $custom_fields;
+
+		$this->data = array(
+			'ticket' => $this->data
+		);
+
+		$this->method = 'POST';
+		$url = '/tickets.json';
+		return $this->callAssembla( $url );
+	}
+
+	/* Function to get the ticket details from Assembla
+	 * Parameters:
+	 * Optional Parameters: Ticket Number OR Ticket ID
+	 * Return Ticket details upon success (200)
+	 * Blank Parameters return all the tickets
+	 * only ticket defined under milestones
+	 */
+	function getTicket($number=false, $id=false){
+		if($number){
+			$url = '/tickets/'.$number.'.json';
+		}elseif($id){
+			$url = '/tickets/id/'.$id.'json';
+		} else {
+			$url = '/tickets';
+		}
+		return $this->callAssembla( $url );
+	}
+
+	/* Function to update the status of the ticket in Assembla
+	 * Parameters: Ticket Number
+	 * Optional: Status, custom field[array](custom_field_id=>value)
+	 * Return Ticket details upon success (200)
+	 * only ticket defined under milestones
+	 */
+	function statusUpdate($number, $status='Done', $custom_fields=array()){
+		$this->data = array(
+			'state'		=> 0,
+			'status'	=> $status,
+		);
+		if(sizeof($custom_fields)>0)
+			$this->data['custom_fields'] = $custom_fields;
+		$this->data = array(
+			'ticket'=>$this->data
+		);
+		return $this->updateTicket($number);
+	}
+	
+	private function updateTicket($number){
+		$this->method = 'PUT';
+		$url = '/tickets/'.$number;
+		return $this->callAssembla($url);
+	}
+	
+	private function callAssembla($url){
+		$ch = curl_init();
+		curl_setopt_array($ch, array(
+			CURLOPT_RETURNTRANSFER	=> true,
+			CURLOPT_URL				=> $this->url.ASSEMBLA_SPACE.$url,
+			CURLOPT_HTTPHEADER		=> $this->headers,
+			CURLOPT_TIMEOUT			=> 5,
+			CURLOPT_FAILONERROR		=> true,
+			CURLOPT_FOLLOWLOCATION	=> true,
+			CURLOPT_MAXREDIRS		=> 3,
+		));
+
+		if($this->method=='POST'){
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->data));
+		}elseif($this->method=='PUT'){
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->data));
+		}
+		$this->method='GET';
+
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+		$response = curl_exec($ch);
+		$info = curl_getinfo($ch);
+
+		return ($response);
+	}
+}

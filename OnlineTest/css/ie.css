@@ -1,0 +1,61 @@
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input{padding:0px 6px}
+.infolink_bg{padding:5px 12px 10px;}
+time.icon{border:1px solid #FD9F1B;}
+.timeshow ul li .e_date{padding-top:0px;}
+.chat_profileareasearch .search input[type="text"]{padding:0px 6px}
+header .container .nav > li .profilewidth, header .container .nav > li .notificationwidth{border:1px solid #ccc;border-top:0;}
+.gamewidgetmedia-status ul li{width:117px}
+.regdiv, .signdiv{border:1px solid #f4f4f4}
+/*switch*/
+.network_positionabsolutediv { position: absolute; top:20px; width:410px;line-height: 24px;left:390px }
+.noHeight .row-fluid .span12{min-height:0px; line-height: 0px}
+.min-height0 {height:0px}
+.has-switch span.active.switch-right, .has-switch span.disabled.switch-right, .has-switch span.switch-right:active, .has-switch span.switch-right:focus, .has-switch span.switch-right:hover, .has-switch span[disabled].switch-right, 
+.has-switch span.switch-right{background-color: rgb(53, 53, 53); background: #484848;}
+.has-switch span.switch-left, .has-switch span.switch-primary, .has-switch span.switch-left:hover, .has-switch span.switch-primary:hover, .has-switch span.switch-left:active, .has-switch span.switch-primary:active {background-color: rgb(53, 53, 53); background: #484848; }
+
+/*.sprite, input.email[type="text"], input.pwd[type="password"], .infolink_bg {
+    background-color:#fff ; width:100% !important; background-image:none ;}*/
+
+headerlink .nav li b,  .headerlink .nav li a, .headerlink .nav li a:hover { color: #fff; padding:0 !important;}
+.navbar .menuul > li a:hover,
+.navbar .menuul > li a:focus,
+.navbar .menuul > .active a, 
+.navbar .menuul > .active a:hover, 
+.navbar .menuul > .active a:focus {
+	background:#474747!important;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+	box-shadow: none;
+	color: #fff !important;
+}
+.checkbox, .radio{ padding: 0 5px 0 0 !important;}
+
+.btn, INPUT[type='button'], INPUT.btn:hover[type='button']{
+    background:#3c3c3c;
+    box-shadow: none;
+    color: #fff;
+}
+
+.btn_gray {
+    background:#cbcbcb;
+    box-shadow: none;
+    color: #707070;
+}
+
+
+.headerlink .nav li a.headeranchor, .headerlink .nav li a:hover.headeranchor, .headerlink .nav li a:focus.headeranchor{ background: none !important;}
+/**/
+.sprite, input.email[type="text"], input.pwd[type="password"]{
+    background-color:#fff !important; width:100% !important; background-image:none !important; padding: 0 5px !important;}
+
+.infolink_bg { background-color:#fff; width:100%; background-image:none;}
+header .container .nav > li .profilewidth, header .container .nav > li .notificationwidth, .sidebar-nav ul.menu li .notificationwidth{ border: 0 none !important; margin: 0 !important;}
+.padding4812 { padding-left: 48px !important; padding-top: 12px !important; font-family: "exo_2.0bold"; font-size: 13px; line-height: 20px;}
+
+
+/**/
+.profileboxsection li, .newsbox li.woomarkLi { background-color: #fff;border: 1px solid #ccc !important; box-shadow: none !important;}
+
+.profilebox li{ filter:none !important; border: 1px solid #ccc !important;}

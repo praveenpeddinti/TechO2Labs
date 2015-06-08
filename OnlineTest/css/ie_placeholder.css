@@ -1,0 +1,19 @@
+.groupplaceholder{position: relative;}
+.groupplaceholder:before{content:"Group Description";padding:5px;position: absolute;z-index:-1;top:0px;left:0px;right:0;bottom:0;background: #fff;color:#666}
+.groupplaceholder textArea{background: transparent;position: relative}
+/*.chat_profileareasearch{position: relative;}
+.chat_profileareasearch:before{content:"Search...";padding:10px 5px 0 5px;position: absolute;z-index:0;top:0px;left:0px;right:0;bottom:0;background: #fff;color:#666}
+.chat_profileareasearch input[type="text"]{background:transparent;position: relative}
+*/
+.messagetextarea{position: relative;}
+.messagetextarea:before{content:"Enter message here...";padding:10px 5px 0 5px;position: absolute;z-index:0;top:0px;left:0px;right:0;bottom:0;background: #fff;color:#666}
+.messagetextarea textArea{background: transparent;position: relative}
+.lusername{position: relative;}
+.lusername:before{content:"UserName";padding:5px 5px 0 5px;position: absolute;z-index:0;top:0px;left:0px;right:0;bottom:0;background: #fff;color:#666}
+.lusername input[type="text"]{background:transparent;position: relative}
+
+.lpassword{position: relative;}
+.lpassword:before{content:"Password";padding:5px 5px 0 5px;position: absolute;z-index:0;top:0px;left:0px;right:0;bottom:0;background: #fff;color:#666}
+.lpassword input[type="password"]{background:transparent;position: relative}
+
+/*.groupplaceholder textArea:hover{z-index: 1;background-color: #fff}*/
