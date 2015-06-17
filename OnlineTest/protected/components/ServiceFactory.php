@@ -18,6 +18,7 @@ class ServiceFactory
  private static $inst_topic_service=null;
  private static $inst_weblink_service=null;
  private static $inst_exsurvey_service=null;
+ private static $inst_testpaper_service=null;
  
 
 private function __construct() {
@@ -160,4 +161,17 @@ public static function getSkiptaPostServiceInstance() {
         }
     }
     
+    /*
+     * @Praveen Test Preparation 
+     */
+    public static function getTO2TestPreparaService() {
+        try{
+        if(!self::$inst_testpaper_service) {
+	            self::$inst_testpaper_service = new TO2TestPreparationService();
+	        }
+	        return self::$inst_testpaper_service;
+        } catch (Exception $ex) {
+            Yii::log("ServiceFactory:getTO2TestPreparaService::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    }
  }

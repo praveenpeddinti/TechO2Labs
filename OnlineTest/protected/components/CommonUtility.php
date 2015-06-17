@@ -11127,4 +11127,31 @@ static function getGeocodes($addressArray){
              Yii::log("=====AMQPCommand/sendRequestToPictoCV=====".$exc->getMessage(), 'error', 'application');
        }
     }
+    
+    
+    public static function prepareTestPaperDashboradData($surveyObject) {
+        try {
+
+            $totalBeansArray = array();            
+            foreach ($surveyObject as $data) {
+                $extendedBean = new TestPreparationCollection();
+                $extendedBean->_id = $data->_id;
+                $extendedBean->Title = $data->Title;
+                $extendedBean->Description = $data->Description;
+                $extendedBean->Category = $data->Category;
+                $TotalQuestions = 0;
+                foreach($data->Category as $rw){
+                    $TotalQuestions += $rw['NoofQuestions'];
+                }
+                $extendedBean->NoofQuestions = $TotalQuestions;
+                array_push($totalBeansArray, $extendedBean);
+                //$i++;
+            }
+            //error_log("----------------------".print_r($totalBeansArray,true));
+            return $totalBeansArray;
+        } catch (Exception $ex) {
+            Yii::log("CommonUtility:prepareSurveyDashboradData::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in CommonUtility->prepareSurveyDashboradData==".$ex->getMessage());
+        }
+    }
 }   
