@@ -50,82 +50,26 @@ class SkiptaUserService{
  /* This Method is used for Save the user profile in both mysql and mongo 
       it accepts userprofileForm obj and customForm Obj
   *   */     
-    public function SaveUserCollection($userProfileform,$customForm){
+    public function SaveUserCollection($userProfileform){error_log("----mongouser------2----");
      try {
          $userCollectionModel=new UserCollection();         
-         
-         if(isset($userProfileform['country']))
-         {
-          $Networkobj= Network::model()->getNeworkId($userProfileform['country']);
-          $NetworkId= (int)Yii::app()->params['NetWorkId'];
-           (isset($NetworkId) && $NetworkId!='error')?'':$NetworkId=1;               
-           $userProfileform['network']=$NetworkId;
-           $userProfileform['segmentId']=$Networkobj['SegmentId'];
-         }
+                 
          $userId=User::model()->saveUser($userProfileform);  
-        if(isset($userId) && $userId!='error'){ 
+        if(isset($userId) && $userId!='error'){
+            error_log("------------------------------1-----------------".$userId);
          $userCollectionModel->UserId=$userId;
-          $userCollectionModel->Status=isset($userProfileform['status'])?$userProfileform['status']:0;
-         $userCollectionModel->DisplayName=$userProfileform['firstName']." ".$userProfileform['lastName'];
-         $userCollectionModel->NetworkId=(int)$NetworkId;
-         $userCollectionModel->Language= $Networkobj['Language'];
-         $userCollectionModel->SegmentId=(int) $Networkobj['SegmentId'];
-         $userCollectionModel->CountryId=(int) $userProfileform['country'];
-         $userCollectionModel->State = $userProfileform['state'];
-         if(isset(Yii::app()->params['GroupMappingField']) && !empty(Yii::app()->params['GroupMappingField'])){
-              $GroupMappingField = Yii::app()->params['GroupMappingField'];
-              $userCollectionModel->SubSpeciality = $userProfileform[$GroupMappingField];
-         }
+  
+       
          //$userCollectionModel->NetworkId=(int)1;
-         if (CommonUtility::isValidMd5($userProfileform['pass'])) {
-            $userCollectionModel->ProfilePicture=$userProfileform['profilePicture'];
-         }else{
+       
              $userCollectionModel->ProfilePicture='user_noimage.png';
-         }
-         $displayName = trim($userCollectionModel->DisplayName);
-         $uniqueHandle="";
-         if(strlen($displayName)>0){
-            $uniqueHandle = $this->generateUniqueHandleForUser($userProfileform['firstName'],$userProfileform['lastName']);
-         }else{
-             $emailPref = explode("@", $userProfileform['email']);
-             $displayName = $emailPref[0];
-             $uniqueHandle = $this->generateUniqueHandleForUser($displayName,"");
-         }
-         $userCollectionModel->uniqueHandle=$uniqueHandle;
-         if(isset($userProfileform['aboutMe'])){
-             $userCollectionModel->AboutMe=$userProfileform['aboutMe'];
-         }
-           UserHierarchy::model()->SaveUserHierarchy($userId);
-           UserCollection::model()->saveUserCollection($userCollectionModel);  
-           $customfieldId=CustomField::model()->saveCustomField($userProfileform,$userId);
-           $userprofileid=UserProfileCollection::model()->saveUserProfileCollection($userProfileform,$userId);
-           UserNotificationSettingsCollection::model()->saveUserSettings($userId,(int)$NetworkId);           
-           
-            $activityIndex = CommonUtility::getUserActivityIndexByActionType("Register");
-            $activityContextIndex = CommonUtility::getUserActivityContextIndexByActionType("Register");
-            UserInteractionCollection::model()->saveUserLoginActivity($userId,$activityIndex,$activityContextIndex, $userProfileform['segmentId'], "Register", $userProfileform['registredDate'], $userProfileform['network']);
-
-           $this->sendUserDataToZion($userId);
-         }
-         //$emailCredentials = $this->getEmailCredentialsByTitle('Registration');
-         if(isset($userprofileid) && $userprofileid!='error' && ($userProfileform['IsStudentOrResident'] == "" || $userProfileform['IsStudentOrResident'] == 0)){
-            if (!CommonUtility::isValidMd5($userProfileform['pass'])) {
-                $to = $userProfileform['email'];
-                $subject = "Your ".Yii::app()->params['NetworkName']." Registration";
-                $employerName = "Skipta Admin";
-                //$employerEmail = "info@skipta.com"; 
-                $messageview="UserRegistrationMail";
-                $params = array('myMail' => $userProfileform['firstName'].' '.$userProfileform['lastName']);
-                $sendMailToUser=new CommonUtility;
-                $mailSentStatus=$sendMailToUser->actionSendmail($messageview,$params, $subject, $to);
-            }
-            return $userprofileid;
-         }else if($userProfileform['IsStudentOrResident'] == 1 || $userProfileform['IsStudentOrResident'] == 2){
-             return $userprofileid;
-         }else{
              
-             return 'error';
+         
+                    UserCollection::model()->saveUserCollection($userCollectionModel);  
+
+         
          }
+      
          
      } catch (Exception $ex) {
          error_log("SkiptaUserService:SaveUserCollection::".$ex->getMessage());
@@ -165,10 +109,8 @@ class SkiptaUserService{
                 $encrypted_salt = Yii::app()->params['ENCRYPTION_SALT'];
                 $userMessage = User::model()->userAuthentication($email,md5($encrypted_salt.$password));                
                 if($userMessage=='success'){
-                                       $userObj= User::model()->getUserByType($model->email, "Email");
-                        if(isset($userObj)){
-                             CommonUtility::badgingInterceptor("FirstLogin",$userObj->UserId);
-                        }
+                      $userObj= User::model()->getUserByType($model->email, "Email");
+                      
                    
                    User::model()->updateUserForLoginTime($email);
                 }
@@ -192,9 +134,9 @@ class SkiptaUserService{
      * by default 2 arguments are initialized with default values those are startLimit = 0 and pageLength = 10;
      * and this function returns Users Object.
      */
-    public function getUserProfile($filterValue, $searchText, $startLimit, $pageLength, $segmentId=0) {
+    public function getUserProfile($filterValue, $searchText, $startLimit, $pageLength) {
         try {// method calling...                 
-            $userProfileCollectionJSONObject = User::model()->getUserProfile($filterValue, $searchText, $startLimit, $pageLength, $segmentId);
+            $userProfileCollectionJSONObject = User::model()->getUserProfile($filterValue, $searchText, $startLimit, $pageLength);
         } catch (Exception $ex) {
             Yii::log("SkiptaUserService:getUserProfile::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
@@ -4632,6 +4574,16 @@ public function getAllHdsUsers() {
         } catch (Exception $ex) {
             Yii::log("SkiptaUserService:checkUserExist::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
+    }
+    
+    public function saveUser($employeeForm) {
+         try {
+              $result = User::model()->saveUser($employeeForm);
+        return $result;
+         } catch (Exception $ex) {
+             Yii::log("SkiptaUserService:checkUserExist::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+         }
+        
     }
 }
 

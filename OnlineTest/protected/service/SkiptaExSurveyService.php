@@ -564,5 +564,26 @@ class SkiptaExSurveyService {
             Yii::log("SkiptaExSurveyService:getSurveyListByGroupName::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
     }
+    
+    public function saveScheduleSurveydump($scheduleSurveyForm,$userId) {
+
+        try {error_log("----service enter");
+            $returnValue='failure';
+            
+            $result = ScheduleSurveyCollection::model()->saveScheduleSurveydump($scheduleSurveyForm, "",$userId,$createdDate);
+//            if($scheduleSurveyForm->ConvertInStreamAdd == 1){
+//            
+//
+//                $obj=  $this->createStreamAdObjectForSurvery($scheduleSurveyForm,$userId,$result,$NetworkName,$language);  
+//            }
+            $returnValue = $result;
+            return $returnValue;
+        } catch (Exception $ex) {            
+            Yii::log("SkiptaExSurveyService:saveScheduleSurvey::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in SkiptaExSurveyService->saveScheduleSurvey### ".$ex->getMessage());
+            return $returnValue;
+        }
+    }
+    
 
 }
