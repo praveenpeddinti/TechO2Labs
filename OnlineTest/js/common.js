@@ -6402,3 +6402,45 @@ function userAchievementDisplayHandler(oppertunityType, data){
     }
 }
 
+
+
+
+function GetFileSize(fileid) {
+    
+    try {
+        var fileSize = 0;
+        var errMsg = "";
+        //for IE
+        if ($.browser.msie) {
+            //before making an object of ActiveXObject, 
+            //please make sure ActiveX is enabled in your IE browser
+            var objFSO = new ActiveXObject("Scripting.FileSystemObject");
+            var filePath = $("#" + fileid)[0].value;
+            var objFile = objFSO.getFile(filePath);
+            var fileSize = objFile.size; //size in kb
+            fileSize = fileSize / 1048576; //size in mb 
+        }
+        //for FF, Safari, Opeara and Others
+        else {
+            fileSize = $("#" + fileid)[0].files[0].size //size in kb            
+            fileSize = fileSize / 1048576; //size in mb 
+        }        
+        if(fileSize > 2){
+            errMsg = "file size is too large";            
+        }else if(fileSize < 0){
+            errMsg = "file size is too large";
+        }
+    }
+    catch (e) {
+        errMsg = "Error MSG: "+e;
+    }
+    return errMsg;
+}
+function setErrorMsg(id,errId,msg){
+    //    $('.fileupload').fileupload('reset');
+    $("#"+id).val("");
+    $("#"+errId).text(msg);                                    
+    $("#"+errId).show();
+    $("#"+id).parent().addClass('error'); 
+}
+

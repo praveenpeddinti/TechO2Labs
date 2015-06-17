@@ -107,7 +107,7 @@ function viewAUserDetailsById(userid) {
 
 function viewAUserDetailsByIdHandler(data) {
   
-    $(".modal-dialog").width("700px");
+    $(".modal-dialog").width("500px");
     scrollPleaseWaitClose('spinner_admin');
     var item = {
         'data':data
@@ -115,7 +115,7 @@ function viewAUserDetailsByIdHandler(data) {
     $("#myModal_body").html(
             $("#userView_render").render(item)
             );
-    $("#myModalLabel").html("User Registration Info");
+    $("#myModalLabel").html("Test Taker Details");
     $("#myModal_footer").hide();
     $("#myModal").modal('show');
 }
@@ -2443,3 +2443,23 @@ function createBroadCastNotificationsHandler(data){
      
 
 }
+
+/*
+ * @Praveen add New Test taker 
+ */
+    function newEmployersPopup(){
+        scrollPleaseWait("spinner_survey_5");
+        ajaxRequest("/user/loadSurveySchedule", "surveyId=5", function(data) {
+            renderLoadSurveyScheduleHandler(data, '556ee4d3900cecfe048b456b')
+        }, "html");
+    }
+    function renderLoadSurveyScheduleHandler(html, surveyId) {alert("---dsdsds---"+html);
+        scrollPleaseWaitClose("spinner_survey_" + surveyId);
+        $("#newModal .modal-dialog").removeClass('info_modal');
+        $("#newModal .modal-dialog").removeClass('alert_modal');
+        $("#newModal .modal-dialog").removeClass('error_modal');
+        $("#newModalLabel").html("New Test Taker");
+        $("#newModal_footer").hide();
+        $("#newModal_body").html(html);
+        $("#newModal").modal('show');
+    }
