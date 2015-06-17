@@ -110,33 +110,17 @@ class UserCollection extends EMongoDocument {
      * this method is used to save the user colletion (tiny user) it accepts the user collection object 
       * if saves to the userCollection it returns the userID 
           */
-    public function saveUserCollection($userModel) {
+    public function saveUserCollection($userModel) {error_log("----mongouser------1----");
         try {
             $returnValue = 'false';
             $userCollection = new UserCollection();
             $userCollection->UserId=(int)$userModel->UserId;
-            $userCollection->DisplayName = $userModel->DisplayName;
+          
             $userCollection->ProfilePicture = Yii::app()->params['ServerURL'] . "/upload/profile/".$userModel->ProfilePicture;
-            $userCollection->NetworkId = $userModel->NetworkId;
-            $userCollection->Language = $userModel->Language;
-            $userCollection->AboutMe = $userModel->AboutMe;
-            $userCollection->uniqueHandle = $userModel->uniqueHandle;
-            $userCollection->UserIdentityType = (int)0;
-            $userCollection->UserClassification = (int)1;
-            $userCollection->State = $userModel->State;
-            $userCollection->SubSpeciality = $userModel->SubSpeciality;
-            $userCollection->SegmentId = isset($userModel->SegmentId)?$userModel->SegmentId:0;
-            $userCollection->CountryId = $userModel->CountryId;
-            $userCollection->Status =isset($userModel->Status)?(int)$userModel->Status:(int)0;
-            if($userModel->ProfilePicture=="user_noimage.png"){
-                $userCollection->profile250x250 = Yii::app()->params['ServerURL'] . "/upload/profile/".$userModel->ProfilePicture;
-                $userCollection->profile70x70 = Yii::app()->params['ServerURL'] . "/upload/profile/".$userModel->ProfilePicture;
-                $userCollection->profile45x45 = Yii::app()->params['ServerURL'] . "/upload/profile/".$userModel->ProfilePicture;
-            }else{
-                $userCollection->profile250x250 = Yii::app()->params['ServerURL'] . "/upload/profile/250x250/".$userModel->ProfilePicture;
-                $userCollection->profile70x70 = Yii::app()->params['ServerURL'] . "/upload/profile/70x70/".$userModel->ProfilePicture;
-                $userCollection->profile45x45 = Yii::app()->params['ServerURL'] . "/upload/profile/45x45/".$userModel->ProfilePicture;
-            }
+         
+       
+            $userCollection->Status =0;
+       
             $userCollection->insert();
             if (isset($userCollection->_id)) {
                 $returnValue = 'true';

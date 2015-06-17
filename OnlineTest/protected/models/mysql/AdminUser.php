@@ -6,18 +6,15 @@
  * and open the template in the editor.
  */
 
-class User extends CActiveRecord {
+class AdminUser extends CActiveRecord {
 
     public $UserId;
     public $FirstName;
     public $LastName;
-    public $Qualification;
-    public $Phone;
+  
     public $Email;
-    public $RegistredDate;
-    public $Status=1;
-    public $LastLoginDate;
-    public $IsAdmin=0;
+  
+    public $Status;
     
 
     public static function model($className = __CLASS__) {
@@ -25,7 +22,7 @@ class User extends CActiveRecord {
     }
 
     public function tableName() {
-        return 'User1';
+        return 'AdminUser';
     }
 
     
@@ -42,17 +39,15 @@ class User extends CActiveRecord {
             $userObj->LastName = $testTakerModel->LastName;
             $userObj->Email = $testTakerModel->Email;
             $userObj->Phone = $testTakerModel->Phone;
-            $userObj->Qualification = $testTakerModel->Qualification;
-            $userObj->RegistredDate = date('Y-m-d H:i:s', time());
-            $userObj->LastLoginDate = '';
-            
+            $userObj->DisplayName = $testTakerModel->Qualification;
+           
             
              
               
             if ($userObj->save()) {
-                
+
                  error_log("----dddddddssdsddd");
-                $returnValue = $userObj->UserId;
+                $returnValue = "success";
             }
           
             return $returnValue;
@@ -201,7 +196,7 @@ class User extends CActiveRecord {
 
             $userProfileObject = Yii::app()->db->createCommand()
                     ->select('*,u.UserId')
-                    ->from('User1 u')
+                    ->from('User u')
 
                     // ->LeftJoin('Countries cn',' cn.Id = u.Country')                    
                     ->where('u.UserId=' . $userid);
@@ -408,80 +403,7 @@ class User extends CActiveRecord {
         }
         }
     
-    public function updateStudentStatus($userid) {
-      try {
-        $return = "failure";
-        $user = User::model()->findByAttributes(array('UserId' => $userid));        
-        if(isset($user)){
-            $user->Status = 1;
-            //$user->StudentAccessToken = "";
-            if($user->update()){
-                $return = "success";
-            }
-        }
-        return $return;
-      } catch (Exception $ex) {
-          Yii::log("User:checkStudentExist::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
-        error_log("Exception Occurred in User->checkStudentExist### ".$ex->getMessage());
-        return $return;
-      }
-    }
-    /** Author Vamsi Krishna
-       * This method is used to get the User by Type
-       * @param type $value 
-       * @param type $type
-       * @return type
-       */
-
-      public function  getUserByType($value,$type){   
-      try {
-      $returnValue='noUser';
-      $userObj = User::model()->findByAttributes(array($type=>$value));           
-          
-          
-      if(isset ($userObj)){   
-      $returnValue=$userObj;
-      }
-      return $returnValue;
-      } catch (Exception $ex) {
-      Yii::log("User:getUserByType::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
-      }
-      }
-      
-      public function userAuthentication($email, $password) {
-        try {
-            $returnValue = 'noData';
-            $isUserExists = $this->getUserByType($email, 'Email');
-            
-            if ($isUserExists!='noUser') {
-                $userData = User::model()->findByAttributes(array('Email' => $email, 'Password' => $password));
-             
-                if (count($userData) == 1) {
-                    if ($userData['Status'] == 1) {
-                        $returnValue = 'success';
-                    } else {
-                        if ($userData['Status'] == 2)
-                            $returnValue = 'suspend';
-                        if ($userData['Status'] == 0)
-                            $returnValue = 'register';
-                        if ($userData['Status'] == 3)
-                            $returnValue = 'contactAdmin';
-                        
-                        }
-                        
-                }else {
-                    $returnValue = 'passwordIncorrect';
-                }
-            } else {
-                $returnValue = 'wrongEmail';
-            }
-
-
-           return $returnValue; 
-       } catch (Exception $ex) {           
-            Yii::log("User:userAuthentication::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
-       }
-      }
+    
 }
 
 

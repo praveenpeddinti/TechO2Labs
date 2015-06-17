@@ -82,6 +82,64 @@ class ScheduleSurveyCollection extends EMongoDocument {
      
      }
      
+     
+     public function saveScheduleSurveydump($scheduleSurveyForm, $currentScheduleSurvey, $userId,$createdDate=null) {
+        try {error_log("---ddddsched---111----");
+           
+            $returnValue = 'failure';
+            $scheduleSurveyObj = new ScheduleSurveyCollection();
+           // $surveyDetails = $this->getScheduleSurveyDetailsObjectByGroupName('Id', $scheduleSurveyForm->SurveyId);
+            /*if (!is_string($surveyDetails)) {
+                $scheduleSurveyObj->SurveyDescription = $surveyDetails->SurveyDescription;
+                $scheduleSurveyObj->SurveyTitle = $surveyDetails->SurveyTitle;
+                $scheduleSurveyObj->SurveyId = $surveyDetails->_id;
+                $scheduleSurveyObj->SurveyRelatedGroupName = $surveyDetails->SurveyRelatedGroupName;
+            }*/
+            error_log("-----111111111111111-----".$scheduleSurveyForm->SurveyDescription);
+            $criteria = new EMongoCriteria;    
+            $criteria->addCond('SurveyId', '==',  new MongoId($scheduleSurveyForm->SurveyId));            
+            $criteria->addCond('SurveyRelatedGroupName', '==', (string) $scheduleSurveyForm->SurveyRelatedGroupName);
+            $isScheduleExists = ScheduleSurveyCollection::model()->find($criteria);        
+            //if(!isset($surveyDetails) || $surveyDetails == "failure"){
+            if(!isset($isScheduleExists) && sizeof($isScheduleExists) == 0){error_log("-----0000000-----");
+            $scheduleSurveyObj->SurveyDescription = $scheduleSurveyForm->SurveyDescription;
+            $scheduleSurveyObj->SurveyTitle = $scheduleSurveyForm->SurveyTitle;
+            $scheduleSurveyObj->SurveyId = $scheduleSurveyForm->SurveyId;
+            $scheduleSurveyObj->SurveyRelatedGroupName = $scheduleSurveyForm->SurveyRelatedGroupName;
+            $scheduleSurveyObj->StartDate = new MongoDate(strtotime($scheduleSurveyForm->StartDate));
+            $scheduleSurveyObj->EndDate = new MongoDate(strtotime($scheduleSurveyForm->EndDate));
+//            $scheduleSurveyObj->Players = array();
+//           $scheduleSurveyObj->ShowDisclaimer=(int)$scheduleSurveyForm->ShowDisclaimer;
+            /*$scheduleSurveyObj->ShowThankYou = (int) $scheduleSurveyForm->ShowThankYou;
+            $scheduleSurveyObj->ThankYouMessage = $scheduleSurveyForm->ThankYouMessage;
+            $scheduleSurveyObj->ThankYouImage = $scheduleSurveyForm->ThankYouArtifact;
+            $scheduleSurveyObj->UserAnswers = array();
+            $scheduleSurveyObj->Status = (int) 1;
+            $scheduleSurveyObj->MaxSpots = (int) $scheduleSurveyForm->MaxSpots;
+           // $scheduleSurveyObj->SessionTime = (int) $scheduleSurveyForm->SessionTime;
+            $scheduleSurveyObj->QuestionView = (int) $scheduleSurveyForm->QuestionView;*/
+            $scheduleSurveyObj->CreatedOn = new MongoDate(strtotime(date('Y-m-d H:i:s', time())));
+//            $scheduleSurveyObj->RenewSchedules = $scheduleSurveyForm->RenewSchedules;
+            //$scheduleSurveyObj->ConvertInStreamAdd = (int) $scheduleSurveyForm->ConvertInStreamAdd;
+            if (isset($createdDate) && !empty($createdDate)) {
+                $scheduleSurveyObj->CreatedOn = new MongoDate(strtotime(date($createdDate, time())));
+            }
+            $scheduleSurveyObj->IsCurrentSchedule = (int) 1;
+            $scheduleSurveyObj->CreatedUserId = (int) $userId;
+            if ($scheduleSurveyObj->save()) {error_log("---dfdfsd-----savesch---");
+                $returnValue = $scheduleSurveyObj->_id;
+            }
+            }else if(isset($isScheduleExists)){
+                $returnValue = $isScheduleExists->_id;
+            }
+            //}
+            return $returnValue;
+        } catch (Exception $ex) {
+            Yii::log("ScheduleSurveyCollection:saveScheduleSurvey::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in ScheduleSurveyCollection->saveScheduleSurvey==".$ex->getMessage());
+        }
+    }
+     
      public function saveScheduleSurvey($scheduleSurveyForm, $currentScheduleSurvey, $userId,$createdDate=null) {
         try {
            

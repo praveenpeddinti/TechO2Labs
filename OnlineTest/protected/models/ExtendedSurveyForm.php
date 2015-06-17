@@ -57,7 +57,7 @@ class ExtendedSurveyForm extends CFormModel {
         return array(
             array('SurveyTitle', 'required', 'message' => Yii::t("translation", "Ex_Title_Err")),
             array('SurveyDescription', 'required', 'message' => Yii::t("translation", "Ex_Description_Err")),
-            //array('SurveyLogo','required','message'=>"Logo cannot be blank"),
+            array('SurveyLogo','required','message'=>"Logo cannot be blank"),
 //            array('TextMaxlength','required','message'=>'Max value cannot be blank'),
             array('Question', 'validateDynamicFields', 'fieldname' => 'Question', 'message' => 'Question '),
             array('RadioOption', 'validateDynamicFields', 'fieldname' => 'RadioOption', 'message' => 'Option Name'),
