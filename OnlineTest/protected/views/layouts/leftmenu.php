@@ -17,16 +17,18 @@
 
                     <li ><a href="/users"><?php echo Yii::t('translation','User_Management'); ?></a></li>
                    <?php if (Yii::app()->params['ESurvey'] == 'ON') { ?>
-                    <li><a href="/marketresearchwall">Market dashboard</a></li>                    
+                    <li><a href="/marketresearchwall">Market dashboard</a></li>
+                          
                    <?php } ?>
                     
                 </ul>
-
-            </li>    
+                
+            </li> 
+              
         <?php
         
 } ?>
-
+<li><a href="/testpaper">Test Paper</a></li>
 
     </ul>
         <div class="leftfooterlinks">

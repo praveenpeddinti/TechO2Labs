@@ -57,7 +57,8 @@
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main.js"></script>
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/galleria-1.3.5.min.js"></script>
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-switch.min.js"></script>
-        <?php if (Yii::app()->params['Project'] != 'RiteChat') { ?>
+                <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ajaxfileupload.js"></script>
+            <?php if (Yii::app()->params['Project'] != 'RiteChat') { ?>
             <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
             <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/modernizr.min.js"></script>
             <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.slicknav.js"></script>

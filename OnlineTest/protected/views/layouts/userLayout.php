@@ -1,48 +1,47 @@
-<?php include 'header.php';
-$user_present = Yii::app()->session->get('TinyUserCollectionObj');
-if(isset($user_present) || Yii::app()->params['Project']!='SkiptaNeo') {?>
-<section id="streamsection" class="streamsection" >
-    <div class="container" id="mainCont">
-        <?php if(Yii::app()->params['Project']=='Trinity'){ include 'leftsideWidgets.php'; }?>
-        <?php if(Yii::app()->params['Project']=='SkiptaNeo'){ include 'leftmenu.php'; }?>
-        <?php if ($this->sidelayout == 'yes') { ?>
-            <div class="sidebar-nav_right" id="rightpanel">
-                <?php //include 'rightsideWidgets.php'; ?>
-            </div>
-        <?php } ?>
-        <div class="streamsectionarea padding10" id="notificationHomediv" style="display:none;">
-            <div class="padding10ltb">
-                <h2 class="pagetitle"><?php echo Yii::t('translation','History'); ?> 
-                    <a id="history_close" href="#" class="notification_history_close pull-right" rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t('translation','close'); ?>"> <i class="fa fa-times"></i></a>         
-                </h2> 
-                <div style="text-align: right" id="markallasreaddiv">
-                    <div class="markread" style="padding-bottom:4px;">
-                        <a class="markallasread_notification markasreadlink" data-notificationflag="1" href="#" data-type="history" rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t('translation','Mark_all_as_Read'); ?>"><i  class="fa fa-check"></i> <?php echo Yii::t('translation','Mark_all_as_Read'); ?> </a>
-                    </div>
-                </div>
-                <div id="notificationHistory" style="display: none" ></div>
-                <div id="history_spinner" style="position:relative;" ></div>
 
-            </div>
-        </div>
-        <div id="nomorenotifications" style="display:none;">                
-            <div class="notificationresults" style="text-align: center;font-size: 16px;" id="notificationText"></div>
-        </div>
-                <div id="admin_PostDetails" class="streamsectionarea padding10 displayn"></div>
- <div id="chatSpinLoader"></div>
-        <div id='chatDiv' class="streamsectionarea  padding10 displayn"></div>
-        <div id="norecordsFound" class="displayn streamsectionarea padding10"></div>
-        <div id="tosAndPrivacyPolicy"></div>
-        <div class="streamsectionarea <?php if ($this->sidelayout == 'yes') { ?>streamsectionarearightpanel<?php } ?>" id="contentDiv">
-        <div class="padding10">
-        <?php echo $content; ?>
-        </div>
-        </div>
-   </div>
-</section>
-<?php }else{ ?>
-    
-   <?php echo $content; ?>
-  
- <?php }?>
-<?php include 'footer.php' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="language" content="en" />
+
+	<!-- blueprint CSS framework -->
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
+	<!--[if lt IE 8]>
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
+	<![endif]-->
+
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
+
+	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+</head>
+
+<body>
+
+<div class="container" id="page">
+
+	<div id="header">
+		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+	</div><!-- header -->
+
+	<div id="mainmenu">
+	                                    <?php include_once(getcwd() . "/protected/views/site/login.php"); ?>
+	
+	</div><!-- mainmenu -->
+
+	
+
+	<?php echo $content; ?>
+
+	<div id="footer">
+		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
+		All Rights Reserved.<br/>
+		<?php echo Yii::powered(); ?>
+	</div><!-- footer -->
+
+</div><!-- page -->
+
+</body>
+</html>
