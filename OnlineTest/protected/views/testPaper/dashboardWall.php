@@ -3,19 +3,67 @@
     ?>   
       <?php foreach($surveyObject as $data){?>
 
-   <li class="surveylist  " style="width: 494px; display: list-item; " id="survey_<?php echo $data->_id;?>">
-     <div class="stream_title paddingt5lr10 " style="position: relative">
-        
-         <b><?php echo $data->_id; ?></b></br>
-           <b>Title:<?php echo $data->Title; ?></b>  </br>
-           <b>Description:<?php echo $data->Description; ?></b>  </br>
-           <b>Total Questions:<?php echo $data->NoofQuestions; ?></b> </br> 
-           <?php foreach($data->Category as $categoryDetails){?>
-           <b>Category:<?php echo $categoryDetails['CategoryName']; ?></b> </br>    
-           <b>Questions:<?php echo $categoryDetails['NoofQuestions']; ?></b> </br>
-                
-          <?php }?>
-      </div>  
+   <li class="surveylist printrest_box " style="display: list-item; " id="survey_<?php echo $data->_id;?>">
+       
+       
+       <div class="printrest_box_style">
+        	<!-- PAGE TITLE AREA START -->
+            <div class="title_area">
+                <p><?php echo $data->Title; ?></p> 
+                <span class="badge_count"><?php echo $data->NoofQuestions; ?></span>
+            </div>
+            <!-- PAGE TITLE AREA END -->
+            <p class="description"><?php echo $data->Description; ?></p>
+            <div class="category">
+            	<ul>
+                    <?php foreach($data->Category as $categoryDetails){?>
+                    <li>
+                        <div class="inner_li">
+                            <label><?php echo $categoryDetails['NoofQuestions']; ?></label>
+                            <p><?php echo $categoryDetails['CategoryName']; ?></p>
+                        </div>
+                    </li>
+                    <?php }?>
+                    
+                </ul>
+            </div>
+            <!-- -->
+            
+            <div class="users_info">
+            	<ul>
+                    
+                    <li>
+                        <div class="user_inner_li">
+                            <label>10</label>
+                            <p># Users Registered</p>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <div>
+                            <label>10</label>
+                            <p># Users Registered</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- -->
+            <div class="actions_area">
+            	<ul>
+                	<li> <a href="#" class="invite"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" ></a></li>
+                    <li> <a href="#" class="view"><img src="images/spacer.png" ></a></li>
+                    <li> <a href="#" class="edit"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" ></a></li>
+                    <li> <a href="#" class="deledte"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" ></a></li>
+                </ul>
+            </div>
+            
+        </div>
+       
+       
+       
+       
+       
+      
       
     
     

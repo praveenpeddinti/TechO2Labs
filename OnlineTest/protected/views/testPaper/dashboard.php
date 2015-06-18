@@ -1,19 +1,9 @@
 <?php include 'surveyAnalyticsScript.php'; ?>
   <div id="spinner_admin" style="position: relative;"></div>
-<div class="row-fluid groupseperator headermarginzero" id="dashboardtop">
-    <div class="span12 paddingtop10 border-bottom">
-        <div class="span6"><h2 class="pagetitle" id="pagetitle">Test Paper Dashboard</h2></div>
-        <div class="span6">
-            <?php if (Yii::app()->session['IsAdmin'] == 1) { ?>
-                <div class="gamefloatingmenu pull-right positionrelative" >                    
-                    <ul>
-                        <li class="gamerightlist"><a href="/newtestpaper" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Test Paper" src="/images/system/spacer.png" /></a></li>
-                    </ul>
-                </div>
-            <?php } ?>  
-        </div>
-    </div>
-  
+
+  <div class="section_pagetitle_padding padgetitle">
+<h4>Test Paper Dashboard<span class="helpicon"><a href="#"><img src="images/helpicon.png"></a></span></h4>
+<h5>This is a quick overview of some features</h5>
 </div>
 <div id="surveyDashboardWallDiv">
     <ul id="surveyDashboardWall" class="ext_surveybox">
@@ -48,7 +38,7 @@
     };
     var $window = $(window);
 
-    function applyLayout() {alert("--ffff---");
+    function applyLayout() {
         optionsC.container.imagesLoaded(function() {
             optionsC.container.imagesLoaded(function() {
                 // Create a new layout handler when images have loaded.
@@ -63,7 +53,7 @@
                     optionsC.itemWidth = '100%';
                 } else {
 
-                    optionsC.itemWidth = '40%';
+                    optionsC.itemWidth = '30%';
                 }
 
                 handler.wookmark(optionsC);
