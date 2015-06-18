@@ -1,0 +1,210 @@
+/* general styles */
+body{background:#fff;font-family:Arial, Helvetica, sans-serif;padding-top:0px}
+.aligncenter{text-align:center}
+
+/* general styles end*/
+
+
+
+/* footer styles */
+footer{background:#e4e3e3}
+footer .container{color:#0b0505}
+.footerpaddinglr20{padding:10px 20px;line-height:15px}
+.footerstyle{font-size:12px;color:#0b0505}
+/* footer styles  end*/
+
+/* section panel styles*/
+.section_main_padding{padding:15px 0px}
+.networkborder{border:4px solid #f1f1f1;border-radius:5px;padding:5px;width:40px;height:40px;display:block;}
+.networkborder img{max-width:100%}
+.rightpanelNetworklist .media-heading{margin:0;font-family:Arial, Helvetica, sans-serif;font-size:16px;font-weight:normal}
+.section_main_margin-rightleft5{margin-left:-5px;margin-right:-5px}
+/* sections styles end here*/
+
+/*login screens*/
+
+.login_bg{ background:#f4c81d url(../images/login_bg.png) no-repeat center top; border-bottom:8px solid #ccc;}
+.reg_area{ background:#fff;border:10px solid #ededed; padding:10px;}
+.customLoginform{}
+
+.position_R{ position:relative}
+.position_A{ position: absolute}
+.upload_profile{ margin:0 auto; text-align:center }
+.upload_profile img{ margin:0 auto; text-align:center }
+.upload_profile img:after, .upload_profile img:before {clear:both; content:""; text-align:center }
+
+
+.customLoginformwidth{width:300px;margin:auto;}
+.customLoginform .customlogo{font-size:30px;color:#1ec8eb;text-align:center;padding:5px;text-transform:uppercase;}
+
+.customLoginform .customLoginbg input{background:#f7f7f7;border-radius:0;border:3px solid #d7d5d5;-webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075); box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075);padding-left:0;padding-right:0;margin-top:25px;border-radius:5px;height:40px;padding:0 10px;}
+.customLoginform .customLoginbg input:focus{border:3px solid #075067 ;-webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075); box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075);}
+.customLoginform .customLoginbg .form-group{position:relative;overflow:hidden;margin-bottom:5px}
+.customLoginform .customLoginbg .form-group label{position:absolute;top:35px;color:#ccc;font-size:13px;left:10px}
+
+.marginlr0{margin-left:0px;margin-right:0px}
+.paddingbottom8{padding-bottom:8px}
+		/* button styles start*/
+.btn-custom{background: rgba(255,175,75,1);
+background: -moz-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,175,75,1)), color-stop(97%, rgba(255,146,10,1)), color-stop(100%, rgba(255,146,10,1)));
+background: -webkit-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+background: -o-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+background: -ms-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+background: linear-gradient(to bottom, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=0 );  border-color:#ffdd60; color:#000;}
+.btn-custom:hover,
+.btn-custom:focus,
+.btn-custom.focus,
+.btn-custom:active,
+.btn-custom.active,
+.open > .dropdown-toggle.btn-primary {background: rgba(255,175,75,1);
+background: -moz-linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(255,175,75,1)), color-stop(97%, rgba(255,146,10,1)), color-stop(100%, rgba(255,146,10,1)));
+background: -webkit-linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+background: -o-linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+background: -ms-linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+background: linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=1 );color:#fff; border-color:#e6b707;}
+.btn-primary{ padding:6px 40px; font-size:18px; font-weight:bold;}
+		/* button styles end*/
+ body.login{padding-top:0}
+  .positionlogin{position:absolute;left:50%;margin-left:-150px;top:200px	;}
+ .pagetitleloginbg{/*background:#fbfbfb;border-bottom:1px dotted #ccc*/}
+ .pagetitleloginbg h4{color:#000; font-size: 24px; font-weight: bold; text-align: center; margin-bottom:1px; padding:0; text-transform:uppercase; letter-spacing:-1px;}
+.padgetitle p{font-size:11px; color:#000; font-weight:normal; padding:0; margin:0; text-align:center}
+ 
+ 
+ /*circleProfileimages */
+.skiptaiconwidth190x190{position:relative}
+.skiptaiconwidth190x190 span.helpicon{position:absolute; top:0px; right:-5px; z-index:5; width:30px; height:20px;}
+.generalzindex2{z-index: 2}
+ .generalprofileicon .skiptaiconinner {
+    border-radius: 100px;
+    border: 10px solid #085488;
+    padding: 0px;
+    overflow: hidden;
+    background:#fff;
+    position: relative;
+    text-align: left;
+    display:block
+}
+ 
+ .skiptaiconwidth190x190, .skiptaiconwidth190x190 .skiptaiconinner{
+     width: 190px;
+    height: 190px;
+   
+}
+
+.generalprofileicon{margin:auto}
+
+ .generalprofileicon .skiptaiconinner img {
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+}
+.generalprofileicon .skiptaiconinner{border-width: 10px;border-style: solid;}
+.generalprofileicon .skiptaiconinner{border-width: 10px;border-style: solid;}
+.generalprofileicon .skiptaiconinner, .generalprofileicon {border-color: #D9D9D9}
+ .skiptaiconwidth60x60, .skiptaiconwidth60x60 .skiptaiconinner{width: 60px; height: 60px;}
+.skiptaiconwidth60x60 .skiptaiconinner{border-width:5px;border-style: solid;}
+
+
+/*circleProfileimages end*/
+ 
+ 
+ 
+/* header styles*/
+.navbar-inverse {background-color: #f8e128;border-bottom:8px solid #d7d5d5;}
+.navbar-inverse .container { border: 0px;}
+.navbar-brand {padding:4px 80px 0px 0px;}
+.headernavigation{padding-left:10px}
+.headernavigation:after{content:"";clear:both;display:block}
+.headernavigation ul.headermainmenu, .headernavigation ul.headermainmenu li{margin:0;padding:0;list-style:none}
+.headernavigation ul.headermainmenu{z-index:5}
+.headernavigation ul.headermainmenu li{border-top:8px solid #f8e128;float:left;position:relative;margin-left:8px;margin-right:8px;float:left;padding:15px 0 ;}
+.headernavigation ul.headermainmenu li:hover, .headernavigation ul.headermainmenu li.active{ border-top:8px solid #fff}
+.headernavigation ul.headermainmenu li a{padding:0 0px;display:block; font-size:16px; font-weight:bold;color:#6a6a6a; text-transform:uppercase;text-decoration:none; }
+.headernavigation ul.headermainmenu li a:hover, .headernavigation ul.headermainmenu li.active a, .headernavigation ul.headermainmenu li.focus a{color:#000; text-decoration:none; }
+.profileul{ position:absolute; right:0px; top:30px;z-index:4}
+.skiptaiconwidth60x60 .dropdown-menu{ right:0; left:auto;}
+
+/* header styles end*/
+
+/*sections*/
+.marginT80{ margin-top:80px}
+.clear{ clear:both;}
+.navbar-fixed-top, .navbar-fixed-bottom {left: 0; }
+/*sections*/
+
+
+/* printrest box  styles */
+.newsbox, .ext_surveybox {
+    clear: both;
+    position: relative; list-style: none;
+}
+.ext_surveybox li.woomarkLi {
+    background-color: #fff;
+    box-shadow: 0 0 6px #ccc;
+    cursor: pointer;
+    margin-bottom: 7px;
+    padding: 1px;
+}
+.listnone {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+
+.printrest_box_style{background-color: #fff; box-shadow:0px; margin-bottom: 7px;padding: 1px; border:8px solid #ededed; min-height:200px; width:100%}
+.printrest_box_style:after{ clear:both; content:""; display:block	}
+.printrest_box_style .title_area{ border-bottom:1px solid #ccc; padding:5px; position:relative; min-height:40px;}
+.printrest_box_style .title_area p{ font-size:14px; font-weight:bold; color:#323232;  padding:3px 40px 0 0 ; margin:0;}
+.printrest_box_style .title_area .badge_count{ position: absolute; right:5px; top:5px; background:#f8c528; padding:5px 10px; font-size:14px; font-weight:bold; color:#fff; border-radius:3px; }
+.printrest_box_style p.description{ font-size:12px; line-height:16px; font-weight:normal; padding:5px 10px; margin:0; text-align:justify}
+.printrest_box_style .category{ clear:both; border:4px solid #fff}
+.printrest_box_style .category ul, .printrest_box_style .users_info ul{ list-style:none; margin:0; padding:0;}
+.printrest_box_style .category ul li .inner_li{ background:#f0f0f0; border:4px solid #fff;  min-height:80px; text-align:center; color:#323232}
+.printrest_box_style .category ul li{ width:50%; margin:0; padding:0; float:left}
+.printrest_box_style .category ul li label, .printrest_box_style .users_info ul li label{ font-size:24px; font-weight:bold; letter-spacing:-1px; padding-top:10px;}
+.printrest_box_style .category ul li p, .printrest_box_style .users_info ul li p{font-size:12px; font-weight:normal; }
+
+.printrest_box_style .users_info{clear:both;}
+.printrest_box_style .users_info ul li{background:#fff; width:50%; margin:0; padding:0; min-height:80px; text-align:center; color:#323232; float:left}
+.printrest_box_style .users_info ul li:first-child .user_inner_li{ border-right:1px solid #ccc; }
+.printrest_box_style .actions_area { clear:both; border-top:1px solid #999; padding:0; margin:0; }
+.printrest_box_style .actions_area ul{ text-align:right; float:right;list-style:none; margin:3px 5px; }
+.printrest_box_style .actions_area ul li{ float:left; list-style: none; width:32px; margin:2px ; padding:0}
+.printrest_box_style .actions_area ul li a.view img, .printrest_box_style .actions_area ul li a.edit img, .printrest_box_style .actions_area ul li a.deledte img, .printrest_box_style .actions_area ul li a.invite img{ background:url(../images/all_icone.png) no-repeat; width:32px;}
+.printrest_box_style .actions_area ul li a.view img{ background-position:-29px -153px}
+.printrest_box_style .actions_area ul li a.edit img{ background-position:-29px -235px}
+.printrest_box_style .actions_area ul li a.deledte img{background-position:-29px -300px}
+.printrest_box_style .actions_area ul li a.invite img{ background-position:-29px -87px}
+
+
+/**/
+.questions_area_left_outer{ background:#ededed;padding:10px; margin:0; display:block; }
+.questions_area_left_inner{ background:#fff;padding:10px; margin:0; display:block; min-height:400px; }
+.question_options_div{}
+.question_options_div .question{ padding-left: 30px;}
+.question_options_div .question label{ position:absolute; left:2px; top:5px;}
+.q_options{ padding:10px 0;}
+.q_options ol{ padding:0; margin:0; }
+.q_options ol li{ padding-left:20px; margin-left:50px;}
+.q_catogories_progress_active{ background:none; padding:10px;}
+.q_catogories_progress{ background:#fff; padding:10px; margin-bottom:10px;}
+.q_catogories_progress h3, .q_catogories_progress_active h3{font-size:18px;padding:0; margin:0;}
+.q_catogories_progress p, .q_catogories_progress_active p{font-size:11px; padding:0 0 10px 0; margin:0;}
+/**/
+
+.dashboardbox_title {
+    font-size: 20px;
+    padding-bottom: 2px;
+    position: relative;
+}
+

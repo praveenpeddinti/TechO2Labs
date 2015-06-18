@@ -1,0 +1,11 @@
+/*custom*/
+.customswitch{position:relative;overflow:hidden;border-radius:5px; float:left;visibility:hidden}
+.customswitch .customswitchanimateddiv{left:-0px;position:relative;}
+.customswitch .customswitchanimateddiv span{cursor:pointer}
+.customswitch .customswitchanimateddiv span, .customswitch .customswitchanimateddiv span b{display:table-cell;}
+.customswitch .customswitchanimateddiv span b{font-weight:normal;padding:2px 8px;white-space:nowrap;color:#fff;font-size:13px}
+.customswitch .customswitchanimateddiv span.custspanfirstelement b.firstelement{background:#c2c2c2}
+.customswitch .customswitchanimateddiv span.custspanfirstelement b.lastelement{background:#1ec8e9;}
+.customswitch .customswitchanimateddiv span.custspanlastelement b.firstelement{background:#1ec8e9;}
+.customswitch .customswitchanimateddiv span.custspanlastelement b.lastelement{background:#c2c2c2;}
+/*end*/
