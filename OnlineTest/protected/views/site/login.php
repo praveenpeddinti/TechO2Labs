@@ -1,10 +1,4 @@
-      
-
-<span id="loginSpinner"></span>
-    <div class="row-fluid">
-                <div class="span12">
-                    
-<?php $form=$this->beginWidget('CActiveForm', array(
+  <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'login-form',
         'method'=>'post',
 	'enableClientValidation'=>true,
@@ -19,30 +13,20 @@
          'style'=>'margin: 0px; accept-charset=UTF-8','enctype' => 'multipart/form-data','class'=>'marginzero'
     )
 )); ?>
-                <div class="span5">
-                    	
-   
-                    <div class="control-group controlerror">
-                        <div class="lusername" style="display:table"><?php echo $form->textField($this->model,'email',array("placeholder"=>Yii::t('translation','userName'), 'maxlength' => 40, 'class' => 'span12 email')); ?>        
-                            </div>
-                   <?php echo $form->error($this->model,'email'); ?>
-                    
-                    <?php //echo $form->error($this->model, 'error'); ?> 
-                    </div>              
-  
-                </div>
-                <div class="span5"> 
-                        <div class="control-group controlerror">
-                    <div class="lpassword" style="display:table;"><?php echo $form->passwordField($this->model,'pword',array("placeholder"=>Yii::t('translation','password'), 'maxlength' => 40, 'class' => 'span12 pwd')); ?>        
-                    </div>
-                  <?php echo $form->error($this->model,'pword'); ?>
-                        </div>  
-                
-                   <?php echo $form->hiddenField($this->model,'rememberMe',array('value'=>1)); ?>        
-                </div>
-                    
-                <div class="span2"> 
-                     <?php
+
+			<div class="form-group loginform" id="usernamediv">
+                            <label class="usernamelbl" for="userName" >User Name</label>
+                            <?php echo $form->textField($this->model,'email',array('maxlength' => 40, 'class' => 'form-control email')); ?> 
+			</div>
+			<div class="form-group loginform" id="passworddiv">
+                            <label for="password" class="passwordlbl">Password</label>
+								
+                            <?php echo $form->passwordField($this->model,'pword',array('maxlength' => 40, 'class' => 'form-control pwd')); ?> 
+                         </div>
+							<div class="row">
+								<div class="col-xs-12 text-center">
+									
+                                                                   <?php
                                             echo CHtml::ajaxSubmitButton('Login', array('site/login'),array(
                                                     'type'=>'POST',
                                                 'dataType' => 'json',
@@ -67,16 +51,20 @@
                                                 
                                                 
                                                 'success' => 'function(data,status,xhr) { logincallback(data,status,xhr);}'),
-                                                    array('type' => 'submit','class'=>'btn btnlogin pull-right')
+                                                    array('type' => 'submit','class'=>'btn btn-primary btn-raised btn-custom')
                                                     );
-                                        ?>
-                                                   
-                   <?php //echo CHtml::submitButton('Login',array('class'=>'btn pull-right')); ?>
-                                                   
-                </div>
-                    <?php $this->endWidget(); ?>
-                </div>
-                </div>
+                                        ?> 
+                                                                    
+                                                                    
+								</div><!--end .col -->
+							</div><!--end .row -->
+						 
+<?php $this->endWidget(); ?>
+
+    
+                    
+
+               
  
       
  
@@ -86,7 +74,7 @@
          function logincallback(data, txtstatus, xhr) {
             
         var data = eval(data);
-        if (data.status == 'success') {
+        if (data.status == 'success') {alert("fffff");
             
           
                     window.location = '/users';
