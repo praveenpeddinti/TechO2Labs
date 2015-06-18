@@ -1,10 +1,10 @@
 <?php include 'header.php';
 $user_present = Yii::app()->session->get('TinyUserCollectionObj');
 if(isset($user_present) || Yii::app()->params['Project']!='SkiptaNeo') {?>
-<section id="streamsection" class="streamsection" >
-    <div class="container" id="mainCont">
+<section >
+<div class="container pagetitlebg">
         <?php if(Yii::app()->params['Project']=='Trinity'){ include 'leftsideWidgets.php'; }?>
-        <?php if(Yii::app()->params['Project']=='SkiptaNeo'){ include 'leftmenu.php'; }?>
+        
         <?php if ($this->sidelayout == 'yes') { ?>
             <div class="sidebar-nav_right" id="rightpanel">
                 <?php //include 'rightsideWidgets.php'; ?>

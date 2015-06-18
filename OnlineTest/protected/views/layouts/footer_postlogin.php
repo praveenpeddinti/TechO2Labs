@@ -1,39 +1,11 @@
 
-    <footer id="footer" style="z-index: 561">
-	<div class="container">
-              <div style="position:fixed;bottom:0;left:0;right:0;display: none; z-index: 999999;" id="minChatWidgetDiv" >
-            <div class="container">
-            <div class="closedchat pull-right">
-                <div class="closedchattext" style=""> <?php echo Yii::t('translation','Chat_Widget'); ?>..
-    <span class="chat_plus"><i class="fa fa-times minchatClose" id="closeChatWidget" ></i><i class="fa fa-plus"></i></span></div>
-	</div></div>
-</div>
-            
-    <div class="footerlinksarea">
-    <div class="row-fluid">
-    <div class="span12">
-        <?php echo Yii::app()->params['Footer']; ?>
-    </div>
-    </div>
-    </div>
-    <div class="footercopyrightarea">
-    <?php echo Yii::app()->params['COPYRIGHTS']; ?>
-        <div class="pull-right"><a href="http://skipta.com/" target="_blank"><img src="/images/system/poweredbyskipta.png" alt="skipta"></a></div>
-    </div>
-    </div>
-  <div style="position:fixed;bottom:30px;right:0;display: none;" id="minTourGuideDiv" >
-              
-                    
-                        <div class="joyrideMinimizeIcon" style="z-index:1000000 "> 
-                           
-                        
-                    </div>
-               
-            </div>
-    
-</footer>
-<div id="joyRideTipContent"></div>
-<div id="newUserJoyRideTipContent"></div>
+    <div id="footer">
+		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
+		All Rights Reserved.<br/>
+		<?php echo Yii::powered(); ?>
+	</div><!-- footer -->
+        
+        
 
   <script>
 

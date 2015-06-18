@@ -1,19 +1,6 @@
-<footer id="footer" >
-	<div class="footer">
-	<div class="container">
-		<div class="row-fluid">
-    <div class="span12">
-        <div class="span5 footerlinks mobilecenter">
-           <a  onclick="openFooterTabs('termsOfServices');" class="cursor"><?php echo Yii::t('translation','Terms_of_Use'); ?></a> | <a  onclick="openFooterTabs('privacyPolicy');" class="cursor"><?php echo Yii::t('translation','Privacy_Policy'); ?></a>
-        <br/>
-         <div class="copyright"><?php echo Yii::app()->params['COPYRIGHTS']; ?></div>
-        </div> <div class="span7 mobilecenter"><div class="pull-right"><a href="http://skipta.com" target="_blank"><img src="/images/system/poweredbyskipta.png"></a></div> </div>     </div>
-    </div>
-	</div>	
-</div>	
-<!--        <div id="f_body"></div>-->
-    
-</footer>
+ <footer>
+       <div class="container"><div class="footerpaddinglr20 footerstyle">&copy; 2015 TechO2 LLC</div></div>
+      </footer><!-- footer -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

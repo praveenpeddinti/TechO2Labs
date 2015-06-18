@@ -1,4 +1,58 @@
+ <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+         <a class="navbar-brand" href="#"><img src="images/inner_techo2logo.png" ></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <div class="headernavigation">
+        <?php if(Yii::app()->params['Project']=='SkiptaNeo'){ include 'leftmenu.php'; }?>
+          
+          
+          <div style="float:right" class="profilearea position_R"><ul class="nav navbar-nav profileul">
+
+            <li class=" profilelist dropdown">
+            <div class="generalprofileicon skiptaiconwidth60x60" >
+<a aria-expanded="false" role="button" data-toggle="dropdown" data-placement="right" class="dropdown-toggle skiptaiconinner " href="#"><img src="images/sreeni.png"> <span class="caret"></span></a> </a>
+<ul role="menu" class="dropdown-menu">
+                <li> <a href="/user/logout" id="logoutId" onclick="logout()"><i class="logOutIcon"><img src="/images/system/spacer.png" ></i><?php echo Yii::t('translation','Logout'); ?></a></li>
+                </ul>
+
+</div>
+            
+              
+              
+            </li>
+          </ul></div>
+          </div>
+        </div><!--/.navbar-collapse -->
+      </div>
+      
+    </nav>
+
+
+
+
+
+
+
+
+
+
+
+<!-- -->
+
+
+
+
+
 <div id="sidebar"></div>
+
 <header id="header">
      <!-- Modal -->
             <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -23,7 +77,7 @@
         	<div class="span12">
             	<div class="span2 iphonelogo">
                     <a href="/"><img src="<?php echo Yii::app()->params['Logo']; ?>" alt="logo" class="logo"></a>                </div>
-              <div class="span10 positionrelative" id='headerSection'>
+              <div class="col-xs-12  col-md-9 col-sm-10" positionrelative" id='headerSection'>
                   
                 <div class="pull-right mobileclear">
                    
