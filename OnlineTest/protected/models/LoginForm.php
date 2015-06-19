@@ -22,24 +22,15 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			// username and password are required
-			array('email', 'required','message'=>Yii::t('translation','Username_cannot_be_blank')),			
+			array('email', 'required','message'=>'User Name cannot be blank'),			
                         array('pword', 'required','message'=>'Password cannot be blank.'),	
 			// rememberMe needs to be a boolean
-			array('rememberMe', 'boolean'),
+			//array('rememberMe', 'boolean'),
 			// password needs to be authenticated
 		);
 	}
 
-	/**
-	 * Declares attribute labels.
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'rememberMe'=>'Remember me next time',
-		);
-	}
-
+	
 	/**
 	 * Authenticates the password.
 	 * This is the 'authenticate' validator as declared in rules().

@@ -12,7 +12,8 @@ class TestPreparationCollection extends EMongoDocument {
     public $NoofQuestions;
     public $Category;
     public $CreatedOn;
-    public $InviteUsers;
+    public $InviteUsers =0;
+    public $TestTakenUsers =0;
     
 
     public function getCollectionName() {
@@ -37,7 +38,8 @@ class TestPreparationCollection extends EMongoDocument {
         'Title'=>'Title',
         'Description'=>'Description',
         'Category'=>'Category',
-        'InviteUsers'=>'InviteUsers', 
+        'InviteUsers'=>'InviteUsers',
+        'TestTakenUsers'=>'TestTakenUsers',
         'CreatedOn'=>'CreatedOn',
         );
      }

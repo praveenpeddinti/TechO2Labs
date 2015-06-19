@@ -1036,4 +1036,30 @@ public function getQuestionOfSurvey($surveyId,$questionId){
             error_log("Exception Occurred in ExtendedSurveyCollection->updateBrands==".$ex->getMessage());
         }
     }
+    
+    
+    
+    /*
+     * @praveen get Total questions for category start
+    */
+    public function getTotalQuestions($value) {
+        try {
+            
+            $returnValue = 'failure';
+            $criteria = new EMongoCriteria;
+            $criteria->addCond('SurveyTitle', '==', trim($value));
+           // $criteria->addCond('IsSuspended', '==', (int) 0);
+
+            $surveyObj = ExtendedSurveyCollection::model()->findAll($criteria);
+            error_log("-------".$value."----");
+            if (is_array($surveyObj) || is_object($surveyObj)) {
+                $returnValue = $surveyObj;
+            }
+            //error_log("-------".$value."--ss--".print_r($surveyObj,true));
+            return $returnValue;
+        } catch (Exception $ex) {
+            Yii::log("ExtendedSurveyCollection:getSurveyDetailsByGroupName::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in ExtendedSurveyCollection->getSurveyDetailsByGroupName==".$ex->getMessage());
+        }
+    }
 }

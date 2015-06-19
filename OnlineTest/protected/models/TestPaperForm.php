@@ -33,45 +33,51 @@ class TestPaperForm extends CFormModel {
      */
     public function rules() {
         return array(
-            array('Title', 'required', 'message' => Yii::t("translation", "Ex_Title_Err")),
-            array('Description', 'required', 'message' => Yii::t("translation", "Ex_Description_Err")),
-            //array('Question', 'validateDynamicFields', 'fieldname' => 'Question', 'message' => 'Question '),
-            array('SurveyRelatedGroupName', 'validateSOFields', 'fieldname' => 'SurveyRelatedGroupName', 'message' => 'Other Value '),
-            array('CategoryName,Questions,Question,QuestionId,WidgetType,CreatedBy,QuestionsCount,Status,Title,Description,SurveyRelatedGroupName,NoofQuestions,CategoryTime,NoofPoints,ReviewQuestion', 'safe'),
+            //array('Title', 'required', 'message' => Yii::t("translation", "Ex_Title_Err")),
+            //array('Description', 'required', 'message' => Yii::t("translation", "Ex_Description_Err")),
+            //array(NoofQuestions,CategoryTime,'Question', 'validateDynamicFields', 'fieldname' => 'Question', 'message' => 'Question '),
+            array('NoofQuestions', 'validateQuestionsFields', 'fieldname' => 'NoofQuestions', 'message' => 'Other Value '),
+            array('CategoryTime', 'validateTimeFields', 'fieldname' => 'CategoryTime', 'message' => 'Other Value '),
+            array('NoofPoints', 'validateScoreFields', 'fieldname' => 'NoofPoints', 'message' => 'Other Value '),
+            array('UserId,CategoryName,Questions,Question,QuestionId,WidgetType,CreatedBy,QuestionsCount,Status,Title,Description,SurveyRelatedGroupName,NoofQuestions,CategoryTime,NoofPoints,ReviewQuestion', 'safe'),
         );
     }
 
-    /*public function validateDynamicFields($attribute, $params) {
+    public function validateQuestionsFields($attribute, $params) {
         try{
-        if (sizeof($this->$params['fieldname']) > 0) {
-            foreach ($this->$params['fieldname'] as $key => $order) {
-
-                if (empty($order)) {
-                    if (isset($params['message']) && $params['message'] != "") {
-                        $message = $params['message'];
-                    } else {
-                        $message = $params['fieldname'];
-                    }
-                    if ($params['fieldname'] != "NoofOptions" && $params['fieldname'] != "NoofChars") {
-                        $this->addError($params['fieldname'] . '_' . $key, $message . ' cannot be blank');
-                    } else {
-                        $this->addError($params['fieldname'] . '_' . $key, $message);
-                    }
-                    // break;
-                }
-            }
-        }
-        } catch (Exception $ex) {
-            Yii::log("ExtendedSurveyForm:validateDynamicFields::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
-        }
-    }*/
-
-    public function validateSOFields($attribute, $params) {
-        try{error_log("------SO--".$this->SurveyRelatedGroupName);
-        if ($this->SurveyRelatedGroupName == "") {
+        if ($this->NoofQuestions == "") {
             
-                $message = "Please select Category";
-                $this->addError('SurveyRelatedGroupName', $message);
+                $message = "Select # Questions";
+                $this->addError('NoofQuestions', $message);
+            
+        }
+        
+        
+        } catch (Exception $ex) {
+            Yii::log("ExtendedSurveyForm:validateSOFields::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    public function validateTimeFields($attribute, $params) {
+        try{
+        if ($this->CategoryTime == "") {
+            
+                $message = "Select Time";
+                $this->addError('CategoryTime', $message);
+            
+        }
+        
+        } catch (Exception $ex) {
+            Yii::log("ExtendedSurveyForm:validateSOFields::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    public function validateScoreFields($attribute, $params) {
+        try{
+        
+        if ($this->NoofPoints == "") {
+            
+                $message = "Select Score";
+                $this->addError('NoofPoints', $message);
             
         }
         

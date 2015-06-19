@@ -16,9 +16,32 @@ class TestTakerForm extends CFormModel {
     public $Qualification;
     public function rules() {
         return array(
-            array('FirstName,LastName,Email,Phone', 'required'), 
-            array('Email','email','checkMX'=>false),
             
+            
+            
+            array('FirstName,LastName,Email,Phone', 'required'),
+            array('Qualification', 'required','message'=>'Select Qualification'),
+            array(
+                'FirstName',
+                'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
+                'message'=>Yii::t('translation','attribute_Invalid_characters'),
+            ),
+            array(
+                'LastName',
+                'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
+                'message'=>Yii::t('translation','attribute_Invalid_characters'),
+            ),
+            array('Phone', 'match', 'pattern'=>'/^[0-9]/'),
+            array('Email','email','checkMX'=>false),
+            /*array('Qualification', 'ext.YiiConditionalValidator.YiiConditionalValidator',
+                        'if' => array(
+                             array('Qualification', 'compare', 'compareValue'=>''),
+                        ),
+                        'then' => array(
+                            array('Qualification', 'required','message'=>'Select Qualification'),
+                        ),
+                       
+                 ),*/
             array('FirstName,LastName,Email,Phone,Qualification,UserId', 'safe'),
             
         );
