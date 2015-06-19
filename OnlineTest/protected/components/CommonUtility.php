@@ -11139,6 +11139,9 @@ static function getGeocodes($addressArray){
                 $extendedBean->Title = $data->Title;
                 $extendedBean->Description = $data->Description;
                 $extendedBean->Category = $data->Category;
+                $extendedBean->InviteUsers = $data->InviteUsers;
+                $extendedBean->TestTakenUsers = $data->TestTakenUsers;
+                
                 $TotalQuestions = 0;
                 foreach($data->Category as $rw){
                     $TotalQuestions += $rw['NoofQuestions'];
