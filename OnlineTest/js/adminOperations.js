@@ -105,6 +105,8 @@ function viewAUserDetailsById(userid) {
     ajaxRequest('/admin/viewAUserDetailsById', queryString, viewAUserDetailsByIdHandler);
 }
 
+
+
 function viewAUserDetailsByIdHandler(data) {
   
     $(".modal-dialog").width("500px");
@@ -2453,7 +2455,7 @@ function createBroadCastNotificationsHandler(data){
             renderLoadSurveyScheduleHandler(data, '556ee4d3900cecfe048b456b')
         }, "html");
     }
-    function renderLoadSurveyScheduleHandler(html, surveyId) {alert("---dsdsds---"+html);
+    function renderLoadSurveyScheduleHandler(html, surveyId) {
         scrollPleaseWaitClose("spinner_survey_" + surveyId);
         $("#newModal .modal-dialog").removeClass('info_modal');
         $("#newModal .modal-dialog").removeClass('alert_modal');
