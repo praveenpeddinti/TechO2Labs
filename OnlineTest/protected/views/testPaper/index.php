@@ -21,7 +21,7 @@
     <div class="market_profile2 marginT102" id="testPaperDiv">
         
         
-
+        
         <div class="row-fluid padding-bottom15">
             <div class="span12">
                 <label>Test Name</label>
@@ -72,7 +72,7 @@
     <div class="row-fluid" id="surveyfooterids" style="display: none;">
         <div id="extededsurvey_spinner" style="position: relative"></div>
         <div class="span12 alignright padding10 bggrey">
-            <?php echo CHtml::Button('Done', array('onclick' => 'saveTestPaperForm();', 'class' => 'btn', 'id' => 'surveyFormButtonId')); ?> 
+            <?php echo CHtml::Button('Save', array('onclick' => 'saveTestPaperForm();', 'class' => 'btn', 'id' => 'surveyFormButtonId')); ?> 
 
             <?php echo CHtml::resetButton('Cancel', array("id" => 'surveyResetId', 'onclick' => 'CancelSurveyForm();', 'class' => 'btn btn_gray')); ?>
         </div>
@@ -111,7 +111,7 @@ $("#surveyfooterids").show();
 //			return false;
 //		});
 //	});
-bindToMandatory();
+
 });
 </script>
 
@@ -119,6 +119,34 @@ bindToMandatory();
 
 
 <script type="text/javascript">
+    
+    $('#ReviewQuestion').bootstrapSwitch();
+
+         $('#ReviewQuestion').on('switch-change', function(e, data) {           
+               var switchedValue = data.value ? 1 : 0;               
+               if (switchedValue == 1) {
+                   $("#TestPaperForm_ReviewQuestion").val(0);
+                   
+               } else {
+                   $("#TestPaperForm_ReviewQuestion").val(1);
+                   
+               }
+               var scrollTp = $(window).scrollTop();
+                scrollTp = Number(scrollTp);                
+                $("#surveyviewspinner").css("top",scrollTp);                
+                
+         });
+         
+         
+         <?php if($surveyObj->IsBannerVisible == 1){  ?>
+        $('#surveyBannerSettings').bootstrapSwitch('setState', false);
+        $('label[for=surveyBannerSettings]').text("Off");
+       
+    <?php }else{ ?>
+        $('#surveyBannerSettings').bootstrapSwitch('setState', true);
+        $('label[for=surveyBannerSettings]').text("On");
+        
+    <?php } ?>
     // $("#TestPaperForm_SurveyRelatedGroupName").val('<?php //echo $surveyObj->SurveyRelatedGroupName; ?>');
    /*$("#surveyGroupName").change(function(){alert("-ffff----");
         var val = $(this).val();
@@ -145,6 +173,8 @@ bindToMandatory();
     }
     
     function addCategory(obj){  
+        
+        
         //var val = $(this).val();
         //alert($("#category option:selected").val());
         //$("#TestPaperForm_SurveyRelatedGroupName").val($("#surveyGroupName option:selected").val()); 
@@ -156,7 +186,8 @@ bindToMandatory();
             selectVal = selectVal+","+$("#surveyGroupName option:selected").text();
         }
         $("#TestPaperForm_SurveyRelatedGroupName").val(selectVal);
-        alert("----"+selectVal);
+       
+       
                 //$("#category option:selected").attr('disabled','disabled');
          /*if (selectVal == "ALL"){alert("--idf---");
                 // cannot disable all the options in select box
@@ -170,15 +201,18 @@ bindToMandatory();
 
 
     //alert(obj.value+"------1---"+questionsCount+"----"+TotalQuestions);
-                questionsCount++; 
                 
+        
+        
                 
+                if(CategoryName!="Select Category"){
+                    questionsCount++; 
                 scrollPleaseWait("extededsurvey_spinner");
                 ajaxRequest("/testPaper/renderQuestionWidget", "questionNo=" + questionsCount+"&CategoryName=" +CategoryName+"&CategoryId=" +obj.value,function(data) {
                     renderQuestionwidgetHandler(data, "add")
                 }, "html");
             }
-    
+        }
     
     
     $(".subsectionremove").live('click', function() {
@@ -196,8 +230,36 @@ bindToMandatory();
     });
      
      var Garray = new Array();
-    function saveTestPaperForm() {alert("---save----"+questionsCount);
+    function saveTestPaperForm() {
         isValidate = 0;
+        //alert("category------"+$("#surveyGroupName option:selected").val());
+             
+        if (($("#TestPaperForm_Title").val() == "") || ($("#TestPaperForm_Description").val() == "") || ($("#surveyGroupName option:selected").val() == "Public") ){      
+                if ($("#TestPaperForm_Title").val() == "") {
+                        $("#TestPaperForm_Title_em_").text("Title cannot be blank");
+                        $("#TestPaperForm_Title_em_").show();
+                        $("#TestPaperForm_Title_em_").fadeOut(12000);
+                        $("#TestPaperForm_Title").parent().addClass('error');
+                        
+                    }
+                if ($("#TestPaperForm_Description").val() == "") {
+                     $("#TestPaperForm_Description_em_").text("Description cannot be blank");
+                     $("#TestPaperForm_Description_em_").show();
+                     $("#TestPaperForm_Description_em_").fadeOut(12000);
+                     $("#TestPaperForm_Description").parent().addClass('error');
+
+                 }
+                 if ((questionsCount==0) && ($("#surveyGroupName option:selected").val() == "Public")) {
+                     $("#TestPaperForm_SurveyRelatedGroupName_em_").text("Please select category");
+                     $("#TestPaperForm_SurveyRelatedGroupName_em_").show();
+                     $("#TestPaperForm_SurveyRelatedGroupName_em_").fadeOut(12000);
+                     $("#TestPaperForm_SurveyRelatedGroupName").parent().addClass('error');
+
+                 }
+          return false;      
+        }
+        //alert("---ok----");
+        
         $("#surveyFormButtonId").attr("disabled",true);
         for (var i = 1; i <= questionsCount; i++) {
             saveQuestion(i, "radio",questionsCount);
@@ -205,10 +267,10 @@ bindToMandatory();
         }
 
     }
-     function saveQuestion(no, optionType,totalQuestions) {alert("---saveQues---"+no+"----"+optionType+"======"+totalQuestions);
+     function saveQuestion(no, optionType,totalQuestions) {//alert("---saveQues---"+no+"----"+optionType+"======"+totalQuestions);
         scrollPleaseWait("extededsurvey_spinner");
         var data = $("#questionWidget_" + no).serialize();
-        alert("query-----"+data.toSource());
+        //alert("query-----"+data.toSource());
         var noofratings = "";        
 //        if($("#ExtendedSurveyForm_NoofRatings_hid_"+no).length > 0){
 //            noofratings = $("#ExtendedSurveyForm_NoofRatings_hid_"+no).val();
@@ -220,7 +282,6 @@ bindToMandatory();
             async:true,
             success: function(data) {
                 var data = eval(data);
-                alert(data.toSource()) 
                 if (data.status == 'success') {
                     isValidate++;                    
                 }
@@ -239,16 +300,16 @@ bindToMandatory();
         });
     }
     function surveyHandler(data,totalQuestions,no) {   
-        alert("-----surveyHan---"+data.toSource());
+        //alert("-----surveyHan---"+data.toSource());
         var data = eval(data);
-        if (data.status == 'success') {  alert(totalQuestions+"---2--surveyHan---"+isValidate);          
-              if(isValidate == totalQuestions){  alert("--3---surveyHan---");                  
+        if (data.status == 'success') {  //alert(totalQuestions+"---2--surveyHan---"+isValidate);          
+              if(isValidate == totalQuestions){  //alert("--3---surveyHan---");                  
                     isValidated = true;
                     surveyFinalSubmit();
                 }
 
         } else {
-            alert("==1");
+            //alert("==1");
             $("#surveyFormButtonId").attr("disabled",false);            
             isValidate = 0;
             isValidated = false;
@@ -256,7 +317,7 @@ bindToMandatory();
             var lengthvalue = data.error.length;
             var msg = data.data;
             var error = [];
-            if (typeof (data.error) == 'string') {alert("=data.error=2");
+            if (typeof (data.error) == 'string') {//alert("=data.error=2");
 
                 var error = eval("(" + data.error.toString() + ")");
 
@@ -264,7 +325,7 @@ bindToMandatory();
                 var error = eval(data.error);
             }
             
-            if(typeof(data.oerror)=='string'){alert("=data.oerror=3");
+            if(typeof(data.oerror)=='string'){//alert("=data.oerror=3");
                 var errorStr=eval("("+data.oerror.toString()+")");
             }else{
                 var errorStr=eval(data.oerror);
@@ -281,9 +342,11 @@ bindToMandatory();
 //                
 //                
 //            }); 
-            alert("==error=="+error.toSource());
+            
+            
+            
             $.each(error, function(key, val) {
-                
+                //alert("==error=last=");
                 if (key == "TestPaperForm_Title") {
                     if ($("#TestPaperForm_Title").val() == "") {
                         $("#TestPaperForm_Title_em_").text(val);
@@ -299,15 +362,15 @@ bindToMandatory();
                         $("#TestPaperForm_Description").parent().addClass('error');
                     }
                 }else {
-                    if ($("#" + key + "_em_")) {
-                        $("#" + key + "_em_").text(val);
-                        $("#" + key + "_em_").show();
-                        $("#" + key + "_em_").fadeOut(12000);
-                        $("#" + key).parent().addClass('error');
+                    if ($("#" + key +"_"+no+"_em_")) {
+                        $("#" + key +"_"+no+"_em_").text(val);
+                        $("#" + key +"_"+no+"_em_").show();
+                        $("#" + key +"_"+no+"_em_").fadeOut(12000);
+                        $("#" + key+"_"+no).parent().addClass('error');
                     }
                 }
                 
-
+                
             });
         }
     }
@@ -316,7 +379,7 @@ bindToMandatory();
      
      
      
-    function updateDivs(){alert("--ddddd-----");
+    function updateDivs(){
         
         $(".subsectionremove").each(function(key) {
             $(this).attr("data-questionId", key + 1);
@@ -373,14 +436,13 @@ bindToMandatory();
      
      
      function surveyFinalSubmit(){
-         alert("-----final survey---"+JSON.stringify(Garray));exit();
+         //alert("-----final survey---"+JSON.stringify(Garray));
         $("#TestPaperForm_Questions").val(JSON.stringify(Garray));
         if (isValidated == true) {
             var data = $("#paperWidget").serialize(); 
-            
             $.ajax({
                 type: 'POST',
-                url: '/testPaper/SaveSurveyQuestion?Title=' + $("#TestPaperForm_Title").val() +"&surveyDescription="+$("#TestPaperForm_Description").val()+ '&questionsCount=' + questionsCount+"&SurveyGroupName="+$("#TestPaperForm_SurveyRelatedGroupName").val(),
+                url: '/testPaper/SaveSurveyQuestion?Title=' + $("#TestPaperForm_Title").val() +"&Description="+$("#TestPaperForm_Description").val()+ '&questionsCount=' + questionsCount+"&SurveyGroupName="+$("#TestPaperForm_SurveyRelatedGroupName").val(),
                 data: data,
                 success: surveyFinalHandler,
                 error: function(data) { // if error occured
@@ -405,9 +467,19 @@ bindToMandatory();
             $("#sucmsg").fadeOut(9000,function(){
                 $("#surveyFormButtonId").attr("disabled",false);
                 scrollPleaseWaitClose("extededsurvey_spinner");
-                window.location.href = "/marketresearchwall";
+                window.location.href = "/testpaper";
             });
         }
     }
+    
+    $(".reviewquestion span").live("click",function(){        
+        var $this = $(this);
+        var qid = $(this).siblings("input[type=checkbox]").attr("data-qid");
+        if($this.attr("style") == "background-position: 0px -50px;"){
+            $("#ReviewQuestion_"+qid).val(1);
+        }else{
+            $("#ReviewQuestion_"+qid).val(0);
+        }
+    });
      
 </script>

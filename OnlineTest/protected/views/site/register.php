@@ -1,226 +1,140 @@
-<div class="row-fluid padding10top">
-             
-         <div class="span12">
-         
-             <div id="profilesuccess" class="alert alert-success margintop5 " style="display: none"></div>
-                
-            <div class="tab-content" id="myTabContent">
-                
-              <div id="home" class="tab-pane fade in active">
-                   <?php
-                  
-                        $form = $this->beginWidget('CActiveForm', array(
-                            'id' => 'userregistration-form',
-                            'method'=>'post',
-                            'enableClientValidation' => true,
-                            'clientOptions' => array(
-                                'validateOnSubmit' => true,
-                            ),
-                            'htmlOptions' => array('enctype' => 'multipart/form-data'),
-                                ));
-                        ?>
-               
-                     <div class="alert-error" id="login_error">
-                      <?php echo $form->error($UserRegistrationModel, 'firstName', array("inputID" => "UserRegistrationForm_firstName")); ?>
-                      <?php echo $form->error($UserRegistrationModel, 'lastName', array("inputID" => "UserRegistrationForm_lastName")); ?>
-                       <?php echo $form->error($UserRegistrationModel, 'email', array("inputID" => "UserRegistrationForm_email")); ?>
-                      
-                         <?php echo $form->error($UserRegistrationModel, 'password', array("inputID" => "UserRegistrationForm_password")); ?>
-                         <?php echo $form->error($UserRegistrationModel, 'confirmpassword', array("inputID" => "UserRegistrationForm_confirmpassword")); ?>
-                         <?php echo $form->error($UserRegistrationModel, 'zip', array("inputID" => "UserRegistrationForm_zip")); ?>
-                       
-                      <?php echo $form->error($UserRegistrationModel, 'field1', array("inputID" => "UserRegistrationForm_field1")); ?>
-                      <?php echo $form->error($UserRegistrationModel, 'field2', array("inputID" => "UserRegistrationForm_field2")); ?>
-                      
-                  </div>
-                  <?php
-                    if($message !=""){
-                        echo $message;
-                    }
-                  ?>
-
-                  
-              <div class="row-fluid">
-                 
-              <div class="span12">
-                  
-              
-              <div class="span8">
-                  <div class="row-fluid">
-                       <div class="span12">
-                  <div class="span6">
-                        <div class="control-group">
-                        <label>Fisrtname</label>
-                         <?php echo $form->textField($UserRegistrationModel, 'firstName', array("id" => "UserRegistrationForm_firstName", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-        <!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                      </div>
-                  </div>
-                    <div class="span6">
-                        <div class="control-group">
-                  <label>Lastname</label>
-                  <?php echo $form->textField($UserRegistrationModel, 'lastName', array("id" => "UserRegistrationForm_lastName", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-<!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                        </div>
+<div class=" pagetitlebg marginlr0 paddingbottom8 pagetitleloginbg" >
+                    <div class="section_pagetitle_padding padgetitle">
+                        <h4 class="padding-left12">Registration</h4>
+                        <p>Register here to start your Online Test</p>
                     </div>
-                      
-                      </div></div>
-                  <div class="row-fluid">
-                       <div class="span12">
-                  <div class="span6">
-                        <div class="control-group">
-                        <label>City</label>
-                         <?php echo $form->textField($UserRegistrationModel, 'city', array("id" => "UserRegistrationForm_city", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-        <!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                      </div>
-                  </div>
-                    <div class="span6">
-                        <div class="control-group">
-                  <label>State</label>
-                  <?php echo $form->textField($UserRegistrationModel, 'state', array("id" => "UserRegistrationForm_state", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-<!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                        </div>
-                    </div>
-                      
-                      </div></div>
-                  <div class="row-fluid">
-                       <div class="span12">
-                  <div class="span6">
-                        <div class="control-group">
-                        <label>Zip</label>
-                         <?php echo $form->textField($UserRegistrationModel, 'zip', array("id" => "UserRegistrationForm_zip", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-        <!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                      </div>
-                  </div>
-                   <div class="span6">
-                        <div class="control-group">
-                        <label>Select Country:</label>
-                       <select id="UserRegistrationForm_country"  class="input-username big span12"  name="UserRegistrationForm[country]" > 
-             
-                            <option   value="PleaseSelect">Please Select Country</option>
-                            <?php 
+<div class="row">
+                    <div class="col-xs-12 ">
+                        <div class="reg_area">      
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'register-form',
+        'method'=>'post',
+	'enableClientValidation'=>true,
+	'clientOptions'=>array(
+		'validateOnSubmit'=>true,
+                'validatOnChange'=>true,
+      //      'afterValidate'=>'js:clearMessage',
 
-                                       foreach ($countries as $value) {
-                                                   echo '<option   value='.$value->name.'>'.$value->name.'</option>';      
-                                                   }
-                            ?>
-
-                        </select>
-                        
-        <!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                      </div>
-                  </div>
-                      
-                      </div></div>
-                   <div class="row-fluid">
-                       <div class="span12">
-                  <div class="span6">
-                        <div class="control-group">
-                        <label>Display Name</label>
-                         <?php echo $form->textField($UserRegistrationModel, 'displayName', array("id" => "UserRegistrationForm_displayName", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-        <!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                      </div>
-                  </div>
-                           
-                     <div class="span6">
-                        <div class="control-group">
-                        <label>Email</label>
-                         <?php echo $form->textField($UserRegistrationModel, 'email', array("id" => "UserRegistrationForm_email", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-        <!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                      </div>
-                  </div>      
-                      </div></div>
-                  
-                
-               
-                   <div class="row-fluid">
-                       <div class="span12">
-                            <div class="span6">
-                        <div class="control-group">
-                        <label>Password</label>
-                         <?php echo $form->passwordField($UserRegistrationModel, 'password', array("id" => "UserRegistrationForm_password", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-        <!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                      </div>
-                  </div> 
-                           
-                       <div class="span6">
-                        <div class="control-group">
-                        <label>Confirm Password</label>
-                         <?php echo $form->passwordField($UserRegistrationModel, 'confirmpassword', array("id" => "UserRegistrationForm_confirmpassword", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-        <!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                      </div>
-                  </div> 
-                      </div></div>
-
-                  <div class="row-fluid">
-                       <div class="span12">
-                  <div class="span6">
-                        <div class="control-group">
-                        <label>Are you a pharmacist</label>
-                         <?php 
-                        
-                   //   echo    $form->radioButton($UserRegistrationModel,'isPharmacist',array('label' => 'YES',"id"=>"UserRegistrationForm_isPharmacist", 'value'=>'1'));
-                         echo $form->radioButton($UserRegistrationModel,'isPharmacist',array('value'=>1,"id"=>"UserRegistrationForm_isPharmacist",'uncheckValue'=>null));     
-                      ?>
-                        Yes
-                        <?php 
-                        
-                      echo $form->radioButton($UserRegistrationModel,'isPharmacist',array('value'=>0,"id"=>"UserRegistrationForm_isPharmacist",'uncheckValue'=>null));     
-                         
-                      
-                      
-                      ?>No
-        <!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                      </div>
-                  </div>
-                    <div class="span6">
-                        <div class="control-group">
-                  <label>State License Number</label>
-                  <?php echo $form->textField($UserRegistrationModel, 'statelicensenumber', array("id" => "UserRegistrationForm_statelicensenumber", 'maxlength' => '50', 'class' => 'input-username big span12', 'placeholder' => "Dr.Theodore Search, Ted")); ?>
-<!--                <input type="text" placeholder="Dr.Theodore Search, Ted" id="inputEmail" class="span9">-->
-                        </div>
-                    </div>
-                      
-                      </div></div>
-                  
-                 
-              	 <div class="row-fluid">
-                     <div class="span12">
-                         <div class="text-right1 ">
-                            
-<!--              <input name="" type="button" value="Clear" class="btn btn-info "> -->
-              <input name="userregistration"  id="userregistration" type="submit" value="Submit" class="btn btn-info ">
-                   
-               
-              </div> 
-                         
-                     </div>
-                 </div>
-              </div>
-           
-              </div>
-          
-
-               </div>
-          
-              
-                  <?php $this->endWidget(); ?>
-                
-       </div>
-              
-            </div>
-             
-         
+	),
+    'htmlOptions'=>array(
+        'style'=>'margin: 0px; accept-charset=UTF-8','enctype' => 'multipart/form-data','class'=>'marginzero'
+    )
+)); ?>
+<div id="error" class="errorMessage" style="display: none;"> 
         
-                
+    </div>
+<div class="form-group loginform" id="fnamediv">
+    <label class="usernamelbl" for="FirstName" >First Name</label>
+    <?php echo $form->textField($model,'FirstName',array('maxlength' => 40, 'class' => 'form-control email')); ?>
+    <div class="control-group controlerror"> 
+        <?php echo $form->error($model, 'FirstName'); ?>
+    </div>
+</div>
+<div class="form-group loginform" id="lnamediv">
+    <label class="lnamelbl" for="LastName" >Last Name</label>
+    <?php echo $form->textField($model,'LastName',array('maxlength' => 40, 'class' => 'form-control email')); ?>
+    <div class="control-group controlerror"> 
+        <?php echo $form->error($model, 'LastName'); ?>
+    </div>
+</div>
+<div class="form-group loginform" id="emaildiv">
+    <label class="emailbl" for="Email" >Email</label>
+    <?php echo $form->textField($model,'Email',array('maxlength' => 40, 'class' => 'form-control email')); ?>
+    <div class="control-group controlerror"> 
+        <?php echo $form->error($model, 'Email'); ?>
+    </div>
+</div>
+<div class="form-group loginform" id="phonediv">
+    <label class="phonelbl" for="Phone" >Phone</label>
+    <?php echo $form->textField($model,'Phone',array('maxlength' => 40, 'class' => 'form-control email')); ?>
+    <div class="control-group controlerror"> 
+        <?php echo $form->error($model, 'Phone'); ?>
+    </div>
+</div>
+<div class="form-group loginform" id="pancarddiv">
+    <label class="pancardlbl" for="Pancard" >Pancard</label>
+    <?php echo $form->textField($model,'Pancard',array('maxlength' => 40, 'class' => 'form-control email')); ?>
+    <div class="control-group controlerror"> 
+        <?php echo $form->error($model, 'Pancard'); ?>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <?php
+                echo CHtml::ajaxSubmitButton('Register', array('site/registration'),array(
+                    'type'=>'POST',
+                    'dataType' => 'json',
+                    'error'=>'function(error){
+                    }',
+                    'beforeSend' => 'function(){
+                        if ($("#rememberMe_login").is(":checked")) {
+                            $("#LoginForm_rememberMe").val(1);
+                        }
+                    }',
+                    'complete' => 'function(){
+                    }',
+                    'success' => 'function(data,status,xhr) { logincallbackre(data,status,xhr);}'),
+                        array('type' => 'submit','class'=>'btn btn-primary btn-raised btn-custom')
+                    );
+            ?> 
+        </div><!--end .col -->
+    </div><!--end .row -->
+<?php $this->endWidget(); ?>
+                        </div>
+                    </div></div>
+<script type="text/javascript">
+   /*$("#loginId").bind("click",function(){
+       var data = $("#login-form").serialize();
+        $.ajax({
+                type: 'POST',
+                url: 'site/login',
+                data: data,
+                success: logincallback,
+                error: function(data) { // if error occured
+                     
+                    // alert(data.toSource());
+                },
+                dataType: 'json'
+            });
+   });*/
+   
+   
+    function logincallbackre(data, txtstatus, xhr) {
+        var data = eval(data);
+        if (data.status == 'success') {
+                    window.location = '/site/privacyPolicy';
+        }else {
+            var lengthvalue = data.error.length;
+            var msg = data.data;
+            var error = [];
+            if (msg != "") {
+                if (data.error == "Invalid User Name and Password") { 
+                    $("#error").text(data.error);
+                    $("#error").show();
+                    $("#error").fadeOut(5000);
+                    $("#error").parent().addClass('error');
+                } 
+            } else {
+                if (typeof (data.error) == 'string') {
+                    var error = eval("(" + data.error.toString() + ")");
+                } else {
+                    var error = eval(data.error);
+                }
+                $.each(error, function(key, val) {
 
-       
-               
-             
-             
-             
-             
-             
-         </div>
-       
-          </div>
-  
+                    if ($("#" + key + "_em_")) {
+                        $("#" + key + "_em_").text(val);
+                        $("#" + key + "_em_").show();
+                        $("#" + key + "_em_").fadeOut(5000);
+                        $("#" + key).parent().addClass('error');
+                    }
+
+                });
+            }
+        }
+    }
+    
+
+    
+ sessionStorage.clear();
+    </script>

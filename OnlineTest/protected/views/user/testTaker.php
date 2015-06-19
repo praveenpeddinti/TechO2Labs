@@ -1,19 +1,21 @@
 <div id="enrollmentPopupId" >
-    <div id="defaultView">            
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="span4">                        
-                    <label class="radio"> Multiple users <input type="radio" id="csvUpload" name="change" onclick="changeViewInPopu(this)"/></label>
-                </div>
-                <div class="span3">
-                    <label class="radio"> Single user <input type="radio" id="manually" name="change" onclick="changeViewInPopu(this)"/></label>
-                </div>
-            </div>
-        </div>        
-    </div>
+    <div class="alert alert-success" id="sucmsg" style='text-align:center;display:none;'></div>
+    <div class="form-inline" id="defaultView"> 
+  <div class="form-group">
+    
+      <label > Multiple users <input style="position: relative;" type="radio" id="csvUpload" name="change" onclick="changeViewInPopu(this)" class=""/></label>
+  </div>
+  <div class="form-group">
+    <label class=""> Single user <input style="position: relative;" type="radio" id="manually" name="change" onclick="changeViewInPopu(this)" class=""/></label>
+  </div>
+
+</div>
+
+
+
     <!-- Single Entry Test Taker Form---->
     <div id="enrollmentFormDiv" style="display: none;">
-        <div class="form"  >
+        <div class="form-inline"  >
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'testtaker-form',
@@ -28,66 +30,46 @@
             ));
             ?>
             <div id="reg_error" class="alert-error"></div> 
-            <div class="row-fluid">
-                <div class="col-lg-4">
-                    <div class="paddingright15" >
-                        <div class="span4">
-                                <?php echo $form->label($takerForm, 'First Name'); ?>                            
-                                <?php echo $form->textField($takerForm, 'FirstName', array('id' => 'TestTakerForm_FirstName', 'maxlength' => 50, 'class' => 'span12')); ?>
-                            <div class="control-group controlerror"> 
-                                <?php echo $form->error($takerForm, 'FirstName'); ?>
-                            </div>
-                        </div>
+            
+                
+                <div class="form-group loginform" id="usernamediv">
+                    <label class="usernamelbl" for="userName" >First Name</label>
+                    <?php echo $form->textField($takerForm, 'FirstName', array('id' => 'TestTakerForm_FirstName', 'maxlength' => 50, 'class' => 'span12')); ?>
+                    <div class="control-group danger"> 
+                        <?php echo $form->error($takerForm, 'FirstName'); ?>
+                    </div>
+               
+                    <label class="usernamelbl" for="userName" >Last Name</label>
+                    <?php echo $form->textField($takerForm, 'LastName', array('id' => 'TestTakerForm_LastName', 'maxlength' => 50, 'class' => 'span12')); ?>
+                    <div class="control-group has-error"> 
+                        <?php echo $form->error($takerForm, 'LastName'); ?>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="paddingright15" >
-                        <div class="span4">
-                                <?php echo $form->label($takerForm, 'Last Name '); ?>   
-                                <?php echo $form->textField($takerForm, 'LastName', array('id' => 'TestTakerForm_LastName', 'maxlength' => 50, 'class' => 'span12')); ?>
-                            <div class="control-group controlerror"> 
-                                <?php echo $form->error($takerForm, 'LastName'); ?>
-                            </div>
-                        </div>
+                
+                <div class="form-group loginform" id="usernamediv">
+                    <label class="usernamelbl" for="userName" >Email</label>
+                    <?php echo $form->textField($takerForm, 'Email', array('id' => 'TestTakerForm_Email', 'maxlength' => 50, 'class' => 'span12')); ?>
+                    <div class="control-group has-error"> 
+                        <?php echo $form->error($takerForm, 'Email'); ?>
+                    </div>
+                
+                    <label class="usernamelbl" for="userName" >Phone</label>
+                    <?php echo $form->textField($takerForm, 'Phone', array('id' => 'TestTakerForm_Phone', 'maxlength' => 10, 'class' => 'span12')); ?>
+                    <div class="control-group has-error"> 
+                        <?php echo $form->error($takerForm, 'Phone'); ?>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="paddingright15" >
-                        <div class="span4">
-                                <?php echo $form->label($takerForm, 'Email '); ?>   
-                                <?php echo $form->textField($takerForm, 'Email', array('id' => 'TestTakerForm_Email', 'maxlength' => 50, 'class' => 'span12')); ?>
-                            <div class="control-group controlerror"> 
-                                <?php echo $form->error($takerForm, 'Email'); ?>
-                            </div>
-                        </div>
+                
+                <div class="form-group loginform" id="usernamediv">
+                    <label class="usernamelbl" for="userName" >Qualification</label>
+                    <?php echo $form->dropdownlist($takerForm, 'Qualification', array('' => 'Select', 'MCA' => 'MCA', 'MBA' => 'MBA', 'B.Tech' => 'B.Tech', 'MS' => 'MS'), array('id' => 'TestTakerForm_Qualification')); ?>
+                    <div class="control-group has-error"> 
+                        <?php echo $form->error($takerForm, 'Qualification'); ?>
                     </div>
                 </div>
-            </div>
-            <div class="row-fluid">
-                <div class="col-lg-4">
-                    <div class="paddingright15" >
-                        <div class="span4">
-                                <?php echo $form->label($takerForm, 'Phone'); ?>                            
-                                <?php echo $form->textField($takerForm, 'Phone', array('id' => 'TestTakerForm_Phone', 'maxlength' => 10, 'class' => 'span12')); ?>
-                            <div class="control-group controlerror"> 
-                                <?php echo $form->error($takerForm, 'Phone'); ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="paddingright15" >
-                        <div class="span4">
-                                <?php echo $form->label($takerForm, 'Qualification'); ?>  
-                                <?php echo $form->dropdownlist($takerForm, 'Qualification', array('' => 'Select', 'MCA' => 'MCA', 'MBA' => 'MBA', 'B.Tech' => 'B.Tech', 'MS' => 'MS'), array('id' => 'TestTakerForm_Qualification')); ?>
-                            <div class="control-group controlerror"> 
-                                <?php echo $form->error($takerForm, 'Qualification'); ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            
+            
+        
         <div  class="row-fluid">
             <div class="span12" style="padding:5px;text-align:right">
                 <?php echo CHtml::Button('Save', array('onclick' => 'saveEnrollmentForm()', 'class' => 'btn btn-warning', 'id' => 'enrollmentButtonId')); ?> 
@@ -95,10 +77,13 @@
             </div>	
         </div>
             <?php $this->endWidget(); ?> 
+            </div>
     </div>
 
     <!-- Bulk uploaded Test Taker Form---->
     <div id="uploadCsvForm" style="display: none;">
+        
+        
         <div class="form"  >
             <?php
             $form = $this->beginWidget('CActiveForm', array(
@@ -113,42 +98,29 @@
             ));
             ?>
             <div class="alert-error fade in" id="csv_error" style='position: relative;padding: 10px;word-wrap:break-word'></div>
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="span4">
-                        <div class="control-group">
-                            <label>Upload CSV File</label>
-                            <div class="row-fluid">
-                                <div class="span12" >
-                                    <div class="span4">
-                                        <div class="control-group" style="position: relative">
-                                            <div class="fileupload fileupload-new" data-provides="fileupload">
-                                                <span class="btn btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span><input type="file" name="csvfiletype[]" id="csvfiletype" onchange="checkCSVFile(this, 'csv_error')"/></span>
-                                                <div id="uploadedfilename" style="font-size: 14px;"></div>
-                                                <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="span4">
-                        <div class="control-group">
-                            <label>Delimeter</label>
+            <div class="form-inline" id="defaultView"> 
+  <div class="form-group">
+    <label>Upload CSV File</label>
+    <div class="fileupload fileupload-new" data-provides="fileupload">
+        <span class="btn btn-file"><span class="fileupload-new">Select file</span><input type="file" name="csvfiletype[]" id="csvfiletype" onchange="checkCSVFile(this, 'csv_error')"/></span>
+        <div id="uploadedfilename" style="font-size: 14px;"></div>
+<!--        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>-->
+    </div>
+      
+  </div>
+  <div class="form-group">
+    
+      <label>Delimeter</label>
                             <?php echo $form->dropdownlist($csvModel, 'delimeter', array('2' => 'Comma(,)', '1' => 'Tab(\t)', '3' => 'Semicolon(;)'), array('id' => 'CSVForm_delimeter')); ?>
-                        </div>
-                    </div>
-                    <div class="span4">
-                        <div class="control-group">
-                            <?php
-                            $link = '<div id="schedule_download">Download sample CSV file</div>';
+  </div>
+                <div class="form-group" >
+                <?php
+                            $link = '<div id="schedule_download" style="text-align:right">Download sample CSV file</div>';
                             echo CHtml::link($link, array('/user/downloadCSVFile'));
                             ?>
-                        </div>
-                    </div>
-                </div>
             </div>
+
+</div>
         </div>
         <div  class="row-fluid">
             <div class="span12 alignright" style="padding:5px;">
@@ -160,6 +132,7 @@
     </div>
 </div>  
 <script type="text/javascript">
+    Custom.init();
     function changeViewInPopu(obj){ 
         $("#enrollmentResetId").click();         
         $("#csvResetId").click();
@@ -198,8 +171,14 @@
         //scrollPleaseWaitClose();
         $("#enrollmentButtonId").val("Save");
         if(data.status=='success'){
-            $("#enrollmentPopupId").modal('hide');
-            $("#newModal").modal('hide');
+            $("#sucmsg").css("display", "block");
+            $("#sucmsg").html("New Test taker added Successfully.").fadeOut(6000,"linear",function(){
+                getUsermanagementDetails(0, '', '');
+            });
+            //$("body,html").animate({scrollTop:0}, 1000,function(){});
+//            window.location.href = "/users";
+            //$("#enrollmentPopupId").modal('hide');
+            //$("#newModal").modal('hide');
         }else{
             
             var lengthvalue = data.error.length;            
@@ -224,7 +203,7 @@
     }
     
    
-    function importCSVFile(){alert("--sdasdsa----");
+    function importCSVFile(){
         var data=$("#CSV-form").serialize();
         $("#csv_error").html("");
         $("#csv_error").hide();
@@ -256,15 +235,13 @@
         var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
         if(ext == "csv" || ext == "CSV")
         {
-            alert("id"+id);
+            
             msg = GetFileSize(id);
-            alert("msg"+msg);
             if(msg == ""){
-                 alert("msgyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"+msg);
                 $("#"+errId).text();                                    
                 $("#"+errId).hide();
                 $("#"+id).parent().removeClass('error'); 
-                $("#uploadedfilename").html(fileName).show();
+                //$("#uploadedfilename").html(fileName).show();
                 return true;
             }else if(msg != ""){
                 setErrorMsg(id,errId,msg);
@@ -286,15 +263,12 @@
     }
     
     function ajaxCSVUpload(){ 
-        alert("----ajaxCSV----1");
         var fileId = "csvfiletype";
         var delimiter = $("#CSVForm_delimeter").val();
-        alert("----ajaxCSV----1---"+delimiter);
         $("#csvButtonId").val("Please wait...");
         $("#uploadedfilename").html("").hide();
-        alert("----ajaxCSV----2");
         //        alert($("#"+fileId).val())
-        if($("#"+fileId).val() != "" && delimiter != ""){alert("----ajaxCSV----3");
+        if($("#"+fileId).val() != "" && delimiter != ""){
             //scrollPleaseWait();
             $.ajaxFileUpload(
             {
@@ -305,7 +279,7 @@
                 dataType:'json',
                 fileElementId:fileId,
                 success: function(data1){
-                                        alert(data1.toSource());
+                                        
                     $("#csvButtonId").val("Import");
                     if(data1.status == "success"){
                         $("#csvResetId").click();
@@ -344,7 +318,7 @@
                 }
             }
         );
-        }else{alert("----else-----");
+        }else{
             $("#csv_error").html("Please choose .csv file");
             $("#csv_error").show();                        
             $("#csv_error").parent().addClass('error');

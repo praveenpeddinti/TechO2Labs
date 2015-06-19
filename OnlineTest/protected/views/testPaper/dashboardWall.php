@@ -2,15 +2,14 @@
     $dateFormat =  CommonUtility::getDateFormat();
     ?>   
       <?php foreach($surveyObject as $data){?>
-
    <li class="surveylist printrest_box " style="display: list-item; " id="survey_<?php echo $data->_id;?>">
        
        
-       <div class="printrest_box_style">
+       <div class="printrest_box_style" >
         	<!-- PAGE TITLE AREA START -->
             <div class="title_area">
                 <p><?php echo $data->Title; ?></p> 
-                <span class="badge_count"><?php echo $data->NoofQuestions; ?></span>
+                <span class="badge_count" rel="tooltip" data-original-title="Question(s)"><?php echo $data->NoofQuestions; ?></span>
             </div>
             <!-- PAGE TITLE AREA END -->
             <p class="description"><?php echo $data->Description; ?></p>
@@ -34,15 +33,15 @@
                     
                     <li>
                         <div class="user_inner_li">
-                            <label>10</label>
+                            <label><?php echo $data->InviteUsers; ?></label>
                             <p># Users Registered</p>
                         </div>
                     </li>
                     
                     <li>
                         <div>
-                            <label>10</label>
-                            <p># Users Registered</p>
+                            <label><?php echo $data->TestTakenUsers; ?></label>
+                            <p># Users taken Test</p>
                         </div>
                     </li>
                 </ul>
@@ -61,9 +60,6 @@
        
        
        
-       
-       
-      
       
     
     

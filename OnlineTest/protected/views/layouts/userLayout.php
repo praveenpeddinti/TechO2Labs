@@ -25,8 +25,9 @@
         
         
         
-                <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-1.11.3.js"></script>
-                <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/npm.js"></script>
+                <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.js"></script>
+                <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/common.js"></script>
+                
                 <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-switch.min.js"></script>
                 <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/customwidgets.js"></script>
                 <script type="text/javascript">
@@ -51,19 +52,20 @@
     <div class="container"  >
         <div class="customLoginform customLoginformwidth positionlogin " style=" padding-bottom:50px; margin-bottom:120px; " >
             <div class="customLoginbg marginlr0">
-                <div class=" pagetitlebg marginlr0 paddingbottom8 pagetitleloginbg" >
+                <!--<div class=" pagetitlebg marginlr0 paddingbottom8 pagetitleloginbg" >
                     <div class="section_pagetitle_padding padgetitle">
                         <h4 class="padding-left12">Login</h4>
                         <p>Register here to start Online Test</p>
                     </div>
-                </div>                                      
-                <div class="row">
+                </div> --> 
+                <?php echo $content; ?>
+                <!--<div class="row">
                     <div class="col-xs-12 ">
                         <div class="reg_area">
-                        <?php include_once(getcwd() . "/protected/views/site/login.php"); ?>
+                        <?php //    include_once(getcwd() . "/protected/views/site/login.php"); ?>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>  
     </div>  
@@ -72,8 +74,8 @@
     <!--- new end -->
     
     
-    <?php echo $content; ?>
-<?php include 'footer.php' ?>
+    
+<?php //include 'footer.php' ?>
 
 
 <!-- animation script start -->
@@ -81,8 +83,8 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.11.3.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <!--<script src="js/jquery-1.11.3.js"></script>
+    <script src="js/bootstrap.min.js"></script>-->
     <script type="text/javascript">
    
 	$( document ).ready(function() {
@@ -125,7 +127,7 @@
 				$("."+labelclassName).attr("style","left:0px;color:#075067;font-size:13px;top:5px");
 			}else{
 				$("."+labelclassName).attr("style","left:10px;color:#075067;font-size:13px;top:5px");				
-				$("."+labelclassName).animate({ "left":"10px","top":rightu }, "slow" ).css('color', '#333').css('font-size', '13px');
+				$("."+labelclassName).animate({ "left":"10px","top":rightu }, "slow" ).css('color', '#ccc').css('font-size', '13px');
 				
 			}
 		});	

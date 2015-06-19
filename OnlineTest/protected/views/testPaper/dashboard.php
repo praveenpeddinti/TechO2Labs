@@ -4,6 +4,12 @@
   <div class="section_pagetitle_padding padgetitle">
 <h4>Test Paper Dashboard<span class="helpicon"><a href="#"><img src="images/helpicon.png"></a></span></h4>
 <h5>This is a quick overview of some features</h5>
+<div class="gamefloatingmenu pull-right positionrelative" >                    
+                    <!--<ul>
+                        <li class="gamerightlist">-->
+                            <a href="/newtestpaper" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Test Paper" src="/images/icons/add.png" /></a>
+                  <!--</li></ul>-->
+                </div>
 </div>
 <div id="surveyDashboardWallDiv">
     <ul id="surveyDashboardWall" class="ext_surveybox">
@@ -31,8 +37,8 @@
         itemWidth: '100%', // Optional min width of a grid item
         autoResize: true, // This will auto-update the layout when the browser window is resized.
         container: $('#surveyDashboardWall'), // Optional, used for some extra CSS styling
-        offset: 20, // Optional, the distance between grid items
-        outerOffset: 20, // Optional the distance from grid to parent
+        offset: 12, // Optional, the distance between grid items
+        outerOffset: 0, // Optional the distance from grid to parent
         flexibleWidth: '50%', // Optional, the maximum width of a grid item
         align: 'left'
     };
@@ -53,7 +59,7 @@
                     optionsC.itemWidth = '100%';
                 } else {
 
-                    optionsC.itemWidth = '30%';
+                    optionsC.itemWidth = '24%';
                 }
 
                 handler.wookmark(optionsC);
@@ -112,7 +118,7 @@
         }
     });
 
-    function renderLoadSurveyScheduleHandler(html, surveyId) {alert("--d-ddd----");
+    function renderLoadSurveyScheduleHandler(html, surveyId) {
         scrollPleaseWaitClose("spinner_survey_" + surveyId);
         $("#newModal .modal-dialog").removeClass('info_modal');
         $("#newModal .modal-dialog").removeClass('alert_modal');

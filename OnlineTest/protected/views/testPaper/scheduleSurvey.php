@@ -324,7 +324,7 @@
             $("#errmsgForSurveySchedule").show();
             $("#sucmsgForSurveySchedule").hide();
             $("#errmsgForSurveySchedule").fadeOut(7000);
-        } else {alert("--d-ddddd---");
+        } else {
             $("#scheduleSurvey").removeAttr("disabled");
             scrollPleaseWaitClose("extededsurvey_spinner");
             var lengthvalue = data.error.length;            

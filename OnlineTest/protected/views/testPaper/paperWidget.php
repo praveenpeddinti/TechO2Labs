@@ -33,13 +33,13 @@
                         <label></label>
                     </div>
                     <div class="span2">
-                        <label>No of Questions</label>
+                        <label># Questions</label>
                     </div>
                     <div class="span2">
-                        <label>No of Time</label>
+                        <label>Time</label>
                     </div>
                     <div class="span2">
-                        <label>No of Points</label>
+                        <label>Score</label>
                     </div>
                     <div class="span2">
                         <label>Review Question</label>
@@ -51,38 +51,46 @@
                     <div class="span2">
                         <label><?php echo $CategoryName;?></label>
                     </div>
-                    <div class="span2">
-                        <select name="TestPaperForm[NoofQuestions]" id="No_of_Questions_<?php echo $widgetCount;?>" class="span8">
-                            <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        </select>
-                    </div>
-                    <div class="span2">
-                        <select name="TestPaperForm[CategoryTime]" id="CategoryTime_<?php echo $widgetCount;?>" class="span8">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        </select>
-                    </div>
-                    <div class="span2">
-                        <select name="TestPaperForm[NoofPoints]" id="No_of_Points_<?php echo $widgetCount;?>" class="span8">
-                            <option value="">Please select</option>
+                    <div class="span2 positionrelative">
+                        <select  name="TestPaperForm[NoofQuestions]" class="" id="No_of_Questions_<?php echo $widgetCount;?>" class="span8">
+                        <option value="">Questions</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
                         <option value="20">20</option>
                         </select>
                         <div class="control-group controlerror">
-                        <div style="display:none" id="TestPaperForm_NoofPoints_<?php echo "$widgetCount"; ?>_em_" class="errorMessage questionserror" data-questionno="<?php echo "$widgetCount"; ?>" >
-                        
+                            <?php echo $form->error($TestPaperForm, 'NoofQuestions_'.$widgetCount); ?>
                         </div>
-                            </div>
                     </div>
-                    <div class="span2">
-                        <input type="checkbox" name="TestPaperForm[ReviewQuestion][<?php echo $widgetCount; ?>]" id="TestPaperForm_ReviewQuestion_<?php echo $widgetCount; ?>" />
+                    <div class="span2 positionrelative">
+                        <select  name="TestPaperForm[CategoryTime]" class="" id="CategoryTime_<?php echo $widgetCount;?>" class="span8">
+                        <option value="">Time</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        </select>
+                        <div class="control-group controlerror">
+                            <?php echo $form->error($TestPaperForm, 'CategoryTime_'.$widgetCount); ?>
+                        </div>
+                    </div>
+                    <div class="span2 positionrelative">
+                        <select  name="TestPaperForm[NoofPoints]" class="" id="No_of_Points_<?php echo $widgetCount;?>" class="span8">
+                        <option value="">Score</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        </select>
+                        <div class="control-group controlerror">
+                            <?php echo $form->error($TestPaperForm, 'NoofPoints_'.$widgetCount); ?>
+                        </div>
+                        
+                    </div>
+                    <div class="span2 reviewquestion">
+                        <input type="hidden" value="0" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
+                        <input  type="checkbox" class="styled" data-qid="<?php echo $widgetCount; ?>" />
                     </div>
                 </div>
             </div>
