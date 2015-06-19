@@ -208,3 +208,173 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', end
     position: relative;
 }
 
+/* extended survey styles*/
+.surveyquestionsbox{border:0px solid #e8e8e8;border-radius:10px; }
+.surveyquestionsbox .surveyareaheader{background:#e8e8e8;padding:15px 30px;border-radius:10px 10px 0 0;position:relative}
+.surveyquestionsbox .surveyanswerarea{border:1px solid #e8e8e8;border-radius:0 0 10px 10px }
+.surveyquestionsbox .surveyanswerarea .paddingtblr1030{padding:10px 30px}
+.answerstabs{position:relative;z-index:0}
+.answerstabs:after{border-bottom:3px solid #dbdbdb;content:"";position:absolute;bottom:0;left:0;right:0;z-index:-1}
+.answerstabs ul:after{content:"";clear:both;display:block}
+.answerstabs ul{padding:0;margin:0;list-style:none;display:table;margin:auto}
+.answerstabs ul li{float:left;margin-right:10px;}
+.answerstabs ul li a{border:3px solid transparent;border-bottom:0;border-radius:5px 5px 0 0;}
+.answerstabs ul li.active a{border:3px solid #dbdbdb;border-bottom:0;border-radius:5px 5px 0 0;background:#fff}
+.answerstabs ul li:last-child{margin-right:0}
+.answerstabs ul li a{text-decoration:none;display:block;cursor:pointer}
+.answerstabs ul li a img, .surveyaddbutton{background-image:url(../images/system/extendedsurvey_icons.png);background-repeat:no-repeat;background-position:30px 30px; width:40px;height:38px}
+
+.answerstabs ul li a.surveyradio img{background-position:-108px 10px;}
+.answerstabs ul li a.surveycheckbox img{background-position:-109px -27px;}
+.answerstabs ul li a.surveyratingranking img{background-position:-109px -100px;}
+.answerstabs ul li a.surveypercent img{background-position:-111px -157px;}
+.answerstabs ul li a.surveyQandA img{background-position:-112px -222px;}
+.answerstabs ul li a.surveyuserranking img{background-position:-111px -288px;}
+
+.answerstabs ul li a.surveybooleanfollowup img{background-position:-108px -544px;}
+
+.answerstabs ul li.active a.surveyradio img{background-position:9px 10px;}
+.answerstabs ul li.active a.surveycheckbox img{background-position:8px -27px;}
+.answerstabs ul li.active a.surveyratingranking img{background-position:8px -100px;}
+.answerstabs ul li.active a.surveypercent img{background-position:6px -157px;}
+.answerstabs ul li.active a.surveyQandA img{background-position:5px -222px;}
+.answerstabs ul li.active a.surveyuserranking img{background-position:6px -288px;}
+
+.answerstabs ul li.active a.surveybooleanfollowup img{background-position:4px -544px;}
+
+.surveyanswerarea .addbuttonarea{padding:5px 0}
+.surveyanswerarea .addbuttonarea .surveyaddbutton{width:25px;height:25px;background-position:0 -369px;cursor:pointer}
+.headeraddbuttonarea{padding:3px 0}
+.headeraddbuttonarea .surveyaddbutton{width:25px;height:25px;background-position:0 -369px;cursor:pointer}
+
+.normalsection{padding:0 30px  ;position:relative }
+.normalsection6{padding:0  0 0 30px  ;position:relative }
+.normalsection5, .normalsection4{padding:0;}
+.normaloutersection {padding-bottom:15px}
+.surveyradiobutton, .surveyremoveicon, .surveynumbers, .surveyradiofollowup{position:absolute}
+.surveyradiobutton{left :0;top:2px;}
+.surveynumbers{left :0px;top:3px;text-align:right;width:25px}
+.surveyremoveicon, .surveyradiofollowup{right:4px;top:2px}
+.surveyremoveicon img{width:20px; height:20px;background:url(../images/system/extendedsurvey_icons.png) no-repeat 2px -497px;cursor:pointer}
+.tdsurveyremoveicon img{width:20px; height:20px;background:url(../images/system/extendedsurvey_icons.png) no-repeat 2px -497px;cursor:pointer}
+.subsectionremove{position:absolute;right:-10px;top:-10px}
+.subsectionremove img{width:25px; height:25px;background:url(../images/system/extendedsurvey_icons.png) no-repeat 2px -427px;cursor:pointer}
+.othersarea{position:relative;height:30px;}
+.othersarea i{padding-top:4px;font-style:normal;color:#a3a3a3;display:inline-block}
+.surveybuttonarea{border-top:1px solid #dadada;padding:10px 0;margin-top:10px}
+.padding152010{padding:15px 20px 15px 10px}
+.market_profile{padding-left:250px;position:relative;min-height:230px}
+.m_profileicon{position:absolute;left:10px;top:0;}
+/*.survey_profiletitleedit {border: 1px dashed #ccc;}*/
+.surveyquestionsbox{margin-bottom:15px}
+.dropdownsectionarea{background:#f7f7f7;padding:10px 30px;margin:15px 0}
+.dropdownsectionarea:after{content:"";clear:both;display:block;}
+.dropdownsmall select.styled{width:80px;margin-bottom:0}
+.dropdownmedium select.styled{width:120px;margin-bottom:0}
+.customsurvaytable{width:100%}
+.customsurvaytable tr th.col1{width:150px}
+.customsurvaytable tr th.col2{width:60px; vertical-align: top;}
+.MR_view_table{max-width:100%; overflow: auto; padding-bottom: 30px;}
+.customsurvaytable tr th,.customsurvaytable tr td{padding:4px 2px}
+.customsurvaytable tr th{border-bottom:1px solid #dbdbdb}
+.customsurvaytable tr td{border-bottom:1px dashed #dbdbdb}
+.labelalignment label{padding-top:4px;padding-right:5px;color:#666}
+.labelalignmentleft label{padding-right:0;padding-left:5px;color:#666;padding-top:5px}
+.labelpercent .percentlbl{position:absolute;right:0;top:4px}
+input.textfieldtable[type="text"]{width:100%;}
+.displaytable{display:table;margin:auto}
+.surveydeleteaction{padding-right:14px}
+.tddeleteaction{width:25px;border-left:1px dashed #dbdbdb}
+/* end*/
+.editicondivProfileImagelarge .qq-uploader .qq-upload-button{width:180px;height:180px;padding-left:0;background:none}
+.editicondivProfileImagelarge .qq-uploader .qq-upload-button input[type="file"]{height:198px}
+/*surveydashboard*/
+.media-status_survey:after, .media-status_survey ul:after{content:"";display:block;clear:both}
+.media-status_survey ul{margin:0;padding:0;list-style:none}
+.media-status_survey ul li{width:50%;float:left;}
+.media-status_survey ul li:after{margin-right:0px;}
+.media-status_survey ul li .statusminibox{background-color: #efefef;min-height:60px;margin-right:10px}
+.media-status_survey ul li:last-child .statusminibox{margin-right:0}
+.media-status_survey ul li .statusminibox .statustitle{font-size:18px;font-family:"exo_2.0medium";text-align: center;padding-top:20px}
+.media-status_survey ul li .statusminibox .statuscount{font-size:25px;font-family:"exo_2.0bold";text-align: center;padding-top:25px}
+.extsurveyprofileicon img{max-width: 100%;max-height: 100%; margin: auto;position: absolute;top: 0; left: 0; bottom: 0; right: 0;}
+.extsurveyprofileicon{border-radius:100px;width:90px;height:90px;border:3px solid #d9d9d9;overflow:hidden}
+ .extsurveyprofileicon{ position: relative}
+ .ext_surveybox .mediaartifacts{text-align:left}
+ .media-status_survey ul li .statusminibox{background-image:url(../images/system/NoofPlayers_icons.png);background-repeat:no-repeat;background-position:0 100px;}
+ .media-status_survey ul li .extquestionscount{background-image:url(../images/system/NoofPlayers_icons.png);background-repeat:no-repeat;background-position:10px 16px}
+  .media-status_survey ul li .extuserscount{background-image:url(../images/system/NoofPlayers_icons.png);background-repeat:no-repeat;background-position:10px -148px}
+   .media-status_survey ul li .statusminibox span{font-size:25px;font-family:"exo_2.0bold";text-align: center;padding-top:22px;padding-right:10px;display:block;text-align:right}
+.surveymenuicons{}
+.surveymenuicons ul{margin:0;padding:0;list-style:none}
+.surveymenuicons ul li{float:left;margin-right:5px}
+.surveymenuicons ul li:last-child{margin:0}
+.surveymenuicons ul li a.schedule_icon img{background:url("../images/system/game_footer_action_icons.png") no-repeat 2px -91px;width:25px;height:25px;vertical-align: middle}
+.surveymenuicons ul li a.suspend_icon img{background:url("../images/system/game_footer_action_icons.png") no-repeat 0px -171px;width:25px;height:25px;vertical-align: middle}
+.surveymenuicons ul li a.edit_icon img{background:url("../images/system/game_footer_action_icons.png") no-repeat 2px -134px;width:25px;height:25px;vertical-align: middle}
+
+.extsurveyactions:after {clear: both;content: " ";display: block;}
+.extsurveyactions {clear: both; margin-top: 5px;padding: 5px 3px 5px 5px;border-top: 1px solid #ccc;}
+
+
+/*end*/
+/*surveyanswer new*/
+.paddingtblr30{padding:20px 20px 20px}
+.paddingleft5{padding-left:5px}
+.surveyquestionsbox .surveyanswerviewarea{border-radius:10px}
+.questionview{font-family: "exo_2.0bold";font-size: 17px;padding: 4px 0 4px 30px;position:relative}
+.questionview_numbers{position:absolute;left:-3px;width:25px;text-align:right;top:5px;}
+.answerview{min-height:20px;font-size:15px;padding-top:5px}
+.answerview{word-wrap:break-word}
+.answersection{padding-left:25px}
+.answersection .normalsection {padding-right:0;margin-top:10px}
+.customsurvaytableview tr td:first-child{font-size:15px;}
+.customsurvaytableview tr th{color:#666}
+.pricetype{padding-right:20px;}
+.pricetype .percentdiv{position:absolute;right:0px;top:4px;font-family: "exo_2.0medium";font-size: 17px;}
+.top3{top:4px;left:-5px;width:30px;text-align:right}
+.top8{top:8px}
+.paddingleftzero{padding-left:0}
+.ext_surveyTitle{font-family: "exo_2.0bold";font-size: 17px;}
+.ext_groupTitle{font-family: "exo_2.0bold";font-size: 15px;color:#666}
+.extcontent{color:#666}
+/*surveydashboard*/
+.media-status_survey:after, .media-status_survey ul:after{content:"";display:block;clear:both}
+.media-status_survey ul{margin:0;padding:0;list-style:none}
+.media-status_survey ul li{width:50%;float:left;}
+.media-status_survey ul li:after{margin-right:0px;}
+.media-status_survey ul li .statusminibox{background-color: #efefef;min-height:60px;margin-right:10px}
+.media-status_survey ul li:last-child .statusminibox{margin-right:0}
+.media-status_survey ul li .statusminibox .statustitle{font-size:18px;font-family:"exo_2.0medium";text-align: center;padding-top:20px}
+.media-status_survey ul li .statusminibox .statuscount{font-size:25px;font-family:"exo_2.0bold";text-align: center;padding-top:25px}
+.extsurveyprofileicon img{max-width: 100%;max-height: 100%; margin: auto;position: absolute;top: 0; left: 0; bottom: 0; right: 0;}
+.extsurveyprofileicon{border-radius:100px;width:90px;height:90px;border:3px solid #d9d9d9;overflow:hidden}
+ .extsurveyprofileicon{ position: relative}
+ .ext_surveybox .mediaartifacts{text-align:left}
+ .media-status_survey ul li .statusminibox{background-image:url(../images/system/NoofPlayers_icons.png);background-repeat:no-repeat;background-position:0 100px;}
+ .media-status_survey ul li .extquestionscount{background-image:url(../images/system/NoofPlayers_icons.png);background-repeat:no-repeat;background-position:10px 16px}
+  .media-status_survey ul li .extuserscount{background-image:url(../images/system/NoofPlayers_icons.png);background-repeat:no-repeat;background-position:10px -148px}
+   .media-status_survey ul li .statusminibox span{font-size:25px;font-family:"exo_2.0bold";text-align: center;padding-top:22px;padding-right:10px;display:block;text-align:right}
+.surveymenuicons{}
+.surveymenuicons ul{margin:0;padding:0;list-style:none}
+.surveymenuicons ul li{float:left;margin-right:5px}
+.surveymenuicons ul li:last-child{margin:0}
+.surveymenuicons ul li a.schedule_icon img{background:url("../images/system/game_footer_action_icons.png") no-repeat 2px -92px;width:25px;height:25px;vertical-align: middle}
+.surveymenuicons ul li a.suspend_icon img{background:url("../images/system/game_footer_action_icons.png") no-repeat 4px -172px;width:28px;height:25px;vertical-align: middle}
+.surveymenuicons ul li a.edit_icon img{background:url("../images/system/game_footer_action_icons.png") no-repeat 2px -134px;width:25px;height:25px;vertical-align: middle}
+.surveymenuicons ul li a.view_icon img{background:url("../images/system/game_footer_action_icons.png") no-repeat 2px -208px;width:25px;height:25px;vertical-align: middle}
+
+.extsurveyactions:after {clear: both;content: " ";display: block;}
+.extsurveyactions {clear: both; margin-top: 5px;padding: 5px 3px 5px 5px;border-top: 1px solid #ccc;}
+.disabledelement{position: absolute;left:0;right:0;top:0;bottom:0}
+.headermarginzero{margin-top:-9px;position:relative;}
+.lineheightsurvey{line-height:30px}
+.liststylenone{list-style:none;}
+.surveyquestionsbox .surveyareaheader_analytics{padding-right:80px;padding-left:40px}
+.s_analytics_question, .s_analytics_numbers{font-weight:bold;font-size:14px}
+.s_analytics_numbers, .s_analyticsexport{position:absolute;}
+.s_analyticsexport{right:10px;top:-16px}
+.s_analyticsexport_global{right: 41px;top: -8px;}
+.s_analytics_numbers{width:34px;left:0;top:14px;text-align:right}
+.s_scheduleDateGameWall{display:inline-block;line-height:22px}
+/*end*/
