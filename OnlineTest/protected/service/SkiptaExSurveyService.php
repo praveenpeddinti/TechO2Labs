@@ -675,6 +675,17 @@ class SkiptaExSurveyService {
             return $returnValue;
         }
     }
+    /*
+     * @praveen get Total questions for category start
+    */
+    public function getTotalQuestionsForCategory($value){error_log("----serveice----".$value);
+        try{
+            return ExtendedSurveyCollection::model()->getTotalQuestions($value);
+             
+        } catch (Exception $ex) {
+            Yii::log("SkiptaExSurveyService:isAlreadyDoneByUser::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    }
     
 
 }
