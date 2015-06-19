@@ -14,6 +14,7 @@ class ExtendedSurveyController extends Controller {
 
     public function init() {
         try{
+            $this->layout = "adminLayout";
         if (isset(Yii::app()->session['TinyUserCollectionObj']) && !empty(Yii::app()->session['TinyUserCollectionObj'])) {
             parent::init();
             $this->tinyObject = Yii::app()->session['TinyUserCollectionObj'];
@@ -297,6 +298,7 @@ class ExtendedSurveyController extends Controller {
             $ExtendedSurveyForm = new ExtendedSurveyForm();
             $UserId = $this->tinyObject->UserId;
             if (isset($_POST['ExtendedSurveyForm'])) {
+                             
                 $ExtendedSurveyForm->attributes = $_POST['ExtendedSurveyForm'];
                 $ExtendedSurveyForm->SurveyTitle = $_GET['surveyTitle'];
                 $ExtendedSurveyForm->SurveyDescription = $_GET['SurveyDescription'];
@@ -309,17 +311,19 @@ class ExtendedSurveyController extends Controller {
 
                 $errors = array();
                 $ExtendedSurveyForm->CreatedBy = $this->tinyObject->UserId;
+                error_log("====1111111111111");
                 $searcharray = array();
                 $f = json_decode($ExtendedSurveyForm->Questions);
                 $questionArray = array();
                 for ($i = 0; $i < sizeof($f); $i++) {
                     $searcharray = array();
                     parse_str($f[$i], $searcharray);
+                    //error_log("*****message****".print_r($searcharray,true)); exit;
                     $ExSurveyBean = new ExSurveyBean();
                     foreach ($searcharray["ExtendedSurveyForm"] as $key => $value) {
                         if (is_array($value) && sizeof($value)) {
 
-                            if ($ExtendedSurveyForm->SurveyId != "") {
+                           if ($ExtendedSurveyForm->SurveyId != "") {
                                 if ($key == "QuestionId") {
                                     foreach ($value as $m) {
                                         if(!empty($m))
@@ -351,8 +355,97 @@ class ExtendedSurveyController extends Controller {
                                     $ExSurveyBean->QuestionType = (int) 2; //checkbox...
                                 }
                             }
-
-                            if ($key == "MatrixType") {
+                             if ($key == "AnswerSelected") {
+                                 $k = 0;
+                                foreach ($value as $m) {
+                                    error_log("************AnswerSelected555*****");
+                                    $ExSurveyBean->Answers =  explode(",",$m);
+                                    
+                                }
+                            }
+                            if ($key == "AnswerSelectedEdit") {
+                                 $k = 0;
+                                foreach ($value as $m) {
+                                    error_log("************AnswerSelected*****");
+                                    $ExSurveyBean->Answers =  explode(",",$m);
+                                    
+                                }
+                            }
+                              if ($key == "PercentageAnswer") {
+                                 $l = 0;
+                                foreach ($value as $n) {
+                                    $ExSurveyBean->Answers[$l++] =  $n;
+                                    
+                                }
+                            }
+                            if($key == "QuestionImage"){
+                                $l = 0;
+                                foreach ($value as $n) {
+                                   
+                                    $ExSurveyBean->QuestionArtifact[$l] =  ServiceFactory::getSkiptaExSurveyServiceInstance()->saveVideoArtifacts($n,'/upload/ExSurvey/');
+                                    
+                                }
+                            }
+                            
+                            /* if ($key == "QuestionAnswerSelected") {
+                                 $k = 0;
+                                foreach ($value as $m) {
+                                    $ExSurveyBean->Answers[0] =  $m;
+                                    
+                                }
+                            }*/
+                            
+                            /*if($key == 'NoofChars'){
+                                $k = 0;
+                                foreach($value as $m){
+                                    error_log("************NoofChars**********$m");
+                                    if($m==100){
+                                      $ExSurveyBean->Answers[0]=$ExtendedSurveyForm->QuestionAnswerTextSelected; 
+                                    }else if($m==500){
+                                        error_log("************1111NoofChars**********$m****$ExtendedSurveyForm->QuestionAnswerSelected");
+                                      $ExSurveyBean->Answers[0] = $ExtendedSurveyForm->QuestionAnswerSelected;  
+                                    }else if($m==1000){
+                                        error_log("************22222NoofChars**********$m");
+                                      $ExSurveyBean->Answers[0] = $ExtendedSurveyForm->QuestionAnswerSelected;    
+                                    }
+                                }
+                            }
+                            if ($key == "QuestionAnswerTextSelected") {
+                                 $k = 0;
+                                foreach ($value as $m) {
+                                    error_log("********QuestionAnswerTextSelected****$m");
+                                    $ExSurveyBean->Answers[0] =  $m;
+                                    
+                                }
+                            }*/
+                            
+                             if ($key == "UserAnswerSelected") {
+                                 $k = 0;
+                                foreach ($value as $m) {
+                                    
+                                    error_log("*******************UserAnswerSelected**$m");
+                                      $ExSurveyBean->Answers[] =  $m;
+                                     }
+                            }
+                            if ($key == "MatrixAnswer") {
+                                
+                                 $k = 0;
+                                 
+                                foreach ($value as $m) {
+                                    
+                                    error_log("*******************MatrixAnswer**$m");
+                                      $ExSurveyBean->Answers[$k++] =  $m;
+                                     }
+                                     error_log("*******************MatrixAnswer**===".print_r($ExSurveyBean->Answers,1));
+                            }
+                            if ($key == "IsSuspend") {
+                                 $k = 0;
+                                foreach ($value as $m) {
+                                                                      
+                                      $ExSurveyBean->IsSuspended = (int) $m;
+                                     }
+                            }
+                             if ($key == "MatrixType") {
                                 $k = 0;
                                 foreach ($value as $m) {
                                     if ($m == 1)
@@ -506,9 +599,46 @@ class ExtendedSurveyController extends Controller {
                             if ($ExSurveyBean->TotalValue == 0 && $ExSurveyBean->NoofOptions != 0 && $ExSurveyBean->QuestionType == 0) {
                                 $ExSurveyBean->QuestionType = (int) 7; //User generated ratings...
                             }
+                            if($ExSurveyBean->NoofChars == 100){
+                                if($key == 'QuestionAnswerTextSelected'){
+                                    foreach($value as $m){
+                                        $ExSurveyBean->Answers[0]=$m;
+                                    }
+                                }
+                            }else if($ExSurveyBean->NoofChars != 0){
+                                if($key == 'QuestionAnswerSelected'){
+                                    foreach($value as $m){
+                                        $ExSurveyBean->Answers[0]=$m;
+                                    }
+                                }
+                            }
+//                            if($key == 'QuestionAnswerTextSelected'){
+//                                
+//                                error_log("******22222222222222***Noof QuestionAnswerTextSelected*****$ExSurveyBean->NoofChars");
+//                            }
+//                            if($key == "QuestionAnswerSelected"){
+//                                 error_log("*****33333333333333****Noof QuestionAnswerSelected*****$ExSurveyBean->NoofChars");
+//                            }
 
                             $ExSurveyBean->QuestionPosition = (int) ($i + 1);
                         }
+                        //error_log("*********Noof chars$$$$*****$ExSurveyBean->NoofChars");
+                        
+//                        if($ExSurveyBean->NoofChars==100){
+//                            if($key = 'QuestionAnswerTextSelected'){
+//                                error_log("*****100$$$$$$");
+//                                foreach($value as $m){
+//                                    $ExSurveyBean->Answers[0]=$m;
+//                                }
+//                            }
+//                        }else if($ExSurveyBean->NoofChars==500 || $ExSurveyBean->NoofChars == 1000){
+//                            if($key = 'QuestionAnswerSelected'){
+//                                error_log("*****500$$$$$$");
+//                                foreach($value as $m){
+//                                    $ExSurveyBean->Answers[0]=$m;
+//                                }
+//                            }
+//                        }
                     }
                     array_push($questionArray, $ExSurveyBean);
                 }
@@ -517,13 +647,14 @@ class ExtendedSurveyController extends Controller {
                // $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserProfileByUserId($UserId);
 //                $marketResearchFollowUp->FirstName = $userObj->FirstName;
                 $NetworkId=Yii::app()->params['NetWorkId'];
+                error_log("====22222222222222");
                 $surveyR = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurvey($ExtendedSurveyForm, $NetworkId, $UserId);
                 $obj = array("status" => "success");
                 //}
 
                 $renderScript = $this->rendering($obj);
                 echo $renderScript;
-            }
+            } 
         } catch (Exception $ex) {
             error_log("Exception Occurred in ExtendedSurveyController->actionSaveSurveyQuestion==". $ex->getMessage());
             Yii::log("ExtendedSurveyController:actionSaveSurveyQuestion::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -534,11 +665,14 @@ class ExtendedSurveyController extends Controller {
         try{
         $ExtendedSurveyForm = new ExtendedSurveyForm();
         $UserId = $this->tinyObject->UserId;
-        if (isset($_POST['ExtendedSurveyForm'])) {
+         
+        if (isset($_POST['ExtendedSurveyForm'])) {         
+            
             $ExtendedSurveyForm->attributes = $_POST['ExtendedSurveyForm'];
             $ExtendedSurveyForm->SurveyTitle = $_GET['surveyTitle'];
             $ExtendedSurveyForm->SurveyDescription = $_GET['SurveyDescription'];
-            $ExtendedSurveyForm->QuestionsCount = questionsCount;
+            
+            $ExtendedSurveyForm->QuestionsCount = $_GET['questionsCount'];;
             $ExtendedSurveyForm->SurveyRelatedGroupName = $_GET['SurveyGroupName'];
             $ExtendedSurveyForm->SurveyOtherValue = $_GET['SurveyOtherValue'];
             $ExtendedSurveyForm->SurveyLogo = $_GET['SurveyLogo'];
@@ -546,27 +680,29 @@ class ExtendedSurveyController extends Controller {
             $ExtendedSurveyForm->BrandName = $_GET['BrandName'];
             $ExtendedSurveyForm->BrandLogo = $_GET['BrandLogo'];
 //                $ExtendedSurveyForm->NoofRatings = $_GET['noofratings'];
+            error_log("========3333333333333333333333333333333333===");
             if ($ExtendedSurveyForm->SurveyLogo == "") {
                 $common['ExtendedSurveyForm_SurveyLogo'] = "Please upload a logo";
             } else if ($ExtendedSurveyForm->SurveyRelatedGroupName == "other" && $ExtendedSurveyForm->SurveyOtherValue == "") {
                 $common['ExtendedSurveyForm_SurveyOtherValue'] = "Other value cannot be blank";
             }
-
-//                else if($ExtendedSurveyForm->SurveyRelatedGroupName == ""){                    
-//                    $common['ExtendedSurveyForm_SurveyRelatedGroupName'] = "Please choose Survey related group";
-//                }
             else {
                 $common['ExtendedSurveyForm_SurveyOtherValue'] = "";
 //                    $common['ExtendedSurveyForm_SurveyRelatedGroupName'] =  "";
                 $common['ExtendedSurveyForm_SurveyLogo'] = "";
             }
-
+            error_log("========11111111111111111===");
             $errors = CActiveForm::validate($ExtendedSurveyForm);
             if ($errors != '[]' || !empty($common['ExtendedSurveyForm_SurveyOtherValue']) || !empty($common['ExtendedSurveyForm_SurveyLogo'])) {
                 $obj = array('status' => 'error', 'data' => '', 'error' => $errors, 'oerror' => $common);
             } else {
-                $obj = array('status' => 'success', 'data' => '', 'error' => "");
-            }
+                $surveyGroupExist = ExSurveyResearchGroup::model()->getLinkGroup($_GET['surveyTitle']);
+                if($surveyGroupExist > 0 && $isEditable = FALSE){
+                    $common1['ExtendedSurveyForm_SurveyTitle'] = "Category Already Exist Please try with Other";
+                $obj = array('status' => 'error', 'data' => '', 'error' => $errors, 'oerror' => $common1);
+            }else{
+               $obj = array('status' => 'success', 'data' => '', 'error' => "");
+            }}
             $renderScript = $this->rendering($obj);
             echo $renderScript;
         }
@@ -585,10 +721,11 @@ class ExtendedSurveyController extends Controller {
             //  $folder=Yii::getPathOfAlias('webroot').'/temp/';// folder for uploaded files
             $folder = Yii::app()->params['ArtifactSavePath'];
             $webroot = Yii::app()->params['WebrootPath'] . '/upload/Group/Profile/';
+            $questionid = $_REQUEST['qId'];
             if (!file_exists($folder)) {
                 mkdir($folder, 0755, true);
             }
-            $allowedExtensions = array("jpg", "jpeg", "gif", "png", "tiff","TIF","tif"); //array("jpg","jpeg","gif","exe","mov" and etc...
+            $allowedExtensions = array("jpg", "jpeg", "gif", "png", "tiff","TIF","tif","mp3","mp4","MP3","MP4"); //array("jpg","jpeg","gif","exe","mov" and etc...
             //  $sizeLimit = 30 * 1024 * 1024; // maximum file size in bytes
             $sizeLimit = Yii::app()->params['UploadMaxFilSize'];
 //            system("convert /root/errormessages.tiff ".Yii::app()->params['WebrootPath']."/output_err.png");
@@ -606,8 +743,12 @@ class ExtendedSurveyController extends Controller {
                 $result['filename'] = $result['mfilename'];
                 $result['savedfilename'] = $result['tsavedfilename'];                
             }
+            if($extension == "mp3" || $extension == "mp4"){
+                $result["extension"] = $extension;
+            }
              $result["filepath"]= $tempPath.$fileName;
              $result["fileremovedpath"]= $folder.$fileName;
+             $result['qid'] = $questionid;
             } else {
                 $result['success'] = false;
             }
@@ -1691,6 +1832,7 @@ class ExtendedSurveyController extends Controller {
             $totalOptions = $_REQUEST['totalOptions'];
             $optionType = $type;
             $booleanTypeS = $_REQUEST['booleanTypeS'];
+            error_log("**************88AddMoreOptions$optionType*****");
             $this->renderPartial('renderingOptions', array("widgetCount" => $qNo,"optionType"=>$optionType,"noofoptions"=>$nop,"totalOptions"=>$totalOptions,"type"=>$booleanTypeS));
         } catch (Exception $ex) {
              error_log("Exception Occurred in ExtendedSurveyController->actionAddMoreOptions==". $ex->getMessage());
