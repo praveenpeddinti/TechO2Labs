@@ -6,7 +6,9 @@ class SkiptaExSurveyService {
         try{
             $return = "failed";
             $FormModel->SurveyLogo = $this->savePublicationArtifacts($FormModel->SurveyLogo,'/upload/ExSurvey/');
+//            $FormModel->QuestionImage = $this->savePublicationArtifacts($FormModel->QuestionImage,'/upload/ExSurvey/');
             if($FormModel->IsBranded == 1)
+                error_log("********************brandlogo");
                 $FormModel->BrandLogo = $this->savePublicationArtifacts($FormModel->BrandLogo,'/upload/ExSurvey/Branded/');
             if(!empty($FormModel->SurveyId)){
                 $return = $this->updateSurveyObject($FormModel);
@@ -80,7 +82,7 @@ class SkiptaExSurveyService {
                             // unlink($sourcepath);
                             $returnValue = "success";
                         //}
-                    } else {
+                    } else {                        
                         $UploadedImage = $path .$Artifacts;
                     }
                 } else {
@@ -92,6 +94,95 @@ class SkiptaExSurveyService {
                 }
             }
                  return $UploadedImage;
+        } catch (Exception $ex) {
+            Yii::log("SkiptaExSurveyService:savePublicationArtifacts::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        } 
+
+   }
+   
+   function saveVideoArtifacts($Artifacts,$folderPath) {
+
+     try {
+          
+         $returnValue = 'failure';
+            $Resource = array();
+            $folder = Yii::app()->params['WebrootPath'];
+            $returnarry = array();
+            if ($Artifacts != "") {
+                $ExistArtifact = $folder . $Artifacts;
+                if (!file_exists($ExistArtifact)) {
+                    $imgArr = explode(".", $Artifacts);
+                    $date = strtotime("now");
+                    $finalImg_name = $imgArr[0] . '.' . end($imgArr);
+                    $finalImage = trim($imgArr[0]) . '.' . end($imgArr);
+
+                    $fileNameTosave = $folder . '/temp/' . $imgArr[0] . '.' . end($imgArr);
+                    $sourceArtifact = $folder . '/temp/' . $Artifacts;
+                    if(file_exists($fileNameTosave))
+                     rename($sourceArtifact, $fileNameTosave);
+                    //  $filename=$result['filename'];
+                    $extension = substr(strrchr($Artifacts, '.'), 1);
+                    $extension = strtolower($extension);
+
+                   // $path = 'Profile';
+                    $path = $folderPath . $path;                    
+                    if (!file_exists($folder . '/' . $path)) {
+                        mkdir($folder . '/' . $path, 0755, true);
+                    }
+                    $sourcepath = $fileNameTosave;
+                    $destination = $folder . $path . '/' . $finalImage;
+                    if (file_exists($sourcepath) && $extension != "mp3" && $extension != "mp4") {
+                                list($width, $height) = getimagesize($sourcepath);
+                              
+                                if ($width >= 250) {
+                                    $img = Yii::app()->simpleImage->load($sourcepath);
+                                    $img->resizeToWidth(250);
+                                    $img->save($destination);
+                                   
+                                } else {
+                                   $destination = $folder . $path . '/' . $finalImage;
+                                    copy($sourcepath, $destination);
+                                }
+                       
+                       
+                       // if (copy($sourcepath, $destination)) {
+                            $newfile = trim($imgArr[0]) . '_' . $date . '.' . end($imgArr);
+                            //  $newfile=trim($imgArr[0]) .'.' . $imgArr[1];
+                            $finalSaveImage = $folder . $path . '/' . $newfile;
+                            rename($destination, $finalSaveImage);
+                            $UploadedImage = $path . $newfile;
+                            $Resource['ResourceName'] = $artifact;
+                            $Resource['Uri'] = $UploadedImage;
+                            $Resource['Extension'] = $extension;
+                            $Resource['ThumbNailImage'] = $UploadedImage;
+
+                            // unlink($sourcepath);
+                            $returnValue = "success";
+                        //}
+                    } else {                        
+                        $destination = $folder . $path . '/' . $finalImage;                       
+                        copy($sourcepath, $destination);                        
+                        $newfile = trim($imgArr[0]) . '_' . $date . '.' . end($imgArr);
+                        $finalSaveImage = $folder . $path . '/' . $newfile;
+                        rename($destination, $finalSaveImage);
+                        $UploadedImage = $path . $newfile;
+                        $Resource['ResourceName'] = $artifact;
+                        $Resource['Uri'] = $UploadedImage;
+                        $Resource['Extension'] = $extension;
+                        $Resource['ThumbNailImage'] = $UploadedImage;
+                        $UploadedImage = $path .$Artifacts;
+                    }
+                } else {
+                    $extension = substr(strrchr($Artifacts, '.'), 1);
+                    $extension = strtolower($extension);
+                    $UploadedImage = $Artifacts;
+                    $Resource['ResourceName'] = $UploadedImage;
+                    $Resource['Uri'] = $UploadedImage;
+                    $Resource['Extension'] = $extension;
+                    $Resource['ThumbNailImage'] = $UploadedImage;
+                }
+            }
+                 return $Resource;
         } catch (Exception $ex) {
             Yii::log("SkiptaExSurveyService:savePublicationArtifacts::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         } 
