@@ -37,11 +37,32 @@
         </td>
         <?php if($optionsType == 1 || $optionsType == 3){  for ($j = 0; $j < $radioOpCnt; $j++) { ?>
             
-            <td><div class="positionrelative displaytable ">
-                    <input type="radio" class="styled ranking_radio" id="radio_<?php echo $i . "_" . $widgetCount; ?>" name="radio_<?php echo $i . "_" . $widgetCount; ?>" disabled="true"/>
+            <td><div class="positionrelative displaytable onlinetestradio radioTable_<?php echo $j."_".$widgetCount; ?>" data-info="<?php echo $i; ?>">
+                    <input type="radio" value="<?php echo $j+1; ?>" data-qid="<?php echo $widgetCount; ?>"  class="styled ranking_radio radiotype_<?php echo $widgetCount; ?>" id="radio_<?php echo $i . "_" . $widgetCount; ?>" name="radio_<?php echo $i . "_" . $widgetCount; ?>" />
                     
                 </div>
             </td> 
+            <script type="text/javascript">
+                                    var prev = 0;
+                                    var value = "";                                 
+                                    
+                                    
+                                        $("div.radioTable_<?php echo $j."_".$widgetCount; ?> span.radio").live("click",function(){
+                                            <?php //$ik++; ?>
+                                        
+                                        $("div.radioTable_<?php echo $j."_".$widgetCount; ?> span.radio").each(function(key){                                         
+                                            $(this).attr("style","background-position:0 0");                                            
+                                            $(this).siblings('.radiotype_<?php echo $widgetCount; ?>').attr('checked',false);
+                                        });                                        
+                                         $(this).attr("style","background-position:0 -50px");
+                                         $(this).siblings('.radiotype_<?php echo $widgetCount; ?>').attr('checked',true);
+
+                                    });
+                                    
+                                   
+                                    
+                                     
+                                </script>
         <?php } ?>
             <?php if($optionsType == 3){ ?>
     <input type="hidden"  maxlength="50" class="rr_justification_hidden rr_justification_hidden_<?php echo $widgetCount; ?> " name="ExtendedSurveyForm[JustificationPlaceholders][<?php echo $i . "_" . $widgetCount; ?>]" id="ExtendedSurveyForm_JustificationPlaceholders_<?php echo $i . "_" . $widgetCount; ?>" />

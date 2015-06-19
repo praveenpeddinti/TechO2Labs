@@ -4,8 +4,8 @@
     
 <div class="row-fluid mandatory positionabsolutediv positionabsolutediv m_positionabsolutediv"  id="mandatory_<?php echo $widgetCount; ?>" style="width:180px; right:0px;" >                            
     <div class="pull-right madatoryclass" data-questionno="<?php echo $widgetCount; ?>">
-        <span style="vertical-align: middle; line-height: 23px;"><?php echo Yii::t("translation","Is_it_mandatory"); ?></span>
-        <input type="checkbox" value="1" class="styled mandatorycheckbox" data-on-label="Off" data-off-label="On" name="ExtendedSurveyForm[IsMadatory][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_IsMadatory_<?php echo $widgetCount; ?>" checked="true"/>
+        <span style="vertical-align: middle; line-height: 23px;"><?php //echo Yii::t("translation","Is_it_mandatory"); ?></span>
+        <!--<input type="checkbox" value="1" class="styled mandatorycheckbox" data-on-label="Off" data-off-label="On" name="ExtendedSurveyForm[IsMadatory][<?php //echo $widgetCount; ?>]" id="ExtendedSurveyForm_IsMadatory_<?php //echo $widgetCount; ?>"/>-->
 
     </div>
 </div>

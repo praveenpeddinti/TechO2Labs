@@ -1,8 +1,10 @@
 <input type="hidden" name="ExtendedSurveyForm[NoofChars][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_NoofChars_hid_<?php echo $widgetCount; ?>"/>
+<input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>" />
+
 <div class="paddingtblr1030">
     
     <?php include 'WidgetOptions.php'; ?>
-    
+    <?php include 'newfileuploadscript.php';?>
     <div class="tab_5">
         <div class="dropdownsectionarea dropdownsmall">
             <div class="pull-left labelalignment"><label>No.of Characters:</label></div>
@@ -23,9 +25,14 @@
                 <div class="normalsection normalsection5">
 
                     <div class="row-fluid" style="display:none" id="rowfluidChars_<?php echo $widgetCount; ?>">
-                        <div class="span12">   
-                            <input value="" type="text" class="textfield span12 notallowed" id="qAaTextField_<?php echo $widgetCount; ?>" disabled="true"/>
-                            <textarea class="span12" id="qAaTextarea_<?php echo $widgetCount; ?>" disabled="true"></textarea>     
+                        <div class="span12"> 
+                            <div class="control-group controlerror">
+                            <input value="" type="text" class="textfield span12 notallowed" id="qAaTextField_<?php echo $widgetCount; ?>" name="ExtendedSurveyForm[QuestionAnswerTextSelected][<?php echo $widgetCount; ?>]" onkeyup="insertText(this.id)" onblur="insertText(this.id)" data-hiddenname="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>"/>
+                            
+                            <textarea class="span12" id="qAaTextarea_<?php echo $widgetCount; ?>" name="ExtendedSurveyForm[QuestionAnswerSelected][<?php echo $widgetCount; ?>]" onkeyup="insertText(this.id)" onblur="insertText(this.id)" data-hiddenname="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>"></textarea>     
+                        
+                        <div style="display:none"  id="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>_em_" class="errorMessage"></div>
+                        </div>
                         </div>
                     </div>
                 </div>

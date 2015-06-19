@@ -7,9 +7,9 @@
             <?php if (Yii::app()->session['IsAdmin'] == 1) { ?>
                 <div class="gamefloatingmenu pull-right positionrelative" >                    
                     <ul>
-                        <li  class="gamerightlist"><a  class="gameanalytics surveyanalytics"  ><img id="gameAnalytics" class=" tooltiplink cursor" rel="tooltip"  data-original-title="Analytics" src="/images/system/spacer.png" /></a></li>
+                        <!--<li  class="gamerightlist"><a  class="gameanalytics surveyanalytics"  ><img id="gameAnalytics" class=" tooltiplink cursor" rel="tooltip"  data-original-title="Analytics" src="/images/system/spacer.png" /></a></li>-->
 
-                        <li class="gamerightlist positionrelative"><a href="#" class="filter" data-toggle="dropdown" ><img id="filter" class=" tooltiplink cursor" rel="tooltip"  data-original-title="Filter" src="/images/system/spacer.png" /></a>
+                        <!--<li class="gamerightlist positionrelative"><a href="#" class="filter" data-toggle="dropdown" ><img id="filter" class=" tooltiplink cursor" rel="tooltip"  data-original-title="Filter" src="/images/system/spacer.png" /></a>
                             <div class="dropdown dropdown-menu actionmorediv actionmoredivtop newgrouppopup newgrouppopupdivtop preferences_popup paddingzero gamefiltermenu">
 
                                 <ul class="GameManagementActionsFilter SurveyFilterActions">
@@ -21,9 +21,9 @@
 
 
                             </div>
-                        </li>
+                        </li>-->
 
-                        <li class="gamerightlist"><a href="/newmarketresearch" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Market Research" src="/images/system/spacer.png" /></a></li>
+                        <li class="gamerightlist"><a href="/newmarketresearch" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Category" src="/images/system/spacer.png" /></a></li>
 
 
 
@@ -83,7 +83,7 @@
                     optionsC.itemWidth = '100%';
                 } else {
 
-                    optionsC.itemWidth = '40%';
+                    optionsC.itemWidth = '20%';
                 }
 
                 handler.wookmark(optionsC);

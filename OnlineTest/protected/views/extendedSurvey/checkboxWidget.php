@@ -1,7 +1,10 @@
 <input type="hidden" name="ExtendedSurveyForm[DisplayType][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_DisplayType_<?php echo $widgetCount; ?>" value="1" />
+<input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($widgetCount); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($widgetCount); ?>" />
+<input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>" />
 <div class="paddingtblr1030">
     
     <?php include 'WidgetOptions.php'; ?>
+    <?php include 'newfileuploadscript.php';?>
     <div class="tab_1">
         
         <?php $type="checkbox"; include 'dynamicOptions.php'; ?> 
@@ -13,7 +16,7 @@
                 <div class="normaloutersection">
                     <div class="normalsection">
                         <div class="surveyradiobutton">
-                            <div class="disabledelement"></div><input type="checkbox" class="styled"></div>
+                            <div class="onlinetestcheckbox"><input type="checkbox" class="styled" name="answercheck_<?php echo $widgetCount; ?>"></div></div>
                         <div class="surveyremoveicon"><img src="/images/system/spacer.png"  data-placement="bottom" rel="tooltip"  data-original-title="Delete option"/></div>
                         <div class="row-fluid">
                             <div class="span12">

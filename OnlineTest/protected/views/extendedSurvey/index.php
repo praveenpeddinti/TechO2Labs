@@ -19,13 +19,14 @@
     <?php echo $form->hiddenField($ExtendedSurveyForm, 'SurveyLogo',array("value"=>"/images/system/survey_img.png")); ?>
     <?php echo $form->hiddenField($ExtendedSurveyForm, 'SurveyRelatedGroupName', array("value"=>"Public")); ?>
     <?php echo $form->hiddenField($ExtendedSurveyForm, 'Status'); ?>
-    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsBannerVisible',array("value"=>"1")); ?>
-    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsAnalyticsShown',array("value"=>"1")); ?>  
-    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsAcceptUserInfo',array("value"=>1)); ?> 
-    <?php echo $form->hiddenField($ExtendedSurveyForm, 'ShowDerivative',array("value"=>1)); ?> 
-    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsEnableNotification',array("value"=>1)); ?>
-    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsBranded',array("value"=>"1")); ?>
+    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsBannerVisible',array("value"=>"0")); ?>
+    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsAnalyticsShown',array("value"=>"0")); ?>  
+    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsAcceptUserInfo',array("value"=>0)); ?> 
+    <?php echo $form->hiddenField($ExtendedSurveyForm, 'ShowDerivative',array("value"=>0)); ?> 
+    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsEnableNotification',array("value"=>0)); ?>
+    <?php echo $form->hiddenField($ExtendedSurveyForm, 'IsBranded',array("value"=>"0")); ?>
     <?php echo $form->hiddenField($ExtendedSurveyForm, 'BrandLogo',array("value"=>"/images/system/survey_img.png")); ?>
+    
     
 
     <div class="market_profile marginT10" id="survey_profilediv">
@@ -53,7 +54,12 @@
 
         <div class="row-fluid padding-bottom15">
             <div class="span12">
-                <?php echo $form->textField($ExtendedSurveyForm, 'SurveyTitle', array('maxlength' => '100', 'class' => 'span8 notallowed', "placeholder" => "Title")); ?>    
+                <?php 
+                $isEditable = false;
+                if(!empty($surveyId)){
+                    $isEditable = true;
+                }
+                echo $form->textField($ExtendedSurveyForm, 'SurveyTitle', array('maxlength' => '100', 'class' => 'span8 notallowed', "placeholder" => "Title" , "readonly" => $isEditable)); ?>    
                 <div class="control-group controlerror"> 
                     <?php echo $form->error($ExtendedSurveyForm, 'SurveyTitle'); ?>
                 </div>
@@ -61,31 +67,31 @@
 
             </div>
         </div>
-        <div class="row-fluid padding-bottom15">
+       <!-- <div class="row-fluid padding-bottom15">
             <div class="span8 positionrelative">
                 <select name="surveyGroupName" id="surveyGroupName" class="span12 styled" >
-                    <option value="Public"><?php echo Yii::t("translation","Market_Research_Bundle"); ?></option>
-                    <?php if(isset($surveyGroupNames) && sizeof($surveyGroupNames) > 0){
-                        foreach($surveyGroupNames as $rw){?>
-                    <option value="<?php echo $rw->GroupName; ?>" data-url="<?php echo $rw->LogoPath; ?>"><?php echo $rw->GroupName; ?></option>                                      
-                        <?php } }?>
+                    <option value="Public"><?php //echo Yii::t("translation","Market_Research_Bundle"); ?></option>
+                    <?php //if(isset($surveyGroupNames) && sizeof($surveyGroupNames) > 0){
+                        //foreach($surveyGroupNames as $rw){?>
+                    <option value="<?php //echo $rw->GroupName; ?>" data-url="<?php //echo $rw->LogoPath; ?>"><?php //echo $rw->GroupName; ?></option>                                      
+                        <?php //} }?>
                     <option value="other">Other</option>
                 </select>
                 <div class="control-group controlerror">
-                      <?php echo $form->error($ExtendedSurveyForm, 'SurveyRelatedGroupName'); ?>
+                      <?php //echo $form->error($ExtendedSurveyForm, 'SurveyRelatedGroupName'); ?>
                  </div>
             </div>
         </div>
         
         <div class="row-fluid padding-bottom15">
             <div class="span8 positionrelative" id="othervalue" style="display:none;">
-                <?php echo $form->textField($ExtendedSurveyForm, 'SurveyOtherValue', array('maxlength' => 50, 'class' => 'span12 notallowed_other',"placeholder"=>"Other value")); ?> 
+                <?php //echo $form->textField($ExtendedSurveyForm, 'SurveyOtherValue', array('maxlength' => 50, 'class' => 'span12 notallowed_other',"placeholder"=>"Other value")); ?> 
                 <div class="control-group controlerror">
-                      <?php echo $form->error($ExtendedSurveyForm, 'SurveyOtherValue'); ?>
+                      <?php //echo $form->error($ExtendedSurveyForm, 'SurveyOtherValue'); ?>
                  </div>
                           
             </div>
-        </div>
+        </div>-->
         <div class="row-fluid">
             <div class="span12">
                 <?php echo $form->textArea($ExtendedSurveyForm, 'SurveyDescription', array('maxlength' => '500', 'class' => 'survey_profiletitleedit span12 notallowed_desc', "contenteditable" => "true", "placeholder" => "Description","onkeypress"=>"IsAlphaNumeric(this.id)","onblur"=>"IsAlphaNumeric(this.id)","max-height" => "200px")); ?>    
@@ -97,17 +103,17 @@
         </div>
         <div class="row-fluid padding-bottom15" id="brandrelateddiv">
             <div class="span12">
-                <div class="span6">
-                <?php echo $form->textField($ExtendedSurveyForm, 'BrandName', array('maxlength' => '100', 'class' => 'span12 notallowed', "placeholder" => Yii::t('translation','Ex_BrandName'),"data-placement" => "bottom","rel"=> "tooltip","data-original-title"=>Yii::t('translation','Ex_BrandName'))); ?>    
+                <!--<div class="span6">
+                <?php //echo $form->textField($ExtendedSurveyForm, 'BrandName', array('maxlength' => '100', 'class' => 'span12 notallowed', "placeholder" => Yii::t('translation','Ex_BrandName'),"data-placement" => "bottom","rel"=> "tooltip","data-original-title"=>Yii::t('translation','Ex_BrandName'))); ?>    
                 <div class="control-group controlerror"> 
-                    <?php echo $form->error($ExtendedSurveyForm, 'BrandName'); ?>
+                    <?php //echo $form->error($ExtendedSurveyForm, 'BrandName'); ?>
                 </div>
-                </div>
+                </div>-->
                 <div class="span6">
                     <div class="pull-left">
-                        <div  style="display: table;"id="uploadfile" data-placement="bottom" rel="tooltip"  data-original-title="<?php echo Yii::t('translation','Ex_BrandLogo'); ?>"></div>
+                        <!--<div  style="display: table;"id="uploadfile" data-placement="bottom" rel="tooltip"  data-original-title="<?php //echo Yii::t('translation','Ex_BrandLogo'); ?>"></div>-->
                     </div>
-                    <div style="padding-left: 30px;display: none" id="brandimagelogodiv">
+                    <!--<div style="padding-left: 30px;display: none" id="brandimagelogodiv">
                         <div style="" class="preview pull-left">
          
                         <ul >
@@ -117,82 +123,20 @@
                         </ul>
 
                    </div>        
-                    </div>
-                    <div class="control-group controlerror"  >
+                    </div>-->
+                    <!--<div class="control-group controlerror"  >
 
                         <div id="BrandImage_error" class="errorMessage marginbottom10 error"  style="display:none"></div>
-                        <?php echo $form->error($ExtendedSurveyForm, 'BrandLogo'); ?>
-                    </div>            
+                        <?php //echo $form->error($ExtendedSurveyForm, 'BrandLogo'); ?>
+                    </div>-->            
                     
-                    <div id="appendlist"><ul class="qq-upload-list" id="uploadlist"></ul></div>
+                    <!--<div id="appendlist"><ul class="qq-upload-list" id="uploadlist"></ul></div>-->
                 </div>
 
 
             </div>
         </div>
-        <div class="row-fluid">
-            <div class="span12 cmr_responsive">
-                <!-- Banner settings -->
-                <div class="span4">
-                <span><?php echo Yii::t("translation","Ex_Banner_Profile"); ?></span>
-                </div>
-                <div class="span2" >
-                    <input type="checkbox" id="surveyBannerSettings" data-on-label="Off" data-off-label="On" />
-                    </span>
-                </div>
-                <!-- Analytics settings -->
-                <div class="span4">
-                    <span><?php echo Yii::t("translation","Ex_Analytics_Title"); ?></span>
-                </div>
-                <div class="span2" >
-                    <input type="checkbox" id="analyticsviewcheckboxSettings" data-on-label="Off" data-off-label="On" />
-                   
-                </div>
-            </div>
-            
-        </div>
-        <div class="row-fluid">
-            <div class="span12 cmr_responsive">
-                <!-- Banner settings -->
-                <div class="span4">
-                    <span><?php echo Yii::t("translation","Ex_Capture_Info"); ?></span>
-                    </div>
-                    <div class="span2" >
-                        <input type="checkbox" id="IsCaptureUserInfo" data-on-label="Off" data-off-label="On" />
-
-                    </div>
-                <div class="span4">
-                    <span><?php echo Yii::t("translation","show_Derivative_MarketResearch"); ?></span>
-                </div>
-                <div class="span2" >
-                    <input type="checkbox" id="ShowDerivativecheckboxSettings" data-on-label="Off" data-off-label="On" />
-                   
-                </div>
-                
-                
-                
-                
-            </div>
-            
-        </div>
-        
-         <div class="row-fluid">
-            <div class="span12 cmr_responsive">
-                <div class="span4">
-                    <span><?php echo Yii::t("translation","Ex_Notification"); ?></span>
-                    </div>
-                    <div class="span2" >
-                        <input type="checkbox" id="exNotification" data-on-label="Off" data-off-label="On" />
-
-                    </div>
-                <div class="span4">
-                    <span><?php echo Yii::t("translation","Ex_IsBrandTitle"); ?></span>
-                    </div>
-                    <div class="span2" >
-                        <input type="checkbox" id="isbranded" data-on-label="Off" data-off-label="On" />
-
-                    </div>
-            </div></div>
+       
         
         
 <!--        <div class="row-fluid">
@@ -210,7 +154,7 @@
     
     <div class="row-fluid groupseperator border-bottom">
         
-        <div class="span10 "><h2 class="pagetitle"><?php echo Yii::t("translation","Ex_Market_Title"); ?> </h2></div>
+        <div class="span10 "><h2 class="pagetitle"><?php //echo Yii::t("translation","Ex_Market_Title"); ?> </h2></div>
                
         
     </div>
@@ -379,7 +323,7 @@ bindToMandatory();
         <?php } ?>
         $("#ExtendedSurveyForm_SurveyRelatedGroupName").val('<?php echo $surveyObj->SurveyRelatedGroupName; ?>');
         
-       $("#surveyPreviewId").attr("src",$("#ExtendedSurveyForm_SurveyLogo").val());
+       $("#surveyPreviewId").attr("src","<?php echo $logo ?>");
        
            <?php if($surveyObj->IsBranded == 1){ ?>
                 $("#brandimagelogodiv").show();
@@ -488,7 +432,7 @@ bindToMandatory();
 //    var extensions = '"jpg","jpeg", "gif", "png", "tiff"';
     var extensions = '"jpg","jpeg", "gif", "png", "tiff","tif","TIF"';
     initializeFileUploader('SurveyImage', '/extendedSurvey/uploadImage', '10*1024*1024', extensions, 1, 'SurveyImage', '', SurveyPreviewImage, displayErrorForBannerAndQuestion, "survey_logo");
-    initializeFileUploader('uploadfile', '/extendedSurvey/uploadImage', '10*1024*1024', extensions, 1, 'SurveyImage', '', BrandPreviewImage, displayErrorForBannerAndQuestion, "appendlist");
+    //initializeFileUploader('uploadfile', '/extendedSurvey/uploadImage', '10*1024*1024', extensions, 1, 'SurveyImage', '', BrandPreviewImage, displayErrorForBannerAndQuestion, "appendlist");
     
     var preq = 0;
     var nextq = 0;
@@ -569,16 +513,30 @@ bindToMandatory();
             });
             
         $(".subsectionremove").live('click', function() {
-            questionsCount--;
-        if (questionsCount >= 1) {
-            $(this).parents('div.QuestionWidget').remove();
-            if (questionsCount < TotalQuestions) {
-                $("#newQuestion").show();
+            var $this = $(this);
+             var qId = $this.attr("data-questionId");
+            <?php if(empty($surveyId)){ ?>
+                     
+                questionsCount--;
+               
+            if (questionsCount >= 1) {
+
+                $(this).parents('div.QuestionWidget').remove();
+
+                if (questionsCount < TotalQuestions) {
+                    $("#newQuestion").show();
+                }
+            } else {
+                questionsCount = 1;
             }
-        } else {
-            questionsCount = 1;
-        }
-        updateDivs();
+            updateDivs();
+            <?php  }else{ ?>
+           
+            $(this).parents('div.QuestionWidget').addClass("suspend");
+            $(this).parents('div.QuestionWidget').css("background", "none repeat scroll 0 0 #CCC");
+            $("#ExtendedSurveyForm_IsSuspend_"+qId).val(1);
+        <?php } ?>
+           
     });
        <?php } ?>
 
@@ -738,7 +696,7 @@ bindToMandatory();
             url: '/extendedSurvey/validateSurveyQuestion?surveyTitle=' + $("#ExtendedSurveyForm_SurveyTitle").val() + '&SurveyDescription=' + $("#ExtendedSurveyForm_SurveyDescription").val()+"&SurveyGroupName="+$("#ExtendedSurveyForm_SurveyRelatedGroupName").val()+"&SurveyOtherValue="+$("#ExtendedSurveyForm_SurveyOtherValue").val()+"&SurveyLogo="+$("#ExtendedSurveyForm_SurveyLogo").val()+"&IsBranded="+$("#ExtendedSurveyForm_IsBranded").val()+"&BrandName="+$("#ExtendedSurveyForm_BrandName").val()+"&BrandLogo="+$("#ExtendedSurveyForm_BrandLogo").val(),
             data: data,
             async:true,
-            success: function(data) {
+            success: function(data) { 
                 var data = eval(data);
                 //alert(data.status) 
                 if (data.status == 'success') {
@@ -758,7 +716,7 @@ bindToMandatory();
             dataType: 'json'
         });
     }
-    function surveyHandler(data,totalQuestions,no) {           
+    function surveyHandler(data,totalQuestions,no) {            
         var data = eval(data);
         if (data.status == 'success') {            
               if(isValidate == totalQuestions){                    
@@ -885,22 +843,22 @@ bindToMandatory();
    
     <?php } ?>
         <?php if($isAlreadySchedule == 0){ ?>
-         $('.mainclass').sortable({
-            connectWith: '.child',
-            handle: 'b',
-            cursor: 'move',
-            opacity: 1.8,
-            start:function(){
-                scrollPleaseWait('surveySpinLoader');
-                updateDivs();
-            },
-            stop:function(){
-                updateDivs();
-                setTimeout(function(){
-                    scrollPleaseWaitClose('surveySpinLoader');
-                },1000);
-            },
-        });
+//         $('.mainclass').sortable({
+//            connectWith: '.child',
+//            handle: 'b',
+//            cursor: 'move',
+//            opacity: 1.8,
+//            start:function(){
+//                scrollPleaseWait('surveySpinLoader');
+//                updateDivs();
+//            },
+//            stop:function(){
+//                updateDivs();
+//                setTimeout(function(){
+//                    scrollPleaseWaitClose('surveySpinLoader');
+//                },1000);
+//            },
+//        });
         <?php } ?>
     function SurveyPreviewImage(id, fileName, responseJSON, type)
     {
@@ -1646,8 +1604,64 @@ bindToMandatory();
                     }
                     $("#ExtendedSurveyForm_AnyOther_hid_"+qNo).val(isChecked);
                 }
-            );
+            );}
+        $(".onlinetestradio").die().live("click",function(){  
+            var $this = $(this); 
+       var radiovalue = "";
+        var qId = $this.closest('div.answersection1').attr("data-questionId");
+        var qtype = $this.closest('div.answersection1').attr("data-qtype");
+         if(qtype == 3){
+            var i = $this.attr("data-info");
+            
+            //radiovalue=$("input[name='radio_"+i+"_"+qId+"']:checked").val();
+            $(".radiotype_"+qId).each(function(){
+                      var $this = $(this);
+                      
+                           if($this.is(":checked")){
+                               if(radiovalue == ""){
+                                   radiovalue = $this.val();
+                               }else{
+                                   radiovalue = radiovalue+","+$this.val();  
+                               }
+                           }
+                           
+                        }); 
+            
+           // alert(radiovalue)
+            
+            
+        }else{
+            
+            radiovalue=$this.find("input[name='radioinput']").val();
+            //alert(radiovalue)
         }
+        //alert('hai')
+        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+      $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
+    });
+    
+    $(".onlinetestcheckbox").die().live("click",function(){
+        var $this1 = $(this);
+        var checkboxvalues = "";
+        var qId = $this1.closest('div.answersection1').attr("data-questionId"); 
+         $("input[name='answercheck_" + qId + "']").each(function(key, value) {
+             var $this = $(this);
+             if($this.is(":checked")){ 
+                 if(checkboxvalues == ""){
+                    checkboxvalues = key+1;
+                }else{
+                    checkboxvalues = checkboxvalues+","+(key+1);
+                    }                                
+            }
+                //alert(checkboxvalues);          
+         });
+         $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+         $("#ExtendedSurveyForm_answerSelected_"+qId).val(checkboxvalues);
+         //alert(checkboxvalues)
+         
+    });
+        
+        
         <?php if(empty($surveyId) || $isAlreadySchedule == 0){ ?>
         // boolean widget functions...
     $(".surveyradiofollowup").die().live("click",function(){ 
@@ -2205,9 +2219,29 @@ $(".snoofcols").live("change",function(){
 function BrandPreviewImage(id, fileName, responseJSON, type)
     {
         var data = eval(responseJSON);
-       $('#ExtendedSurveyForm_BrandLogo').val(data.filename);
-       $("#brandimagelogodiv").attr("style","padding-left:30px;");
-        $('#brandPreview').attr('src', data.filepath);
+//        alert(responseJSON.toSource())
+        var qid = data.qid;//alert(qid)
+        var extension = data.extension;
+        if(extension == "mp3" || extension == "mp4"){
+            $("#player_"+qid).show();
+            $('#brandPreview_'+qid).removeAttr("src");
+            $("#brandimagelogodiv_"+qid).hide();
+            openOverlay(data.filepath,"/images/system/video_new.png","player_"+qid,"",350);
+             //$('#brandPreview_'+qid).attr('src', data.filepath);
+        }else{
+            $("#player_"+qid+"_wrapper").html("").attr("id","player_"+qid).hide();
+             $("#brandimagelogodiv_"+qid).attr("style","padding-left:30px;");
+             $('#brandPreview_'+qid).attr('src', data.filepath);
+        }
+       $('#ExtendedSurveyForm_QuestionImage_'+qid).val(data.filename);
+      
 
     }
+    
+    
+    
+   
+    
+    
+ 
 </script>

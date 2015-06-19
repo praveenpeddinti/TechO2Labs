@@ -1,8 +1,9 @@
-
+<input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($widgetCount); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($widgetCount); ?>" />
+<input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>" />
 <div class="paddingtblr1030">
     
     <?php include 'WidgetOptions.php'; ?>
-    
+    <?php include 'newfileuploadscript.php';?>
     <div class="tab_1" style="margin-top: 10px;">
         
         
@@ -48,7 +49,7 @@
                 
                 <div class="normaloutersection">                    
                     <div class="normalsection">
-                        <div class="surveyradiobutton"> <input type="radio" class="styled"  disabled="true"></div>                        
+                        <div class="surveyradiobutton"> <div class="onlinetestradio"><input type="radio" class="styled" name="radioinput" value="<?php echo $i ?>"></div></div>                        
                         <div class="surveyradiofollowup confirmation_<?php echo $widgetCount; ?>" id="confirmation_<?php echo $i."_".$widgetCount; ?>" data-quesitonid="<?php echo $widgetCount; ?>" data-value="<?php echo $i; ?>"><input id="needJust_<?php echo $i."_".$widgetCount; ?>" type="checkbox"  name="confirmradio_<?php echo $widgetCount; ?>" class="styled confirmraido" value="<?php echo $i; ?>" /></div>
                         <div class="row-fluid">
                             <div class="span12">

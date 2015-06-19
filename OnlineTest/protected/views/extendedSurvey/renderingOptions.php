@@ -3,7 +3,7 @@
 <input type="hidden" name="ExtendedSurveyForm[RadioOption][<?php echo ($i+$totalOptions) . "_" . $widgetCount; ?>]" id="ExtendedSurveyForm_RadioOption_hid_<?php echo ($i+$totalOptions) . "_" . $widgetCount; ?>" class="radiohidden"/>
 <div class="normaloutersection">                    
     <div class="normalsection">
-        <div class="surveyradiobutton"> <input type="radio" class="styled"  disabled="true"></div>
+        <div class="surveyradiobutton"><div class="onlinetestradio"> <input type="radio" class="styled" name="radioinput" value="<?php echo $i+$totalOptions ?>"></div></div>
         <div class="surveyremoveicon"><img src="/images/system/spacer.png"  data-placement="bottom" rel="tooltip"  data-original-title="Delete option"/></div>
         <div class="row-fluid">
             <div class="span12">
@@ -24,7 +24,7 @@
 <div class="normaloutersection">
     <div class="normalsection">
         <div class="surveyradiobutton">
-            <div class="disabledelement"></div><input type="checkbox" class="styled"></div>
+            <div class=""></div><div class="onlinetestcheckbox"><input type="checkbox" class="styled" name="answercheck_<?php echo $widgetCount; ?>"></div></div>
         <div class="surveyremoveicon"><img src="/images/system/spacer.png"  data-placement="bottom" rel="tooltip"  data-original-title="Delete option"/></div>
         <div class="row-fluid">
             <div class="span12">
@@ -48,12 +48,12 @@
             <div class="normalsection">
                 <?php if($type == 1){?>
                 <div class="surveyradiobutton">
-                    <input type="radio" class="styled"  disabled="true">
+                    <div class="onlinetestradio"><input type="radio" class="styled"  name="radioinput" value="<?php echo $i+$totalOptions ?>"></div>
                 </div>  
                 <?php } else {?>
                     <div class="surveyradiobutton"> 
-                         <div class="disabledelement"></div>
-                        <input type="checkbox" class="styled "  readonly="true"></div>
+                         <div class=""></div>
+                         <div class="onlinetestcheckbox"><input type="checkbox" class="styled " name="answercheck_<?php echo $widgetCount; ?>" ></div></div>
                     
                 <?php } ?>
                 <div class="surveyradiofollowup confirmation_<?php echo $widgetCount; ?>" id="confirmation_<?php echo ($i+$totalOptions)."_".$widgetCount; ?>" data-quesitonid="<?php echo $widgetCount; ?>" data-value="<?php echo ($i+$totalOptions); ?>"><input id="needJust_<?php echo ($i+$totalOptions)."_".$widgetCount; ?>" type="checkbox"  name="confirmradio_<?php echo $widgetCount; ?>" class="styled confirmraido" value="<?php echo ($i+$totalOptions); ?>" /></div>

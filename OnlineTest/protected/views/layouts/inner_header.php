@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><img src="images/inner_techo2logo.png" ></a>
+            <a class="navbar-brand" href="#"><img src="/images/inner_techo2logo.png" ></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <div class="headernavigation">
@@ -20,7 +20,7 @@
 
                         <li class=" profilelist dropdown">
                             <div class="generalprofileicon skiptaiconwidth60x60" >
-                                <a aria-expanded="false" role="button" data-toggle="dropdown" data-placement="right" class="dropdown-toggle skiptaiconinner " href="#"><img src="images/sreeni.png"> <span class="caret"></span></a> </a>
+                                <a aria-expanded="false" role="button" data-toggle="dropdown" data-placement="right" class="dropdown-toggle skiptaiconinner " href="#"><img src="/images/sreeni.png"> <span class="caret"></span></a> </a>
                                 <ul role="menu" class="dropdown-menu">
                                     <li> <a href="/user/logout" id="logoutId" onclick="logout()"><i class="logOutIcon"><img src="/images/system/spacer.png" ></i><?php echo Yii::t('translation', 'Logout'); ?></a></li>
                                 </ul>

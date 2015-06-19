@@ -2,6 +2,7 @@
 <div class="paddingtblr1030">
     
      <?php include 'WidgetOptions.php'; ?>
+    <?php include 'newfileuploadscript.php';?>
      <div class="tab_6">        
      <div class="dropdownsectionarea dropdownsmall">
          <div class="row-fluid">

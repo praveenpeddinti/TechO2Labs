@@ -5,8 +5,8 @@
     <div class="row-fluid mandatory positionabsolutediv"  id="mandatory_<?php echo ($i + 1); ?>"  style="width:310px; right:0px; top:10px;">
                             
     <div class="span5  pull-right madatoryclass" data-questionno="<?php echo ($i + 1); ?>" >
-        <span style="vertical-align: middle; line-height: 23px;"><?php echo Yii::t("translation","Is_it_mandatory"); ?></span>
-        <input type="checkbox" class="styled" data-on-label="Off" data-off-label="On" name="ExtendedSurveyForm[IsMadatory][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsMadatory_<?php echo ($i + 1); ?>" <?php if($question['IsMadatory'] == 1){?> checked="true" value="1"<?php }else{ ?> value="0" <?php } ?>/>
+        <!--<span style="vertical-align: middle; line-height: 23px;"><?php //echo Yii::t("translation","Is_it_mandatory"); ?></span>
+        <input type="checkbox" class="styled" data-on-label="Off" data-off-label="On" name="ExtendedSurveyForm[IsMadatory][<?php //echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsMadatory_<?php //echo ($i + 1); ?>" <?php //if($question['IsMadatory'] == 1){?> checked="true" value="1"<?php //}else{ ?> value="0" <?php// } ?>/>-->
 
     </div>
 </div>

@@ -24,6 +24,7 @@
 <?php for ($i = 0; $i < $thcount; $i++) { ?>    
 
     <input type="hidden" name="ExtendedSurveyForm[OptionName][<?php echo $i . "_" . $widgetCount; ?>]" id="ExtendedSurveyForm_OptionName_hid_<?php echo $i . "_" . $widgetCount; ?>" class="rankinghidden option_hidden_<?php echo $widgetCount; ?>"/>
+    
     <tr>
         <td>
             <div class="positionrelative surveydeleteaction ">
@@ -41,8 +42,8 @@
         
             <?php if($optionsType == 1 || $optionsType == 3){  for ($j = 0; $j < $ratingsCnt; $j++) { ?>
             
-            <td><div class="positionrelative displaytable ">
-                    <input type="radio" class="styled ranking_radio" id="radio_<?php echo $i . "_" . $widgetCount; ?>" name="radio_<?php echo $i . "_" . $widgetCount; ?>" disabled="true"/>
+            <td><div class="positionrelative displaytable onlinetestradio" data-info="<?php echo $i; ?>">
+                    <input type="radio" value="<?php echo $j+1; ?>" data-qid="<?php echo $widgetCount; ?>" class="styled ranking_radio radiotype_<?php echo $widgetCount; ?>" id="radio_<?php echo $i . "_" . $widgetCount; ?>" name="radio_<?php echo $i . "_" . $widgetCount; ?>"/>
                     
                 </div>
             </td> 
@@ -56,8 +57,11 @@
             <?php } ?>
         <?php  }else if($optionsType == 2){  for ($j = 0; $j < $ratingsCnt; $j++) {?>
             <td><div class="positionrelative surveydeleteaction ">
-                 <input type="text" class="textfield textfieldtable"  disabled="true" />
+                    <input type="text" class="textfield textfieldtable"  id = "MatrixAnswer<?php echo $i . "_" . $j . "_" . $widgetCount; ?>" name="ExtendedSurveyForm[MatrixAnswer][<?php echo $i . "_" . $j . "_" . $widgetCount; ?>]" onkeyup="insertText(this.id)" onblur="insertText(this.id)" data-hiddenname="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>"/>
+            <div class="control-group controlerror">
+                <!--<div style="display:none"  id="ExtendedSurveyForm_IsAnswerFilled_<?php echo $i . "_" . $j . "_" . $widgetCount; ?>_em_" class="errorMessage"></div>-->
             </div>
+                </div>
             </td> 
         <?php } }?>
     </tr> 

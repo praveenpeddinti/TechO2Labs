@@ -1,7 +1,9 @@
+<input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($widgetCount); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($widgetCount); ?>" />
+<input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>" />
 <div class="paddingtblr1030">
     
     <?php include 'WidgetOptions.php'; ?>
-    
+    <?php include 'newfileuploadscript.php';?>
     <div class="tab_1">
         
         <?php $type="radio"; include 'dynamicOptions.php'; ?>
@@ -11,7 +13,7 @@
                 <input type="hidden" name="ExtendedSurveyForm[RadioOption][<?php echo $i . "_" . $widgetCount; ?>]" id="ExtendedSurveyForm_RadioOption_hid_<?php echo $i . "_" . $widgetCount; ?>" class="radiohidden"/>
                 <div class="normaloutersection">                    
                     <div class="normalsection">
-                        <div class="surveyradiobutton"> <input type="radio" class="styled"  disabled="true"></div>
+                        <div class="surveyradiobutton">  <div class="onlinetestradio"><input type="radio" class="styled ranking_radio"  name="radioinput" value="<?php echo $i ?>"/></div></div>
                         <div class="surveyremoveicon"><img src="/images/system/spacer.png"  data-placement="bottom" rel="tooltip"  data-original-title="Delete option"/></div>
                         <div class="row-fluid">
                             <div class="span12">
@@ -64,4 +66,5 @@
 
     });   
     bindToMandatory('<?php echo $widgetCount; ?>');
+    
 </script>

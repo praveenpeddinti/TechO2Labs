@@ -4,7 +4,7 @@
 <div class="paddingtblr1030">
    
      <?php include 'WidgetOptions.php'; ?>
-    
+    <?php include 'newfileuploadscript.php';?>
     
      <div class="tab_5">
      <div class="dropdownsectionarea dropdownsmall">

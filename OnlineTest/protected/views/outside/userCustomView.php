@@ -321,42 +321,22 @@ if(is_object($surveyObj)){ ?>
                                 
                                 <script type="text/javascript">
                                     var prev = 0;
-                                    var value = "";                                   
+                                    var value = "";                                 
                                     
-                                    <?php //if($ik == 0 ){ ?> 
+                                    
                                         $("div.radioTable_<?php echo $j."_".$i; ?> span.radio").live("click",function(){
                                             <?php $ik++; ?>
                                         
                                         $("div.radioTable_<?php echo $j."_".$i; ?> span.radio").each(function(key){                                         
-                                            $(this).attr("style","background-position:0 0");
-//                                            alert($(this).siblings('.radiotype_<?php echo $i; ?>').val())
-                                            if($(this).siblings('.radiotype_<?php echo $i; ?>').is(':checked') == false){
-                                                var idd = $(this).siblings('.radiotype_<?php echo $i; ?>').attr('data-hidname')
-
-//                                                $("#"+idd).val("");
-                                                
-                                            }
-                                            if($(this).siblings('.radiotype_<?php echo $i; ?>').val() != ""){
-                                                
-                                            }
+                                            $(this).attr("style","background-position:0 0");                                            
                                             $(this).siblings('.radiotype_<?php echo $i; ?>').attr('checked',false);
                                         });                                        
                                          $(this).attr("style","background-position:0 -50px");
                                          $(this).siblings('.radiotype_<?php echo $i; ?>').attr('checked',true);
-//                                         $(".questionOptionhidden_<?php //echo ($k."_".$i); ?>").each(function(){
-//                                             var value = $(this).val();
-//                                             var $thisq = $(this);
-//                                             $("div.radioTable_<?php //echo $j."_".$i; ?> span.radio").each(function(){                                         
-//                                            $("#QuestionsSurveyForm_OptionValue_<?php //echo ($k."_".$i); ?>").val("")
-//                                                if($(this).attr("style") == "background-position:0 0"){
-////                                                    $thisq.val("");
-//                                                }
-//                                            });  
-//                                         });
-//                                        ik = 0;
+
                                     });
                                     
-                                    <?php // } ?>
+                                   
                                     
                                      
                                 </script>

@@ -9,7 +9,7 @@
                 <div class="pull-left positionrelative">
             <select class="styled questionDisplayType" style="width:100%;" id="displaytype_<?php echo $widgetCount; ?>" name="displaytype_<?php echo $widgetCount; ?>" data-optionType="<?php echo $type; ?>" data-questionid="<?php echo $widgetCount; ?>">
                 <option value="1"><?php echo Yii::t("translation","Ex_DisplayType_Check"); ?></option>
-                <option value="2"><?php echo Yii::t("translation","Ex_DisplayType_Multi"); ?></option>
+                <!--<option value="2"><?php echo Yii::t("translation","Ex_DisplayType_Multi"); ?></option>-->
             </select>
             </div>
                 

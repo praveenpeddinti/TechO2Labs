@@ -5,7 +5,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
     foreach ($surveyObj->Questions as $question) {
     if ($question['QuestionType'] == 1) {
         ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
@@ -23,22 +23,28 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <!--<form name="questionWidget_<?php //echo ($i + 1); ?>" id="questionWidget_<?php //echo ($i + 1); ?>" >-->
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-
+            <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $question['Answers'][0]?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
+           
             <div class="surveyquestionsbox">
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule != 1){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
-                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove question"/>
+                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
+                    
                     <?php include 'EditQuestionsWidget.php'; ?>
+                    
                 </div>
 
                 <div class="surveyanswerarea" id="surveyanswerarea_<?php echo ($i + 1); ?>" >
+                    
                     <div class="paddingtblr1030">                        
                         
                         <?php include 'EditWidgetOptions.php'; ?>
-                        
+                        <?php  include 'fileuploaderdivs.php'; ?>
                         <div class="tab_1" style="margin-top:10px">
 
                             <div class="dropdownsectionarea dropdownmedium">
@@ -58,13 +64,14 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                             </div>
                             
                             <div class="answersection1" id="answersection1_<?php echo ($i + 1); ?>" data-questionId="<?php echo ($i + 1); ?>" data-optionType="radio">
-                                <?php $j = 0;                                
+                                <?php $j = 0; 
+                                //echo "<pre>", print_r($question,true),"</pre>";
                                 foreach ($question['Options'] as $rw) { ?>
                                     <input type="hidden" name="ExtendedSurveyForm[RadioOption][<?php echo ($j + 1) . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_RadioOption_hid_<?php echo ($j + 1) . "_" . ($i + 1); ?>" class="radiohidden" value="<?php echo $rw; ?>"/>
                                     <div class="normaloutersection">
                                         
                                         <div class="normalsection">
-                                            <div class="surveyradiobutton"> <input type="radio" class="styled "  disabled="true"></div>                                            
+                                            <div class="surveyradiobutton onlinetestradio"> <input value="<?php echo ($j+1) ?>" type="radio" class="styled " name="radioinput" <?php if($question['Answers'][0] == ($j+1)){?>checked="checked" <?php }?> ></div>                                            
                                             <div class="row-fluid">
                                                 <div class="span12">
 
@@ -128,13 +135,43 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     $("#ExtendedSurveyForm_Other_<?php echo ($i+1 ); ?>").val(isChecked);
 
                 });
-            // alert('<?php //echo ($i+1); ?>')
+                
+                 $(".onlinetestradio").die().live("click",function(){ 
+       var $this = $(this);
+       var radiovalue = "";
+        var qId = $this.closest('div.answersection1').attr("data-questionId");
+        var qtype = $this.closest('div.answersection1').attr("data-qtype");
+         if(qtype == 3){
+            var i = $this.attr("data-info");
+            //radiovalue=$("input[name='radio_"+i+"_"+qId+"']:checked").val();
+            $(".radiotype_"+qId).each(function(){
+                      var $this = $(this);
+                           if($(this).is(":checked")){
+                               if(radiovalue == ""){
+                                   radiovalue = $this.val();
+                               }else{
+                                   radiovalue = radiovalue+","+$this.val();  
+                               }
+                           }
+                           
+                        }); 
+            
+           //alert(radiovalue) 
+                   
+        }else{
+            radiovalue=$("input[name='radioinput']:checked").val();
+           //alert(radiovalue) 
+        }
+        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+      $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
+    });
+    
 
         </script>
 
         <?php } else if ($question['QuestionType'] == 2) {
             ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
@@ -152,11 +189,14 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[DisplayType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_DisplayType_<?php echo ($i + 1); ?>" value="<?php echo $question['DisplayType']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>"  value="1"/>
+            <input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
             <div class="surveyquestionsbox">
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
-                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove question"/>
+                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
@@ -164,7 +204,8 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
                 <div class="surveyanswerarea" id="surveyanswerarea_<?php echo ($i + 1); ?>" >
                     <div class="paddingtblr1030">                        
-                        <?php include 'EditWidgetOptions.php'; ?>                      
+                        <?php include 'EditWidgetOptions.php'; ?>
+                        <?php  include 'fileuploaderdivs.php'; ?>
                         <div class="tab_1"  style="margin-top:10px">
 
                             <div class="dropdownsectionarea dropdownmedium">
@@ -209,7 +250,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                         <div class="normalsection">
                                             <div class="surveyradiobutton"> 
                                                 
-                                                <input type="checkbox" class="styled"></div>
+                                                <div class="onlinetestcheckbox"><input type="checkbox" class="styled" name="answercheck_<?php echo $i + 1; ?>"<?php foreach($question['Answers'] as $a){if($a == ($j+1)){?>checked="checked" <?php }}?>></div></div>
                                             
                                             <div class="row-fluid">
                                                 <div class="span12">
@@ -270,10 +311,33 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     $("#ExtendedSurveyForm_Other_<?php echo ($i+1 ); ?>").val(isChecked);
 
                 });
+                
+                $(".onlinetestcheckbox").die().live("click",function(){
+                            var $this1 = $(this);
+                                   var checkboxvalues = "";
+                                     var qId = $this1.closest('div.answersection1').attr("data-questionId");
+                                      $("input[name='answercheck_" + qId + "']").each(function(key, value) {
+                                          var $this = $(this);
+                                          if($this.is(":checked")){ 
+                                              if(checkboxvalues == ""){
+                                                 checkboxvalues = key+1;
+                                             }else{
+                                                 checkboxvalues = checkboxvalues+","+(key+1);
+                                                 }
+                                                
+                                         }
+                          
+         });
+          //alert(checkboxvalues)
+          $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+         $("#ExtendedSurveyForm_answerSelectedEdit_"+qId).val(checkboxvalues);
+         //alert(checkboxvalues)
+         
+    });
         </script>
 
         <?php } else if ($question['QuestionType'] == 3) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
@@ -290,18 +354,21 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
+            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
                 <div class="surveyareaheader">
                    <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
-                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove question"/>
+                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
                 <div class="surveyanswerarea" id="surveyanswerarea_<?php echo ($i + 1); ?>" >
+                    
                     <input type="hidden" name="ExtendedSurveyForm[MatrixType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_MatrixType_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['MatrixType']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[NoofOptions][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_NoofOptions_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['NoofOptions']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[NoofRatings][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_NoofRatings_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['NoofRatings']; ?>"/>
@@ -311,7 +378,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     <input type="hidden" name="ExtendedSurveyForm[StylingOption][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_StylingOption_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['StylingOption']; ?>"/>
                     <div class="paddingtblr1030">
                         <?php include 'EditWidgetOptions.php'; ?>  
-                        
+                        <?php  include 'fileuploaderdivs.php'; ?>
                         
                         <div class="tab_3">
                             <div class="dropdownsectionarea dropdownmedium answersection1" data-questionId="<?php echo ($i + 1); ?>">
@@ -489,10 +556,33 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                     </div>
                                                 </td>
                                                     <?php if($question['TextOptions'] ==1 || $question['TextOptions'] == 3) {for ($k = 0; $k < sizeof($question['OptionName']); $k++) { ?>
-                                                    <td><div class="positionrelative displaytable">
-                                                            <input type="radio" class="styled ranking_radio"  disabled="true"/>
+                                                    <td>
+                                                        <div class="answersection1" data-qtype="3" data-questionId="<?php echo ($i+1); ?>" id="answersection1_<?php echo ($i+1); ?>">
+                                                        <div class="positionrelative displaytable onlinetestradio radioTable_<?php echo $k."_".$i; ?>" data-info="<?php echo $j; ?>">
+                                                            <input type="radio" value="<?php echo ($k+1); ?>" class="styled ranking_radio radiotype_<?php echo ($i+1); ?>" <?php if($question['Answers'][$k] == ($j+1)){?>checked="checked" <?php }?> name="radio_<?php echo $j . "_" . ($i+1); ?>" data-qid="<?php echo ($i + 1); ?>" id="radio_<?php echo $j. "_" . ($i+1); ?>" />
+                                                        </div>
                                                         </div>
                                                     </td>
+                                                    <script type="text/javascript">
+                                                                 
+                                    
+                                    
+                                        $("div.radioTable_<?php echo $k."_".$i; ?> span.radio").live("click",function(){
+                                            <?php //$ik++; ?>
+                                        
+                                        $("div.radioTable_<?php echo $k."_".$i; ?> span.radio").each(function(key){                                         
+                                            $(this).attr("style","background-position:0 0");                                            
+                                            $(this).siblings('.radiotype_<?php echo $i; ?>').attr('checked',false);
+                                        });                                        
+                                         $(this).attr("style","background-position:0 -50px");
+                                         $(this).siblings('.radiotype_<?php echo $i; ?>').attr('checked',true);
+
+                                    });
+                                    
+                                   
+                                    
+                                     
+                                </script>
                             <?php } ?>
                                                     <?php if($question['TextOptions'] == 3){ ?>
                                                     <td>
@@ -564,7 +654,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
         </script>
     <?php } else if ($question['QuestionType'] == 4) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?> " id="QuestionWidget_<?php echo ($i + 1); ?>">       
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -581,18 +671,20 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-
-            <div class="surveyquestionsbox">
+             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
+             <div class="surveyquestionsbox">
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
-                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove question"/>
+                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
                 <div class="surveyanswerarea" id="surveyanswerarea_<?php echo ($i + 1); ?>" >
+                   
                     <input type="hidden" name="ExtendedSurveyForm[MatrixType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_MatrixType_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['MatrixType']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[NoofOptions][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_NoofOptions_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['NoofOptions']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[NoofRatings][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_NoofRatings_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['NoofRatings']; ?>"/>
@@ -600,9 +692,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     <input type="hidden" name="ExtendedSurveyForm[Other][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_NA_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['Other']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[AnyOther][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_AnyOther_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['AnyOther']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[StylingOption][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_StylingOption_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['StylingOption']; ?>"/>
+                    <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
+                    <div style="display: none;" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>_em_" class="alert alert-error " data-questionno="<?php echo ($i + 1); ?>" >
+                        
+                        </div>
                     <div class="paddingtblr1030">
                         <?php include 'EditWidgetOptions.php'; ?>  
-                        
+                         <?php  include 'fileuploaderdivs.php'; ?>
                         <div class="tab_3">
                             <div class="dropdownsectionarea dropdownmedium answersection1" data-questionId="<?php echo ($i + 1); ?>">
                                 <div class="row-fluid">
@@ -760,7 +856,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                             } ?>
                                         </tr>
 
-        <?php $j = 0;
+        <?php $j = 0;$mi = 0;
         foreach ($question['OptionName'] as $rw) { ?>   
 
                                             <input value="<?php echo $rw; ?>" type="hidden" name="ExtendedSurveyForm[OptionName][<?php echo $j . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_OptionName_hid_<?php echo $j . "_" . ($i + 1); ?>" class="option_hidden option_hidden_<?php echo ($i + 1); ?>"/>
@@ -777,8 +873,10 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
             <?php if($question['TextOptions'] ==1 || $question['TextOptions'] == 3) {for ($k = 0; $k < sizeof($question['LabelName']); $k++) { ?>
 
-                                                    <td><div class="positionrelative displaytable">
-                                                            <input type="radio" class="styled ranking_radio" id="radio_<?php echo $k . "_" . ($i + 1); ?>" name="radio_<?php echo $k . "_" . ($i + 1); ?>" disabled="true"/>
+                                                    <td><div class="answersection1" data-qtype="3" data-questionId="<?php echo ($i+1); ?>" id="answersection1_<?php echo ($i+1); ?>">
+                                                            <div class="positionrelative displaytable onlinetestradio" data-info="<?php echo ($i + 1); ?>">
+                                                            <input type="radio" class="styled ranking_radio radiotype_<?php echo ($i + 1); ?>" data-qid="<?php echo ($i + 1); ?>" value="<?php echo $k+1; ?>" id="radio_<?php echo $j . "_" . ($k + 1); ?>" <?php  if($question['Answers'][$j] == ($k+1)){?>checked="checked" <?php }?> name="radio_<?php echo $j . "_" . ($i + 1); ?>" />
+                                                        </div>
                                                         </div>
                                                     </td>
                             <?php } ?>
@@ -790,10 +888,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                         </div>
                                                    </td> 
                                                     <?php } ?>
-            <?php }else if($question['TextOptions'] ==2){ for ($k = 0; $k < sizeof($question['LabelName']); $k++) {  ?> 
-                                   <td>
+            <?php }else if($question['TextOptions'] ==2){  for ($k = 0; $k < sizeof($question['LabelName']); $k++,$mi++) {       ?> 
+                                   <td><input value="<?php echo $question['Answers'][$mi]; ?>" type="hidden" name="ExtendedSurveyForm[MatrixAnswer][<?php echo $j . "_" . $k . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" />
                                                         <div class="positionrelative surveydeleteaction ">
-                                                        <input type="text" class="textfield textfieldtable"  disabled="true" />
+                                                            
+                                                        <input type="text" class="textfield textfieldtable notallowed"  value="<?php echo $question['Answers'][$mi]; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)" id="ExtendedSurveyForm_MatrixAnswer_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" />
                                                         </div>
                                                    </td>                 
             <?php } } ?>
@@ -856,7 +955,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
         </script>
     <?php } else if ($question['QuestionType'] == 5) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -873,12 +972,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
-                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove question"/>
+                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
@@ -890,7 +990,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     <input type="hidden" name="ExtendedSurveyForm[TotalValue][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_TotalValue_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['TotalValue']; ?>"/>
                     <div class="paddingtblr1030">
                         <?php include 'EditWidgetOptions.php'; ?>  
-                        
+                        <?php  include 'fileuploaderdivs.php'; ?>
                         <div class="tab_5">
                             <div class="dropdownsectionarea dropdownsmall">
                                 <div class="row-fluid">
@@ -946,7 +1046,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                         </div>     
                                                     </div>
                                                     <div class="span2 positionrelative labelpercent">
-                                                        <input  type="text" class="textfield span10" disabled="true"/> <label class="percentlbl perUnitType_<?php echo ($i + 1); ?>" > <?php if ($question['MatrixType'] == 1) {
+                                                        <input value="<?php echo $question['Answers'][$j]  ?>" type="text" class="textfield span10" name = "ExtendedSurveyForm[PercentageAnswer][<?php echo $j . "_" . ($i + 1); ?>]"/> <label class="percentlbl perUnitType_<?php echo ($i + 1); ?>" > <?php if ($question['MatrixType'] == 1) {
                 echo "%";
             } else {
                 echo "$";
@@ -1024,7 +1124,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
         </script>
     <?php } else if ($question['QuestionType'] == 6) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -1041,12 +1141,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
-                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove question"/>
+                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
@@ -1056,7 +1157,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     <input value="<?php echo $question['NoofChars']; ?>" type="hidden" name="ExtendedSurveyForm[NoofChars][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_NoofChars_hid_<?php echo ($i + 1); ?>"/>
                     <div class="paddingtblr1030">
                         <?php include 'EditWidgetOptions.php'; ?>  
-                        
+                        <?php  include 'fileuploaderdivs.php'; ?>
                         <div class="tab_5">
                             <div class="dropdownsectionarea dropdownsmall">
                                 <div class="pull-left labelalignment"><label>No.of Characters:</label></div>
@@ -1078,8 +1179,8 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
                                         <div class="row-fluid" id="rowfluidChars_<?php echo ($i + 1); ?>">
                                             <div class="span12">   
-                                                <input value="" type="text" class="textfield span12 notallowed" id="qAaTextField_<?php echo ($i + 1); ?>" disabled="true" <?php if ($question['NoofChars'] > "100") echo "style='display:none;'"; ?>/>
-                                                <textarea class="span12 notallowed" id="qAaTextarea_<?php echo ($i + 1); ?>" disabled="true" <?php if ($question['NoofChars'] <= "100") echo "style='display:none;'"; ?>></textarea>     
+                                                <input value="<?php echo $question['Answers'][0] ?>" type="text" class="textfield span12 notallowed" id="qAaTextField_<?php echo ($i + 1); ?>" <?php if ($question['NoofChars'] > "100") echo "style='display:none;'"; ?> name="ExtendedSurveyForm[QuestionAnswerTextSelected][<?php echo ($i + 1); ?>]"/>
+                                                <textarea class="span12 notallowed" id="qAaTextarea_<?php echo ($i + 1); ?>"  <?php if ($question['NoofChars'] <= "100") echo "style='display:none;'"; ?> name="ExtendedSurveyForm[QuestionAnswerSelected][<?php echo ($i + 1); ?>]"><?php echo $question['Answers'][0]; ?></textarea>     
                                             </div>
                                         </div>
                                     </div>
@@ -1128,12 +1229,34 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                 e.preventDefault();
                             }
                         });
+                        $("#noofchars_<?php echo ($i + 1); ?>").change(function() {
+        var $this = $(this);
+        $("#qAaTextarea_<?php echo ($i + 1); ?>").val("");
+        $("#qAaTextField_<?php echo ($i + 1); ?>").val("");
+        if ($this.val() == 100){            
+            $("#qAaTextarea_<?php echo ($i + 1); ?>").hide();
+            $("#qAaTextField_<?php echo ($i + 1); ?>").show();
+        }else if($this.val() > 100){            
+            $("#qAaTextarea_<?php echo ($i + 1); ?>").show();
+            $("#qAaTextField_<?php echo ($i + 1); ?>").hide();
+        }
+        if($this.val() >= 1){
+            $("#rowfluidChars_<?php echo ($i + 1); ?>").show();
+            $("#ExtendedSurveyForm_NoofChars_hid_<?php echo ($i + 1); ?>").val($this.val());
+        }
+        if($this.val() == ""){
+            $("#surveyFormButtonId").hide();
+        }else{
+            $("#surveyFormButtonId").show();
+        }
+    });
+                        
         <?php } ?>
             // alert('<?php //echo ($i+1);  ?>')
 
         </script>
     <?php } else if ($question['QuestionType'] == 7) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -1150,12 +1273,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
-                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove question"/>
+                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
@@ -1165,7 +1289,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     <input type="hidden" name="ExtendedSurveyForm[NoofOptions][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_NoofOptions_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['NoofOptions']; ?>"/>
                     <div class="paddingtblr1030">
                         <?php include 'EditWidgetOptions.php'; ?>  
-                        
+                        <?php  include 'fileuploaderdivs.php'; ?>
                         <div class="tab_6">        
                             <div class="dropdownsectionarea dropdownsmall">
                                 <div class="row-fluid">
@@ -1196,7 +1320,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                             <div class="row-fluid">
                                                 <div class="span12">   
                                                     <div class="control-group controlerror">
-                                                        <input type="text" placeholder="Option Name" class="textfield span5 userGeneratedOptions notallowed" name="OptionName_<?php echo ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_OptionName_hid_<?php echo $k . "_" . ($i + 1); ?>" id="ExtendedSurveyForm_userGRanking_<?php echo $k . "_" . ($i + 1); ?>" disabled="true" maxlength="500">
+                                                        <input type="text" placeholder="Option Name" class="textfield span5 userGeneratedOptions notallowed"  value = "<?php echo $question['Answers'][$k] ?>" name="ExtendedSurveyForm[UserAnswerSelected][<?php echo $k ?>]" data-hiddenname="ExtendedSurveyForm_OptionName_hid_<?php echo $k . "_" . ($i + 1); ?>" id="ExtendedSurveyForm_userGRanking_<?php echo $k . "_" . ($i + 1); ?>"  maxlength="500">
                                                         <div style="display:none"  id="ExtendedSurveyForm_OptionName_<?php echo $k . "_" . ($i + 1); ?>_em_" class="errorMessage usergeneratederrorMsg"></div>
                                                     </div>
                                                 </div>
@@ -1251,13 +1375,15 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                 e.preventDefault();
                             }
                         });
+                
+                        
         <?php } ?>
              
             
         </script>
     <?php
     } else if ($question['QuestionType'] == 8) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -1275,21 +1401,25 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[SelectionType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_SelectionType_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['SelectionType']; ?>"/>
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
+            <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
             <div class="surveyquestionsbox">
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule != 1){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
-                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove question"/>
+                        <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
                 <div class="surveyanswerarea" id="surveyanswerarea_<?php echo ($i + 1); ?>" >
+                   
                     <div class="paddingtblr1030">                        
                         
                         <?php include 'EditWidgetOptions.php'; ?>
-                        
+                        <?php  include 'fileuploaderdivs.php'; ?>
                         <div class="tab_1" style="margin-top: 10px;">
                             
                             <div class="dropdownsectionarea dropdownmedium">
@@ -1333,10 +1463,10 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                         <div class="normalsection">
                                             <div class="surveyradiobutton"> 
                                                 <?php if ($question['SelectionType'] == 1){ ?>
-                                                <input type="radio" class="styled "  disabled="true">
-                                                <?php } else{ ?>
-                                                     <div class="disabledelement"></div>
-                                                    <input type="checkbox" class="styled "  readonly="true">
+                                                <div class="onlinetestradio"><input type="radio" value="<?php echo ($j+1) ?>" class="styled "  name="radioinput" <?php if($question['Answers'][0]== $j+1){?> checked="checked" <?php } ?>></div>
+                                           <?php } else{ ?>
+                                                     <div class=""></div>
+                                                     <div class="onlinetestcheckbox"><input type="checkbox" value="<?php echo ($j+1) ?>" class="styled " name="answercheck_<?php echo $i + 1; ?>" <?php foreach($question['Answers'] as $a){if($a == ($j+1)){?>checked="checked" <?php }}?>></div>
                                                 <?php } ?>
                                             </div>
                                             
@@ -1384,8 +1514,10 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         </div>
 
         <script type="text/javascript">
+            
             $(document).ready(function() {
                 Custom.init();
+                
             });
             $("[rel=tooltip]").tooltip();
             $(".confirmation_<?php echo ($i+1); ?>").unbind('click').bind("click",function(){ 
@@ -1398,8 +1530,30 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                 $("#ExtendedSurveyForm_Boolean_hid_<?php echo ($i + 1); ?>").val($this.attr("data-value"));
                 $("#rowfluidChars_<?php echo ($i + 1); ?>").show();
             });
-
-        </script>
+            
+//            $(".onlinetestcheckbox").die().live("click",function(){ alert('hai')
+//                            var $this1 = $(this);
+//                                   var checkboxvalues = "";
+//                                     var qId = $this1.closest('div.answersection1').attr("data-questionId");
+//                                      $("input[name='answercheck_" + qId + "']").each(function(key, value) {
+//                                          var $this = $(this);
+//                                          if($this.is(":checked")){ 
+//                                              if(checkboxvalues == ""){
+//                                                 checkboxvalues = key+1;
+//                                             }else{
+//                                                 checkboxvalues = checkboxvalues+","+(key+1);
+//                                                 }
+//                                                
+//                                         }
+//                          
+//         });
+//          //alert(checkboxvalues)
+//         $("#ExtendedSurveyForm_answerSelectedEdit_"+qId).val(checkboxvalues);
+//         //alert(checkboxvalues)
+//         
+//    });
+            
+            </script>
     <?php } $i++; ?>
         
         <script type="text/javascript">
@@ -1476,6 +1630,8 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             }
         }
     }
+    
+    
     
         </script>
 <?php }

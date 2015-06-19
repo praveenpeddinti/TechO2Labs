@@ -6,12 +6,14 @@
 <input type="hidden" name="ExtendedSurveyForm[TextMaxlength][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_TextMaxlength_hid_<?php echo $widgetCount; ?>" value="1"/>
 <input type="hidden" name="ExtendedSurveyForm[Other][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_NA_hid_<?php echo $widgetCount; ?>" class=""/>
 <input type="hidden" name="ExtendedSurveyForm[StylingOption][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_StylingOption_hid_<?php echo $widgetCount; ?>" value="1"/>
-
+<input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($widgetCount); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($widgetCount); ?>" />
+<input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>" />
 <div class="paddingtblr1030">
     
     <?php include 'WidgetOptions.php'; ?>
+    <?php include 'newfileuploadscript.php';?>
     <div class="tab_3">
-        <div class="dropdownsectionarea dropdownmedium answersection1" data-questionId="<?php echo $widgetCount; ?>" id="answersection1_<?php echo $widgetCount; ?>">
+        <div class="dropdownsectionarea dropdownmedium answersection1" data-qtype="3" data-questionId="<?php echo $widgetCount; ?>" id="answersection1_<?php echo $widgetCount; ?>">
             <div class="row-fluid">
                 <div class="span12">
                     <div class="span3">                        

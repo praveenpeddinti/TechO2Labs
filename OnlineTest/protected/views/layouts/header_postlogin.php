@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/favicon.ico" type="image/x-icon">
+        <!--<link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/favicon.ico" type="image/x-icon">-->
         <link rel="icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/favicon.ico" type="image/x-icon">
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.minicolors.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
@@ -68,8 +68,6 @@
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-switch.min.js"></script>
                 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ajaxfileupload.js"></script>
                 
-                <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/npm.js"></script>
-                <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-switch.min.js"></script>
                 <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/customwidgets.js"></script>
             <?php if (Yii::app()->params['Project'] != 'RiteChat') { ?>
             <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
