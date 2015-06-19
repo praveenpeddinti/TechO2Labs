@@ -15,7 +15,7 @@ class TestPaperController extends Controller {
     public function init() {
         try {
             $this->layout = "adminLayout";
-
+            $this->pageTitle="TestPaper";
             if (isset(Yii::app()->session['TinyUserCollectionObj']) && !empty(Yii::app()->session['TinyUserCollectionObj'])) {
                 parent::init();
                 $this->tinyObject = Yii::app()->session['TinyUserCollectionObj'];
@@ -54,6 +54,8 @@ class TestPaperController extends Controller {
             $CategoryName = $_REQUEST['CategoryName'];
             $CategoryId = $_REQUEST['CategoryId'];
             $TestPaperForm = new TestPaperForm();
+            $totalQuestionsObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTotalQuestionsForCategory($_REQUEST['CategoryName']);
+            $QuestionsCount=$totalQuestionsObj[0]->QuestionsCount;
             $this->renderPartial('paperWidget', array("widgetCount" => $widCnt, "CategoryName" => $CategoryName, "CategoryId" => $CategoryId, "TestPaperForm" => $TestPaperForm));
         } catch (Exception $ex) {
             Yii::log("TestPaperController:actionRenderQuestionWidget::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -70,10 +72,11 @@ class TestPaperController extends Controller {
 
 
             $errors = CActiveForm::validate($TestPaperForm);
+            error_log("-----val------".print_r($errors,true));
             if ($errors != '[]') {
                 error_log("---error----if----");
                 $obj = array('status' => 'error', 'data' => '', 'error' => $errors, 'oerror' => $common);
-            } else { error_log("---error----if----");
+            } else { error_log("---error----if----esfdf");
                 $obj = array('status' => 'success', 'data' => '', 'error' => "");
             }
             //$obj = array('status' => 'success', 'data' => '', 'error' => "");
@@ -101,7 +104,7 @@ class TestPaperController extends Controller {
     
     
     public function actionSaveSurveyQuestion() {
-        try {
+        try {error_log("---dfsdf-sdf--".$_GET['Description']);
             $TestPaperForm = new TestPaperForm();
             $UserId = $this->tinyObject->UserId;
             if (isset($_POST['TestPaperForm'])) {
@@ -127,7 +130,7 @@ class TestPaperController extends Controller {
                     $scheduleSurveyForm->EndDate = date("Y-m-d");
                     $scheduleSurveyForm->SurveyId = $surveyObj->_id;
                     $scheduleSurveyForm->SurveyTitle = $surveyObj->SurveyTitle;
-                    $scheduleSurveyForm->SurveyDescription = $surveyObj->SurveyDescription;
+                    $scheduleSurveyForm->SurveyDescription = $TestPaperForm->Description;
                     $scheduleSurveyForm->SurveyRelatedGroupName = $surveyObj->SurveyRelatedGroupName;
                     $result = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveScheduleSurveydump($scheduleSurveyForm, $UserId);
                     $TestPreparationBean->ScheduleId = $result;
@@ -146,6 +149,9 @@ class TestPaperController extends Controller {
                             }
                             if ($key == "NoofPoints") {
                                 $TestPreparationBean->CategoryScore = (int) $value;
+                            }
+                            if ($key == "ReviewQuestion") {
+                                $TestPreparationBean->ReviewQuestion = (int) $value;
                             }
                     }
                     error_log("----bean---".print_r($TestPreparationBean,true));

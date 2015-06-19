@@ -16,7 +16,7 @@ public function __construct($id, $module = null) {
 public function init() {
     try{
     parent::init();
-
+    
      if(!isset($_REQUEST['mobile'])){error_log("---us1-----");
        if(isset(Yii::app()->session['TinyUserCollectionObj']) && !empty(Yii::app()->session['TinyUserCollectionObj'])){
            $this->tinyObject=Yii::app()->session['TinyUserCollectionObj'];
@@ -270,9 +270,9 @@ public function actionLogout(){
         }
     }
     
-    public function actionDownloadCSVFile() {error_log("---dddddddsss----");
+    public function actionDownloadCSVFile() {
         $folder = $this->findUploadedPath();
-        $file = $folder . '/sampleDownloadFiles/sampleCSV.csv';
+        $file = $folder . '/sampleDownloadFiles/sampleTestTakerCSV.csv';
         if (file_exists($file)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');

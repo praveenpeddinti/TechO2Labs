@@ -14,7 +14,9 @@ class ExtendedSurveyController extends Controller {
 
     public function init() {
         try{
+
             $this->layout = "adminLayout";
+
         if (isset(Yii::app()->session['TinyUserCollectionObj']) && !empty(Yii::app()->session['TinyUserCollectionObj'])) {
             parent::init();
             $this->tinyObject = Yii::app()->session['TinyUserCollectionObj'];
@@ -921,7 +923,7 @@ class ExtendedSurveyController extends Controller {
                 } else {
 
                     $preparedObject = -1; //No more posts
-                }                
+                }           
                 $this->renderPartial('dashboardWall', array('surveyObject' => $preparedObject));
             }else{
                 $this->redirect("/");
