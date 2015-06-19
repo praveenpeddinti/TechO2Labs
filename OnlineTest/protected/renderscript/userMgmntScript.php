@@ -1,15 +1,23 @@
+
+
+
+
+
+
 <script  id="contactlistTmp_render" type="text/x-jsrender">
 <div style="position: relative">
 
         <div  class="block">
  
-            <div  class="tablehead tableheadright pull-right">
-            <div  id="addNewAdminMessage"  onclick="newEmployersPopup()"  style="cursor: pointer;position: absolute;left: 8px;margin-top: 3px;"><i data-toggle="tooltip" title="add new Test taker" rel="tooltip"  class="add">&nbsp;</i></div>
-            <div class="tabletopcorner">
+            <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
+  	<tr class="even">
+    	<td style="width:130px; text-align:left"> <div class="tabletopcorner">
                  <input type="text" placeholder="search"  class="textfield textfieldsearch " id="searchTextId" onkeypress="return searchAUser(event)" />
-                             </div>
-                  <div class="tabletopcorner">
-                 <select id="filter" class="styled textfield textfielddatasearch">
+                             </div></td>
+        <td style="width:100px; text-align:left"><div class="tabletopcorner">
+                 <span class="select" id="select">
+                       
+              </span><select id="filter" class="styled textfield textfielddatasearch_user">
                     <option value="all">
                         All
                     </option>
@@ -28,32 +36,29 @@
                     <option value="countryChange">
                         Country Changed
                     </option>
-                </select>
-                </div>
-                 <div class="btn-group pagesize tabletopcorner tabletopcornerpaddingtop">
+                </select></div></td>
+        <td style="width:100px; text-align:left"><div class="btn-group pagesize tabletopcorner tabletopcornerpaddingtop">
                 <button data-toggle="dropdown" style="position:static" class="btn btn-mini dropdown-toggle" data-placement="top">Page size<span class="caret"></span></button>
                 <ul class="dropdown-menu" style="min-width:70px;">
                     <li><a href="#" id="pagesize_5" onclick="setPageLength(5,'usermanagement')">5</a></li>
                     <li><a href="#" id="pagesize_10" onclick="setPageLength(10,'usermanagement')">10</a></li>
                     <li><a href="#" id="pagesize_15" onclick="setPageLength(15,'usermanagement')">15</a></li>                  
-                </ul>
-            </div>
-            
-            <div class="tabletopcorner tabletopcornerpaddingtop">
-            <div class="label label-warning record_size" >+
+                </ul></div></td>
+        <td style=" text-align:left"><div class="tabletopcorner tabletopcornerpaddingtop">
+            <div class="label label-warning record_size">+
                 {{for data.total}}
                     {{>totalCount}}
-                {{/for}} 
+                {{/for}}
+                 
             </div>
-            </div>
-            </div>
-            <a class="block-heading" data-toggle="collapse">&nbsp;</a>
-            <div id="tablewidget" style="margin: auto;">
+            </div></td>
+            <td style="width:50px; text-align:right"> <div id="addNewAdminMessage"  onclick="newEmployersPopup()" > <img src="images/icons/add.png" width="31" height="31"></div></td>
+    </tr>
+  </table>
 
 
-
-                <span id="spinner_admin"></span>
-                <table class="table table-hover">
+            
+                <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
 
                     <thead><tr><th>Name</th><th class="data_t_hide">Email</th><th class="data_t_hide">Phone</th><th class="data_t_hide">Registered Date</th><th>Actions</th></tr></thead>
                     <tbody>
@@ -63,8 +68,8 @@
                             </td>
                         </tr>
                         {{for data.data}}    
-                        <tr class="odd">
-                            <td>
+                        <tr class="even">
+                            <td class="odd">
                                 {{>LastName}} {{>FirstName}} 
                             </td>  
                             <td  class="data_t_hide">
@@ -82,7 +87,7 @@
                             
 
                     <td>                         
-                        <a rel="tooltip" style="cursor: pointer;" onclick="viewAUserDetailsById('{{>UserId}}')" role="button"  data-toggle="tooltip" title="View" > <i class="icon-place-view"></i></a> 
+                        <a rel="tooltip" style="cursor: pointer;"  onclick="viewAUserDetailsById('{{>UserId}}')" role="button"  data-toggle="tooltip" title="View" > <i class="icon-place-view"></i></a> 
                         <span class="adminDropDownParent" rel="tooltip" style="cursor: pointer;" title="Change Role">
                             <i data-placement="right" data-toggle="dropdown" class="icon-place-changerole"></i>
                             <div id="ChangeRoleDropDown" class="dropdown-menu adminDropDown adminDropDownAlign" role="menu">
