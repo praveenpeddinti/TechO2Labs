@@ -1175,7 +1175,7 @@ return array (
     "Ex_Banner_Profile" => "Is the banner visible to users?",
     "Ex_Analytics_Title" => "Are analytics visible to users?",
     "Ex_Market_Title" => "Create Market Research Questions",
-    "Ex_Dashboard_Title" => "Market Research Wall",
+    "Ex_Dashboard_Title" => "Question Bank Dashboard ",
     "Ex_Success_Msg" => "Please wait, it automatically loads the Market Research wall.",
     "Ex_Title_Err" => "Title cannot be blank",
     "Ex_Description_Err" => "Description cannot be blank",
@@ -1260,7 +1260,7 @@ return array (
     "NoOfUsersRead" => "No Of Users Read",
       "show_Derivative_MarketResearch"=>"Show Survey to followers",
     /** end mar 2015 10th merge.**/
-    "Ex_MarketResearch_Title" => "Create Market Research",
+    "Ex_MarketResearch_Title" => "Edit Question Bank",
     "Ex_Capture_Info" => "Can you accept the User Info",
     "Ex_Notification" => "Follow up for abandoned users",
     "Ex_DisplayType" => "Display Type",
@@ -1299,7 +1299,7 @@ return array (
      * 1.15.5
      */
     "Ex_IsBrandTitle" => "Is it Branded Market Research ?",
-    "Ex_BrandLogo" => "Brand Logo",
+    "Ex_BrandLogo" => "Upload image/Video",
     "Ex_BrandName" => "Brand Name",
 
     "TourGuide_Widget" => "Tour Guide widget",
