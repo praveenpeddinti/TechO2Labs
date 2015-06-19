@@ -158,12 +158,13 @@ class ExtendedSurveyCollection extends EMongoDocument {
              $survey->BrandLogo = $FormModel->BrandLogo;
              $survey->BrandName = $FormModel->BrandName;
 
-             if($FormModel->SurveyRelatedGroupName == "other"){
+             /*if($FormModel->SurveyRelatedGroupName == "other"){
                  $survey->SurveyRelatedGroupName = $FormModel->SurveyOtherValue;
                  ExSurveyResearchGroup::model()->saveNewGroupName($FormModel->SurveyOtherValue,$UserId,$FormModel->SurveyLogo);
              }else{
                  $survey->SurveyRelatedGroupName = $FormModel->SurveyRelatedGroupName;
-             }
+             }*/
+             ExSurveyResearchGroup::model()->saveNewGroupName($FormModel->SurveyTitle,$UserId,$FormModel->SurveyLogo);
              if($survey->save()){
                  $returnValue = "success";
              }

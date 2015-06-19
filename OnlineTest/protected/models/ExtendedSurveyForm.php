@@ -47,6 +47,12 @@ class ExtendedSurveyForm extends CFormModel {
     public $BrandLogo;
     public $BrandName;
     public $IsBranded;
+    public $IsAnswerFilled;
+    public $PercentageAnswer;
+    public $QuestionAnswer;
+    public $QuestionAnswerSelected;
+    public $QuestionAnswerTextSelected;
+    public $MatrixAnswer;
 
     /**
      * Declares the validation rules.
@@ -59,7 +65,7 @@ class ExtendedSurveyForm extends CFormModel {
             array('SurveyDescription', 'required', 'message' => Yii::t("translation", "Ex_Description_Err")),
             array('SurveyLogo','required','message'=>"Logo cannot be blank"),
 //            array('TextMaxlength','required','message'=>'Max value cannot be blank'),
-            array('Question', 'validateDynamicFields', 'fieldname' => 'Question', 'message' => 'Question '),
+            array('Question', 'validateDynamicFields', 'fieldname' => 'Question', 'message' => 'Question'),
             array('RadioOption', 'validateDynamicFields', 'fieldname' => 'RadioOption', 'message' => 'Option Name'),
             array('CheckboxOption', 'validateDynamicFields', 'fieldname' => 'CheckboxOption', 'message' => 'Option Name'),
             array('Other', 'validateOtherFields', 'fieldname' => 'Other', 'message' => 'Other Value '),
@@ -68,16 +74,22 @@ class ExtendedSurveyForm extends CFormModel {
             array('TotalValue', 'validateDynamicFields', 'fieldname' => 'TotalValue', 'message' => 'Total Value'),
             array('NoofOptions', 'validateDynamicFields', 'fieldname' => 'NoofOptions', 'message' => 'Please Select No. of Options'),
             array('NoofChars', 'validateDynamicFields', 'fieldname' => 'NoofChars', 'message' => 'Please Select No. of Characters'),
+            array('PercentageAnswer', 'validateDynamicFields', 'fieldname' => 'PercentageAnswer', 'message' => 'Please Fill Answer Field'),
+            //array('QuestionAnswerSelected', 'validateDynamicFields', 'fieldname' => 'QuestionAnswerSelected', 'message' => 'Please Fill Answer Field'),
+            //array('QuestionAnswerTextSelected', 'validateQuestionAnswerFields', 'fieldname' => 'QuestionAnswerTextSelected', 'message' => 'Please Fill Answer Field'),
             array('SurveyRelatedGroupName', 'validateSOFields', 'fieldname' => 'SurveyRelatedGroupName', 'message' => 'Other Value '),
             //array('MatrixType','validateQuestionsType', 'fieldname' => 'MatrixType' ,'message' => ' '),
             array('BooleanRadioOption', 'validateDynamicFields', 'fieldname' => 'BooleanRadioOption', 'message' => 'Option Name'),
             array('IsBranded', 'validateSOFields', 'fieldname' => 'IsBranded', 'message' => 'Brand'),
-            array('IsBannerVisible,SurveyId,Question,SurveyTitle,SurveyDescription,SurveyLogo,SurveyRelatedGroupName,WidgetType,Questions,OtherValue,Status,QuestionId,UnitType,TextOptions,TextMaxlength,IsMadatory,IsAnalyticsShown,AnyOther,BooleanRadioOption,BooleanValues,IsAcceptUserInfo,IsEnableNotification,ShowDerivative,BrandLogo,IsBranded,BrandName', 'safe'),
+            array('MatrixAnswer', 'validateMatrixFields', 'fieldname' => 'MatrixAnswer', 'message' => 'Answer fields can not be blank'),
+            
+            array('IsAnswerFilled', 'validateAnswersFields', 'fieldname' => 'IsAnswerFilled', 'message' => 'Brand'),
+            array('MatrixAnswer,PercentageAnswer,QuestionAnswerTextSelected,QuestionAnswerSelected,PercentageAnswer,IsAnswerFilled,IsBannerVisible,SurveyId,Question,SurveyTitle,SurveyDescription,SurveyLogo,SurveyRelatedGroupName,WidgetType,Questions,OtherValue,Status,QuestionId,UnitType,TextOptions,TextMaxlength,IsMadatory,IsAnalyticsShown,AnyOther,BooleanRadioOption,BooleanValues,IsAcceptUserInfo,IsEnableNotification,ShowDerivative,BrandLogo,IsBranded,BrandName', 'safe'),
         );
     }
 
     public function validateDynamicFields($attribute, $params) {
-        try{
+        try{            error_log("***QuestionAnswerSelected&&&&&".sizeof($this->$params['fieldname']));
         if (sizeof($this->$params['fieldname']) > 0) {
             foreach ($this->$params['fieldname'] as $key => $order) {
 
@@ -87,7 +99,7 @@ class ExtendedSurveyForm extends CFormModel {
                     } else {
                         $message = $params['fieldname'];
                     }
-                    if ($params['fieldname'] != "NoofOptions" && $params['fieldname'] != "NoofChars") {
+                    if ($params['fieldname'] != "NoofOptions" && $params['fieldname'] != "NoofChars" && $params['fieldname'] != "PercentageAnswer") {
                         $this->addError($params['fieldname'] . '_' . $key, $message . ' cannot be blank');
                     } else {
                         $this->addError($params['fieldname'] . '_' . $key, $message);
@@ -212,4 +224,39 @@ class ExtendedSurveyForm extends CFormModel {
         } 
     }
 
+    public function validateAnswersFields($attribute, $params) {
+           try{
+
+        if ($attribute == "IsAnswerFilled" && sizeof($this->$params['fieldname']) > 0) {
+            error_log("*******Validate Answer*5555666***".$attribute);
+            foreach ($this->$params['fieldname'] as $key => $order) {
+                error_log(";;;--".$this->IsAnswerFilled[$key]."*******Validate Answer111*5555666***".$key);
+                     if ($this->IsAnswerFilled[$key] == "") {
+                        $message = "Please Fill Correct answers field ";
+                        $this->addError('IsAnswerFilled_' . $key, $message);
+                    }                
+            }
+        }
+        } catch (Exception $ex) {
+            Yii::log("ExtendedSurveyForm:validateAnswersFields::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        } 
+    }
+    
+    public function validateMatrixFields($attribute, $params) {
+        if (sizeof($this->$params['fieldname']) > 0) {
+            foreach ($this->$params['fieldname'] as $key => $order) {
+                error_log("$$$$$$$$$$$$$$$$$--------------".$key);
+                if ($params['fieldname'] == "MatrixAnswer" && trim($this->MatrixAnswer[$key]) == "") {
+                    $keeyexp = explode("_", $key);
+                    error_log("$$$$$$$$$$$$$$$$$$44".print_r($keeyexp,1));
+                    $this->addError('IsAnswerFilled_' . $keeyexp[2], "Please fill all the fields");
+                }
+            }
+        }
+    }
+    
+    
+
+    
+    
 }
