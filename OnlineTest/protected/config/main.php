@@ -55,11 +55,14 @@ return array(
             'rules' => array(
                 'site' => array('/site/index', 'caseSensitive' => false),
                 'stream' => array('marketresearchwall', 'caseSensitive' => false),             
-               '/' => array('/site/index', 'caseSensitive' => false),
+               '/site/index' => array('/site/index', 'caseSensitive' => false),
+                '/' => array('/site/register', 'caseSensitive' => false),
                 'users' => array('admin/userManagement', 'caseSensitive' => false),               
                 
                 'newmarketresearch' => array('/extendedSurvey/index', 'caseSensitive' => false),
                 'marketresearchwall' => array('/extendedSurvey/surveyDashboard', 'caseSensitive' => false),
+                'testpaper' => array('/testPaper/surveyDashboard', 'caseSensitive' => false),
+                'newtestpaper' => array('/testPaper/index', 'caseSensitive' => false),
                 'marketresearchview/[0-9]*/<var:[^\/]*>*' => array('/outside/index', 'caseSensitive' => false),
                 
                  '<controller:[^\/]+>/managesurvey/[a-zA-Z0-9_]*/' => array('/extendedSurvey/manageSurvey'),
