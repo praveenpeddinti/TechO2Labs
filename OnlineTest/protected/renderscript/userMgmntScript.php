@@ -10,14 +10,15 @@
         <div  class="block">
  
             <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
-  	<tr class="even">
+  	<tr >
+                    <td style=" text-align:left"> <div id="addNewAdminMessage"  onclick="newEmployersPopup()" > <img src="images/icons/add.png" width="31" height="31"></div></td>
     	<td style="width:130px; text-align:left"> <div class="tabletopcorner">
                  <input type="text" placeholder="search"  class="textfield textfieldsearch " id="searchTextId" onkeypress="return searchAUser(event)" />
                              </div></td>
         <td style="width:100px; text-align:left"><div class="tabletopcorner">
                  <span class="select" id="select">
                        
-              </span><select id="filter" class="styled textfield textfielddatasearch_user">
+              </span><select id="filter" class="styled textfield textfielddatasearch_user" name="filter">
                     <option value="all">
                         All
                     </option>
@@ -37,14 +38,14 @@
                         Country Changed
                     </option>
                 </select></div></td>
-        <td style="width:100px; text-align:left"><div class="btn-group pagesize tabletopcorner tabletopcornerpaddingtop">
+        <td style="width:80px; text-align:left"><div class="btn-group pagesize tabletopcorner tabletopcornerpaddingtop">
                 <button data-toggle="dropdown" style="position:static" class="btn btn-mini dropdown-toggle" data-placement="top">Page size<span class="caret"></span></button>
                 <ul class="dropdown-menu" style="min-width:70px;">
                     <li><a href="#" id="pagesize_5" onclick="setPageLength(5,'usermanagement')">5</a></li>
                     <li><a href="#" id="pagesize_10" onclick="setPageLength(10,'usermanagement')">10</a></li>
                     <li><a href="#" id="pagesize_15" onclick="setPageLength(15,'usermanagement')">15</a></li>                  
                 </ul></div></td>
-        <td style=" text-align:left"><div class="tabletopcorner tabletopcornerpaddingtop">
+        <td style=" text-align:left;width:50px;"><div class="tabletopcorner tabletopcornerpaddingtop">
             <div class="label label-warning record_size">+
                 {{for data.total}}
                     {{>totalCount}}
@@ -52,7 +53,7 @@
                  
             </div>
             </div></td>
-            <td style="width:50px; text-align:right"> <div id="addNewAdminMessage"  onclick="newEmployersPopup()" > <img src="images/icons/add.png" width="31" height="31"></div></td>
+            
     </tr>
   </table>
 
@@ -68,8 +69,8 @@
                             </td>
                         </tr>
                         {{for data.data}}    
-                        <tr class="even">
-                            <td class="odd">
+                        <tr class="{{if (#index)%2==0}} even {{else}} odd {{/if}}">
+                            <td>
                                 {{>LastName}} {{>FirstName}} 
                             </td>  
                             <td  class="data_t_hide">
