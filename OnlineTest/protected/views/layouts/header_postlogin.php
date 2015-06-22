@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=100%; initial-scale=1; maximum-scale=1; minimum-scale=1; user-scalable=no;"/>
         <meta name="description" content="">
         <meta name="author" content="">
-
+        <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/favicon.png" type="image/x-icon" />
         <!--<link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/favicon.ico" type="image/x-icon">-->
         <link rel="icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/favicon.ico" type="image/x-icon">
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.minicolors.css" rel="stylesheet" type="text/css" />
