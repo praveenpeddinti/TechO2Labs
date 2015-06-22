@@ -1,5 +1,5 @@
 /* SPLASH HEADER STYLES START HERE*/
-header{}
+header{padding-bottom:8px}
 header .logo{padding:5px 0}
 .sprite, input[type="text"].email, input[type="password"].pwd, .infolink_bg{background: url(/images/system/sprite.png)}
 header .nav li:last-child a{margin-right:0}
@@ -108,7 +108,7 @@ a.infolink, a:hover.infolink{text-decoration:none; padding-left:20px; font-size:
 .headermenuarea >  li > .notificationicon, .headermenuarea >  li > .notificationicon:hover{background-position: 6px -1030px; }
 .headermenuarea >  li > .chaticon, .headermenuarea >  li > .chaticon:hover{background-position: 5px -952px; }
 .headermenuarea  li:hover:first-child{background:none;}
-.headermenuarea  li:hover, .headermenuarea  li.open {background:#038ADC}
+.headermenuarea  li:hover, .headermenuarea  li.open {}
 .headermenuarea li ul li{clear:both}
 .headermenuarea .search{padding-top:17px}
 .search input[type="text"] {background: url(/images/system/search-white.png) no-repeat 10px 6px #fcfcfc;border: 1px solid #d1d1d1;color: #bebebe;width: 150px;padding: 3px 15px 3px 30px; -webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px;text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) inset;  -webkit-transition: all 0.7s ease 0s; -moz-transition: all 0.7s ease 0s; -o-transition: all 0.7s ease 0s;    transition: all 0.7s ease 0s;   }
