@@ -55,7 +55,7 @@
 
 <?php $this->endWidget(); ?>
 </div>
-
+</div>
 
 
 <script type="text/javascript">
