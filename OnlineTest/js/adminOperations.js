@@ -45,6 +45,7 @@ function getMgmntHandler(data) {
     } else {
         g_filterValue = "all";
     }
+     $("#select").text($("#filter option:selected").text());
     if (data.total.totalCount == 0) {
         $("#pagination").hide();
         $("#noRecordsTR").show();
