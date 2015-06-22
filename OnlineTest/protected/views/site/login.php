@@ -1,6 +1,6 @@
 <div class=" pagetitlebg marginlr0 paddingbottom8 pagetitleloginbg" >
                     <div class="section_pagetitle_padding padgetitle">
-                        <h4 class="padding-left12">Admin Login</h4>
+                        <h4 class="padding-left12" style="padding-bottom:10px">Admin Login</h4>
                         
                     </div>
 
@@ -28,17 +28,18 @@
 <div class="form-group loginform" id="usernamediv">
     <label class="usernamelbl" for="userName" >User Name</label>
     <?php echo $form->textField($this->model,'email',array('maxlength' => 40, 'class' => 'form-control email')); ?>
-    <div class="control-group controlerror"> 
+    </div>
+                            <div class="control-group controlerror"> 
         <?php echo $form->error($this->model, 'email'); ?>
     </div>
-</div>
 <div class="form-group loginform" id="passworddiv">
     <label for="password" class="passwordlbl">Password</label>
     <?php echo $form->passwordField($this->model,'pword',array('maxlength' => 40, 'class' => 'form-control pwd')); ?> 
-    <div class="control-group controlerror"> 
+    
+</div>
+                            <div class="control-group controlerror"> 
         <?php echo $form->error($this->model, 'pword'); ?>
     </div>
-</div>
     <div class="row">
         <div class="col-xs-12 text-center">
             <?php
