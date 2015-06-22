@@ -26,17 +26,19 @@
 <div class="form-group loginform" id="fnamediv">
     <label class="usernamelbl" for="FirstName" >First Name</label>
     <?php echo $form->textField($model,'FirstName',array('maxlength' => 40, 'class' => 'form-control email')); ?>
-    <div class="control-group controlerror"> 
+    
+</div>
+                            <div class="control-group controlerror"> 
         <?php echo $form->error($model, 'FirstName'); ?>
     </div>
-</div>
 <div class="form-group loginform" id="lnamediv">
     <label class="lnamelbl" for="LastName" >Last Name</label>
     <?php echo $form->textField($model,'LastName',array('maxlength' => 40, 'class' => 'form-control email')); ?>
-    <div class="control-group controlerror"> 
+   
+</div>
+                             <div class="control-group controlerror"> 
         <?php echo $form->error($model, 'LastName'); ?>
     </div>
-</div>
 <div class="form-group loginform" id="emaildiv">
     <label class="emailbl" for="Email" >Email</label>
     <?php echo $form->textField($model,'Email',array('maxlength' => 40, 'class' => 'form-control email')); ?>

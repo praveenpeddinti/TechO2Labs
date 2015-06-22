@@ -40,9 +40,9 @@
         </div>
         <div class="row-fluid padding-bottom15">
             <div class="span12">
-                <?php echo $form->textArea($TestPaperForm, 'Description', array('maxlength' => '500', 'class' => 'survey_profiletitleedit span8 notallowed_desc', "contenteditable" => "true", "placeholder" => "Test Description","onkeypress"=>"IsAlphaNumeric(this.id)","onblur"=>"IsAlphaNumeric(this.id)","max-height" => "200px")); ?>    
+                <?php echo $form->textArea($TestPaperForm, 'Description', array('maxlength' => '500', 'style' =>'margin-bottom:0', 'class' => 'survey_profiletitleedit span8 notallowed_desc', "contenteditable" => "true", "placeholder" => "Test Description","onkeypress"=>"IsAlphaNumeric(this.id)","onblur"=>"IsAlphaNumeric(this.id)","max-height" => "200px")); ?>    
                     <?php //echo $form->textField($TestPaperForm, 'SurveyDescription', array('maxlength' => '100', 'class' => 'span8 notallowed', "placeholder" => "Test Description")); ?>    
-                <div class="control-group controlerror"> 
+                <div class="control-group controlerror" > 
                     <?php echo $form->error($TestPaperForm, 'Description'); ?>
                 </div>
 
@@ -50,8 +50,8 @@
             </div>
         </div>
         <div class="row-fluid padding-bottom15">
-            <div class="span8 positionrelative">
-                <select name="surveyGroupName" id="surveyGroupName" class="span12" onchange="addCategory(this);">
+            <div class="span4 positionrelative">
+                <select style="width: 100%;margin-bottom:0" name="surveyGroupName" id="surveyGroupName" class="styled" >
                     <option value="Public">Select Category</option>
                     <?php 
                         foreach($surveyGroupNames as $rw){?>
@@ -69,7 +69,7 @@
 
 
     </div>
-          <div class="divtable ">
+          <div class="divtable" id="categoryHeaderDiv" style="display:none">
         <div class="divrow divtableheader">
        <div class="divcol1"> &nbsp;</div>
         <div class="divcol2"># Questions </div>
@@ -88,7 +88,7 @@
         <div class="alignright padding10 bggrey">
             <?php echo CHtml::Button('Save', array('onclick' => 'saveTestPaperForm();', 'class' => 'btn', 'id' => 'surveyFormButtonId')); ?> 
 
-            <?php echo CHtml::resetButton('Cancel', array("id" => 'surveyResetId', 'onclick' => 'CancelSurveyForm();', 'class' => 'btn btn_gray')); ?>
+            <?php echo CHtml::resetButton('Cancel', array("id" => 'surveyResetId', 'onclick' => 'CancelTestPaperForm();', 'class' => 'btn btn_gray')); ?>
         </div>
     </div></div> 
     <?php $this->endWidget(); ?>
@@ -96,6 +96,7 @@
 </div>
 
 <script>
+    Custom.init();
 $(document).ready(function(){
     
 /*$('#TestPaperForm_SurveyDescription').focusin(function(){
@@ -152,15 +153,7 @@ $("#surveyfooterids").show();
          });
          
          
-         <?php if($surveyObj->IsBannerVisible == 1){  ?>
-        $('#surveyBannerSettings').bootstrapSwitch('setState', false);
-        $('label[for=surveyBannerSettings]').text("Off");
-       
-    <?php }else{ ?>
-        $('#surveyBannerSettings').bootstrapSwitch('setState', true);
-        $('label[for=surveyBannerSettings]').text("On");
         
-    <?php } ?>
     // $("#TestPaperForm_SurveyRelatedGroupName").val('<?php //echo $surveyObj->SurveyRelatedGroupName; ?>');
    /*$("#surveyGroupName").change(function(){alert("-ffff----");
         var val = $(this).val();
@@ -172,11 +165,11 @@ $("#surveyfooterids").show();
     
     TotalQuestions = Number(TotalQuestions);
     var dumpCat = new Array(); 
-    
+   
     
     $("[rel=tooltip]").tooltip();    
     
-    function renderQuestionwidgetHandler(html,type, qType,qNo,opCnt,noofchars) {       
+    function renderQuestionwidgetHandler(html,type, qType,qNo,opCnt,noofchars) {      
         scrollPleaseWaitClose("extededsurvey_spinner")
         if (type == "add") {
             $("#extendedSurveyWidgets").append(html);
@@ -185,14 +178,13 @@ $("#surveyfooterids").show();
         }
 
     }
-    
-    function addCategory(obj){  
+    $("#surveyGroupName").die().live("change",function(){
+        addCategory('surveyGroupName',$(this).val());
+    });
+    function addCategory(id,val){ 
         
-        
-        //var val = $(this).val();
-        //alert($("#category option:selected").val());
-        //$("#TestPaperForm_SurveyRelatedGroupName").val($("#surveyGroupName option:selected").val()); 
-        var CategoryName = $("#"+obj.id+" option:selected").text();
+        $("#categoryHeaderDiv").show();
+        var CategoryName = $("#"+id+" option:selected").text();
         var selectVal = $("#TestPaperForm_SurveyRelatedGroupName").val();
         if(selectVal == ""){
             selectVal = $("#surveyGroupName option:selected").text();
@@ -203,26 +195,21 @@ $("#surveyfooterids").show();
        
        
                 //$("#category option:selected").attr('disabled','disabled');
-         /*if (selectVal == "ALL"){alert("--idf---");
+         if (selectVal == "ALL"){
                 // cannot disable all the options in select box
-             $("#category  option").attr("disabled","disabled");  
+             $("#surveyGroupName  option").attr("disabled","disabled");  
 
-         }else{     alert("--else---");                 
-             $("#category option[value='"+obj.value+"']").attr('disabled','disabled');
-             $("#category option").attr('disabled','');
-        }*/
+         }else{                     
+             $("#surveyGroupName option[value='"+CategoryName+"']").attr('disabled','disabled');
+             //$("#surveyGroupName option").attr('disabled','');
+        }
 
-
-
-    //alert(obj.value+"------1---"+questionsCount+"----"+TotalQuestions);
-                
-        
-        
                 
                 if(CategoryName!="Select Category"){
                     questionsCount++; 
+                    //alert("ques1-----"+questionsCount);
                 scrollPleaseWait("extededsurvey_spinner");
-                ajaxRequest("/testPaper/renderQuestionWidget", "questionNo=" + questionsCount+"&CategoryName=" +CategoryName+"&CategoryId=" +obj.value,function(data) {
+                ajaxRequest("/testPaper/renderQuestionWidget", "questionNo=" + questionsCount+"&CategoryName=" +CategoryName+"&CategoryId=" +val,function(data) {
                     renderQuestionwidgetHandler(data, "add")
                 }, "html");
             }
@@ -230,14 +217,24 @@ $("#surveyfooterids").show();
     
     
     $(".subsectionremove").live('click', function() {
+        var cqNo = $(this).parents('div.QuestionWidget').attr("data-questionId"); 
+            //alert("---1-ddddd----"+cqNo); 
+            
+            //alert(cqNo+"---2---"+$("#TestPaperForm_CategoryName_"+cqNo).val());
+            
+            //var cc=$("#TestPaperForm_CategoryName_"+cqNo).val();
+//            $("select option[value='B']").removeAttr("disabled");
+            $("#surveyGroupName option[value='"+$("#TestPaperForm_CategoryName_"+cqNo).val()+"']").removeAttr("disabled");
         //$("div .testPaperDiv #category option[value='2']").attr('disabled','');
             questionsCount--;
-        if (questionsCount >= 1) {
+            if(questionsCount==0){$("#categoryHeaderDiv").hide();};
+        if (questionsCount >= 0) {//alert(questionsCount+"----");questionsCount--;
             $(this).parents('div.QuestionWidget').remove();
+            //alert("fffffssss--3-"+$("#"+cqNo+" option:selected").text());
             if (questionsCount < TotalQuestions) {
                 $("#newQuestion").show();
             }
-        } else {
+        } else {//alert("rrcase ques1-----"+questionsCount);
             questionsCount = 1;
         }
         updateDivs();
@@ -296,10 +293,10 @@ $("#surveyfooterids").show();
             async:true,
             success: function(data) {
                 var data = eval(data);
-                if (data.status == 'success') {
+                if (data.status == 'success') {//alert("------if---"+data.status);
                     isValidate++;                    
                 }
-                if(data.status == "error"){
+                if(data.status == "error"){//alert("------esle---"+data.status);
                     isValidate = 0;
                     isValidated = false;
                 }
@@ -394,12 +391,10 @@ $("#surveyfooterids").show();
      
      
     function updateDivs(){
-        
         $(".subsectionremove").each(function(key) {
             $(this).attr("data-questionId", key + 1);
         });
-        
-        
+       
         
        
        
@@ -421,7 +416,7 @@ $("#surveyfooterids").show();
         $(".questionwidgetform").each(function() {
             var $this = $(this);
             var qNo = $this.closest("div.QuestionWidget").attr("data-questionId");            
-            $this.attr("id", "questionWidget_" + qNo);            
+            $this.attr("id", "questionWidget_" + qNo); 
         });
        
         
@@ -453,7 +448,8 @@ $("#surveyfooterids").show();
          //alert("-----final survey---"+JSON.stringify(Garray));
         $("#TestPaperForm_Questions").val(JSON.stringify(Garray));
         if (isValidated == true) {
-            var data = $("#paperWidget").serialize(); 
+            var data = $("#paperWidget").serialize();
+            //alert("data===="+data);exit();
             $.ajax({
                 type: 'POST',
                 url: '/testPaper/SaveSurveyQuestion?Title=' + $("#TestPaperForm_Title").val() +"&Description="+$("#TestPaperForm_Description").val()+ '&questionsCount=' + questionsCount+"&SurveyGroupName="+$("#TestPaperForm_SurveyRelatedGroupName").val(),
@@ -496,4 +492,7 @@ $("#surveyfooterids").show();
         }
     });
      
+     function CancelTestPaperForm(){
+        window.location.href = "/testpaper";
+    }
 </script>

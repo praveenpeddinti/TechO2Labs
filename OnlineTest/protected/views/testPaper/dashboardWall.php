@@ -49,10 +49,10 @@
             <!-- -->
             <div class="actions_area">
             	<ul>
-                	<li> <a href="#" class="invite"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" ></a></li>
-                    <li> <a href="#" class="view"><img src="images/spacer.png" ></a></li>
-                    <li> <a href="#" class="edit"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" ></a></li>
-                    <li> <a href="#" class="deledte"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" ></a></li>
+                	<li id="invite_<?php echo $data->_id;?>" >  <a href="#" class="invite" data-testpaperId="<?php echo $data->_id;?>"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" rel="tooltip"  data-original-title="Invite"></a></li>
+                    <li> <a href="#" class="view"><img src="images/spacer.png" rel="tooltip"  data-original-title="View"></a></li>
+                    <li> <a href="#" class="edit"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" rel="tooltip"  data-original-title="Edit"></a></li>
+                    <li> <a href="#" class="deledte"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" rel="tooltip"  data-original-title="Suspend"></a></li>
                 </ul>
             </div>
             

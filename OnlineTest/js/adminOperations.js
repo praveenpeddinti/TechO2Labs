@@ -2466,3 +2466,33 @@ function createBroadCastNotificationsHandler(data){
         $("#newModal_body").html(html);
         $("#newModal").modal('show');
     }
+    
+    /*
+     * @Invite users for test paper start
+     */
+    function testPaperForInvite(){
+        //scrollPleaseWait("spinner_survey_5");
+        //ajaxRequest("/testPaper/inviteUsers", "", function(data) {
+        //    renderInviteUsersHandler(data, '')
+        //}, "html");
+        $("#newModal .modal-dialog").removeClass('info_modal');
+        $("#newModal .modal-dialog").removeClass('alert_modal');
+        $("#newModal .modal-dialog").removeClass('error_modal');
+        $("#newModalLabel").html("Invite Test taker");
+        $("#newModal_footer").hide();
+        $("#newModal_body").html("data here");
+        $("#newModal").modal('show');
+    }
+    function renderInviteUsersHandler(html) {
+        $("#newModal .modal-dialog").removeClass('info_modal');
+        $("#newModal .modal-dialog").removeClass('alert_modal');
+        $("#newModal .modal-dialog").removeClass('error_modal');
+        $("#newModalLabel").html("Invite Test taker");
+        $("#newModal_footer").hide();
+        $("#newModal_body").html("data here");
+        $("#newModal").modal('show');
+    }
+    
+    /*
+     * @Invite users for test paper end
+     */

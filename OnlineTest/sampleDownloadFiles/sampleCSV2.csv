@@ -1,0 +1,3 @@
+FirstName,LastName,MiddleName,NameSuffix,Email,EmployeeId,MemberType,RelationType,RelatedTo,Sex,DOB(MM/DD/YYYY),SSN
+firstname,LastName,MiddleName,Mr,suresh.govindu100@techo2.com,TO201,employee,1,1,Male,08/21/1980,1111
+firstname,LastName,MiddleName,Mr,,,Dependent,Spouse,TO201,FeMale,08/21/1980,1112

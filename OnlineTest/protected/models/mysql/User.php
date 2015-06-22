@@ -482,6 +482,17 @@ class User extends CActiveRecord {
             Yii::log("User:userAuthentication::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
        }
       }
+      
+      public function getUsers(){
+        try{
+            $allUsers = User::model()->findByAttributes(array('IsAdmin' => 0));
+            
+            return $allUsers;
+        } catch (Exception $ex) {
+            Yii::log("ExSurveyResearchGroup:getLinkGroups::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in ExSurveyResearchGroup->getLinkGroups### ".$ex->getMessage());
+        }
+    }
 }
 
 

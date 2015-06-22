@@ -15,47 +15,31 @@
     ?>    
     <input type="hidden" name="TestPaperForm[WidgetType][<?php echo $widgetCount; ?>]" id="TestPaperForm_WidgetType_<?php echo $widgetCount; ?>" value="1" />
     <input type="hidden" name="TestPaperForm[QuestionId][<?php echo $CategoryId; ?>]" id="TestPaperForm_QuestionId_<?php echo $CategoryId; ?>" />
-    <input type="hidden" name="TestPaperForm[NoofQuestions][<?php echo $widgetCount; ?>]" id="TestPaperForm_NoofQuestions_<?php echo $widgetCount; ?>" value="1" />
-    <input type="hidden" name="TestPaperForm[CategoryTime][<?php echo $widgetCount; ?>]" id="TestPaperForm_CategoryTime_<?php echo $widgetCount; ?>" />
-    <input type="hidden" name="TestPaperForm[NoofPoints][<?php echo $widgetCount; ?>]" id="TestPaperForm_NoofPoints_<?php echo $widgetCount; ?>" />
+    <input type="hidden" name="TestPaperForm[NoofQuestions]" id="TestPaperForm_NoofQuestions_<?php echo $widgetCount; ?>" />
+    <input type="hidden" name="TestPaperForm[CategoryTime]" id="TestPaperForm_CategoryTime_<?php echo $widgetCount; ?>" />
+    <input type="hidden" name="TestPaperForm[NoofPoints]" id="TestPaperForm_NoofPoints_<?php echo $widgetCount; ?>" />
     <input type="hidden" name="TestPaperForm[CategoryName]" id="TestPaperForm_CategoryName_<?php echo $widgetCount; ?>" value="<?php echo $CategoryName;?>"/>
     
     <div class="divtable ">
            
     <div class="divrow">
-        <div class="divcol1"> <label class="divtablelabel"><?php echo $CategoryName;?></label></div>
+        <div class="divcol1"> <label class="divtablelabel"><?php echo $CategoryName;?> (<?php echo $QuestionsCount;?>)</label></div>
         <div class="divcol2">
-            <select  name="TestPaperForm[NoofQuestions]" class="" id="No_of_Questions_<?php echo $widgetCount;?>" class="span8">
-                        <option value="">Questions</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        </select>
+           <?php echo $form->textField($TestPaperForm, 'NoofQuestions', array('id' => 'TestTakerForm_NoofQuestions_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)" ,'onkeyup' => "return QuestionsValid(event,'$QuestionsCount')")); ?>
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'NoofQuestions_'.$widgetCount); ?>
                         </div>
+
         </div>
         <div class="divcol3">
-            <select  name="TestPaperForm[CategoryTime]" class="" id="CategoryTime_<?php echo $widgetCount;?>" class="span8">
-                        <option value="">Time</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        </select>
+            <?php echo $form->textField($TestPaperForm, 'CategoryTime', array('id' => 'TestTakerForm_CategoryTime_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'CategoryTime_'.$widgetCount); ?>
                         </div>
+
         </div>
         <div class="divcol4">
-            <select  name="TestPaperForm[NoofPoints]" class="" id="No_of_Points_<?php echo $widgetCount;?>" class="span8">
-                        <option value="">Score</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                        </select>
+            <?php echo $form->textField($TestPaperForm, 'NoofPoints', array('id' => 'TestTakerForm_NoofPoints_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'NoofPoints_'.$widgetCount); ?>
                         </div>
@@ -127,6 +111,20 @@
                 }
             }
         }
-    }    
+    }   
+    
+    function QuestionsValid(evt,totalQuestions)
+{
+    var id = evt.target.id;    
+    var value = $("#"+id).val();
+       
+       if((Number(value) > Number(totalQuestions))){
+           $("#"+id).val("");
+           return false;
+       }
+    
+    
+    return true;
+}
     
 </script>

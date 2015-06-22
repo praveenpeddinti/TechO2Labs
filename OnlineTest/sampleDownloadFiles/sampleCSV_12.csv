@@ -1,0 +1,3 @@
+FistName,LastName,MiddleName,NameSuffix,Email,EmployeeId,MemberType,RelationType,RelatedTo,Sex,DOB,SSN
+suresh,reddy,g,MR,suresh.govindu@techo2.com,EMP071,Employee,,,Male,21/08/80,3454
+ms suresh,reddy,g,Ms,,,Dependent,Spouse,EMP071,FeMale,21/08/82,6565

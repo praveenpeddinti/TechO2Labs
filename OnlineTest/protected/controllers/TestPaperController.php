@@ -49,14 +49,15 @@ class TestPaperController extends Controller {
     }
 
     public function actionRenderQuestionWidget() {
-        try {
+        try {error_log("enter testepaper=====".$_REQUEST['questionNo']);
             $widCnt = $_REQUEST['questionNo'];
             $CategoryName = $_REQUEST['CategoryName'];
             $CategoryId = $_REQUEST['CategoryId'];
             $TestPaperForm = new TestPaperForm();
             $totalQuestionsObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTotalQuestionsForCategory($_REQUEST['CategoryName']);
             $QuestionsCount=$totalQuestionsObj[0]->QuestionsCount;
-            $this->renderPartial('paperWidget', array("widgetCount" => $widCnt, "CategoryName" => $CategoryName, "CategoryId" => $CategoryId, "TestPaperForm" => $TestPaperForm));
+            error_log("------------totalQuest----".$QuestionsCount);
+            $this->renderPartial('paperWidget', array("widgetCount" => $widCnt, "CategoryName" => $CategoryName, "CategoryId" => $CategoryId, "TestPaperForm" => $TestPaperForm,"QuestionsCount" => $QuestionsCount));
         } catch (Exception $ex) {
             Yii::log("TestPaperController:actionRenderQuestionWidget::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
@@ -226,5 +227,19 @@ class TestPaperController extends Controller {
   /*
       * @Praveen Test paper Dashboard end
       */
+    
+    
+    public function actionLoadTestTakers() {
+        try {error_log("---enter invitecontr----".$_REQUEST['surveyId']);
+            $surveyId = $_REQUEST['surveyId'];
+            $getAllUsers = User::model()->getUsers();
+            error_log("eeeee--------".print_r($getAllUsers,1));
+            $scheduleForm = new ScheduleSurveyForm();
+            $this->renderPartial('inviteUsers', array('scheduleForm' => $scheduleForm,"surveyId" => $surveyId, "allUsers" => $getAllUsers));
+        } catch (Exception $ex) {
+            error_log("Exception Occurred in ExtendedSurveyController->actionLoadSurveySchedule==". $ex->getMessage());
+            Yii::log("ExtendedSurveyController:actionLoadSurveySchedule::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    }
 
 }

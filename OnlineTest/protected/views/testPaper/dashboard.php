@@ -23,7 +23,7 @@
                             </div>
                         </li>-->
 
-                        <li class="gamerightlist"><a href="/newtestpaper" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Category" src="/images/system/spacer.png" /></a></li>
+                        <li class="gamerightlist"><a href="/newtestpaper" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Test Paper" src="/images/system/spacer.png" /></a></li>
 
 
 
@@ -183,12 +183,40 @@
             getCollectionData('/extendedSurvey/LoadSurveyWall', 'ExtendedSurveyBean', 'surveyDashboardWall', 'No data found', 'No more data');
         });
     }
-    $(".cancelschedule").live('click', function() {
+    /*
+     * @Invite users for test paper start
+     */
+    $(".invite").live('click', function() {
         var $this = $(this);
-        var surveyId = $this.attr("data-surveyId");
-        var scheduleId = $this.attr("data-scheduleId");
-        cancelScheduleSurveyConfirm(surveyId, scheduleId);
+        var TestPaperId = $this.attr("data-testpaperId");
+        alert(TestPaperId);
+        ajaxRequest("/testPaper/loadTestTakers", "surveyId=" + TestPaperId, function(data) {
+                renderLoadSurveyScheduleHandler(data, TestPaperId)
+            }, "html");
     });
+    
+     function renderLoadSurveyScheduleHandler(html, surveyId) {alert("--------"+html.toSource());
+        scrollPleaseWaitClose("spinner_survey_" + surveyId);
+        $("#newModal .modal-dialog").removeClass('info_modal');
+        $("#newModal .modal-dialog").removeClass('alert_modal');
+        $("#newModal .modal-dialog").removeClass('error_modal');
+        $("#newModalLabel").html("Invite Users");
+        $("#newModal_footer").hide();
+        $("#newModal_body").html(html);
+        $("#newModal").modal('show');
+    }
+    /*function inviteUsersConfirm(surveyId) {
+        var actionType = "CancelSchedule";
+        var modelType = 'error_modal';
+        var title = 'Cancel Schedule';
+        var content = "<?php echo Yii::t("translation","Ex_Cancel_Schedule_Title"); ?>";
+        var closeButtonText = 'No';
+        var okButtonText = 'Yes';
+        var okCallback = cancelScheduleSurveyCallback;
+        var param = '' + surveyId + ',' + actionType + '';
+        openModelBox(modelType, title, content, closeButtonText, okButtonText, okCallback, param);
+        $("#newModal_btn_close").show();
+    }
     function cancelScheduleSurveyConfirm(surveyId, scheduleId) {
         var actionType = "CancelSchedule";
         var modelType = 'error_modal';
@@ -204,13 +232,12 @@
     function cancelScheduleSurveyCallback(param) {
         var paramArray = param.split(',');
         var surveyId = paramArray[0];
-        var scheduleId = paramArray[1];
-        var actionType = paramArray[2];
-        cancelScheduleSurvey(surveyId, actionType, scheduleId);
+        var actionType = paramArray[1];
+        cancelScheduleSurvey(surveyId, actionType);
     }
 
-    function cancelScheduleSurvey(surveyId, actionType, scheduleId) {
-        scrollPleaseWait("spinner_survey_" + surveyId);
+    function cancelScheduleSurvey(surveyId, actionType) {
+        scrollPleaseWait("spinner_survey_" + surveyId);exit();
         ajaxRequest("/extendedSurvey/cancelSurveySchedule", "surveyId=" + surveyId + "&scheduleId=" + scheduleId, function(data, surveyId) {
             page = 1;
             isDuringAjax = false;
@@ -218,7 +245,7 @@
             $("#newModal").modal('hide');
             getCollectionData('/extendedSurvey/LoadSurveyWall', 'ExtendedSurveyBean', 'surveyDashboardWall', 'No data found', 'No more data');
         });
-    }
+    }*/
     $("ul.GameManagementActionsFilter li a").live("click", function() {
         $("#analyticsdashboard").hide();
         var filterString = $(this).attr('class');

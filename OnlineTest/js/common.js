@@ -2985,3 +2985,11 @@ function setErrorMsg(id,errId,msg){
     $("#"+id).parent().addClass('error'); 
 }
 
+function isNumberKey(evt)
+{
+   
+       var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
