@@ -333,6 +333,7 @@ input[type="checkbox"]:focus {
 .questionmainpadding{padding:0 50px }
 .questionmainpaddingtop{padding:0 70px 0 60px}
 /* data table */
+.loader img{padding:5px;background: #fff;border-radius:5px}
 .dtb_header{ background:#e4e3e3; border:0; }
 .dtb_header tr.odd td{ background:#fff}
 .dtb_header tr td{ padding:10px;border-bottom:1px solid #ccc }
