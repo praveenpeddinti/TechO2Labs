@@ -1,4 +1,4 @@
-<div class="QuestionWidget" data-questionId="<?php echo $widgetCount; ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo $widgetCount; ?>">       
+<div class="QuestionWidget" data-questionId="<?php echo $widgetCount; ?>" style="padding:0px" id="QuestionWidget_<?php echo $widgetCount; ?>">       
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'questionWidget_' . $widgetCount,
@@ -20,39 +20,12 @@
     <input type="hidden" name="TestPaperForm[NoofPoints][<?php echo $widgetCount; ?>]" id="TestPaperForm_NoofPoints_<?php echo $widgetCount; ?>" />
     <input type="hidden" name="TestPaperForm[CategoryName]" id="TestPaperForm_CategoryName_<?php echo $widgetCount; ?>" value="<?php echo $CategoryName;?>"/>
     
-    
-    <div class="surveyquestionsbox">
-        <div class="surveyareaheader">
-            <div class="subsectionremove" data-questionId="<?php echo $widgetCount; ?>">
-                <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove Category"/>
-            </div>
-            
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="span2">
-                        <label></label>
-                    </div>
-                    <div class="span2">
-                        <label># Questions</label>
-                    </div>
-                    <div class="span2">
-                        <label>Time</label>
-                    </div>
-                    <div class="span2">
-                        <label>Score</label>
-                    </div>
-                    <div class="span2">
-                        <label>Review Question</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="span2">
-                        <label><?php echo $CategoryName;?></label>
-                    </div>
-                    <div class="span2 positionrelative">
-                        <select  name="TestPaperForm[NoofQuestions]" class="" id="No_of_Questions_<?php echo $widgetCount;?>" class="span8">
+    <div class="divtable ">
+           
+    <div class="divrow">
+        <div class="divcol1"> <label class="divtablelabel"><?php echo $CategoryName;?></label></div>
+        <div class="divcol2">
+            <select  name="TestPaperForm[NoofQuestions]" class="" id="No_of_Questions_<?php echo $widgetCount;?>" class="span8">
                         <option value="">Questions</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -62,9 +35,9 @@
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'NoofQuestions_'.$widgetCount); ?>
                         </div>
-                    </div>
-                    <div class="span2 positionrelative">
-                        <select  name="TestPaperForm[CategoryTime]" class="" id="CategoryTime_<?php echo $widgetCount;?>" class="span8">
+        </div>
+        <div class="divcol3">
+            <select  name="TestPaperForm[CategoryTime]" class="" id="CategoryTime_<?php echo $widgetCount;?>" class="span8">
                         <option value="">Time</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -74,9 +47,9 @@
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'CategoryTime_'.$widgetCount); ?>
                         </div>
-                    </div>
-                    <div class="span2 positionrelative">
-                        <select  name="TestPaperForm[NoofPoints]" class="" id="No_of_Points_<?php echo $widgetCount;?>" class="span8">
+        </div>
+        <div class="divcol4">
+            <select  name="TestPaperForm[NoofPoints]" class="" id="No_of_Points_<?php echo $widgetCount;?>" class="span8">
                         <option value="">Score</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -86,21 +59,26 @@
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'NoofPoints_'.$widgetCount); ?>
                         </div>
-                        
-                    </div>
-                    <div class="span2 reviewquestion">
-                        <input type="hidden" value="0" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
-                        <input  type="checkbox" class="styled" data-qid="<?php echo $widgetCount; ?>" />
-                    </div>
-                </div>
-            </div>
-            <div id="spinner_<?php echo $widgetCount; ?>" style="position:relative;"></div>
         </div>
+        <div class="divcol5">
+            <input type="hidden" value="0" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
+                        <input  type="checkbox" class="styled" data-qid="<?php echo $widgetCount; ?>" />
+        </div>
+        <div class="divcol6"> <div class="subsectionremove subsectionremoveintable" data-questionId="<?php echo $widgetCount; ?>">
+                <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove Category"/>
+            </div></div>
+   
+            
+          
+            <div id="spinner_<?php echo $widgetCount; ?>" style="position:relative;"></div>
+       
         
         
 
 <?php $this->endWidget(); ?>
-</div>
+
+        </div>
+         
 </div>
 
 
