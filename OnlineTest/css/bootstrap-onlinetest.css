@@ -45,7 +45,7 @@ footer .container{color:#0b0505}
 .marginlr0{margin-left:0px;margin-right:0px}
 .paddingbottom8{padding-bottom:8px}
 		/* button styles start*/
-.btn-custom{background: rgba(255,175,75,1);
+.customLoginform .customLoginbg .btn-custom{background: rgba(255,175,75,1);
 background: -moz-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
 background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,175,75,1)), color-stop(97%, rgba(255,146,10,1)), color-stop(100%, rgba(255,146,10,1)));
 background: -webkit-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
@@ -53,11 +53,11 @@ background: -o-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97
 background: -ms-linear-gradient(top, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
 background: linear-gradient(to bottom, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=0 );  border-color:#ffdd60; color:#000;}
-.btn-custom:hover,
-.btn-custom:focus,
-.btn-custom.focus,
-.btn-custom:active,
-.btn-custom.active,
+.customLoginform .customLoginbg .btn-custom:hover,
+.customLoginform .customLoginbg .btn-custom:focus,
+.customLoginform .customLoginbg .btn-custom.focus,
+.customLoginform .customLoginbg .btn-custom:active,
+.customLoginform .customLoginbg .btn-custom.active,
 .open > .dropdown-toggle.btn-primary {background: rgba(255,175,75,1);
 background: -moz-linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
 background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(255,175,75,1)), color-stop(97%, rgba(255,146,10,1)), color-stop(100%, rgba(255,146,10,1)));
@@ -65,8 +65,8 @@ background: -webkit-linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,1
 background: -o-linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
 background: -ms-linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
 background: linear-gradient(45deg, rgba(255,175,75,1) 0%, rgba(255,146,10,1) 97%, rgba(255,146,10,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=1 );color:#fff; border-color:#e6b707;}
-.btn-primary{ padding:6px 40px; font-size:18px; font-weight:bold;}
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a', GradientType=1 );color:#333; border-color:#e6b707;}
+.customLoginform .customLoginbg .btn-primary{ padding:6px 20px; font-size:18px; font-weight:bold;}
 		/* button styles end*/
  body.login{padding-top:0}
   .positionlogin{position:absolute;left:50%;margin-left:-150px;top:200px	;}
@@ -514,3 +514,36 @@ input.textfieldtable[type="text"]{width:100%;}
 .s_analytics_numbers{width:34px;left:0;top:14px;text-align:right}
 .s_scheduleDateGameWall{display:inline-block;line-height:22px}
 /*end*/
+.controlerror{position:relative;margin-bottom:0px;}
+.controlerror .errorMessage{position:absolute;z-index:10;border-radius:0;padding:5px;white-space:nowrap;margin-top:0px;font-size:12px;background-color: #F2DEDE;border-color: #EED3D7; color: #B94A48;}
+.controlerror .errorMessage:before{content: "";position: absolute;border-left: 5px solid transparent;border-right: 5px solid transparent;top: -5px;left: 5px;border-bottom: 5px solid #f2dede}
+.errorMessage{border-radius:3px;padding:5px;white-space:nowrap;margin-top:5px;font-size:12px;background-color: #F2DEDE;border-color: #EED3D7; color: #B94A48;}
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  display: inline-block;
+  height: 20px;
+  padding: 4px 6px;
+  margin-bottom: 0px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  vertical-align: middle;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
