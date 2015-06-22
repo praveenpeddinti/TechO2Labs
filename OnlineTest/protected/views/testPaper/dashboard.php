@@ -1,15 +1,39 @@
 <?php include 'surveyAnalyticsScript.php'; ?>
   <div id="spinner_admin" style="position: relative;"></div>
+<div class="row-fluid groupseperator headermarginzero" id="dashboardtop">
+    <div class="span12 paddingtop10 border-bottom">
+        <div class="span6"><h2 class="pagetitle" id="pagetitle">Test Papers Dashboard</h2></div>
+        <div class="span6">
+            <?php if (Yii::app()->session['IsAdmin'] == 1) { ?>
+                <div class="gamefloatingmenu pull-right positionrelative" >                    
+                    <ul>
+                        <!--<li  class="gamerightlist"><a  class="gameanalytics surveyanalytics"  ><img id="gameAnalytics" class=" tooltiplink cursor" rel="tooltip"  data-original-title="Analytics" src="/images/system/spacer.png" /></a></li>-->
 
-  <div class="section_pagetitle_padding padgetitle">
-<h4>Test Paper Dashboard<span class="helpicon"><a href="#"><img src="images/helpicon.png"></a></span></h4>
-<h5>This is a quick overview of some features</h5>
-<div class="gamefloatingmenu pull-right positionrelative" >                    
-                    <!--<ul>
-                        <li class="gamerightlist">-->
-                            <a href="/newtestpaper" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Test Paper" src="/images/icons/add.png" /></a>
-                  <!--</li></ul>-->
+                        <!--<li class="gamerightlist positionrelative"><a href="#" class="filter" data-toggle="dropdown" ><img id="filter" class=" tooltiplink cursor" rel="tooltip"  data-original-title="Filter" src="/images/system/spacer.png" /></a>
+                            <div class="dropdown dropdown-menu actionmorediv actionmoredivtop newgrouppopup newgrouppopupdivtop preferences_popup paddingzero gamefiltermenu">
+
+                                <ul class="GameManagementActionsFilter SurveyFilterActions">
+                                    <li><a class="Filter" style="cursor: pointer"><?php echo Yii::t('translation', 'Show_Survey_Wall'); ?></a></li> 
+
+                                    <li><a class="FutureSchedule" style="cursor: pointer" ><?php echo Yii::t('translation', 'Future_Schedule_Survey'); ?></a></li>      
+                                    <li><a class="SuspendedSurveys" style="cursor: pointer"><?php echo Yii::t('translation', 'SuspendedSurveys'); ?></a></li>
+                                </ul>
+
+
+                            </div>
+                        </li>-->
+
+                        <li class="gamerightlist"><a href="/newtestpaper" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Category" src="/images/system/spacer.png" /></a></li>
+
+
+
+
+                    </ul>
                 </div>
+            <?php } ?>  
+        </div>
+    </div>
+  
 </div>
 <div id="surveyDashboardWallDiv">
     <ul id="surveyDashboardWall" class="ext_surveybox">
@@ -38,7 +62,7 @@
         autoResize: true, // This will auto-update the layout when the browser window is resized.
         container: $('#surveyDashboardWall'), // Optional, used for some extra CSS styling
         offset: 12, // Optional, the distance between grid items
-        outerOffset: 0, // Optional the distance from grid to parent
+        outerOffset: 10, // Optional the distance from grid to parent
         flexibleWidth: '50%', // Optional, the maximum width of a grid item
         align: 'left'
     };
