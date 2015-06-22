@@ -1,6 +1,12 @@
 <div class="alert alert-success" id="sucmsg" style='text-align:center;display:none;'></div>
 <div class="padding10ltb">
-    <h2 class="pagetitle" id="pagetitle_s">New Test Paper</h2>     
+    <div class="row-fluid groupseperator headermarginzero" id="dashboardtop">
+    <div class="span12 paddingtop10 border-bottom">
+        <div class="span12"><h2 class="pagetitle" id="pagetitle">New Test Paper</h2></div>
+      
+    </div>
+  
+</div>    
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'paperWidget',
@@ -16,16 +22,15 @@
     ?>
  
     <?php echo $form->hiddenField($TestPaperForm, 'Questions'); ?>
-    <?php //echo $form->hiddenField($TestPaperForm, 'SurveyRelatedGroupName', array("value"=>"")); ?>
     
-    <div class="market_profile2 marginT102" id="testPaperDiv">
+     <div class="questionmainpaddingtop" style="padding-top:20px">
+    <div class="market_profile2 marginT102 paddin" id="testPaperDiv">
         
-        
+       
         
         <div class="row-fluid padding-bottom15">
             <div class="span12">
-                <label>Test Name</label>
-                <?php echo $form->textField($TestPaperForm, 'Title', array('maxlength' => '100', 'class' => 'span8 notallowed', "placeholder" => "Test Name")); ?>    
+                <?php echo $form->textField($TestPaperForm, 'Title', array('maxlength' => '100', 'class' => 'span6 textfield notallowed', "placeholder" => "Test Name")); ?>    
                 <div class="control-group controlerror"> 
                     <?php echo $form->error($TestPaperForm, 'Title'); ?>
                 </div>
@@ -35,8 +40,7 @@
         </div>
         <div class="row-fluid padding-bottom15">
             <div class="span12">
-                <label>Test Description</label>
-                    <?php echo $form->textArea($TestPaperForm, 'Description', array('maxlength' => '500', 'class' => 'survey_profiletitleedit span12 notallowed_desc', "contenteditable" => "true", "placeholder" => "Test Description","onkeypress"=>"IsAlphaNumeric(this.id)","onblur"=>"IsAlphaNumeric(this.id)","max-height" => "200px")); ?>    
+                <?php echo $form->textArea($TestPaperForm, 'Description', array('maxlength' => '500', 'class' => 'survey_profiletitleedit span8 notallowed_desc', "contenteditable" => "true", "placeholder" => "Test Description","onkeypress"=>"IsAlphaNumeric(this.id)","onblur"=>"IsAlphaNumeric(this.id)","max-height" => "200px")); ?>    
                     <?php //echo $form->textField($TestPaperForm, 'SurveyDescription', array('maxlength' => '100', 'class' => 'span8 notallowed', "placeholder" => "Test Description")); ?>    
                 <div class="control-group controlerror"> 
                     <?php echo $form->error($TestPaperForm, 'Description'); ?>
@@ -47,7 +51,6 @@
         </div>
         <div class="row-fluid padding-bottom15">
             <div class="span8 positionrelative">
-                <label>Category</label>
                 <select name="surveyGroupName" id="surveyGroupName" class="span12" onchange="addCategory(this);">
                     <option value="Public">Select Category</option>
                     <?php 
@@ -64,19 +67,30 @@
         
        
 
+
     </div>
+          <div class="divtable ">
+        <div class="divrow divtableheader">
+       <div class="divcol1"> &nbsp;</div>
+        <div class="divcol2"># Questions </div>
+        <div class="divcol3">Time </div>
+        <div class="divcol4">Score </div>
+        <div class="divcol5">Review Question </div>
+        <div class="divcol6"> </div>
+        </div>
+          </div>
     <div id="extendedSurveyWidgets" class="mainclass">
         
     </div> 
     
     <div class="row-fluid" id="surveyfooterids" style="display: none;">
         <div id="extededsurvey_spinner" style="position: relative"></div>
-        <div class="span12 alignright padding10 bggrey">
+        <div class="alignright padding10 bggrey">
             <?php echo CHtml::Button('Save', array('onclick' => 'saveTestPaperForm();', 'class' => 'btn', 'id' => 'surveyFormButtonId')); ?> 
 
             <?php echo CHtml::resetButton('Cancel', array("id" => 'surveyResetId', 'onclick' => 'CancelSurveyForm();', 'class' => 'btn btn_gray')); ?>
         </div>
-    </div>
+    </div></div> 
     <?php $this->endWidget(); ?>
     
 </div>
