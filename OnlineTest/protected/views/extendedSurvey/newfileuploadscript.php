@@ -2,7 +2,7 @@
 <div class="row-fluid">
     <div class="span12">
         <div class="span2">
-            <div  style="display: table;"id="uploadfile_<?php echo $widgetCount; ?>" data-placement="bottom" rel="tooltip"  data-original-title="<?php echo Yii::t('translation','Ex_BrandLogo'); ?>"></div>
+            <div  style="display: table;margin-top:20px"id="uploadfile_<?php echo $widgetCount; ?>" data-placement="bottom" rel="tooltip"  data-original-title="<?php echo Yii::t('translation','Ex_BrandLogo'); ?>"></div>
             
         </div>
         <div class="span10 padding10">
