@@ -8,8 +8,11 @@ include 'userSettings.php';
 <div class="<?php echo $mainClass ?>">
         <div class="padding10 ">
 <?php }?>
-            <h2 class="pagetitle">User Management</h2>
-            
+     <div class="row-fluid groupseperator headermarginzero" id="dashboardtop">
+    <div class="span12 paddingtop10 border-bottom">
+        <div class="span12"><h2 class="pagetitle" >User Management</h2></div>
+       </div>
+  </div>
             <div id="usermanagement_div"></div>
 <?php if(Yii::app()->params['Project']!='SkiptaNeo'){?>
         </div>
