@@ -35,5 +35,7 @@ class ScheduleSurveyBean{
     public $NetworkId;
     public $SurveyedUsersCount = 0;
     public $MaxSpots=0;
+    public $CategoryCounts = array();
+    public $SuspendedCount = 0;
             
 }

@@ -5,7 +5,9 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
     foreach ($surveyObj->Questions as $question) {
     if ($question['QuestionType'] == 1) {
         ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="position:relative;padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+          
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
@@ -26,8 +28,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $question['Answers'][0]?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
-           
             <div class="surveyquestionsbox">
+                  <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <button class='btn'>Click here to use</button>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+ <?php } ?>
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule != 1){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -136,42 +143,45 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
                 });
                 
-                 $(".onlinetestradio").die().live("click",function(){ 
-       var $this = $(this);
-       var radiovalue = "";
-        var qId = $this.closest('div.answersection1').attr("data-questionId");
-        var qtype = $this.closest('div.answersection1').attr("data-qtype");
-         if(qtype == 3){
-            var i = $this.attr("data-info");
-            //radiovalue=$("input[name='radio_"+i+"_"+qId+"']:checked").val();
-            $(".radiotype_"+qId).each(function(){
-                      var $this = $(this);
-                           if($(this).is(":checked")){
-                               if(radiovalue == ""){
-                                   radiovalue = $this.val();
-                               }else{
-                                   radiovalue = radiovalue+","+$this.val();  
-                               }
-                           }
-                           
-                        }); 
-            
-           //alert(radiovalue) 
-                   
-        }else{
-            radiovalue=$("input[name='radioinput']:checked").val();
-           //alert(radiovalue) 
-        }
-        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
-      $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
-    });
-    
+//                 $(".onlinetestradio").die().live("click",function(){ 
+//       var $this = $(this);
+//       var radiovalue = "";
+//        var qId = $this.closest('div.answersection1').attr("data-questionId");
+//        var qtype = $this.closest('div.answersection1').attr("data-qtype");
+//         if(qtype == 3){
+//            var i = $this.attr("data-info");
+//            //radiovalue=$("input[name='radio_"+i+"_"+qId+"']:checked").val();
+//            $(".radiotype_"+qId).each(function(){
+//                      var $this = $(this);
+//                           if($(this).is(":checked")){
+//                               if(radiovalue == ""){
+//                                   radiovalue = $this.val();
+//                               }else{
+//                                   radiovalue = radiovalue+","+$this.val();  
+//                               }
+//                           }
+//                           
+//                        }); 
+//            
+//           //alert(radiovalue) 
+//                   
+//        }else{
+//            radiovalue=$("input[name='radioinput']:checked").val();
+//           //alert(radiovalue) 
+//        }
+//        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+//      $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
+//    });
+//    
 
         </script>
 
         <?php } else if ($question['QuestionType'] == 2) {
             ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+            
+            
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
@@ -192,7 +202,15 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>"  value="1"/>
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
+            
             <div class="surveyquestionsbox">
+                
+                <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <button class='btn'>Click here to use</button>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+ <?php } ?>
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -300,44 +318,46 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             });
             $("[rel=tooltip]").tooltip();
             // alert('<?php //echo ($i+1); ?>')
-            $("#othersarea_<?php echo ($i+1); ?> span").live('click', function() {
-                    var isChecked = 0;                         
-                    if ($('#othercheck_<?php echo ($i+1); ?>').is(':checked')) {
-                        isChecked = 1;
-                        $("#otherTextdiv_<?php echo ($i+1); ?>").show();
-                    } else {
-                        $("#otherTextdiv_<?php echo ($i+1); ?>").hide();
-                    }
-                    $("#ExtendedSurveyForm_Other_<?php echo ($i+1 ); ?>").val(isChecked);
-
-                });
-                
-                $(".onlinetestcheckbox").die().live("click",function(){
-                            var $this1 = $(this);
-                                   var checkboxvalues = "";
-                                     var qId = $this1.closest('div.answersection1').attr("data-questionId");
-                                      $("input[name='answercheck_" + qId + "']").each(function(key, value) {
-                                          var $this = $(this);
-                                          if($this.is(":checked")){ 
-                                              if(checkboxvalues == ""){
-                                                 checkboxvalues = key+1;
-                                             }else{
-                                                 checkboxvalues = checkboxvalues+","+(key+1);
-                                                 }
-                                                
-                                         }
-                          
-         });
-          //alert(checkboxvalues)
-          $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
-         $("#ExtendedSurveyForm_answerSelectedEdit_"+qId).val(checkboxvalues);
-         //alert(checkboxvalues)
-         
-    });
+//            $("#othersarea_<?php echo ($i+1); ?> span").live('click', function() {
+//                    var isChecked = 0;                         
+//                    if ($('#othercheck_<?php echo ($i+1); ?>').is(':checked')) {
+//                        isChecked = 1;
+//                        $("#otherTextdiv_<?php echo ($i+1); ?>").show();
+//                    } else {
+//                        $("#otherTextdiv_<?php echo ($i+1); ?>").hide();
+//                    }
+//                    $("#ExtendedSurveyForm_Other_<?php echo ($i+1 ); ?>").val(isChecked);
+//
+//                });
+//                
+//                $(".onlinetestcheckbox").die().live("click",function(){
+//                            var $this1 = $(this);
+//                                   var checkboxvalues = "";
+//                                     var qId = $this1.closest('div.answersection1').attr("data-questionId");
+//                                      $("input[name='answercheck_" + qId + "']").each(function(key, value) {
+//                                          var $this = $(this);
+//                                          if($this.is(":checked")){ 
+//                                              if(checkboxvalues == ""){
+//                                                 checkboxvalues = key+1;
+//                                             }else{
+//                                                 checkboxvalues = checkboxvalues+","+(key+1);
+//                                                 }
+//                                                
+//                                         }
+//                          
+//         });
+//          //alert(checkboxvalues)
+//          $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+//         $("#ExtendedSurveyForm_answerSelectedEdit_"+qId).val(checkboxvalues);
+//         //alert(checkboxvalues)
+//         
+//    });
         </script>
 
         <?php } else if ($question['QuestionType'] == 3) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+           
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
@@ -358,6 +378,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
+                
+                 <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <button class='btn'>Click here to use</button>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+ <?php } ?>
                 <div class="surveyareaheader">
                    <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -654,8 +681,10 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
         </script>
     <?php } else if ($question['QuestionType'] == 4) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?> " id="QuestionWidget_<?php echo ($i + 1); ?>">       
-        <?php
+        
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+       
+            <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
             'enableClientValidation' => true,
@@ -674,6 +703,12 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
              <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
              <div class="surveyquestionsbox">
+                  <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <button class='btn'>Click here to use</button>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+ <?php } ?>
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -955,8 +990,10 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
         </script>
     <?php } else if ($question['QuestionType'] == 5) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
-        <?php
+        
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+       
+            <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
             'enableClientValidation' => true,
@@ -975,6 +1012,12 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
+                 <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <button class='btn'>Click here to use</button>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+ <?php } ?>
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -1124,7 +1167,10 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
         </script>
     <?php } else if ($question['QuestionType'] == 6) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        
+            
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -1144,6 +1190,12 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
+                <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <button class='btn'>Click here to use</button>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+ <?php } ?>
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -1256,8 +1308,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
         </script>
     <?php } else if ($question['QuestionType'] == 7) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
-        <?php
+        
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;"  id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        
+            
+            <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
             'enableClientValidation' => true,
@@ -1276,6 +1331,12 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
+                <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <button class='btn'>Click here to use</button>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+ <?php } ?>
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -1383,7 +1444,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         </script>
     <?php
     } else if ($question['QuestionType'] == 8) { ?>
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px; <?php if($question['IsSuspended']==1){?> background:none repeat scroll 0 0 #CCC <?php } ?>" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -1404,7 +1465,15 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
+            <!--<input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>-->
             <div class="surveyquestionsbox">
+                <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">
+            <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <button class='btn'>Click here to use</button>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+ <?php } ?>
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule != 1){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -1531,27 +1600,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                 $("#rowfluidChars_<?php echo ($i + 1); ?>").show();
             });
             
-//            $(".onlinetestcheckbox").die().live("click",function(){ alert('hai')
-//                            var $this1 = $(this);
-//                                   var checkboxvalues = "";
-//                                     var qId = $this1.closest('div.answersection1').attr("data-questionId");
-//                                      $("input[name='answercheck_" + qId + "']").each(function(key, value) {
-//                                          var $this = $(this);
-//                                          if($this.is(":checked")){ 
-//                                              if(checkboxvalues == ""){
-//                                                 checkboxvalues = key+1;
-//                                             }else{
-//                                                 checkboxvalues = checkboxvalues+","+(key+1);
-//                                                 }
-//                                                
-//                                         }
-//                          
-//         });
-//          //alert(checkboxvalues)
-//         $("#ExtendedSurveyForm_answerSelectedEdit_"+qId).val(checkboxvalues);
-//         //alert(checkboxvalues)
-//         
-//    });
+            
+
+       
+    
+    
             
             </script>
     <?php } $i++; ?>
@@ -1631,8 +1684,58 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         }
     }
     
-    
-    
+     $(".onlinetestcheckbox").die().live("click",function(){ //alert('hai')
+                            var $this1 = $(this);
+                                   var checkboxvalues = "";
+                                     var qId = $this1.closest('div.answersection1').attr("data-questionId");
+                                      $("input[name='answercheck_" + qId + "']").each(function(key, value) {
+                                          var $this = $(this);
+                                          if($this.is(":checked")){ 
+                                              if(checkboxvalues == ""){
+                                                 checkboxvalues = key+1;
+                                             }else{
+                                                 checkboxvalues = checkboxvalues+","+(key+1);
+                                                 }
+                                                
+                                         }
+                          
+         });
+          //alert(checkboxvalues)
+          $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+         $("#ExtendedSurveyForm_answerSelected_"+qId).val(checkboxvalues);
+         //alert(checkboxvalues)
+         
+    });
+     $(".onlinetestradio").die().live("click",function(){ 
+       var $this = $(this);
+       var radiovalue = "";
+        var qId = $this.closest('div.answersection1').attr("data-questionId");
+        var qtype = $this.closest('div.answersection1').attr("data-qtype");
+         if(qtype == 3){
+            var i = $this.attr("data-info");
+            //radiovalue=$("input[name='radio_"+i+"_"+qId+"']:checked").val();
+            $(".radiotype_"+qId).each(function(){
+                      var $this = $(this);
+                           if($(this).is(":checked")){
+                               if(radiovalue == ""){
+                                   radiovalue = $this.val();
+                               }else{
+                                   radiovalue = radiovalue+","+$this.val();  
+                               }
+                           }
+                           
+                        }); 
+            
+           //alert(radiovalue) 
+                   
+        }else{
+            //radiovalue=$("input[name='radioinput']:checked").val();
+            radiovalue=$this.find("input[name='radioinput']").val();
+           //alert(radiovalue) 
+        }
+        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+      $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
+    });
         </script>
 <?php }
 

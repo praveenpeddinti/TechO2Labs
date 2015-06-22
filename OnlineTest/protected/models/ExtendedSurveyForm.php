@@ -249,7 +249,7 @@ class ExtendedSurveyForm extends CFormModel {
                 if ($params['fieldname'] == "MatrixAnswer" && trim($this->MatrixAnswer[$key]) == "") {
                     $keeyexp = explode("_", $key);
                     error_log("$$$$$$$$$$$$$$$$$$44".print_r($keeyexp,1));
-                    $this->addError('IsAnswerFilled_' . $keeyexp[2], "Please fill all the fields");
+                    $this->addError('MatrixAnswer_' . $keeyexp[2], "");
                 }
             }
         }

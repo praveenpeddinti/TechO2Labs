@@ -1036,8 +1036,7 @@ public function getQuestionOfSurvey($surveyId,$questionId){
             error_log("Exception Occurred in ExtendedSurveyCollection->updateBrands==".$ex->getMessage());
         }
     }
-    
-    
+
     
     /*
      * @praveen get Total questions for category start
@@ -1062,4 +1061,20 @@ public function getQuestionOfSurvey($surveyId,$questionId){
             error_log("Exception Occurred in ExtendedSurveyCollection->getSurveyDetailsByGroupName==".$ex->getMessage());
         }
     }
+
+        public function getSuspendedQuestionsCount($_id){
+        $c = ExtendedSurveyCollection::model()->getCollection();
+        $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($_id))),array('$unwind' =>'$Questions'),array('$match' => array('Questions.IsSuspended' =>1)),array('$group' => array("_id" => '$_id',"SuspendedQuestions" => array('$push' => '$Questions.IsSuspended'))));   
+        $questionsArray = $result['result'];
+        $re = 0;
+    foreach($questionsArray as $res){
+      
+        $re = sizeof($res['SuspendedQuestions']);
+   
+    }
+    return $re;
+        
+        
+    }
+    
 }

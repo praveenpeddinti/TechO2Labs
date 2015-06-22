@@ -1260,7 +1260,7 @@ return array (
     "NoOfUsersRead" => "No Of Users Read",
       "show_Derivative_MarketResearch"=>"Show Survey to followers",
     /** end mar 2015 10th merge.**/
-    "Ex_MarketResearch_Title" => "Edit Question Bank",
+    "Ex_MarketResearch_Title" => "Create Question Bank",
     "Ex_Capture_Info" => "Can you accept the User Info",
     "Ex_Notification" => "Follow up for abandoned users",
     "Ex_DisplayType" => "Display Type",

@@ -6826,7 +6826,8 @@ static function encryptString($pure_string) {
                 } else {
                     $extendedBean->SurveyDescription = $data->SurveyDescription;
                 }
-
+                $extendedBean->SuspendedCount = ExtendedSurveyCollection::model()->getSuspendedQuestionsCount($data->_id);
+                error_log("&&&&&&&&&&&&suspendcount".$extendedBean->SuspendedCount);
                 $extendedBean->QuestionsCount = $data->QuestionsCount;
                 $extendedBean->SurveyLogo = $data->SurveyLogo;
                 $extendedBean->SurveyRelatedGroupName = $data->SurveyRelatedGroupName;
@@ -6865,7 +6866,7 @@ static function encryptString($pure_string) {
                 
                 array_push($totalBeansArray, $extendedBean);
                 $i++;
-            }
+            }            
             return $totalBeansArray;
         } catch (Exception $ex) {
             Yii::log("CommonUtility:prepareSurveyDashboradData::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

@@ -64,6 +64,16 @@ class TestPreparationCollection extends EMongoDocument {
          }
      }
      
+     public function getTestPreparationCollection(){
+         try{
+             $criteria = new EMongoCriteria;
+             $criteria->setSelect(array("Category"=>true));
+             return TestPreparationCollection::model()->findAll($criteria);
+         } catch (Exception $ex) {
+             Yii::log("TestPreparationCollection:getTestPreparationCollection::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+             error_log("Exception Occurred in TestPreparationCollection->getTestPreparationCollection==".$ex->getMessage());
+         }
+     }
      
      
 }

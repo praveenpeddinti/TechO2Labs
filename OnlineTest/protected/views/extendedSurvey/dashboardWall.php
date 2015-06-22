@@ -8,7 +8,7 @@
 <!-- PAGE TITLE AREA START -->
 <div class="title_area">
 <p><?php echo $data->SurveyTitle; ?></p>
-<span class="badge_count">10</span>
+<span class="badge_count"><?php echo $categoriesCount[$data->SurveyTitle]; ?></span>
 </div>
 <!-- PAGE TITLE AREA END -->
 <p class="description"><?php echo $data->SurveyDescription; ?> </p>
@@ -26,7 +26,7 @@
 <li>
     <div class="inner_li">
     <p>Suspended Questions</p>
-<label>0</label>
+<label><?php echo $data->SuspendedCount; ?></label>
     </div>
 </li>
 </ul>

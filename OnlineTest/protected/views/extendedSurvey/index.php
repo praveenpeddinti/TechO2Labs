@@ -448,12 +448,22 @@ bindToMandatory();
             updateDivs();
             <?php  }else{ ?>
            
-            $(this).parents('div.QuestionWidget').addClass("suspend");
-            $(this).parents('div.QuestionWidget').css("background", "none repeat scroll 0 0 #CCC");
+            //$(this).parents('div.QuestionWidget').addClass("suspend");
+            $(this).parents('div.QuestionWidget').append("<div class='suspendcontentdiv' data-qid='"+qId+"'><button class='btn'>Click here to use</button></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>")
+            //$(this).parents('div.QuestionWidget').css("background", "none repeat scroll 0 0 #CCC");
+            //$(this).parents('div.suspenddiv').css("background", "none repeat scroll 0 0 #CCC");
             $("#ExtendedSurveyForm_IsSuspend_"+qId).val(1);
         <?php } ?>
            
     });
+    
+    $(".suspendcontentdiv").live('click',function(){
+        var qId = $(this).attr("data-qid");
+        $("#ExtendedSurveyForm_IsSuspend_"+qId).val(0);
+        $(this).remove();
+        $("#suspenddiv_"+qId).remove();
+        
+    }); 
        <?php } ?>
 
     $(".questionlabel").live('click', function() {
@@ -662,8 +672,7 @@ bindToMandatory();
                 var errorStr=eval(data.oerror);
             }
             $.each(errorStr, function(key, val) { 
-                
-                if($("#"+key+"_em_") && val != ""){                     
+                 if($("#"+key+"_em_") && val != ""){                     
                     $("#"+key+"_em_").text(val);                                                    
                     $("#"+key+"_em_").show();   
                     $("#"+key+"_em_").fadeOut(12000);
@@ -673,6 +682,15 @@ bindToMandatory();
                 
             }); 
             $.each(error, function(key, val) {
+                var strArr = key.split("_");  
+                
+                if($.trim(strArr[1]) == "MatrixAnswer"){                            
+                    $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").text("Please fill all the fields");
+                    $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").show();
+                    $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").fadeOut(9000);
+                    $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").addClass('error');
+
+                }else
                 if (key == "ExtendedSurveyForm_SurveyDescription") {
                     if ($("#ExtendedSurveyForm_SurveyDescription").val() == "") {
                         $("#ExtendedSurveyForm_SurveyDescription_em_").text(val);
@@ -691,7 +709,8 @@ bindToMandatory();
                     $('#surveyLogo_error').html("Please upload Research Logo ");
                     $('#surveyLogo_error').show();
                     $('#surveyLogo_error').fadeOut(12000);
-                } else {
+                } 
+                else {
                     if ($("#" + key + "_em_")) {
                         $("#" + key + "_em_").text(val);
                         $("#" + key + "_em_").show();

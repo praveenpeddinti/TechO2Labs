@@ -360,7 +360,7 @@ class ExtendedSurveyController extends Controller {
                              if ($key == "AnswerSelected") {
                                  $k = 0;
                                 foreach ($value as $m) {
-                                    error_log("************AnswerSelected555*****");
+                                    error_log("************AnswerSelected555*****$m");
                                     $ExSurveyBean->Answers =  explode(",",$m);
                                     
                                 }
@@ -923,8 +923,21 @@ class ExtendedSurveyController extends Controller {
                 } else {
 
                     $preparedObject = -1; //No more posts
-                }           
-                $this->renderPartial('dashboardWall', array('surveyObject' => $preparedObject));
+
+                }       
+                $testprepareobj = TestPreparationCollection::model()->getTestPreparationCollection();
+                $catArray = array();
+                foreach($testprepareobj as $cat){                    
+                    foreach($cat->Category as $cat1){
+                       if($catArray[$cat1['CategoryName']] == ""){
+                          $catArray[$cat1['CategoryName']] = 1;
+                       }else{
+                           $catArray[$cat1['CategoryName']] = $catArray[$cat1['CategoryName']]+1;                           
+                       }                      
+                    }                   
+                }                
+
+                $this->renderPartial('dashboardWall', array('surveyObject' => $preparedObject,"categoriesCount"=>$catArray));
             }else{
                 $this->redirect("/");
             }

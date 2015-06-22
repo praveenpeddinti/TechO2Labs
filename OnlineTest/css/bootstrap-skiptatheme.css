@@ -503,3 +503,7 @@ body {
 
 .signdiv .control-group input.uneditable-input { border:1px solid #B8BCC1; box-shadow: 0 1px 1px rgba(165, 175, 183, 0.075) inset; transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
     border-radius: 0;  background: #f1f1f1; }
+.suspenddiv{position:absolute;top:0;right: 0;bottom: 0; left: 0; background: #000; opacity: 0.5; z-index: 90;}
+.suspendcontentdiv{position:absolute;top:0;right: 0;bottom: 0; left: 0;  z-index: 92;text-align: center}
+.suspendcontentdiv button{position: relative;top:50%}
+
