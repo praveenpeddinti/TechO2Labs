@@ -61,8 +61,8 @@
         itemWidth: '100%', // Optional min width of a grid item
         autoResize: true, // This will auto-update the layout when the browser window is resized.
         container: $('#surveyDashboardWall'), // Optional, used for some extra CSS styling
-        offset: 20, // Optional, the distance between grid items
-        outerOffset: 20, // Optional the distance from grid to parent
+        offset: 12, // Optional, the distance between grid items
+        outerOffset: 10, // Optional the distance from grid to parent
         flexibleWidth: '50%', // Optional, the maximum width of a grid item
         align: 'left'
     };
@@ -83,7 +83,7 @@
                     optionsC.itemWidth = '100%';
                 } else {
 
-                    optionsC.itemWidth = '20%';
+                    optionsC.itemWidth = '24%';
                 }
 
                 handler.wookmark(optionsC);
