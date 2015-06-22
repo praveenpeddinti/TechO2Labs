@@ -250,8 +250,8 @@ header .container .nav > li .notificationresults .read .padding10 .notificationd
 .textfield, input.textfield[type="text"]{margin-bottom:0;padding:4px 6px}
  /*select.textfield{height:28px;border-radius:0;margin-bottom:0}*/
 .pagination{border-top:1px solid #e8e8e8;padding-top:5px;margin:0}
-.btn-group.open .btn.dropdown-toggle{background-color: #000;border-radius:4px }
-.btn .caret {border-top: 4px solid #FFFFFF;vertical-align: text-top;margin-left:5px}
+.btn-group.open .btn.dropdown-toggle{background-color: #e6e6e6;border-radius:4px }
+.btn .caret {border-top: 4px solid #333;vertical-align: text-top;margin-left:5px}
 .headerpoptitle_white { padding: 6px;}
 .actionmoredivtop ul, .advance_enhancement ul{margin:0;padding:0;list-style:none}
 .actionmoredivtop ul, .advance_enhancement ul{margin:0;padding:0;list-style:none}
@@ -592,7 +592,7 @@ header .container .nav > li .notificationresults .read .padding10 .notificationd
 .grouphomemenu ul li.normal { padding-bottom: 3px;}
 .modal-body .media .media-body .m_day{display:block;word-wrap:break-word}
 .pop_socialworks .social_bar span, .pop_socialworks .social_bar a:last-child{}
-.groupseperator{background:url(/images/system/followerseperator.png) repeat-x left top;margin-top:10px;padding-top:10px}
+.groupseperator{margin-top:10px;padding-top:10px}
 .searchgroupsinpufield input.textfield[type="text"]{height:20px}
 .groupseperator .grouphomemenuhelp {padding-bottom:5px}
 .paddingtop18{padding-top:18px}
@@ -2148,7 +2148,6 @@ footerTabs a:hover {
 .streamactionsdiv .stream_title .postmg_actions {opacity: 0;}
 .streamactionsdiv .stream_title:hover .postmg_actions, .streamactionsdiv .stream_title .open {opacity: 1;}
 .gameprofilebox, .ext_surveybox {list-style-type: none;position: relative; /** Needed to ensure items are laid out relative to this container **/ margin: 0; padding: 0; }
-.gameprofilebox li.gamelist, .ext_surveybox li.surveylist {width: 200px;display: none; /** Hide items initially to avoid a flicker effect **/ padding:1px;margin-bottom:7px;background-color: #fff;-moz-box-shadow: 0 0 4px #ccc;-webkit-box-shadow: 0 0 6px #ccc;box-shadow: 0 0 6px #ccc;filter:progid:DXImageTransform.Microsoft.Shadow(color=#e8e8e8,direction=0,strength=4),progid:DXImageTransform.Microsoft.Shadow(color=#e8e8e8,direction=45,strength=4), progid:DXImageTransform.Microsoft.Shadow(color=#e8e8e8,direction=90,strength=4), progid:DXImageTransform.Microsoft.Shadow(color=#e8e8e8,direction=135,strength=4), progid:DXImageTransform.Microsoft.Shadow(color=#e8e8e8,direction=180,strength=4),progid:DXImageTransform.Microsoft.Shadow(color=#e8e8e8,direction=225,strength=4),progid:DXImageTransform.Microsoft.Shadow(color=#e8e8e8,direction=270,strength=4),progid:DXImageTransform.Microsoft.Shadow(color=#e8e8e8,direction=315,strength=4);}
 .gameprofilebox .stream_title, .ext_surveybox .stream_title { border-bottom: 1px solid #D9D9D9;font-size: 14px;}
 .gameprofilebox .mediaartifacts:after {clear: both;content: "";display: block;}
 .gameprofilebox .mediaartifacts, .ext_surveybox .mediaartifacts {border-bottom: 1px solid #D9D9D9;padding: 10px;text-align: center}
@@ -2968,8 +2967,8 @@ advertisement changes
 
 /* extended survey styles*/
 .surveyquestionsbox{border:0px solid #e8e8e8;border-radius:10px; }
-.surveyquestionsbox .surveyareaheader{background:#e8e8e8;padding:15px 30px;border-radius:10px 10px 0 0;position:relative}
-.surveyquestionsbox .surveyanswerarea{border:1px solid #e8e8e8;border-radius:0 0 10px 10px }
+.surveyquestionsbox .surveyareaheader{background:#e8e8e8;padding:15px 30px;position:relative}
+.surveyquestionsbox .surveyanswerarea{border:1px solid #e8e8e8; }
 .surveyquestionsbox .surveyanswerarea .paddingtblr1030{padding:10px 30px}
 .answerstabs{position:relative;z-index:0}
 .answerstabs:after{border-bottom:3px solid #dbdbdb;content:"";position:absolute;bottom:0;left:0;right:0;z-index:-1}
@@ -3016,12 +3015,13 @@ advertisement changes
 .surveyremoveicon img{width:20px; height:20px;background:url(../images/system/extendedsurvey_icons.png) no-repeat 2px -497px;cursor:pointer}
 .tdsurveyremoveicon img{width:20px; height:20px;background:url(../images/system/extendedsurvey_icons.png) no-repeat 2px -497px;cursor:pointer}
 .subsectionremove{position:absolute;right:-10px;top:-10px}
+.subsectionremoveintable{position:static;}
 .subsectionremove img{width:25px; height:25px;background:url(../images/system/extendedsurvey_icons.png) no-repeat 2px -427px;cursor:pointer}
 .othersarea{position:relative;height:30px;}
 .othersarea i{padding-top:4px;font-style:normal;color:#a3a3a3;display:inline-block}
 .surveybuttonarea{border-top:1px solid #dadada;padding:10px 0;margin-top:10px}
 .padding152010{padding:15px 20px 15px 10px}
-.market_profile{padding-left:250px;position:relative;min-height:230px}
+.market_profile{position:relative;}
 .m_profileicon{position:absolute;left:10px;top:0;}
 /*.survey_profiletitleedit {border: 1px dashed #ccc;}*/
 .surveyquestionsbox{margin-bottom:15px}
@@ -3125,7 +3125,7 @@ input.textfieldtable[type="text"]{width:100%;}
 .extsurveyactions:after {clear: both;content: " ";display: block;}
 .extsurveyactions {clear: both; margin-top: 5px;padding: 5px 3px 5px 5px;border-top: 1px solid #ccc;}
 .disabledelement{position: absolute;left:0;right:0;top:0;bottom:0}
-.headermarginzero{margin-top:-9px;position:relative;}
+.headermarginzero{position:relative;}
 .lineheightsurvey{line-height:30px}
 .liststylenone{list-style:none;}
 .surveyquestionsbox .surveyareaheader_analytics{padding-right:80px;padding-left:40px}
