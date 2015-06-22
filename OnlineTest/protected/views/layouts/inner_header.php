@@ -1,8 +1,8 @@
 <header>
-    <div class="container">
+    <div class="container paddingtoplogo">
 <div class="row-fluid">
         	<div class="span12">
-            	<div class="span3 iphonelogo">
+            	<div class="span3 iphonelogo ">
                  <a class="navbar-brand" href="#"><img src="/images/inner_techo2logo.png" ></a>    
                 </div>
               <div class="span9 positionrelative" id="headerSection">
