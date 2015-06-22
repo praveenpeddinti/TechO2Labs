@@ -1,24 +1,24 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<header>
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"><img src="/images/inner_techo2logo.png" ></a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <div class="headernavigation">
-                <?php if (Yii::app()->params['Project'] == 'SkiptaNeo') {
+<div class="row-fluid">
+        	<div class="span12">
+            	<div class="span3 iphonelogo">
+                 <a class="navbar-brand" href="#"><img src="/images/inner_techo2logo.png" ></a>    
+                </div>
+              <div class="span9 positionrelative" id="headerSection">
+                  <div class="headernavigation">
+                  <?php if (Yii::app()->params['Project'] == 'SkiptaNeo') {
                     include 'leftmenu.php';
                 } ?>
-
-
-                <div style="float:right" class="profilearea position_R"><ul class="nav navbar-nav profileul">
-
-                        <li class=" profilelist dropdown">
+                      </div>
+                <div class="pull-right mobileclear">
+                   
+                <ul class="nav headermenuarea ">
+                   
+                                 
+                
+                 <li class="normal" id="profileDropDown">
+                     <li class=" profilelist dropdown">
                             <div class="generalprofileicon skiptaiconwidth60x60" >
                                 <a aria-expanded="false" role="button" data-toggle="dropdown" data-placement="right" class="dropdown-toggle skiptaiconinner " href="#"><img src="/images/sreeni.png"> <span class="caret"></span></a> </a>
                                 <ul role="menu" class="dropdown-menu">
@@ -30,27 +30,19 @@
 
 
                         </li>
-                    </ul></div>
+                  
+                 	 
+                </li>
+                </ul>
+               
+                </div>
             </div>
-        </div><!--/.navbar-collapse -->
-    </div>
+            </div>
+       
+        </div>
 
-</nav>
-
-
-
-
-
-
-
-
-
-
-
-<!-- -->
-
-
-
+</div>
+</header>
 
 
 
