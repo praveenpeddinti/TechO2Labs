@@ -1,6 +1,13 @@
 <div class="alert alert-success" id="sucmsg" style='text-align:center;display:none;'></div>
 <div class="padding10ltb">
-    <h2 class="pagetitle" id="pagetitle_s"><?php echo Yii::t("translation","Ex_MarketResearch_Title"); ?></h2>     
+    <div class="row-fluid groupseperator headermarginzero" id="dashboardtop">
+    <div class="span12 paddingtop10 border-bottom">
+        <div class="span12"><h2 class="pagetitle" >Question Bank</h2></div>
+      
+    </div>
+  
+</div>
+    
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'questionWidget',
@@ -30,27 +37,8 @@
     
 
     <div class="market_profile marginT10" id="survey_profilediv">
-        <div class="m_profileicon">
-            <div><i class="fa fa-question helpicon helpmanagement top10  tooltiplink" style="z-index:999;  " data-placement="bottom" rel="tooltip" data-original-title="Please click on the rounded icon and upload a logo."></i> </div>
-            <div class="pull-left marginzero generalprofileicon  skiptaiconwidth190x190 generalprofileiconborder5 noBackGrUp">
-                <div class="positionrelative editicondiv editicondivProfileImage no_border editicondivProfileImagelarge skiptaiconinner ">
-                <div class="edit_iconbg ">
-                    <div id='SurveyImage'></div>
-                </div>
-<!--                                <img id="profileImagePreviewId" src="" alt="" />-->
-                    <img alt="" src="<?php if(isset($ExtendedSurveyForm->SurveyLogo) && $ExtendedSurveyForm->SurveyLogo != "") echo $ExtendedSurveyForm->SurveyLogo; else echo Yii::app()->params['ServerURL']; ?>/images/system/survey_img.png" id="surveyPreviewId">
-                </div>
-                
-                <div><ul id="survey_logo" class="qq-upload-list"></ul></div>
-            </div>
-            <div class="control-group controlerror"  >
-
-                <div id="SurveyImage_error" class="errorMessage marginbottom10 error"  style="display:none"></div>
-                <?php echo $form->error($ExtendedSurveyForm, 'SurveyLogo'); ?>
-            </div>
-            
-        </div>
         
+        <div class="questionmainpaddingtop">
 
         <div class="row-fluid padding-bottom15">
             <div class="span12">
@@ -59,7 +47,7 @@
                 if(!empty($surveyId)){
                     $isEditable = true;
                 }
-                echo $form->textField($ExtendedSurveyForm, 'SurveyTitle', array('maxlength' => '100', 'class' => 'span8 notallowed', "placeholder" => "Title" , "readonly" => $isEditable)); ?>    
+                echo $form->textField($ExtendedSurveyForm, 'SurveyTitle', array('maxlength' => '100', 'class' => 'span6 textfield  notallowed', "placeholder" => "Title" , "readonly" => $isEditable)); ?>    
                 <div class="control-group controlerror"> 
                     <?php echo $form->error($ExtendedSurveyForm, 'SurveyTitle'); ?>
                 </div>
@@ -67,98 +55,29 @@
 
             </div>
         </div>
-       <!-- <div class="row-fluid padding-bottom15">
-            <div class="span8 positionrelative">
-                <select name="surveyGroupName" id="surveyGroupName" class="span12 styled" >
-                    <option value="Public"><?php //echo Yii::t("translation","Market_Research_Bundle"); ?></option>
-                    <?php //if(isset($surveyGroupNames) && sizeof($surveyGroupNames) > 0){
-                        //foreach($surveyGroupNames as $rw){?>
-                    <option value="<?php //echo $rw->GroupName; ?>" data-url="<?php //echo $rw->LogoPath; ?>"><?php //echo $rw->GroupName; ?></option>                                      
-                        <?php //} }?>
-                    <option value="other">Other</option>
-                </select>
-                <div class="control-group controlerror">
-                      <?php //echo $form->error($ExtendedSurveyForm, 'SurveyRelatedGroupName'); ?>
-                 </div>
-            </div>
-        </div>
-        
-        <div class="row-fluid padding-bottom15">
-            <div class="span8 positionrelative" id="othervalue" style="display:none;">
-                <?php //echo $form->textField($ExtendedSurveyForm, 'SurveyOtherValue', array('maxlength' => 50, 'class' => 'span12 notallowed_other',"placeholder"=>"Other value")); ?> 
-                <div class="control-group controlerror">
-                      <?php //echo $form->error($ExtendedSurveyForm, 'SurveyOtherValue'); ?>
-                 </div>
-                          
-            </div>
-        </div>-->
+       
         <div class="row-fluid">
             <div class="span12">
-                <?php echo $form->textArea($ExtendedSurveyForm, 'SurveyDescription', array('maxlength' => '500', 'class' => 'survey_profiletitleedit span12 notallowed_desc', "contenteditable" => "true", "placeholder" => "Description","onkeypress"=>"IsAlphaNumeric(this.id)","onblur"=>"IsAlphaNumeric(this.id)","max-height" => "200px")); ?>    
+                <?php echo $form->textArea($ExtendedSurveyForm, 'SurveyDescription', array('maxlength' => '500', 'class' => 'survey_profiletitleedit span8 notallowed_desc', "contenteditable" => "true", "placeholder" => "Description","onkeypress"=>"IsAlphaNumeric(this.id)","onblur"=>"IsAlphaNumeric(this.id)","max-height" => "200px")); ?>    
 
                 <div class="control-group controlerror"> 
                     <?php echo $form->error($ExtendedSurveyForm, 'SurveyDescription'); ?>
                 </div>
             </div>
         </div>
-        <div class="row-fluid padding-bottom15" id="brandrelateddiv">
-            <div class="span12">
-                <!--<div class="span6">
-                <?php //echo $form->textField($ExtendedSurveyForm, 'BrandName', array('maxlength' => '100', 'class' => 'span12 notallowed', "placeholder" => Yii::t('translation','Ex_BrandName'),"data-placement" => "bottom","rel"=> "tooltip","data-original-title"=>Yii::t('translation','Ex_BrandName'))); ?>    
-                <div class="control-group controlerror"> 
-                    <?php //echo $form->error($ExtendedSurveyForm, 'BrandName'); ?>
-                </div>
-                </div>-->
-                <div class="span6">
-                    <div class="pull-left">
-                        <!--<div  style="display: table;"id="uploadfile" data-placement="bottom" rel="tooltip"  data-original-title="<?php //echo Yii::t('translation','Ex_BrandLogo'); ?>"></div>-->
-                    </div>
-                    <!--<div style="padding-left: 30px;display: none" id="brandimagelogodiv">
-                        <div style="" class="preview pull-left">
-         
-                        <ul >
-                            <li class="">
-                                <img alt="" src="" id="brandPreview">
-                            </li>
-                        </ul>
-
-                   </div>        
-                    </div>-->
-                    <!--<div class="control-group controlerror"  >
-
-                        <div id="BrandImage_error" class="errorMessage marginbottom10 error"  style="display:none"></div>
-                        <?php //echo $form->error($ExtendedSurveyForm, 'BrandLogo'); ?>
-                    </div>-->            
-                    
-                    <!--<div id="appendlist"><ul class="qq-upload-list" id="uploadlist"></ul></div>-->
-                </div>
-
-
-            </div>
-        </div>
-       
+         <div class="row-fluid groupseperator border-bottom">
         
+        <div class="span10 "><h2 class="pagetitle">Create Questions </h2></div>
+               
         
-<!--        <div class="row-fluid">
-             <div class="span5">
-                 <span><?php //echo Yii::t("translation","Ex_Analytics_Title"); ?></span>
-            </div>
-            <div class="span3">
-                <input type="checkbox" id="analyticsviewcheckboxSettings" data-on-label="Off" data-off-label="On" />
-                </span>
-            </div>           
-            
-        </div>-->
+    </div> 
+</div>
 
     </div>
     
-    <div class="row-fluid groupseperator border-bottom">
-        
-        <div class="span10 "><h2 class="pagetitle"><?php //echo Yii::t("translation","Ex_Market_Title"); ?> </h2></div>
-               
-        
-    </div>
+  
     <div id="surveySpinLoader" style="position:relative;"></div>
+    <div class="questionmainpadding">
     <div id="extendedSurveyWidgets" class="mainclass">
         
     </div>   
@@ -169,12 +88,13 @@
     </div> 
     <div class="row-fluid" id="surveyfooterids" style="display: none;">
         <div id="extededsurvey_spinner" style="position: relative"></div>
-        <div class="span12 alignright padding10 bggrey">
+        <div class="alignright padding10 bggrey">
             <?php echo CHtml::Button('Done', array('onclick' => 'saveSurveyForm();', 'class' => 'btn', 'id' => 'surveyFormButtonId')); ?> 
 
             <?php echo CHtml::resetButton('Cancel', array("id" => 'surveyResetId', 'onclick' => 'CancelSurveyForm();', 'class' => 'btn btn_gray')); ?>
         </div>
     </div>
+        </div>
     <?php $this->endWidget(); ?>
     
 </div>
@@ -429,11 +349,7 @@ bindToMandatory();
     var checkboxOptionsCount = 4;
     var TotalQuestions = '<?php echo Yii::app()->params['TotalSurveyQuestions']; ?>';
     TotalQuestions = Number(TotalQuestions);
-//    var extensions = '"jpg","jpeg", "gif", "png", "tiff"';
-    var extensions = '"jpg","jpeg", "gif", "png", "tiff","tif","TIF"';
-    initializeFileUploader('SurveyImage', '/extendedSurvey/uploadImage', '10*1024*1024', extensions, 1, 'SurveyImage', '', SurveyPreviewImage, displayErrorForBannerAndQuestion, "survey_logo");
-    //initializeFileUploader('uploadfile', '/extendedSurvey/uploadImage', '10*1024*1024', extensions, 1, 'SurveyImage', '', BrandPreviewImage, displayErrorForBannerAndQuestion, "appendlist");
-    
+ 
     var preq = 0;
     var nextq = 0;
     var i = 0;
