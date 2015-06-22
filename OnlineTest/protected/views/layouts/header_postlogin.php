@@ -39,7 +39,7 @@
         <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/simplePagination/simplePagination.css"/>
         <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/customswitch.css"/>
         
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-onlinetest.css" rel="stylesheet" type="text/css" />
+        
         <!--<script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery-1.11.3.js"></script>-->
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/simplePagination/jquery.simplePagination.js"></script> 
         <style type="text/css">.dropdown-backdrop {position: fixed;left:0;z-index:997;display:none}</style>
