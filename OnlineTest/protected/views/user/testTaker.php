@@ -1,13 +1,21 @@
 <div id="enrollmentPopupId" >
     <div class="alert alert-success" id="sucmsg" style='text-align:center;display:none;'></div>
     <div class="form-inline" id="defaultView"> 
-  <div class="form-group">
-    
-      <label > Multiple users <input style="position: relative;" type="radio" id="csvUpload" name="change" onclick="changeViewInPopu(this)" class=""/></label>
+        <div class="row-fluid">
+            <div class="span6">
+                 <div class="form-group">
+      <label > <input style="position: relative;" type="radio" id="csvUpload" name="change" onclick="changeViewInPopu(this)" class=""/> Multiple users </label>
   </div>
-  <div class="form-group">
-    <label class=""> Single user <input style="position: relative;" type="radio" id="manually" name="change" onclick="changeViewInPopu(this)" class=""/></label>
-  </div>
+            </div>
+            <div class="span6">
+               <div class="form-group">
+    <label class=""><input style="position: relative;" type="radio" id="manually" name="change" onclick="changeViewInPopu(this)" class=""/> Single user</label>
+  </div> 
+            </div>
+            
+        </div>
+ 
+  
 
 </div>
 
@@ -30,43 +38,74 @@
             ));
             ?>
             <div id="reg_error" class="alert-error"></div> 
-            
-                
-                <div class="form-group loginform" id="usernamediv">
-                    <label class="usernamelbl" for="userName" >First Name</label>
+            <div class="form-group loginform" >
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="span6">
+                          <label class="usernamelbl" for="userName" >First Name</label>
                     <?php echo $form->textField($takerForm, 'FirstName', array('id' => 'TestTakerForm_FirstName', 'maxlength' => 50, 'class' => 'span12')); ?>
                     <div class="control-group danger"> 
                         <?php echo $form->error($takerForm, 'FirstName'); ?>
                     </div>
-               
-                    <label class="usernamelbl" for="userName" >Last Name</label>
+                    </div>
+                    <div class="span6">
+                        <label class="usernamelbl" for="userName" >Last Name</label>
                     <?php echo $form->textField($takerForm, 'LastName', array('id' => 'TestTakerForm_LastName', 'maxlength' => 50, 'class' => 'span12')); ?>
                     <div class="control-group has-error"> 
                         <?php echo $form->error($takerForm, 'LastName'); ?>
                     </div>
+                    </div>
                 </div>
-                
-                <div class="form-group loginform" id="usernamediv">
-                    <label class="usernamelbl" for="userName" >Email</label>
+                </div>
+                 </div>
+            
+            <div class="form-group loginform" >
+                  <div class="row-fluid">
+                <div class="span12">
+                    <div class="span12">
+                        <label class="usernamelbl" for="userName" >Email</label>
                     <?php echo $form->textField($takerForm, 'Email', array('id' => 'TestTakerForm_Email', 'maxlength' => 50, 'class' => 'span12')); ?>
                     <div class="control-group has-error"> 
                         <?php echo $form->error($takerForm, 'Email'); ?>
                     </div>
-                
-                    <label class="usernamelbl" for="userName" >Phone</label>
+                    </div>
+                   
+                </div>
+                  </div>
+                  </div>
+                 <div class="form-group loginform" >
+                     <div class="row-fluid">
+            <div class="span12">
+                     <div class="span6">
+                        <label class="usernamelbl" for="userName" >Phone</label>
                     <?php echo $form->textField($takerForm, 'Phone', array('id' => 'TestTakerForm_Phone', 'maxlength' => 10, 'class' => 'span12')); ?>
                     <div class="control-group has-error"> 
                         <?php echo $form->error($takerForm, 'Phone'); ?>
                     </div>
-                </div>
-                
-                <div class="form-group loginform" id="usernamediv">
-                    <label class="usernamelbl" for="userName" >Qualification</label>
+                    </div>
+                    <div class="span6">
+                         <label class="usernamelbl" for="userName" >Qualification</label>
                     <?php echo $form->dropdownlist($takerForm, 'Qualification', array('' => 'Select', 'MCA' => 'MCA', 'MBA' => 'MBA', 'B.Tech' => 'B.Tech', 'MS' => 'MS'), array('id' => 'TestTakerForm_Qualification')); ?>
                     <div class="control-group has-error"> 
                         <?php echo $form->error($takerForm, 'Qualification'); ?>
                     </div>
+                    </div>
                 </div>
+                 </div>
+                   
+                </div>
+            
+                
+           
+                
+                  
+               
+                    
+                
+                
+                
+                
+               
             
             
         
@@ -102,13 +141,13 @@
   <div class="form-group">
     <label>Upload CSV File</label>
     <div class="fileupload fileupload-new" data-provides="fileupload">
-        <span class="btn btn-file"><span class="fileupload-new">Select file</span><input type="file" name="csvfiletype[]" id="csvfiletype" onchange="checkCSVFile(this, 'csv_error')"/></span>
+        <span class=""><span class="fileupload-new">Select file</span><input type="file" name="csvfiletype[]" id="csvfiletype" onchange="checkCSVFile(this, 'csv_error')"/></span>
         <div id="uploadedfilename" style="font-size: 14px;"></div>
 <!--        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>-->
     </div>
       
   </div>
-  <div class="form-group">
+  <div class="form-group" style="padding-top:10px">
     
       <label>Delimeter</label>
                             <?php echo $form->dropdownlist($csvModel, 'delimeter', array('2' => 'Comma(,)', '1' => 'Tab(\t)', '3' => 'Semicolon(;)'), array('id' => 'CSVForm_delimeter')); ?>
