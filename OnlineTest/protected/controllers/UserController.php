@@ -380,7 +380,8 @@ class UserController extends Controller {
                                         $errors[$i] = " User already exist with this Phone ".$toPhone." Please  try with another Phone.";    
                                         $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                                     }else {
-                                    $saveuser = ServiceFactory::getSkiptaUserServiceInstance()->saveUser($resultObject);
+                                    //$saveuser = ServiceFactory::getSkiptaUserServiceInstance()->saveUser($resultObject);
+                                    $saveuser = ServiceFactory::getSkiptaUserServiceInstance()->SaveUserCollection($resultObject);
                                        $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
                                     //$Save_userInUserCollection = ServiceFactory::getSkiptaUserServiceInstance()->UpdateUserCollection($UserSettingsForm,$oldUserObj);
                                     } 

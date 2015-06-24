@@ -62,14 +62,10 @@ class SiteController extends Controller {
     
     public function actionLogin() {
         try {
-            error_log("Exception Occurred in SiteController->actionLogin==");
             $model = new LoginForm;
-
-
-            error_log("Exception Occurred in SiteC222222222ontroller->actionLogin==");
             $request = yii::app()->getRequest();
             $formname = $request->getParam('LoginForm');
-            if ($formname != '') {error_log("Excerreption Occurred in SiteC222222222ontroller->actionLogin==");
+            if ($formname != '') {
                 $model->attributes = $formname;
                 $errors = CActiveForm::validate($model);
                 if ($errors != '[]') {
@@ -78,20 +74,12 @@ class SiteController extends Controller {
                     return;
                 } else {
                     $resultArray = ServiceFactory::getSkiptaUserServiceInstance()->userAuthentication($model);
-                    error_log("user authenticationnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn".$resultArray);
                     if ($resultArray == 'success') {
                         $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserByType($model->email, 'Email');
-                        //ServiceFactory::getSkiptaUserServiceInstance()->saveUserLoginActivity($userObj->UserId);
-                       
-                        error_log("user authenticationnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn".print_r($userObj,true));
                         $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
-                        
-                        
-                        
                         Yii::app()->session['TinyUserCollectionObj'] = $tinyUserCollectionObj;
                         Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
                         Yii::app()->session['Email'] = $model->email;
-
                         $obj = array('status' => "success");
                     } else{
                      $obj = array('status' => "error",'error' =>"Invalid User Name and Password");   
@@ -105,9 +93,6 @@ class SiteController extends Controller {
         }
     }
 
-    
-    
-    
     /*
      * This  method is used for  New user registration if the user is already exist this method
      * will return user already exist otherwise
@@ -115,61 +100,40 @@ class SiteController extends Controller {
      */
 
     public function actionRegister() {
-        
-        
        try{
-        $model = new UserRegistrationForm();
-         $cs = Yii::app()->getClientScript();
-                  $cs->registerCoreScript('jquery');
-      
-       
-        $this->render('register', array("model"=> $model));
-        
+            $model = new UserRegistrationForm();
+             $cs = Yii::app()->getClientScript();
+                      $cs->registerCoreScript('jquery');
+            $this->render('register', array("model"=> $model));
         } catch (Exception $ex) {
          Yii::log("SiteController:actionIndex::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
-     }
-       
+        }
     }
-public function actionRegistration() {
+    
+    public function actionRegistration() {
     try {
     
-    error_log("Exception Occurred in SiteController->actionreg==");
-            $model = new UserRegistrationForm;
-
-
-            error_log("Exception Occurred in SiteController->actionReg==");
-            $request = yii::app()->getRequest();
-            $formname = $request->getParam('UserRegistrationForm');
-            if ($formname != '') {error_log("Excerreption Occurred in SiteController->actionreg==");
-                $model->attributes = $formname;
-                $errors = CActiveForm::validate($model);
-                if ($errors != '[]') {
-                    $obj = array('status' => 'error', 'data' => '', 'error' => Yii::t('translation', $errors));
-                    echo $this->rendering($obj);
-                    return;
-                } else {
-                    //$resultArray = ServiceFactory::getSkiptaUserServiceInstance()->userAuthentication($model);
-                    error_log("user authenticationnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
-                    //if ($resultArray == 'success') {
-                    //    $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserByType($model->email, 'Email');
-                        //ServiceFactory::getSkiptaUserServiceInstance()->saveUserLoginActivity($userObj->UserId);
-                       
-                    //    error_log("user authenticationnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn".print_r($userObj,true));
-                    //    $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
-                        
-                        
-                        
-                    //    Yii::app()->session['TinyUserCollectionObj'] = $tinyUserCollectionObj;
-                    //    Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
-                    //    Yii::app()->session['Email'] = $model->email;
-
-                    //    $obj = array('status' => "success");
-                    //} else{
-                     $obj = array('status' => "error",'error' =>"Invalid User Name and Password");   
-                    //}
+            $testTakerForm = new UserRegistrationForm();
+            if (isset($_POST['UserRegistrationForm'])) {
+            $testTakerForm->attributes = $_POST['UserRegistrationForm'];
+            $errors = CActiveForm::validate($testTakerForm);
+            if ($errors != '[]') {
+                $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
+            } else {
+                $takerexist =array();
+                $takerPhoneexist =array();
+                $takerexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExist($testTakerForm->Email);  
+                $takerPhoneexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExistWithPhone($testTakerForm->Phone);
+                if ((count($takerexist) > 0) && (count($takerPhoneexist) > 0) ) {
+                    $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerDetails($testTakerForm);
+                    $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
+                }else {
+                    $obj = array('status' => 'error', 'error' => 'Test taker already exist.');
                 }
             }
-          echo $this->rendering($obj);
+            echo CJSON::encode($obj);
+        }
+        
         } catch (Exception $ex) {
             error_log("Exception Occurred in SiteController->actionLogin==" . $ex->getMessage());
             Yii::log("SiteController:actionLogin::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');

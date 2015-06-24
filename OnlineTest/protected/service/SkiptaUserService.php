@@ -4595,6 +4595,16 @@ public function getAllHdsUsers() {
          }
         
     }
+    
+    public function updateTestTakerDetails($testTakerForm) {
+         try {
+              $result = User::model()->updateTestTakerDetails($testTakerForm);
+        return $result;
+         } catch (Exception $ex) {
+             Yii::log("SkiptaUserService:checkUserExist::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+         }
+        
+    }
 }
 
 

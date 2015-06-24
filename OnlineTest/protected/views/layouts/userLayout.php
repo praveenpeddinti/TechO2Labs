@@ -14,7 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
 
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	<title><?php echo Yii::t('translation', 'ProjectTitle'); ?></title>
         <!-- -->
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="screen" />
@@ -52,31 +52,13 @@
     <div class="container"  >
         <div class="customLoginform customLoginformwidth positionlogin " style=" padding-bottom:50px; margin-bottom:120px; " >
             <div class="customLoginbg marginlr0">
-                <!--<div class=" pagetitlebg marginlr0 paddingbottom8 pagetitleloginbg" >
-                    <div class="section_pagetitle_padding padgetitle">
-                        <h4 class="padding-left12">Login</h4>
-                        <p>Register here to start Online Test</p>
-                    </div>
-                </div> --> 
                 <?php echo $content; ?>
-                <!--<div class="row">
-                    <div class="col-xs-12 ">
-                        <div class="reg_area">
-                        <?php //    include_once(getcwd() . "/protected/views/site/login.php"); ?>
-                        </div>
-                    </div>
-                </div>-->
             </div>
         </div>  
     </div>  
 </section>
    
     <!--- new end -->
-    
-    
-    
-<?php //include 'footer.php' ?>
-
 
 <!-- animation script start -->
 

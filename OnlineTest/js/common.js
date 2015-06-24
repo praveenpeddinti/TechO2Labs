@@ -47,10 +47,7 @@ var isUserSessionValid="yes";
 var impressions = new Object();
 var TrackedAds = new Object();
 var timezoneName=""
- if(jstz != undefined && jstz != 'undefined'){
-      timezoneName = jstz.determine_timezone().name();
-     }
-
+ 
 if (!Array.prototype.map)
 {
   Array.prototype.map = function(fun /*, thisp*/)

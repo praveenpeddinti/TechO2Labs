@@ -18,6 +18,7 @@ class User extends CActiveRecord {
     public $Status=1;
     public $LastLoginDate;
     public $IsAdmin=0;
+    public $IdentityProof;
     
 
     public static function model($className = __CLASS__) {
@@ -81,6 +82,29 @@ class User extends CActiveRecord {
       error_log("Exception Occurred in User->checkUserExistWithPhone### ".$ex->getMessage());
       }
       }
+      
+    /*
+    * Update the IdentityProof for test taker when the registration time.
+    */
+
+    public function updateTestTakerDetails($testTakerForm) {
+        try {
+            $return = "failed";
+
+            $user = User::model()->findByAttributes(array("Email" => $testTakerForm->Email));
+            if (isset($user)) {
+                $user->IdentityProof = $testTakerForm->Pancard;
+                if ($user->update()) {
+                    $return = "success";
+                }
+            }
+        } catch (Exception $ex) {
+            Yii::log("User:updateUserStatus::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+        return $return;
+    }
+      
+      
 
      /*
      * GetUserProfile: which takes 4 arguments and 

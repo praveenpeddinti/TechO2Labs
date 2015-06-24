@@ -5,7 +5,7 @@
  * RegistrationForm is the data structure for keeping
  * user login form data. It is used by the 'login' action of 'SiteController'.
  */
-class UserRegistrationForm extends CustomForm
+class UserRegistrationForm extends CFormModel
 {
         
 	public $FirstName;
@@ -34,7 +34,7 @@ class UserRegistrationForm extends CustomForm
                             'message'=>Yii::t('translation','attribute_Invalid_characters')
                       ),
                     array('Email', 'email','checkMX'=>false),
-                    array('Phone', 'match', 'pattern'=>'/^[0-9]/i'),
+//                    array('Phone', 'match', 'pattern'=>'/^[0-9]/i'),
                     array(
                             'Pancard',
                             'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9]/',
@@ -45,17 +45,5 @@ class UserRegistrationForm extends CustomForm
            
 	}
 
-	/**
-	 * Declares attribute labels.
-	 */
-	public function attributeLabels()
-	{
-		return array(
-                  //  'firstName'=>'User Name',
-			//'rememberMe'=>'Remember me next time',
-                 //    'dob'=>'Date of Birth'
-		);
-	}
-
-        
+       
 }
