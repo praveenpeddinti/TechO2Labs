@@ -1047,7 +1047,7 @@ public function getQuestionOfSurvey($surveyId,$questionId){
             $returnValue = 'failure';
             $criteria = new EMongoCriteria;
             $criteria->addCond('SurveyTitle', '==', trim($value));
-           // $criteria->addCond('IsSuspended', '==', (int) 0);
+            //$criteria->addCond('Questions.IsSuspended', '==', NumberLong(0));
 
             $surveyObj = ExtendedSurveyCollection::model()->findAll($criteria);
             error_log("-------".$value."----");
@@ -1055,12 +1055,33 @@ public function getQuestionOfSurvey($surveyId,$questionId){
                 $returnValue = $surveyObj;
             }
             //error_log("-------".$value."--ss--".print_r($surveyObj,true));
+            
             return $returnValue;
         } catch (Exception $ex) {
             Yii::log("ExtendedSurveyCollection:getSurveyDetailsByGroupName::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
             error_log("Exception Occurred in ExtendedSurveyCollection->getSurveyDetailsByGroupName==".$ex->getMessage());
         }
     }
+    /*
+     * @praveen get Total questions for category end
+    */
+    /*
+     * @praveen get technical questions for category start
+    */
+    public function getOtherQuestionsCount($_id){
+        $c = ExtendedSurveyCollection::model()->getCollection();
+        $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($_id))),array('$unwind' =>'$Questions'),array('$match' => array('Questions.Other' =>1)),array('$group' => array("_id" => '$_id',"SuspendedQuestions" => array('$push' => '$Questions.IsSuspended'))));   
+        $questionsArray = $result['result'];
+        $re = 0;
+            foreach($questionsArray as $res){
+                $re = sizeof($res['SuspendedQuestions']);
+             }
+            return $re;
+    }
+    /*
+     * @praveen get technical questions for category end
+    */ 
+    
 
         public function getSuspendedQuestionsCount($_id){
         $c = ExtendedSurveyCollection::model()->getCollection();

@@ -44,6 +44,16 @@ class SkiptaUserService{
          }
         
     }
+    /* This Method is used for check the user exist or not */    
+     public function checkUserExistWithPhone($phone) {
+         try {
+              $result = User::model()->checkUserExistWithPhone($phone);
+        return $result;
+         } catch (Exception $ex) {
+             Yii::log("SkiptaUserService:checkUserExist::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+         }
+        
+    }
     
 
     

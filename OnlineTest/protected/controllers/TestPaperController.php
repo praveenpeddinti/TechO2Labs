@@ -56,8 +56,15 @@ class TestPaperController extends Controller {
             $TestPaperForm = new TestPaperForm();
             $totalQuestionsObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTotalQuestionsForCategory($_REQUEST['CategoryName']);
             $QuestionsCount=$totalQuestionsObj[0]->QuestionsCount;
-            error_log("------------totalQuest----".$QuestionsCount);
-            $this->renderPartial('paperWidget', array("widgetCount" => $widCnt, "CategoryName" => $CategoryName, "CategoryId" => $CategoryId, "TestPaperForm" => $TestPaperForm,"QuestionsCount" => $QuestionsCount));
+             error_log("-------1-----totalQuest----".$totalQuestionsObj[0]->_id);
+            $SuspendedCount = ExtendedSurveyCollection::model()->getSuspendedQuestionsCount($totalQuestionsObj[0]->_id);
+                error_log("2&&&&&&&&&&&&suspendcount".$SuspendedCount);
+            $OtherCount = ExtendedSurveyCollection::model()->getOtherQuestionsCount($totalQuestionsObj[0]->_id);
+                error_log("3&&&&&&&&&&&&othercount".$OtherCount);
+                 
+            error_log("-----4-------totalQuest----".$QuestionsCount);
+            $total= $QuestionsCount-$SuspendedCount;
+            $this->renderPartial('paperWidget', array("widgetCount" => $widCnt, "CategoryName" => $CategoryName, "CategoryId" => $CategoryId, "TestPaperForm" => $TestPaperForm,"QuestionsCount" => $QuestionsCount,"WithoutSupQuestions" => $total,"SuspendedQuestions" => $SuspendedCount,"OtherQuestions" => $OtherCount));
         } catch (Exception $ex) {
             Yii::log("TestPaperController:actionRenderQuestionWidget::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }

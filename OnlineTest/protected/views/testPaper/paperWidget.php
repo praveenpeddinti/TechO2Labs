@@ -23,30 +23,46 @@
     <div class="divtable ">
            
     <div class="divrow">
-        <div class="divcol1"> <label class="divtablelabel"><?php echo $CategoryName;?> (<?php echo $QuestionsCount;?>)</label></div>
+        <div class="divcol1"> <label class="divtablelabel">
+            <?php echo $CategoryName;?> <span rel="tooltip" data-original-title="TotalQuestion(s)">(<?php echo $QuestionsCount;?>)</span> <span rel="tooltip" data-original-title="OtherQuestion(s)">(<?php echo $OtherQuestions;?>)</span><span rel="tooltip" data-original-title="SuspendedQuestion(s)">(<?php echo $SuspendedQuestions;?>)</span></label></div>
         <div class="divcol2">
-           <?php echo $form->textField($TestPaperForm, 'NoofQuestions', array('id' => 'TestTakerForm_NoofQuestions_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)" ,'onkeyup' => "return QuestionsValid(event,'$QuestionsCount')")); ?>
+           <?php echo $form->textField($TestPaperForm, 'NoofQuestions', array('id' => 'TestTakerForm_NoofQuestions_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)" ,'onkeyup' => "return QuestionsValid(event,'$WithoutSupQuestions')",'onblur' => "return ScoreDiv(this.value,'$widgetCount')")); ?>
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'NoofQuestions_'.$widgetCount); ?>
                         </div>
 
         </div>
         <div class="divcol3">
-            <?php echo $form->textField($TestPaperForm, 'CategoryTime', array('id' => 'TestTakerForm_CategoryTime_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
+            <?php //echo $form->textField($TestPaperForm, 'CategoryTime', array('id' => 'TestTakerForm_CategoryTime_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
+                        <select  name="TestPaperForm[CategoryTime]" class="" id="CategoryTime_<?php echo $widgetCount;?>" class="span8">
+                        <option value="">Time</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        </select>
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'CategoryTime_'.$widgetCount); ?>
                         </div>
 
         </div>
         <div class="divcol4">
-            <?php echo $form->textField($TestPaperForm, 'NoofPoints', array('id' => 'TestTakerForm_NoofPoints_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
-                        <div class="control-group controlerror">
+            <?php //echo $form->textField($TestPaperForm, 'NoofPoints', array('id' => 'TestTakerForm_NoofPoints_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
+                <select  name="TestPaperForm[NoofPoints]" class="" id="NoofPoints_<?php echo $widgetCount;?>" class="span8">
+                        <option value="">Score</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        </select>        
+            
+            <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'NoofPoints_'.$widgetCount); ?>
                         </div>
         </div>
-        <div class="divcol5">
-            <input type="hidden" value="0" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
-                        <input  type="checkbox" class="styled" data-qid="<?php echo $widgetCount; ?>" />
+        <div class="divcol5 reviewquestion">
+            <input type="hidden" value="1" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
+                        <input  type="checkbox" class="styled" data-qid="<?php echo $widgetCount; ?>" data-otherQ="<?php echo $OtherQuestions; ?>" checked="checked"/>
         </div>
         <div class="divcol6"> <div class="subsectionremove subsectionremoveintable" data-questionId="<?php echo $widgetCount; ?>">
                 <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove Category"/>
@@ -113,11 +129,11 @@
         }
     }   
     
-    function QuestionsValid(evt,totalQuestions)
-{
+    function QuestionsValid(evt,totalQuestions){
+    //alert("======"+totalQuestions)
     var id = evt.target.id;    
     var value = $("#"+id).val();
-       
+       //alert(Number(value)+"==="+id+"==="+Number(totalQuestions));
        if((Number(value) > Number(totalQuestions))){
            $("#"+id).val("");
            return false;
@@ -125,6 +141,23 @@
     
     
     return true;
+}
+function ScoreDiv(value,no){
+
+    $("#CategoryTime_"+no).find('option').remove();
+    $("#NoofPoints_"+no).find('option').remove();
+
+    $("#CategoryTime_"+no).append('<option value="">Time</option>');
+    $("#NoofPoints_"+no).append('<option value="">Score</option>');
+    Time=Number(value);
+    
+
+    for(i=1;i<=5;i++){
+    $("#CategoryTime_"+no).append('<option value="'+Time+'">'+Time+'</option>');
+    $("#NoofPoints_"+no).append('<option value="'+Time+'">'+Time+'</option>');
+    Time=(Number(Time)+Number(value));
+    }
+    
 }
     
 </script>

@@ -2,101 +2,76 @@
 
 
 /*
- * Developer Suresh Reddy
- * on 8 th Jan 2014
+ * Developer Praveen 
+ * on 6 th June 2015
  * all users actions need to add here
  */
 
 class UserController extends Controller {
   
 
-public function __construct($id, $module = null) {
+    public function __construct($id, $module = null) {
         parent::__construct($id, $module);
     }
-public function init() {
-    try{
-    parent::init();
-    
-     if(!isset($_REQUEST['mobile'])){error_log("---us1-----");
-       if(isset(Yii::app()->session['TinyUserCollectionObj']) && !empty(Yii::app()->session['TinyUserCollectionObj'])){
-           $this->tinyObject=Yii::app()->session['TinyUserCollectionObj'];
-                $this->userPrivileges=Yii::app()->session['UserPrivileges'];
-             
-             }else{error_log("---us2-----");
-                  $this->redirect('/');
-                 }  
-     }
-     } catch (Exception $ex) {
-        Yii::log("UserController:init::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
-    }
-       
- }
- public function actionError(){
-     try{
- $cs = Yii::app()->getClientScript();
-$baseUrl=Yii::app()->baseUrl; 
-$cs->registerCssFile($baseUrl.'/css/error.css');
-    if($error=Yii::app()->errorHandler->error)
-        $this->render('error', $error);
-    } catch (Exception $ex) {
-        Yii::log("UserController:actionError::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
-    }
-}
 
-/**
- * author: karteek.v
- * actionGetMiniPorfile is used to get user mini profile
- * request an userId
- * returns an user object
- */
-public function actionGetMiniProfile(){
-    try{
-        if(isset($_REQUEST['userid'])){
-            $userid = $_REQUEST['userid'];
-            $result = ServiceFactory::getSkiptaUserServiceInstance()->getUserMiniProfile($userid,Yii::app()->session['TinyUserCollectionObj']->UserId);
+    public function init() {
+        try{
+            parent::init();
+
+             if(!isset($_REQUEST['mobile'])){error_log("---us1-----");
+               if(isset(Yii::app()->session['TinyUserCollectionObj']) && !empty(Yii::app()->session['TinyUserCollectionObj'])){
+                   $this->tinyObject=Yii::app()->session['TinyUserCollectionObj'];
+                        $this->userPrivileges=Yii::app()->session['UserPrivileges'];
+
+                     }else{error_log("---us2-----");
+                          $this->redirect('/');
+                         }  
+             }
+         } catch (Exception $ex) {
+            Yii::log("UserController:init::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
-        
-        $obj = array('status' => 'success', 'data' => $result, 'error' => '', 'networkAdmin'=>(int)Yii::app()->session['NetworkAdminUserId'],'networkmode'=>(int)Yii::app()->session['PostAsNetwork']);        
-        echo CJSON::encode($obj);
-        
-    } catch (Exception $ex) {
-        Yii::log("UserController:actionGetMiniProfile::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+
+     }
+     
+    public function actionError(){
+        try{
+            $cs = Yii::app()->getClientScript();
+            $baseUrl=Yii::app()->baseUrl; 
+            $cs->registerCssFile($baseUrl.'/css/error.css');
+               if($error=Yii::app()->errorHandler->error)
+                   $this->render('error', $error);
+        } catch (Exception $ex) {
+           Yii::log("UserController:actionError::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
     }
-    
-}
-  
 
-public function actionLogout(){
-    try {
-        Yii::app()->user->logout();
-        Yii::app()->session->destroy();
-         if(!isset($_REQUEST['mobile'])){
-             $randomString = Yii::app()->user->getState('s_k');
-          $userId = Yii::app()->session['TinyUserCollectionObj']->UserId;
-     ServiceFactory::getSkiptaUserServiceInstance()->deleteCookieRandomKeyForUser($userId,$randomString);
-      Yii::app()->request->cookies->clear();
-       
-         $this->redirect('/site'); 
-         }else{
-              $sessionId = $_POST["sessionId"];
-            $userId = $_POST["userId"];
-            $response = ServiceFactory::getSkiptaUserServiceInstance()->logout($sessionId,$userId);  
-           if($response){
-             $obj = array("status"=>"success","data"=>"","error"=>"");    
-           }else{
-                 $obj = array("status"=>"failure","data"=>"","error"=>"");
-           }
-            echo $this->rendering($obj);
-            
-         }
-        
-         
-    } catch (Exception $ex) {
-        Yii::log("UserController:actionLogout::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+ 
+
+    public function actionLogout(){
+        try {
+            Yii::app()->user->logout();
+            Yii::app()->session->destroy();
+             if(!isset($_REQUEST['mobile'])){
+                $randomString = Yii::app()->user->getState('s_k');
+                $userId = Yii::app()->session['TinyUserCollectionObj']->UserId;
+                ServiceFactory::getSkiptaUserServiceInstance()->deleteCookieRandomKeyForUser($userId,$randomString);
+                Yii::app()->request->cookies->clear();
+                $this->redirect('/site'); 
+            }else{
+                $sessionId = $_POST["sessionId"];
+                $userId = $_POST["userId"];
+                $response = ServiceFactory::getSkiptaUserServiceInstance()->logout($sessionId,$userId);  
+                if($response){
+                $obj = array("status"=>"success","data"=>"","error"=>"");    
+                }else{
+                     $obj = array("status"=>"failure","data"=>"","error"=>"");
+                }
+                echo $this->rendering($obj);
+            }
+        } catch (Exception $ex) {
+            Yii::log("UserController:actionLogout::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
     }
-}
-
-
 
     
     public function actionUploadProfileImage() {
@@ -258,12 +233,10 @@ public function actionLogout(){
      * @Praveen single test takers save functionality start Here
      */
     public function actionLoadSurveySchedule() {
-        try {error_log("---user contr1---");
+        try {
             $takerForm = new TestTakerForm();
             $csvModel = new CSVForm();
-            error_log("---user contr2---");
             $this->renderPartial('testTaker', array('takerForm' => $takerForm, 'csvModel' => $csvModel));
-            error_log("---user contr3---");
         } catch (Exception $ex) {
             error_log("Exception Occurred in ExtendedSurveyController->actionLoadSurveySchedule==". $ex->getMessage());
             Yii::log("ExtendedSurveyController:actionLoadSurveySchedule::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -306,23 +279,25 @@ public function actionLogout(){
     
     
     
-    public function actionSaveEnrollmentData() {error_log("---1-enter controller test taker------");
+    public function actionSaveEnrollmentData() {
         $testTakerForm = new TestTakerForm();
-        if (isset($_POST['TestTakerForm'])) {error_log("--2--enter controller test taker------");
+        if (isset($_POST['TestTakerForm'])) {
             $testTakerForm->attributes = $_POST['TestTakerForm'];
             $errors = CActiveForm::validate($testTakerForm);
-            if ($errors != '[]') {error_log("--3--enter controller test taker------");
+            if ($errors != '[]') {
                 $obj = array('status' => 'error', 'data' => '', 'error' => $errors, "emailError" => $common);
-            } else {error_log("--4--enter controller test taker------");
+            } else {
                 $takerexist =array();
+                $takerPhoneexist =array();
                 $takerexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExist($testTakerForm->Email);  
-                error_log("------size---".count($takerexist));
-
-                if (count($takerexist) > 0) {error_log("--if----size---".count($takerexist));
-                    $errors = array("TestTakerForm_FirstName" => "User already exist with this Email Please  try with another  Email Address.");
+                $takerPhoneexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExistWithPhone($testTakerForm->Phone);
+                if (count($takerexist) > 0) {
+                    $errors = array("TestTakerForm_Email" => "User already exist with this Email Please  try with another  Email Address.");
+                    $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
+                }else if (count($takerPhoneexist) > 0) {
+                    $errors = array("TestTakerForm_Phone" => "User already exist with this Phone Please  try with another Phone.");
                     $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                 } else {
-                    error_log("-----else-size---".count($takerexist));
                     $saveDetails = ServiceFactory::getSkiptaUserServiceInstance()->SaveUserCollection($testTakerForm);
                     $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
                     //$Save_userInUserCollection = ServiceFactory::getSkiptaUserServiceInstance()->UpdateUserCollection($UserSettingsForm,$oldUserObj);
@@ -356,20 +331,17 @@ public function actionLogout(){
     
     
     
-    public function actionManageFile() { error_log("-----enter manageFile---1");
+    public function actionManageFile() { 
         $csvModel = new CSVForm();
         $file = $_FILES['csvfiletype'];
         $delimiter = $_REQUEST['delimiter'];
-        error_log("-----enter manageFile---2----");
-        if (isset($_FILES['csvfiletype'])) {error_log("-----enter manageFile---3----");
+        if (isset($_FILES['csvfiletype'])) {
             $fileName = $file['name'][0];
             $errors=$this->checkCSVFileformat($file);
-            if (count($errors) == 0) {error_log("-----enter manageFile---4----".$file['name'][0]);
+            if (count($errors) == 0) {
                 $fileuploadpath = $this->findUploadedPath();
-                error_log("-----enter manageFile---5----".$fileuploadpath);
                 $dest = $fileuploadpath . '/csv/' . $file['name'][0];
-                error_log("-----enter manageFile---6----".$dest);
-                if (move_uploaded_file($file['tmp_name'][0], $dest)) {error_log("-----enter manageFile---7----");
+                if (move_uploaded_file($file['tmp_name'][0], $dest)) {
                   
                     $col = 0;
                     $csvFile = file($dest);
@@ -378,10 +350,8 @@ public function actionLogout(){
                     $status = "success";
                      
                     if(sizeof($csvFile)>1){
-                    error_log($status."-----enter manageFile---8----".sizeof($csvFile));
                     foreach ($csvFile as $key => $line) {
                         // I'm reading from second line.
-                        error_log("-----enter manageFile---9----".sizeof($csvFile));
                         if ($key >= 1) {
                             if ($delimiter == "1")
                                 $var = explode("\t", $line);
@@ -389,24 +359,27 @@ public function actionLogout(){
                                 $var = explode(",", $line);
                             if ($delimiter == "3")
                                 $var = explode(";", $line);
-                            if (count($var) <= 1) {error_log("-----enter manageFile---10----".count($var));
+                            if (count($var) <= 1) {
                                 $errors[$i] = "Empty csv or delimiter mismatch! ";
                                 $obj = array("status" => "error", "error" => $errors);
-                            } else {error_log("-----enter manageFile---11----".print_r($var,true));
+                            } else {
                                 if ($var[0] != "" && $var[1] != "" && $var[2] != "" && $var[3] != "" && $var[4] != "") {
                                     $resultObject = $this->setTestTakerBeanObject($var);
-                                    error_log("-----enter manageFile---11----".print_r($resultObject,true));
                                     $res = "";
                                     $toEmail = str_replace('"', '', $var[2]);
-                                    error_log("-----enter manageFile---12---".$toEmail);
+                                    $toPhone = str_replace('"', '', $var[3]);
                                     $userexist =array();
+                                    $takerPhoneexist = array();
                                     $userexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExist($toEmail);
+                                    $takerPhoneexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExistWithPhone($toPhone);
                                     if (count($userexist) > 0) {
                                         $j++;
-                                        error_log("--if----size---".count($userexist));
-                                        $errors[$i] = " User already exist with this Email ".$toEmail." Please  try with another  Email Address.";
-                                         $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
-                                    } else {error_log("-----else-size---".count($userexist));
+                                        $errors[$i] = " User already exist with this Email ".$toEmail." Please  try with another Email Address.";
+                                        $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
+                                    } else if (count($takerPhoneexist) > 0) {
+                                        $errors[$i] = " User already exist with this Phone ".$toPhone." Please  try with another Phone.";    
+                                        $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
+                                    }else {
                                     $saveuser = ServiceFactory::getSkiptaUserServiceInstance()->saveUser($resultObject);
                                        $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
                                     //$Save_userInUserCollection = ServiceFactory::getSkiptaUserServiceInstance()->UpdateUserCollection($UserSettingsForm,$oldUserObj);

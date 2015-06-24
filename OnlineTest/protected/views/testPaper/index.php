@@ -69,7 +69,7 @@
 
 
     </div>
-          <div class="divtable" id="categoryHeaderDiv" style="display:none">
+        <div class="divtable" id="categoryHeaderDiv" style="display:none">
         <div class="divrow divtableheader">
        <div class="divcol1"> &nbsp;</div>
         <div class="divcol2"># Questions </div>
@@ -134,14 +134,34 @@ $("#surveyfooterids").show();
 
 
 <script type="text/javascript">
+     //$("#surveyGroupName").change(function(){
+     //   addCategorydd('surveyGroupName',$('#surveyGroupName').val());
+    //});
+    //var foo = []; 
+//$('#surveyGroupName :selected').each(function(i, selected){ alert("-----");
+//  foo[i] = $(selected).text(); 
+//});
+
+        //var allCategories=$('#surveyGroupName').val();
+        //var Categories=allCategories.split(",");
+        
+        //alert("==="+$('#surveyGroupName').val());
+        //addCategory('surveyGroupName',$(this).val());
+        
+    //});
+
     
+
+
+  
+
     $('#ReviewQuestion').bootstrapSwitch();
 
          $('#ReviewQuestion').on('switch-change', function(e, data) {           
                var switchedValue = data.value ? 1 : 0;               
                if (switchedValue == 1) {
                    $("#TestPaperForm_ReviewQuestion").val(0);
-                   
+                  
                } else {
                    $("#TestPaperForm_ReviewQuestion").val(1);
                    
@@ -179,8 +199,13 @@ $("#surveyfooterids").show();
 
     }
     $("#surveyGroupName").die().live("change",function(){
+        
+        
+        //alert("==="+$('#surveyGroupName').val());
         addCategory('surveyGroupName',$(this).val());
+        
     });
+    
     function addCategory(id,val){ 
         
         $("#categoryHeaderDiv").show();
@@ -237,7 +262,7 @@ $("#surveyfooterids").show();
         } else {//alert("rrcase ques1-----"+questionsCount);
             questionsCount = 1;
         }
-        updateDivs();
+        //updateDivs();
     });
      
      var Garray = new Array();
@@ -260,7 +285,8 @@ $("#surveyfooterids").show();
                      $("#TestPaperForm_Description").parent().addClass('error');
 
                  }
-                 if ((questionsCount==0) && ($("#surveyGroupName option:selected").val() == "Public")) {
+                 //if ((questionsCount==0) && ($("#surveyGroupName option:selected").val() == "null")) {
+                 if ((questionsCount==0) && ($("#surveyGroupName").val() == null)) {    
                      $("#TestPaperForm_SurveyRelatedGroupName_em_").text("Please select category");
                      $("#TestPaperForm_SurveyRelatedGroupName_em_").show();
                      $("#TestPaperForm_SurveyRelatedGroupName_em_").fadeOut(12000);
@@ -281,7 +307,7 @@ $("#surveyfooterids").show();
      function saveQuestion(no, optionType,totalQuestions) {//alert("---saveQues---"+no+"----"+optionType+"======"+totalQuestions);
         scrollPleaseWait("extededsurvey_spinner");
         var data = $("#questionWidget_" + no).serialize();
-        //alert("query-----"+data.toSource());
+        //alert("validateSurveyQuestion-1-data---"+data);
         var noofratings = "";        
 //        if($("#ExtendedSurveyForm_NoofRatings_hid_"+no).length > 0){
 //            noofratings = $("#ExtendedSurveyForm_NoofRatings_hid_"+no).val();
@@ -293,7 +319,7 @@ $("#surveyfooterids").show();
             async:true,
             success: function(data) {
                 var data = eval(data);
-                if (data.status == 'success') {//alert("------if---"+data.status);
+                if (data.status == 'success') {//alert(isValidate+"--isValidate--2--if---"+data.status);
                     isValidate++;                    
                 }
                 if(data.status == "error"){//alert("------esle---"+data.status);
@@ -313,7 +339,7 @@ $("#surveyfooterids").show();
     function surveyHandler(data,totalQuestions,no) {   
         //alert("-----surveyHan---"+data.toSource());
         var data = eval(data);
-        if (data.status == 'success') {  //alert(totalQuestions+"---2--surveyHan---"+isValidate);          
+        if (data.status == 'success') {  //alert(totalQuestions+"-tq--3--surveyHan-isValidate--"+isValidate);          
               if(isValidate == totalQuestions){  //alert("--3---surveyHan---");                  
                     isValidated = true;
                     surveyFinalSubmit();
@@ -445,11 +471,10 @@ $("#surveyfooterids").show();
      
      
      function surveyFinalSubmit(){
-         //alert("-----final survey---"+JSON.stringify(Garray));
         $("#TestPaperForm_Questions").val(JSON.stringify(Garray));
         if (isValidated == true) {
             var data = $("#paperWidget").serialize();
-            //alert("data===="+data);exit();
+            //alert("data==5=="+data);
             $.ajax({
                 type: 'POST',
                 url: '/testPaper/SaveSurveyQuestion?Title=' + $("#TestPaperForm_Title").val() +"&Description="+$("#TestPaperForm_Description").val()+ '&questionsCount=' + questionsCount+"&SurveyGroupName="+$("#TestPaperForm_SurveyRelatedGroupName").val(),
@@ -484,11 +509,21 @@ $("#surveyfooterids").show();
     
     $(".reviewquestion span").live("click",function(){        
         var $this = $(this);
+       
         var qid = $(this).siblings("input[type=checkbox]").attr("data-qid");
-        if($this.attr("style") == "background-position: 0px -50px;"){
+        var otherQuestions = $(this).siblings("input[type=checkbox]").attr("data-otherQ");
+        if($this.attr("style") == "background-position: 0px -50px;"){ 
             $("#ReviewQuestion_"+qid).val(1);
         }else{
             $("#ReviewQuestion_"+qid).val(0);
+        }
+        if(($("#TestTakerForm_NoofQuestions_"+qid).val()!='') && ($("#ReviewQuestion_"+qid).val()==0)){
+            if($("#TestTakerForm_NoofQuestions_"+qid).val()>=otherQuestions){
+                //alert("no check");
+            }else{
+                 //alert("ok check");
+            }
+            //alert(otherQuestions+"if--"+$("#TestTakerForm_NoofQuestions_"+qid).val());
         }
     });
      

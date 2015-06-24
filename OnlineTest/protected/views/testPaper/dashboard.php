@@ -1,4 +1,4 @@
-<?php include 'surveyAnalyticsScript.php'; ?>
+<?php //include 'surveyAnalyticsScript.php'; ?>
   <div id="spinner_admin" style="position: relative;"></div>
 <div class="row-fluid groupseperator headermarginzero" id="dashboardtop">
     <div class="span12 paddingtop10 border-bottom">
@@ -189,13 +189,13 @@
     $(".invite").live('click', function() {
         var $this = $(this);
         var TestPaperId = $this.attr("data-testpaperId");
-        alert(TestPaperId);
+        //alert(TestPaperId);
         ajaxRequest("/testPaper/loadTestTakers", "surveyId=" + TestPaperId, function(data) {
                 renderLoadSurveyScheduleHandler(data, TestPaperId)
             }, "html");
     });
     
-     function renderLoadSurveyScheduleHandler(html, surveyId) {alert("--------"+html.toSource());
+     function renderLoadSurveyScheduleHandler(html, surveyId) {//alert("--------"+html.toSource());
         scrollPleaseWaitClose("spinner_survey_" + surveyId);
         $("#newModal .modal-dialog").removeClass('info_modal');
         $("#newModal .modal-dialog").removeClass('alert_modal');

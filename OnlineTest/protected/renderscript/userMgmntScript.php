@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <script  id="contactlistTmp_render" type="text/x-jsrender">
 <div style="position: relative">
 
@@ -34,9 +28,7 @@
                   <option value="reject">
                         Rejected
                     </option>
-                    <option value="countryChange">
-                        Country Changed
-                    </option>
+                    
                 </select></div></td>
         <td style="width:80px; text-align:left"><div class="btn-group pagesize tabletopcorner tabletopcornerpaddingtop">
                 <button data-toggle="dropdown" style="position:static" class="btn btn-mini dropdown-toggle" data-placement="top">Page size<span class="caret"></span></button>
@@ -61,7 +53,7 @@
             
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
 
-                    <thead><tr><th>Name</th><th class="data_t_hide">Email</th><th class="data_t_hide">Phone</th><th class="data_t_hide">Registered Date</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>Name</th><th class="data_t_hide">Email</th><th class="data_t_hide">Phone</th><th class="data_t_hide">Qualification</th><th class="data_t_hide">Registered Date</th><th>Actions</th></tr></thead>
                     <tbody>
                         <tr id="noRecordsTR" style="display: none">
                             <td colspan="8">
@@ -71,7 +63,7 @@
                         {{for data.data}}    
                         <tr class="{{if (#index)%2==0}} even {{else}} odd {{/if}}">
                             <td>
-                                {{>LastName}} {{>FirstName}} 
+                                {{>FirstName}} {{>LastName}}  
                             </td>  
                             <td  class="data_t_hide">
                                 {{>Email}}
@@ -79,7 +71,9 @@
                            <td  class="data_t_hide">
                                 {{>Phone}}
                             </td>
-                           
+                            <td  class="data_t_hide">
+                                {{>Qualification}}
+                            </td>
                             
                            
                             <td class="data_t_hide">                          
@@ -148,20 +142,20 @@
                         {{for data}}
                             {{for data}}
                             <tr>
-                                <td class="l_label">Name</td>
-                                <td class="t_b ">: {{>FirstName}} {{>LastName}}</td>
+                                <td class="l_label"><b>Name</b></td>
+                                <td class="t_b "> {{>FirstName}} {{>LastName}}</td>
                             </tr>
                             <tr>
-                                <td class="l_label">Email </td>
-                                <td class="t_b ">: {{>Email}}</td>
+                                <td class="l_label"><b>Email</b></td>
+                                <td class="t_b "> {{>Email}}</td>
                             </tr>
                             <tr>
-                                <td class="l_label">Phone  </td>
-                                <td class="t_b "> : {{>Phone}}</td>
+                                <td class="l_label"><b>Phone</b></td>
+                                <td class="t_b "> {{>Phone}}</td>
                             </tr>
                             <tr>
-                                <td class="l_label">Qualification  </td>
-                                <td class="t_b "> : {{>Qualification}}</td>
+                                <td class="l_label"><b>Qualification</b></td>
+                                <td class="t_b "> {{>Qualification}}</td>
                             </tr>       {{/for}}
                                 
                             </tbody></table>  

@@ -1,6 +1,6 @@
 <?php
 include 'userMgmntScript.php';
-include 'userSettings.php';
+//include 'userSettings.php';
 ?>
 <div id="advanceOptionsSpinner"></div>
 <?php if(Yii::app()->params['Project']!='SkiptaNeo'){?>

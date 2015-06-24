@@ -72,7 +72,15 @@ class User extends CActiveRecord {
       }
       }
 
-    
+    public function checkUserExistWithPhone($phone) {
+      try {
+      $user = User::model()->findByAttributes(array('Phone' => $phone));
+      return $user;
+      } catch (Exception $ex) {
+          Yii::log("User:checkUserExistWithPhone::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+      error_log("Exception Occurred in User->checkUserExistWithPhone### ".$ex->getMessage());
+      }
+      }
 
      /*
      * GetUserProfile: which takes 4 arguments and 
@@ -122,7 +130,7 @@ class User extends CActiveRecord {
                    
             }
          
-            $criteria->order = 'RegistredDate DESC, LastName,FirstName';
+            $criteria->order = 'RegistredDate DESC, FirstName, LastName';
             $criteria->offset = $startLimit;
             $criteria->limit = $pageLength;
             $result = User::model()->findAll($criteria);
