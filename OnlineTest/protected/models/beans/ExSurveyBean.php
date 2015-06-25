@@ -32,7 +32,8 @@ class ExSurveyBean{
     public $JustificationAppliedToAll = 0;
     public $DisplayType = "";
     public $StylingOption = 1;
-    public $IsSuspended = 0;   
+    public $IsSuspended = 0;
+    public $IsReviewed = 0;
     
             
 }
