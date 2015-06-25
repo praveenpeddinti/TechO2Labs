@@ -83,6 +83,7 @@ class ExtendedSurveyCollection extends EMongoDocument {
     public $BrandLogo = "";
     public $BrandName = "";
     public $IsBranded = 0;
+    public  $LastUpdatedBy;
 
     public function getCollectionName() {
         return 'ExtendedSurveyCollection';
