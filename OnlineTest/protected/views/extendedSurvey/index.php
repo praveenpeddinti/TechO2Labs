@@ -615,7 +615,7 @@ bindToMandatory();
 //        }
         $.ajax({
             type: 'POST',
-            url: '/extendedSurvey/validateSurveyQuestion?surveyTitle=' + $("#ExtendedSurveyForm_SurveyTitle").val() + '&SurveyDescription=' + $("#ExtendedSurveyForm_SurveyDescription").val()+"&SurveyGroupName="+$("#ExtendedSurveyForm_SurveyRelatedGroupName").val()+"&SurveyOtherValue="+$("#ExtendedSurveyForm_SurveyOtherValue").val()+"&SurveyLogo="+$("#ExtendedSurveyForm_SurveyLogo").val()+"&IsBranded="+$("#ExtendedSurveyForm_IsBranded").val()+"&BrandName="+$("#ExtendedSurveyForm_BrandName").val()+"&BrandLogo="+$("#ExtendedSurveyForm_BrandLogo").val(),
+            url: '/extendedSurvey/validateSurveyQuestion?surveyTitle=' + $("#ExtendedSurveyForm_SurveyTitle").val() + '&SurveyDescription=' + $("#ExtendedSurveyForm_SurveyDescription").val()+"&SurveyGroupName="+$("#ExtendedSurveyForm_SurveyRelatedGroupName").val()+"&SurveyOtherValue="+$("#ExtendedSurveyForm_SurveyOtherValue").val()+"&SurveyLogo="+$("#ExtendedSurveyForm_SurveyLogo").val()+"&IsBranded="+$("#ExtendedSurveyForm_IsBranded").val()+"&BrandName="+$("#ExtendedSurveyForm_BrandName").val()+"&BrandLogo="+$("#ExtendedSurveyForm_BrandLogo").val()+"&isEditable=<?php echo $isEditable; ?>",
             data: data,
             async:true,
             success: function(data) { 

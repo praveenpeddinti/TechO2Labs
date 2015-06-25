@@ -698,7 +698,8 @@ class ExtendedSurveyController extends Controller {
             $ExtendedSurveyForm->BrandName = $_GET['BrandName'];
             $ExtendedSurveyForm->BrandLogo = $_GET['BrandLogo'];
 //                $ExtendedSurveyForm->NoofRatings = $_GET['noofratings'];
-            error_log("========3333333333333333333333333333333333===");
+            $isEditable=$_GET['isEditable'];
+            
             if ($ExtendedSurveyForm->SurveyLogo == "") {
                 $common['ExtendedSurveyForm_SurveyLogo'] = "Please upload a logo";
             } else if ($ExtendedSurveyForm->SurveyRelatedGroupName == "other" && $ExtendedSurveyForm->SurveyOtherValue == "") {
@@ -715,7 +716,8 @@ class ExtendedSurveyController extends Controller {
                 $obj = array('status' => 'error', 'data' => '', 'error' => $errors, 'oerror' => $common);
             } else {
                 $surveyGroupExist = ExSurveyResearchGroup::model()->getLinkGroup($_GET['surveyTitle']);
-                if($surveyGroupExist > 0 && $isEditable = FALSE){
+                
+                if($surveyGroupExist > 0 && $isEditable == false){     //&& $isEditable = FALSE
                     $common1['ExtendedSurveyForm_SurveyTitle'] = "Category Already Exist Please try with Other";
                 $obj = array('status' => 'error', 'data' => '', 'error' => $errors, 'oerror' => $common1);
             }else{
