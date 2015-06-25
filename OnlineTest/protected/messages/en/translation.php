@@ -1176,7 +1176,7 @@ return array (
     "Ex_Analytics_Title" => "Are analytics visible to users?",
     "Ex_Market_Title" => "Create Market Research Questions",
     "Ex_Dashboard_Title" => "Question Bank Dashboard ",
-    "Ex_Success_Msg" => "Please wait, it automatically loads the Test Paper Dashboard.",
+    "Ex_Success_Msg" => "Please wait, it automatically loads the Question Bank Dashboard.",
     "Ex_Title_Err" => "Title cannot be blank",
     "Ex_Description_Err" => "Description cannot be blank",
     "Ex_Future_Wall_Title" => "Future Schedule Market Research Wall",
