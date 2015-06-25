@@ -8,7 +8,13 @@
 <!-- PAGE TITLE AREA START -->
 <div class="title_area">
 <p><?php echo $data->SurveyTitle; ?></p>
-<span class="badge_count"><?php echo $categoriesCount[$data->SurveyTitle]; ?></span>
+<span class="badge_count"><?php if(!empty($categoriesCount[$data->SurveyTitle])){ 
+    echo $categoriesCount[$data->SurveyTitle]; 
+}else{
+    echo 0;
+}
+?>
+</span>
 </div>
 <!-- PAGE TITLE AREA END -->
 <p class="description"><?php echo $data->SurveyDescription; ?> </p>

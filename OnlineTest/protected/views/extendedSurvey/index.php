@@ -429,42 +429,38 @@ bindToMandatory();
             });
             
         $(".subsectionremove").live('click', function() {
-            var $this = $(this);
-             var qId = $this.attr("data-questionId");
-            <?php if(empty($surveyId)){ ?>
-                     
-                questionsCount--;
-               
-            if (questionsCount >= 1) {
+                var $this = $(this);
+                 var qId = $this.attr("data-questionId");
+       <?php if (empty($surveyId)) { ?>
+                             
+                        questionsCount--;
+                       
+                    if (questionsCount >= 1) {
 
-                $(this).parents('div.QuestionWidget').remove();
+                        $(this).parents('div.QuestionWidget').remove();
 
-                if (questionsCount < TotalQuestions) {
-                    $("#newQuestion").show();
-                }
-            } else {
-                questionsCount = 1;
-            }
-            updateDivs();
-            <?php  }else{ ?>
-           
-            //$(this).parents('div.QuestionWidget').addClass("suspend");
-            $(this).parents('div.QuestionWidget').append("<div class='suspendcontentdiv' data-qid='"+qId+"'><button class='btn'>Click here to use</button></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>")
-            //$(this).parents('div.QuestionWidget').css("background", "none repeat scroll 0 0 #CCC");
-            //$(this).parents('div.suspenddiv').css("background", "none repeat scroll 0 0 #CCC");
-            $("#ExtendedSurveyForm_IsSuspend_"+qId).val(1);
-        <?php } ?>
-           
-    });
-    
-    $(".suspendcontentdiv").live('click',function(){
-        var qId = $(this).attr("data-qid");
-        $("#ExtendedSurveyForm_IsSuspend_"+qId).val(0);
-        $(this).remove();
-        $("#suspenddiv_"+qId).remove();
-        
-    }); 
+                        if (questionsCount < TotalQuestions) {
+                            $("#newQuestion").show();
+                        }
+                    } else {
+                        questionsCount = 1;
+                    }
+                    updateDivs();
+       <?php } else { ?>
+           $("#QuestionWidget_"+qId).append("<div class='suspendcontentdiv' data-qid='"+qId+"'><div class='btn'>Click here to Resume</div></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>");
+                    // $(this).parents('div#QuestionWidget_'+qId).append("<div class='suspendcontentdiv' data-qid='"+qId+"'><div class='btn'>Click here to Resume</div></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>")
+                    $("#ExtendedSurveyForm_IsSuspend_"+qId).val(1);
        <?php } ?>
+               
+        });
+        
+        $(".suspendcontentdiv").live('click',function(){ 
+            var qId = $(this).attr("data-qid");
+            $("#ExtendedSurveyForm_IsSuspend_"+qId).val(0);
+            $(this).remove();
+            $("#suspenddiv_"+qId).remove();
+          }); 
+   <?php } ?>
 
     $(".questionlabel").live('click', function() {
         var $this = $(this);

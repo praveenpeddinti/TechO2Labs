@@ -364,6 +364,7 @@ class ExtendedSurveyController extends Controller {
                                     $ExSurveyBean->Answers =  explode(",",$m);
                                     
                                 }
+                               
                             }
                             if ($key == "AnswerSelectedEdit") {
                                  $k = 0;
@@ -428,6 +429,7 @@ class ExtendedSurveyController extends Controller {
                                     error_log("*******************UserAnswerSelected**$m");
                                       $ExSurveyBean->Answers[] =  $m;
                                      }
+                                     $ExSurveyBean->IsReviewed = 1;
                             }
                             if ($key == "MatrixAnswer") {
                                 
@@ -438,7 +440,7 @@ class ExtendedSurveyController extends Controller {
                                     error_log("*******************MatrixAnswer**$m");
                                       $ExSurveyBean->Answers[$k++] =  $m;
                                      }
-                                     error_log("*******************MatrixAnswer**===".print_r($ExSurveyBean->Answers,1));
+                                     
                             }
                             if ($key == "IsSuspend") {
                                  $k = 0;
@@ -485,6 +487,12 @@ class ExtendedSurveyController extends Controller {
                                 $k = 0;
                                 foreach ($value as $m) {
                                     $ExSurveyBean->Other = (int) $m;
+                                    $ExSurveyBean->IsReviewed = (int) $m;
+//                                    if($m == 1){
+//                                    $ExSurveyBean->IsReviewed = 1;
+//                                    }else{
+//                                      $ExSurveyBean->IsReviewed = 0;  
+//                                    }
                                 }
                             }
                             if ($key == "OtherValue") {
@@ -533,6 +541,7 @@ class ExtendedSurveyController extends Controller {
                                 foreach ($value as $m) {
                                     if($m == 1){
                                     $ExSurveyBean->AnyOther = (int) $m;
+                                     $ExSurveyBean->IsReviewed = (int) $m;
                                     //$ExSurveyBean->OptionName[sizeof($ExSurveyBean->OptionName)] = "Any Other";
                                 }
 //                                   array_push($ExSurveyBean->OptionName,"Any Other");
@@ -563,6 +572,7 @@ class ExtendedSurveyController extends Controller {
                                 $k = 0;
                                 foreach ($value as $m) {
                                     $ExSurveyBean->JustificationPlaceholders[$k++] = $m;
+                                    $ExSurveyBean->IsReviewed = 1;
                                 }
                             }
                             if($key == "LabelDesc"){ //Label description for Ranking/Rating/Matrix...
@@ -574,7 +584,11 @@ class ExtendedSurveyController extends Controller {
                             if($key == "SelectionType"){ //Type of Boolean Widget...
                                 $k = 0;
                                 foreach ($value as $m) {
+                                    error_log("*****************SelectionType".$m);
                                     $ExSurveyBean->SelectionType = (int) $m;
+                                    if($m == 2){
+                                        $ExSurveyBean->IsReviewed = 1;
+                                    }
                                 }
                             }
 //                            if ($key == "IsAcceptUserInfo") {
@@ -605,12 +619,14 @@ class ExtendedSurveyController extends Controller {
                                 if($key == 'QuestionAnswerTextSelected'){
                                     foreach($value as $m){
                                         $ExSurveyBean->Answers[0]=$m;
+                                        $ExSurveyBean->IsReviewed = 1;
                                     }
                                 }
                             }else if($ExSurveyBean->NoofChars != 0){
                                 if($key == 'QuestionAnswerSelected'){
                                     foreach($value as $m){
                                         $ExSurveyBean->Answers[0]=$m;
+                                        $ExSurveyBean->IsReviewed = 1;
                                     }
                                 }
                             }

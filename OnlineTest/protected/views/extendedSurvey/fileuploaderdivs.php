@@ -38,7 +38,7 @@ var extensions = '"jpg","jpeg", "gif", "png", "tiff","tif","TIF","mp3","mp4","MP
                  if(!empty($artifact)){ ?>
                      $("#ExtendedSurveyForm_QuestionImage_<?php echo ($i+1); ?>").val("<?php echo $artifact['Uri']; ?>");
                     <?php if($artifact['Extension'] == "mp3" || $artifact['Extension'] == "mp4"){ ?>
-                        openOverlay("<?php echo $artifact['Uri']; ?>","/images/system/video_new.png","player_<?php echo ($i+1); ?>","",350);
+                        openOverlay("<?php echo $artifact['Uri']; ?>","/images/system/video_new.png","player_<?php echo ($i+1); ?>","",600);
                     <?php }else{ ?>
                         $("#player_<?php echo ($i+1); ?>_wrapper").html("").attr("id","player_<?php echo ($i+1); ?>").hide();
                         $("#brandimagelogodiv_<?php echo ($i+1); ?>").show();

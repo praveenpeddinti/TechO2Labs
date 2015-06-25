@@ -7,7 +7,12 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         ?>
 
         <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="position:relative;padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
-          
+           <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <div class='btn'>Click here to Resume</div>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+            <?php } ?>
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
@@ -26,15 +31,10 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $question['Answers'][0]?>" />
-            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
-                  <?php if($question['IsSuspended']==1){?> 
-            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
-                <button class='btn'>Click here to use</button>
-            </div>
-            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
- <?php } ?>
+                 
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule != 1){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -179,9 +179,14 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         <?php } else if ($question['QuestionType'] == 2) {
             ?>
         
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="position:relative; padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
             
-            
+          <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <div class='btn'>Click here to Resume</div>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+            <?php } ?>  
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
@@ -199,18 +204,14 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[DisplayType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_DisplayType_<?php echo ($i + 1); ?>" value="<?php echo $question['DisplayType']; ?>" />
-            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>"  value="1"/>
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
             
             <div class="surveyquestionsbox">
                 
-                <?php if($question['IsSuspended']==1){?> 
-            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
-                <button class='btn'>Click here to use</button>
-            </div>
-            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
- <?php } ?>
+               <div class="surveyquestionsbox">
+                  
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -307,7 +308,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     </div>
                 </div>
             </div>
-
+                </div>
 
         <?php $this->endWidget(); ?>
         </div>
@@ -356,8 +357,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
         <?php } else if ($question['QuestionType'] == 3) { ?>
         
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
-           
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="position:relative; padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+            <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <div class='btn'>Click here to Resume</div>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+            <?php } ?>
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
@@ -374,17 +380,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
                 
-                 <?php if($question['IsSuspended']==1){?> 
-            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
-                <button class='btn'>Click here to use</button>
-            </div>
-            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
- <?php } ?>
+                 <div class="surveyquestionsbox">
+                 
                 <div class="surveyareaheader">
                    <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -614,7 +616,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                     <?php if($question['TextOptions'] == 3){ ?>
                                                     <td>
                                                         <div class="positionrelative surveydeleteaction ">
-                                                            <input type="hidden"  maxlength="50" class="rr_justification_hidden rr_justification_hidden_<?php echo ($i + 1); ?>" name="ExtendedSurveyForm[JustificationPlaceholders][<?php echo $j . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_JustificationPlaceholders_<?php echo $j . "_" . ($i + 1); ?>" />
+                                                            <input type="hidden"  value="<?php echo $question['JustificationPlaceholders'][$j]; ?>" maxlength="50" class="rr_justification_hidden rr_justification_hidden_<?php echo ($i + 1); ?>" name="ExtendedSurveyForm[JustificationPlaceholders][<?php echo $j . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_JustificationPlaceholders_<?php echo $j . "_" . ($i + 1); ?>" />
                                                             <input type="text" id="ExtendedSurveyForm_JustificationPlaceholderstext_<?php echo $j . "_" . ($i + 1); ?>" onkeyup="insertText(this.id)" onblur="insertText(this.id)" data-hiddenname="ExtendedSurveyForm_JustificationPlaceholders_<?php echo $j . "_" . ($i + 1); ?>" class="textfield textfieldtable rr_justification notallowed rr_justification_<?php echo ($i + 1); ?>"  placeholder="Justification placeholder" value="<?php echo $question['JustificationPlaceholders'][$j]; ?>"/>
                                                         </div>
                                                    </td> 
@@ -654,7 +656,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                 </div>
             </div>
 
-
+            </div>
         <?php $this->endWidget(); ?>
         </div>
 
@@ -682,8 +684,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         </script>
     <?php } else if ($question['QuestionType'] == 4) { ?>
         
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
-       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="position:relative; padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+       <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <div class='btn'>Click here to Resume</div>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+            <?php } ?>
             <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -700,15 +707,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
              <div class="surveyquestionsbox">
-                  <?php if($question['IsSuspended']==1){?> 
-            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
-                <button class='btn'>Click here to use</button>
-            </div>
-            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
- <?php } ?>
+                  <div class="surveyquestionsbox">
+                  
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -991,8 +994,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         </script>
     <?php } else if ($question['QuestionType'] == 5) { ?>
         
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
-       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="position:relative; padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+       <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <div class='btn'>Click here to Resume</div>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+        <?php } ?>
             <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -1009,15 +1017,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
-                 <?php if($question['IsSuspended']==1){?> 
-            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
-                <button class='btn'>Click here to use</button>
-            </div>
-            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
- <?php } ?>
+                <div class="surveyquestionsbox">
+                  
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -1126,7 +1130,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     </div>
                 </div>
             </div>
-
+                </div>
 
         <?php $this->endWidget(); ?>
         </div>
@@ -1168,9 +1172,14 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         </script>
     <?php } else if ($question['QuestionType'] == 6) { ?>
         
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="position:relative; padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">       
         
-            
+          <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <div class='btn'>Click here to Resume</div>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+        <?php } ?>   
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -1187,15 +1196,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
-                <?php if($question['IsSuspended']==1){?> 
-            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
-                <button class='btn'>Click here to use</button>
-            </div>
-            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
- <?php } ?>
+               <div class="surveyquestionsbox">
+                 
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -1246,7 +1251,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                 </div>
             </div>
 
-
+ </div>
         <?php $this->endWidget(); ?>
         </div>
         <script type="text/javascript">
@@ -1309,8 +1314,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         </script>
     <?php } else if ($question['QuestionType'] == 7) { ?>
         
-        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;"  id="QuestionWidget_<?php echo ($i + 1); ?>">       
-        
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="position:relative; padding:15px 20px 15px 10px;"  id="QuestionWidget_<?php echo ($i + 1); ?>">       
+        <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <div class='btn'>Click here to Resume</div>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+        <?php } ?>
             
             <?php
         $form = $this->beginWidget('CActiveForm', array(
@@ -1328,15 +1338,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         ?>    
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
-            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
-                <?php if($question['IsSuspended']==1){?> 
-            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
-                <button class='btn'>Click here to use</button>
-            </div>
-            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
- <?php } ?>
+               <div class="surveyquestionsbox">
+                  
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
@@ -1397,7 +1403,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     </div>
                 </div>
             </div>
-
+                </div>
 
         <?php $this->endWidget(); ?>
         </div>
@@ -1445,6 +1451,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
     <?php
     } else if ($question['QuestionType'] == 8) { ?>
         
+        <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="position:relative; padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">
+            <?php if($question['IsSuspended']==1){?> 
+            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
+                <div class='btn'>Click here to Resume</div>
+            </div>
+            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
+                <?php } ?>
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'questionWidget_' . ($i + 1),
@@ -1458,22 +1471,19 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                 'style' => 'margin: 0px; accept-charset=UTF-8',
             ),
         ));
-        ?>    
+        ?> 
+         
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[SelectionType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_SelectionType_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['SelectionType']; ?>"/>
-            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspend']; ?>" />
+            <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
             <!--<input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>-->
-            <div class="surveyquestionsbox">
-                <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px;" id="QuestionWidget_<?php echo ($i + 1); ?>">
-            <?php if($question['IsSuspended']==1){?> 
-            <div class='suspendcontentdiv' data-qid='<?php echo ($i + 1); ?>'>
-                <button class='btn'>Click here to use</button>
-            </div>
-            <div class='suspenddiv' id='suspenddiv_<?php echo ($i + 1); ?>'></div>
- <?php } ?>
+           
+               
+                    <div class="surveyquestionsbox">
+                  
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule != 1){ ?>
                     <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
