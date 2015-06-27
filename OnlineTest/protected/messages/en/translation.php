@@ -1354,7 +1354,12 @@ return array (
     "StudentVerification_success" => "You've successfully completed the registration process! Please login.",
     "StudentVerification_error"  => "Verification link is invalid.",
     "StudentVerification_already"  => "You're already a verified user. Login with your credentials.",
-    "NPINumber_Invalid_Pattern" => "Invalid NPI Number"
+    "NPINumber_Invalid_Pattern" => "Invalid NPI Number",
+    
+    
+    /*Online Test messages*/
+    "Ex_Success_Msg_New_TestPaper" => "Please wait, it automatically loads the Test Paper Dashboard.",
+    "Ex_Success_Msg" => "Please wait, it automatically loads the Question Bank Dashboard.",
 );
 
 ?>

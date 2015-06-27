@@ -55,6 +55,7 @@
     var g_startLimit = 0;
     var g_pageLength = 10;
     var g_page = 1;
+    var TestPaperId='';
     Custom.init();
     getCollectionData('/testPaper/LoadSurveyWall', 'ExtendedSurveyBean', 'surveyDashboardWall', 'No data found', 'No more data');
     var optionsC = {
@@ -188,14 +189,14 @@
      */
     $(".invite").live('click', function() {
         var $this = $(this);
-        var TestPaperId = $this.attr("data-testpaperId");
-        //alert(TestPaperId);
+        TestPaperId = $this.attr("data-testpaperId");
         ajaxRequest("/testPaper/loadTestTakers", "surveyId=" + TestPaperId, function(data) {
                 renderLoadSurveyScheduleHandler(data, TestPaperId)
             }, "html");
+            
     });
     
-     function renderLoadSurveyScheduleHandler(html, surveyId) {//alert("--------"+html.toSource());
+     function renderLoadSurveyScheduleHandler(html, surveyId) {
         scrollPleaseWaitClose("spinner_survey_" + surveyId);
         $("#newModal .modal-dialog").removeClass('info_modal');
         $("#newModal .modal-dialog").removeClass('alert_modal');
@@ -205,6 +206,11 @@
         $("#newModal_body").html(html);
         $("#newModal").modal('show');
     }
+    
+   
+
+    
+    
     /*function inviteUsersConfirm(surveyId) {
         var actionType = "CancelSchedule";
         var modelType = 'error_modal';
@@ -277,83 +283,7 @@
         }
     });
 
-    $(".surveyanalytics").click(function() {
-        //  alert('click');
-        $("#pagetitle").html("Market Research Analytics");
-        $("#surveyDashboardWallDiv,#analyticsview").hide();
-        getSurveyAnalyticsDetails(0,"all","");        
-        $("#analyticsdashboard").show();
-        isDuringAjax = true;
-//        ajaxRequest("/extendedSurvey/getSurveyAnalyticsData", {}, getSurveyAnalyticsHandler)
-    });
-
-   
-
-    function getSurveyAnalyticsDetails(startLimit, filterValue, searchText) {
-        if (filterValue == "" || filterValue == undefined) {
-            filterValue = "all";
-        }
-        filterValue = $.trim(filterValue);
-        g_filterValue = filterValue; // assgining filtervalue to global variable...
-        if (startLimit == 0) {
-            g_pageNumber = 1;
-        }
-        if (searchText == 'search') {
-            searchText = "";
-        }
-        var queryString = "filterValue=" + filterValue + "&searchText=" + searchText + "&startLimit=" + startLimit + "&pageLength=" + g_pageLength;
-        scrollPleaseWait('spinner_admin');
-        ajaxRequest("/extendedSurvey/getSurveyAnalyticsData", queryString, getSurveyAnalyticsHandler)        
-    }
-// handler for getUserManagementDetails...
-    function getSurveyAnalyticsHandler(data) {
-        
-        scrollPleaseWaitClose('spinner_admin');
-        var item = {
-            'data': data
-        };
-        $("#analyticsdashboard").html(
-            $("#analyticsTmp_render").render(item)
-        );
-        if (g_pageNumber == undefined) {
-            g_page = 1;
-        } else {
-            g_page = g_pageNumber;
-        }
-        if (g_filterValue != undefined) {
-            $("#filterSurvey").val(g_filterValue);
-        } else {
-            g_filterValue = "all";
-        }
-         
-        if(g_searchText != undefined && g_searchText != ""){
-           
-        }
-        if (data.total.totalCount == 0) {
-            $("#pagination").hide();
-            $("#noRecordsTR").show();
-        }
-        $("#pagination").pagination({
-            currentPage: g_page,
-            items: data.total.totalCount,
-            itemsOnPage: g_pageLength,
-            cssStyle: 'light-theme',
-            onPageClick: function(pageNumber, event) {
-                g_pageNumber = pageNumber;
-                var startLimit = ((parseInt(pageNumber) - 1) * parseInt(g_pageLength));
-                getSurveyAnalyticsDetails(startLimit, g_filterValue, g_searchText);
-            }
-
-        });
-
-        if ($.trim(data.searchText) != undefined && $.trim(data.searchText) != "undefined") {
-
-            $('#searchTextId').val(data.searchText);
-        }
-        $("#searchTextId").val(g_searchText);
-        Custom.init();
-        $("[rel=tooltip]").tooltip();
-    }
+    
 
     function searchASurvey(event) {
 

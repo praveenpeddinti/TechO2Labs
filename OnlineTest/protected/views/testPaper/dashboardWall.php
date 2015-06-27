@@ -16,13 +16,13 @@
             <div class="category">
             	<ul>
                     <?php foreach($data->Category as $categoryDetails){?>
-                    <li>
+                    <li class="">
                         <div class="inner_li">
                             <label><?php echo $categoryDetails['NoofQuestions']; ?></label>
                             <p><?php echo $categoryDetails['CategoryName']; ?></p>
                         </div>
                     </li>
-                    <?php }?>
+                    <?php $i++;}?>
                     
                 </ul>
             </div>

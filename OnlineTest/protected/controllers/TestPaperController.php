@@ -71,7 +71,7 @@ class TestPaperController extends Controller {
     }
     
     
-    public function actionValidateSurveyQuestion() {error_log("-1--actionValidateSurveyQuestion");
+    public function actionValidateSurveyQuestion() {
         try{
         $TestPaperForm = new TestPaperForm();
         $UserId = $this->tinyObject->UserId;
@@ -80,11 +80,9 @@ class TestPaperController extends Controller {
 
 
             $errors = CActiveForm::validate($TestPaperForm);
-            error_log("-----val------".print_r($errors,true));
             if ($errors != '[]') {
-                error_log("---error----if----");
                 $obj = array('status' => 'error', 'data' => '', 'error' => $errors, 'oerror' => $common);
-            } else { error_log("---error----if----esfdf");
+            } else { 
                 $obj = array('status' => 'success', 'data' => '', 'error' => "");
             }
             //$obj = array('status' => 'success', 'data' => '', 'error' => "");
@@ -132,7 +130,7 @@ class TestPaperController extends Controller {
                     parse_str($f[$i], $searcharray);
                     $TestPreparationBean = new TestPreparationBean();
                     $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName', $categories[$i]);
-                    error_log("---------surveyDetails-----".print_r($surveyObj,true));
+                    //error_log("---------surveyDetails-----".print_r($surveyObj,true));
                     $scheduleSurveyForm= new ScheduleSurveyForm();
                     $scheduleSurveyForm->StartDate = date("Y-m-d");
                     $scheduleSurveyForm->EndDate = date("Y-m-d");
@@ -162,7 +160,7 @@ class TestPaperController extends Controller {
                                 $TestPreparationBean->ReviewQuestion = (int) $value;
                             }
                     }
-                    error_log("----bean---".print_r($TestPreparationBean,true));
+                    //error_log("----bean---".print_r($TestPreparationBean,true));
                     array_push($questionArray, $TestPreparationBean);
                 }
                 $TestPaperForm->Questions = $questionArray;  
@@ -238,14 +236,62 @@ class TestPaperController extends Controller {
     
     public function actionLoadTestTakers() {
         try {error_log("---enter invitecontr----".$_REQUEST['surveyId']);
+            $result = array();
+            $startDate = '';
+            $endDate = '';
+            $searchText = "";
+            $startLimit = 0;
+            $pageLength = 10;
             $surveyId = $_REQUEST['surveyId'];
-            $getAllUsers = User::model()->getUsers();
-            error_log("eeeee--------".print_r($getAllUsers,1));
-            $scheduleForm = new ScheduleSurveyForm();
-            $this->renderPartial('inviteUsers', array('scheduleForm' => $scheduleForm,"surveyId" => $surveyId, "allUsers" => $getAllUsers));
+            $getAllUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfile($startDate,$endDate,$searchText,$startLimit, $pageLength);
+            $totalUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfileCount($startDate,$endDate,$searchText);
+            $inviteForm = new InviteUserForm();
+            $this->renderPartial('inviteUsers', array("data" => $getAllUsers, "total" => $totalUsers["totalCount"],'inviteForm' => $inviteForm,"surveyId" => $surveyId));
         } catch (Exception $ex) {
             error_log("Exception Occurred in ExtendedSurveyController->actionLoadSurveySchedule==". $ex->getMessage());
             Yii::log("ExtendedSurveyController:actionLoadSurveySchedule::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    } 
+    
+    public function actionGetInviteUsersDetails(){
+        try{
+            $result = array();
+            $startDate = $_REQUEST['startDate'];
+            $endDate = $_REQUEST['endDate'];
+            $searchText = $_REQUEST['searchText'];
+            $startLimit = $_REQUEST['startLimit'];
+            $pageLength = $_REQUEST['pageLength'];
+            $data = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfile($startDate,$endDate,$searchText,$startLimit, $pageLength);
+            $totalUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfileCount($startDate,$endDate,$searchText);
+            $inviteForm1 = new InviteUserForm();
+            $result = array("inviteForm1" => $inviteForm,"data" => $data, "total" => $totalUsers["totalCount"], "status" => 'success');    
+            echo json_encode($result);
+        } catch (Exception $ex) {
+            error_log("Exception Occurred in TestPaperController->actionGetInviteUsersDetails==". $ex->getMessage());
+            Yii::log("TestPaperController:actionGetInviteUsersDetails::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    
+    public function actionSaveInviteUsersDetails(){
+        try{
+            $result = array();
+            $TestId = $_REQUEST['TestId'];
+            $UserIds = $_REQUEST['UserIds'];
+            $a =array();
+            $af = split(',', $UserIds);
+            error_log($TestId."eeeee-2-SaveInviteUsers------".$af[0].$af[1]);
+            for($i=0;$i<sizeof($af);$i++){
+                error_log("---1--userIds---".$$af[$i]);
+            $data = ServiceFactory::getSkiptaUserServiceInstance()->saveInviteUserForTest($TestId,$af[$i]);
+            error_log("---2--userIds---".$$af[$i]);
+            }//$saveInviteUserDetails = ServiceFactory::getSkiptaUserServiceInstance()->SaveInviteUserDetails($TestId,$af);
+            $result=array("status" => 'success');   
+            //$result = array("inviteForm1" => $inviteForm,"data" => $data, "total" => $totalUsers, "status" => 'success');    
+            echo json_encode($result);
+        } catch (Exception $ex) {
+            error_log("Exception Occurred in TestPaperController->actionGetInviteUsersDetails==". $ex->getMessage());
+            Yii::log("TestPaperController:actionGetInviteUsersDetails::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
     }
 

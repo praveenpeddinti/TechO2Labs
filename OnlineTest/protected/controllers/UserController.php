@@ -364,6 +364,16 @@ class UserController extends Controller {
                                 $obj = array("status" => "error", "error" => $errors);
                             } else {
                                 if ($var[0] != "" && $var[1] != "" && $var[2] != "" && $var[3] != "" && $var[4] != "") {
+                                    if(strlen($var[3])!=10){
+                                        $errors[$i] = "Phone number is Invaild... record skipped. --" . $line;
+                                    $status = "error";
+                                    $obj = array("status" => $status, "error" => $errors);
+                                    } else if  (!filter_var($var[2], FILTER_VALIDATE_EMAIL)) {
+                                        
+                                        $errors[$i] = "Invalid Email format... record skipped. --" . $line;
+                                    $status = "error";
+                                    $obj = array("status" => $status, "error" => $errors);
+                                      }else{
                                     $resultObject = $this->setTestTakerBeanObject($var);
                                     $res = "";
                                     $toEmail = str_replace('"', '', $var[2]);
@@ -385,7 +395,7 @@ class UserController extends Controller {
                                        $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
                                     //$Save_userInUserCollection = ServiceFactory::getSkiptaUserServiceInstance()->UpdateUserCollection($UserSettingsForm,$oldUserObj);
                                     } 
-                                    
+                                    }   
                                 } else {
 //                                    array_push($errors, $line);
                                     $errors[$i] = "Data mismatch... record skipped. --" . $line;

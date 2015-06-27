@@ -113,7 +113,7 @@ class User extends CActiveRecord {
      */
 
     public function getUserProfile($filterValue, $searchText, $startLimit = 0, $pageLength = 10) {
-        try {
+        try {error_log("----model----invite");
             $searchText = trim($searchText);
             $role='';
             $criteria = new CDbCriteria();
@@ -525,6 +525,11 @@ class User extends CActiveRecord {
             error_log("Exception Occurred in ExSurveyResearchGroup->getLinkGroups### ".$ex->getMessage());
         }
     }
+    
+    
+    
+    
+    
 }
 
 

@@ -4605,6 +4605,52 @@ public function getAllHdsUsers() {
          }
         
     }
+    /*
+     * Invite Users Functionality start
+     */
+    public function getInviteUserProfile($filterValue, $searchText, $startLimit, $pageLength) {
+        try {// method calling...                 
+            $userProfileCollectionJSONObject = TestRegister::model()->getInviteUserProfile($filterValue, $searchText, $startLimit, $pageLength);
+        } catch (Exception $ex) {
+            Yii::log("SkiptaUserService:getUserProfile::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+        return $userProfileCollectionJSONObject;
+    }
+
+    
+    public function getInviteUserProfileCount($filterValue, $searchText, $segmentId=0) {
+        try {// method calling...            
+            $userProfileCount = TestRegister::model()->getInviteUserProfileCount($filterValue, $searchText, $segmentId);
+        } catch (Exception $ex) {
+            Yii::log("SkiptaUserService:getUserProfileCount::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+        return $userProfileCount;
+    }
+    
+    public function saveInviteUserForTest($TestId,$UserIds) {
+        try {// method calling...            
+            $inviteTest = TestRegister::model()->saveInviteUserForTest($TestId,$UserIds);
+        } catch (Exception $ex) {
+            Yii::log("SkiptaUserService:getUserProfileCount::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+        return $inviteTest;
+    }
+    
+    
+    
+    public function SaveInviteUserDetails($TestId,$af){
+     try {
+         $returnValue = TestPreparationCollection::model()->SaveInviteUserDetails($TestId,$af);
+         return $returnValue;
+         
+     } catch (Exception $ex) {
+         error_log("SkiptaUserService:SaveUserCollection::".$ex->getMessage());
+         Yii::log("SkiptaUserService:SaveUserCollection::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+     }
+  }
+    /*
+     * Invite Users Functionality end
+     */
 }
 
 

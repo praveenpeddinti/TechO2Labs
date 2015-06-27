@@ -22,8 +22,9 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			// username and password are required
-			array('email', 'required','message'=>'User Name cannot be blank'),			
-                        array('pword', 'required','message'=>'Password cannot be blank.'),	
+		    array('email', 'required','message'=>'User Name cannot be blank'),			
+                    array('pword', 'required','message'=>'Password cannot be blank.'),
+                    array('email','email','checkMX'=>false,'message'=>'User name is not Valid.'),
 			// rememberMe needs to be a boolean
 			//array('rememberMe', 'boolean'),
 			// password needs to be authenticated

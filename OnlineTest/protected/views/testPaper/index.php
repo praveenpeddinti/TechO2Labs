@@ -494,9 +494,9 @@ $("#surveyfooterids").show();
         if(data.status == "success"){            
             $("#sucmsg").css("display", "block");
              <?php if(empty($surveyId)){ ?> 
-                $("#sucmsg").html("Created Successfully. <?php echo Yii::t("translation","Ex_Success_Msg"); ?>");
+                $("#sucmsg").html("Created Successfully. <?php echo Yii::t("translation","Ex_Success_Msg_New_TestPaper"); ?>");
              <?php }else {  ?>
-                 $("#sucmsg").html("Updated Successfully. <?php echo Yii::t("translation","Ex_Success_Msg"); ?>");
+                 $("#sucmsg").html("Updated Successfully. <?php echo Yii::t("translation","Ex_Success_Msg_New_TestPaper"); ?>");
              <?php } ?>
                  $("body,html").animate({scrollTop:0}, 1000,function(){})
             $("#sucmsg").fadeOut(9000,function(){
@@ -507,25 +507,32 @@ $("#surveyfooterids").show();
         }
     }
     
-    $(".reviewquestion span").live("click",function(){        
+    /*$(".reviewquestion span").live("click",function(){  
         var $this = $(this);
        
         var qid = $(this).siblings("input[type=checkbox]").attr("data-qid");
+        
         var otherQuestions = $(this).siblings("input[type=checkbox]").attr("data-otherQ");
-        if($this.attr("style") == "background-position: 0px -50px;"){ 
-            $("#ReviewQuestion_"+qid).val(1);
-        }else{
+        if($this.attr("style") == "background-position: 0px 0px;"){ 
             $("#ReviewQuestion_"+qid).val(0);
+        }else{
+            $("#ReviewQuestion_"+qid).val(1);
         }
         if(($("#TestTakerForm_NoofQuestions_"+qid).val()!='') && ($("#ReviewQuestion_"+qid).val()==0)){
             if($("#TestTakerForm_NoofQuestions_"+qid).val()>=otherQuestions){
-                //alert("no check");
+                alert("no check");
+                $("#reQues_"+qid).text("No Technical Questions");
+                    $("#reQues_"+qid).show();
+                    $("#reQues_"+qid).fadeOut(5000);
+                    $("#reQues_"+qid).parent().addClass('error');
+                    $(this).attr("style",'background-position: 0px -50px');
+                    $("#ReviewQuestion_"+qid).val(1);
             }else{
-                 //alert("ok check");
+                alert("ye check");
             }
             //alert(otherQuestions+"if--"+$("#TestTakerForm_NoofQuestions_"+qid).val());
         }
-    });
+    });*/
      
      function CancelTestPaperForm(){
         window.location.href = "/testpaper";

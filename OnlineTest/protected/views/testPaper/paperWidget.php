@@ -60,9 +60,10 @@
                             <?php echo $form->error($TestPaperForm, 'NoofPoints_'.$widgetCount); ?>
                         </div>
         </div>
-        <div class="divcol5 reviewquestion">
+        <div class="divcol5 reviewquestion" >
             <input type="hidden" value="1" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
-                        <input  type="checkbox" class="styled" data-qid="<?php echo $widgetCount; ?>" data-otherQ="<?php echo $OtherQuestions; ?>" checked="checked"/>
+            <input type="checkbox" class="styled" data-qid="<?php echo $widgetCount; ?>" data-otherQ="<?php echo $OtherQuestions; ?>" checked="checked"/>
+            <div class="" style="disable:none" id="reQues_<?php echo $widgetCount;?>"></div>
         </div>
         <div class="divcol6"> <div class="subsectionremove subsectionremoveintable" data-questionId="<?php echo $widgetCount; ?>">
                 <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove Category"/>
@@ -143,7 +144,7 @@
     return true;
 }
 function ScoreDiv(value,no){
-
+        
     $("#CategoryTime_"+no).find('option').remove();
     $("#NoofPoints_"+no).find('option').remove();
 
@@ -159,5 +160,5 @@ function ScoreDiv(value,no){
     }
     
 }
-    
+   
 </script>

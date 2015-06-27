@@ -13,6 +13,7 @@ class TestPreparationCollection extends EMongoDocument {
     public $Category;
     public $CreatedOn;
     public $InviteUsers =0;
+    public $TestInviteUsers =array();
     public $TestTakenUsers =0;
     
 
@@ -39,6 +40,7 @@ class TestPreparationCollection extends EMongoDocument {
         'Description'=>'Description',
         'Category'=>'Category',
         'InviteUsers'=>'InviteUsers',
+         'TestInviteUsers'=>'TestInviteUsers',
         'TestTakenUsers'=>'TestTakenUsers',
         'CreatedOn'=>'CreatedOn',
         );
@@ -74,6 +76,28 @@ class TestPreparationCollection extends EMongoDocument {
              error_log("Exception Occurred in TestPreparationCollection->getTestPreparationCollection==".$ex->getMessage());
          }
      }
+     
+     //SaveInviteUserDetails
+     
+       public function updatedSaveInviteUserDetails($TestId,$total) {
+      try{error_log($TestId."-----enter update function------".$total);
+           
+            $mongoCriteria = new EMongoCriteria;
+            $mongoModifier = new EMongoModifier;
+            $mongoModifier->addModifier('TestInviteUsers', 'push',(int)$total);
+             $mongoModifier->addModifier('InviteUsers', 'inc',(int)1);
+            $mongoCriteria->addCond('_id', '==',  new MongoID($TestId));
+            TestPreparationCollection::model()->updateAll($mongoModifier, $mongoCriteria);
+           error_log("-----enter update function---2---");
+           
+           
+           
+           
+
+      } catch (Exception $ex) {
+          Yii::log("TestPreparationCollection:updatedSaveInviteUserDetails::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+      }
+  }
      
      
 }

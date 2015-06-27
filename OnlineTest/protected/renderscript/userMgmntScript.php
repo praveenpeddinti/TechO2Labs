@@ -19,9 +19,9 @@
                     <option value="active">
                         Active
                     </option>
-                    <option value="inprogress">
+                    <!--<option value="inprogress">
                         Inprogress
-                    </option>
+                    </option>-->
                     <option value="suspended">
                         Suspended
                     </option> 

@@ -10,6 +10,9 @@ var g_groupPicture="";
 var g_groupIcon="";
  var globalspace = new Object();
  var g_keepConversations=0;
+ 
+ var g_startDate = "";
+ var g_enddate = "";
 
 function getUsermanagementDetails(startLimit, filterValue, searchText) {
     if (filterValue == "" || filterValue == undefined) {
@@ -2496,3 +2499,5 @@ function createBroadCastNotificationsHandler(data){
     /*
      * @Invite users for test paper end
      */
+    
+    
