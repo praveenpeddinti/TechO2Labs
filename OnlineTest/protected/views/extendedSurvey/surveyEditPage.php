@@ -207,7 +207,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>"  value="1"/>
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
-            
+            <div style="display: none;" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>_em_" class="alert alert-error " data-questionno="<?php echo ($i + 1); ?>" ></div>
             <div class="surveyquestionsbox">
                 
                <div class="surveyquestionsbox">
@@ -238,7 +238,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                     <div class="pull-left positionrelative">
                                                         <select <?php if($isAlreadySchedule != 0){ ?> disabled="true" <?php } ?> class="styled questionDisplayType" style="width:100%;" id="displaytype_<?php echo ($i + 1); ?>" name="displaytype_<?php echo ($i + 1); ?>" data-optionType="checkbox" data-questionid="<?php echo ($i + 1); ?>">
                                                     <option value="1" <?php if($question['DisplayType'] == 1) echo "selected='true'"; ?>><?php echo Yii::t("translation","Ex_DisplayType_Check"); ?></option>
-                                                    <option value="2" <?php if($question['DisplayType'] == 2) echo "selected='true'"; ?>><?php echo Yii::t("translation","Ex_DisplayType_Multi"); ?></option>
+                                                    <!--<option value="2" <?php //if($question['DisplayType'] == 2) echo "selected='true'"; ?>><?php //echo Yii::t("translation","Ex_DisplayType_Multi"); ?></option>-->
                                                 </select>
                                                 </div>
 
@@ -930,7 +930,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                    <td><input value="<?php echo $question['Answers'][$mi]; ?>" type="hidden" name="ExtendedSurveyForm[MatrixAnswer][<?php echo $j . "_" . $k . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" />
                                                         <div class="positionrelative surveydeleteaction ">
                                                             
-                                                        <input type="text" class="textfield textfieldtable notallowed"  value="<?php echo $question['Answers'][$mi]; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)" id="ExtendedSurveyForm_MatrixAnswer_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" />
+                                                        <input type="text" class="textfield textfieldtable notallowed"  value="<?php echo $question['Answers'][$mi]; ?>"  maxlength ="2" onkeyup="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" onblur="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" id="ExtendedSurveyForm_MatrixAnswer_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" onkeydown="allowNumericsAndCheckFields(event)" data-qid = "<?php echo ($i+1); ?>"/>
                                                         </div>
                                                    </td>                 
             <?php } } ?>
@@ -1093,7 +1093,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                         </div>     
                                                     </div>
                                                     <div class="span2 positionrelative labelpercent">
-                                                        <input value="<?php echo $question['Answers'][$j]  ?>" type="text" class="textfield span10" name = "ExtendedSurveyForm[PercentageAnswer][<?php echo $j . "_" . ($i + 1); ?>]"/> <label class="percentlbl perUnitType_<?php echo ($i + 1); ?>" > <?php if ($question['MatrixType'] == 1) {
+                                                        <input value="<?php echo $question['Answers'][$j]  ?>" type="text" onkeyup="maxCheck(this,<?php echo ($i + 1); ?>)" onkeydown="allowNumericsAndCheckFields(event)" size="8" maxlength="4" class="textfield span10 distvalue_<?php echo ($i + 1);?>" name = "ExtendedSurveyForm[PercentageAnswer][<?php echo $j . "_" . ($i + 1); ?>]"/> <label class="percentlbl perUnitType_<?php echo ($i + 1); ?>" > <?php if ($question['MatrixType'] == 1) {
                 echo "%";
             } else {
                 echo "$";
@@ -1235,10 +1235,13 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                     <div class="normalsection normalsection5">
 
                                         <div class="row-fluid" id="rowfluidChars_<?php echo ($i + 1); ?>">
-                                            <div class="span12">   
-                                                <input value="<?php echo $question['Answers'][0] ?>" type="text" class="textfield span12 notallowed" id="qAaTextField_<?php echo ($i + 1); ?>" <?php if ($question['NoofChars'] > "100") echo "style='display:none;'"; ?> name="ExtendedSurveyForm[QuestionAnswerTextSelected][<?php echo ($i + 1); ?>]"/>
-                                                <textarea class="span12 notallowed" id="qAaTextarea_<?php echo ($i + 1); ?>"  <?php if ($question['NoofChars'] <= "100") echo "style='display:none;'"; ?> name="ExtendedSurveyForm[QuestionAnswerSelected][<?php echo ($i + 1); ?>]"><?php echo $question['Answers'][0]; ?></textarea>     
+                                            <div class="span12"> 
+                                                <div class="control-group controlerror">
+                                                <input value="<?php echo $question['Answers'][0] ?>" type="text" class="textfield span12 notallowed" id="qAaTextField_<?php echo ($i + 1); ?>" <?php if ($question['NoofChars'] > "100") echo "style='display:none;'"; ?> name="ExtendedSurveyForm[QuestionAnswerTextSelected][<?php echo ($i + 1); ?>]" onblur="insertText(this.id)" data-hiddenname="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>"/>
+                                                <textarea class="span12 notallowed" id="qAaTextarea_<?php echo ($i + 1); ?>"  <?php if ($question['NoofChars'] <= "100") echo "style='display:none;'"; ?> name="ExtendedSurveyForm[QuestionAnswerSelected][<?php echo ($i + 1); ?>]" onkeyup="insertText(this.id)" onblur="insertText(this.id)" data-hiddenname="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>"><?php echo $question['Answers'][0]; ?></textarea>     
+                                            <div style="display:none"  id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>_em_" class="errorMessage"></div>
                                             </div>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1711,8 +1714,12 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                           
          });
           //alert(checkboxvalues)
-          $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
-         $("#ExtendedSurveyForm_answerSelected_"+qId).val(checkboxvalues);
+          if(checkboxvalues=='')
+          $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val('');
+          else
+              $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+          
+         $("#ExtendedSurveyForm_answerSelectedEdit_"+qId).val(checkboxvalues);
          //alert(checkboxvalues)
          
     });
@@ -1721,9 +1728,14 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
        var radiovalue = "";
         var qId = $this.closest('div.answersection1').attr("data-questionId");
         var qtype = $this.closest('div.answersection1').attr("data-qtype");
-         if(qtype == 3){
+        
+        if(qtype == 3){
             var i = $this.attr("data-info");
+            var noptions = $("#ExtendedSurveyForm_NoofOptions_"+qId).val();
+            var norows =$("#ExtendedSurveyForm_NoofRows_"+qId).val();
+            
             //radiovalue=$("input[name='radio_"+i+"_"+qId+"']:checked").val();
+            var count=0;
             $(".radiotype_"+qId).each(function(){
                       var $this = $(this);
                            if($(this).is(":checked")){
@@ -1732,18 +1744,24 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                }else{
                                    radiovalue = radiovalue+","+$this.val();  
                                }
+                               count++;  
                            }
                            
                         }); 
             
            //alert(radiovalue) 
+           if(noptions == count || norows == count)
+        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+        else 
+        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val('');  
                    
         }else{
             //radiovalue=$("input[name='radioinput']:checked").val();
             radiovalue=$this.find("input[name='radioinput']").val();
+            $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
            //alert(radiovalue) 
         }
-        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+        //$("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
       $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
     });
         </script>

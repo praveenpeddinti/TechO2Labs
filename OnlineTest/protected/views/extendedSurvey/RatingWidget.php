@@ -57,7 +57,7 @@
             <?php } ?>
         <?php  }else if($optionsType == 2){  for ($j = 0; $j < $ratingsCnt; $j++) {?>
             <td><div class="positionrelative surveydeleteaction ">
-                    <input type="text" class="textfield textfieldtable"  id = "MatrixAnswer<?php echo $i . "_" . $j . "_" . $widgetCount; ?>" name="ExtendedSurveyForm[MatrixAnswer][<?php echo $i . "_" . $j . "_" . $widgetCount; ?>]" onkeyup="insertText(this.id)" onblur="insertText(this.id)" data-hiddenname="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>"/>
+                    <input type="text" class="textfield textfieldtable"  id = "MatrixAnswer<?php echo $i . "_" . $j . "_" . $widgetCount; ?>" name="ExtendedSurveyForm[MatrixAnswer][<?php echo $i . "_" . $j . "_" . $widgetCount; ?>]" maxlength ="2" onkeyup="checkvalid(this.value,this.id,<?php echo $widgetCount; ?>),insertText(this.id)" onblur="checkvalid(this.value,this.id,<?php echo $widgetCount; ?>),insertText(this.id)" data-hiddenname="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>" onkeydown="allowNumericsAndCheckFields(event)"/>
             <div class="control-group controlerror">
                 <!--<div style="display:none"  id="ExtendedSurveyForm_IsAnswerFilled_<?php echo $i . "_" . $j . "_" . $widgetCount; ?>_em_" class="errorMessage"></div>-->
             </div>

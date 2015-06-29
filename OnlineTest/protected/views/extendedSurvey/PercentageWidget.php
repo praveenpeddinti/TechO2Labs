@@ -49,16 +49,28 @@
          </div>
      <input type="hidden" name="ExtendedSurveyForm[Other][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_Other_<?php echo $widgetCount; ?>" class="otherhidden"/>
      <input type="hidden" name="ExtendedSurveyForm[OtherValue][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_OtherValue_<?php echo $widgetCount; ?>" class="otherhiddenvalue" value="Other"/>
-            <div class="normaloutersection">
+     <input type="hidden" name="ExtendedSurveyForm[OtherPercentValue][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_Percent_<?php echo $widgetCount; ?>" class="otherhiddenpercent" value=""/>
+            
+     <div class="normaloutersection">
                 <div class="normalsection othersarea" id="othersarea_<?php echo $widgetCount; ?>">
                     <div class="surveyradiobutton"> <input type="checkbox" class="styled othercheck" name="1" id="othercheck_<?php echo $widgetCount; ?>" /> <i>Others</i> </div>  
                     <div class="row-fluid otherTextdiv" style="display: none;" id="otherTextdiv_<?php echo $widgetCount; ?>">
                         <div class="span12">
+                            <div class="span6">
                             <div class="control-group controlerror"> 
-                                <input type="text" placeholder="Other Value" id="otherText_<?php echo $widgetCount; ?>" class="span12 textfield othertext notallowed"  data-hiddenname="ExtendedSurveyForm_OtherValue_<?php echo $widgetCount; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)"/>
+                                <input type="text" placeholder="Other Value" id="otherText_<?php echo $widgetCount; ?>" class="span10 textfield othertext notallowed"  data-hiddenname="ExtendedSurveyForm_OtherValue_<?php echo $widgetCount; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)"/>
                                 <div class="control-group controlerror">
                                     <div style="display:none"  id="ExtendedSurveyForm_OtherValue_<?php echo $widgetCount; ?>_em_" class="errorMessage othererr"></div>
                                 </div>
+                            </div>
+                            </div>
+                            <div class="span2 positionrelative labelpercent">
+                                <div class="control-group controlerror"> 
+                                <input  type="text" class="textfield span10" id="otherPercent_<?php echo $widgetCount; ?>"  onkeydown="allowNumericsAndCheckFields(event)" onkeyup="insertText(this.id)" onblur="insertText(this.id)" size="8" maxlength="4" data-hiddenname="ExtendedSurveyForm_OtherPercentValue_<?php echo $widgetCount; ?>"/> <label class="percentlbl perUnitType_<?php echo $widgetCount; ?>" > <?php echo $unitType; ?></label>
+                                <div class="control-group controlerror">
+                                    <div style="display:none"  id="ExtendedSurveyForm_OtherValue_<?php echo $widgetCount; ?>_em_" class="errorMessage othererr"></div>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>

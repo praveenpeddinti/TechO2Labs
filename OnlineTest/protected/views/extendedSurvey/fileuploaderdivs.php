@@ -1,4 +1,4 @@
- <input type="hidden" name="ExtendedSurveyForm[QuestionImage][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionImage_<?php echo ($i + 1); ?>" value="/images/system/survey_img.png" />
+ <input type="hidden" name="ExtendedSurveyForm[QuestionImage][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionImage_<?php echo ($i + 1); ?>" value="" /> <?php // /images/system/survey_img.png ?>
 
 <div class="row-fluid"> 
     <div class="span12">

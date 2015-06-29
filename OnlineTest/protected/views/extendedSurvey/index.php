@@ -1541,10 +1541,14 @@ bindToMandatory();
        var radiovalue = "";
         var qId = $this.closest('div.answersection1').attr("data-questionId");
         var qtype = $this.closest('div.answersection1').attr("data-qtype");
-         if(qtype == 3){
+        //alert(qtype)
+        if(qtype == 3 ){
+              var noptions = $("#ExtendedSurveyForm_NoofOptions_"+qId).val();
+              var norows =$("#ExtendedSurveyForm_NoofRows_"+qId).val();
             var i = $this.attr("data-info");
             
             //radiovalue=$("input[name='radio_"+i+"_"+qId+"']:checked").val();
+            var count=0;
             $(".radiotype_"+qId).each(function(){
                       var $this = $(this);
                       
@@ -1554,20 +1558,25 @@ bindToMandatory();
                                }else{
                                    radiovalue = radiovalue+","+$this.val();  
                                }
-                           }
+                            count++;                   
+                            }
                            
                         }); 
-            
-           // alert(radiovalue)
-            
+           //alert("hai"+norows) 
+          //alert(radiovalue)
+          if(noptions == count || norows == count)
+        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+        else 
+        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val('');  
             
         }else{
             
             radiovalue=$this.find("input[name='radioinput']").val();
+            $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
             //alert(radiovalue)
         }
         //alert('hai')
-        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+        
       $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
     });
     
@@ -1586,8 +1595,11 @@ bindToMandatory();
             }
                 //alert(checkboxvalues);          
          });
-         $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
-         $("#ExtendedSurveyForm_answerSelected_"+qId).val(checkboxvalues);
+         if(checkboxvalues=='')
+          $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val('');
+          else
+              $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
+         $("#ExtendedSurveyForm_answerSelectedEdit_"+qId).val(checkboxvalues);
          //alert(checkboxvalues)
          
     });
@@ -1998,6 +2010,42 @@ $(".snoofcols").live("change",function(){
                 e.preventDefault();
             } 
     }
+    
+    function checkvalid(v,id,qid){
+        //var questionId = $this.closest("div.answersection1").attr("data-questionId");
+        //alert(v);
+        //var qid = $(this).attr("data.qid");
+        //alert(id);
+       var maxValue = $("#ExtendedSurveyForm_TextMaxlength_"+qid).val();
+        //alert( maxValue);
+       if(Number(v)>Number(maxValue)){ 
+        $("#"+id).val('');
+        }
+       
+    }
+    function maxCheck(obj,qno){
+        var calValue = 0;
+        var totalvalue = $.trim($("#ExtendedSurveyForm_TotalValue_"+qno).val());
+        var noptions = $("#ExtendedSurveyForm_NoofOptions_"+qno).val();
+        //alert(noptions);
+        //alert(totalvalue)
+        //var totalvalue = $.trim($("#"+obj.id).closest('div.total').attr("data-num"));
+        var count=0;
+       $(".distvalue_"+qno).each(function(){
+                           var $this = $(this);
+                           calValue = calValue+Number($this.val()); 
+                          count++;
+                           if(count==noptions){
+                                if(totalvalue != calValue){
+                                    $this.val("");
+                                 }
+                               }else if(totalvalue < calValue){
+                               $this.val("");
+                           }
+         });
+                        
+    }
+   
     
     
     $(".anyothersarea_rrwidget").die().live("click",function(){
