@@ -130,19 +130,17 @@ class TestPaperController extends Controller {
                     parse_str($f[$i], $searcharray);
                     $TestPreparationBean = new TestPreparationBean();
                     $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName', $categories[$i]);
-                    //error_log("---------surveyDetails-----".print_r($surveyObj,true));
                     $scheduleSurveyForm= new ScheduleSurveyForm();
                     $scheduleSurveyForm->StartDate = date("Y-m-d");
                     $scheduleSurveyForm->EndDate = date("Y-m-d");
                     $scheduleSurveyForm->SurveyId = $surveyObj->_id;
                     $scheduleSurveyForm->SurveyTitle = $surveyObj->SurveyTitle;
-                    $scheduleSurveyForm->SurveyDescription = $TestPaperForm->Description;
-                    $scheduleSurveyForm->SurveyRelatedGroupName = $surveyObj->SurveyRelatedGroupName;
+                    $scheduleSurveyForm->SurveyDescription = $surveyObj->SurveyDescription;
+                    //$scheduleSurveyForm->SurveyRelatedGroupName = $surveyObj->SurveyRelatedGroupName;
                     $result = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveScheduleSurveydump($scheduleSurveyForm, $UserId);
                     $TestPreparationBean->ScheduleId = $result;
               
                     foreach ($searcharray["TestPaperForm"] as $key => $value) {
-                           error_log($value."-----key------".$key); 
                            
                            if ($key == "CategoryName") {
                                 $TestPreparationBean->CategoryName = $value;
