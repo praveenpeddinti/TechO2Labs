@@ -51,6 +51,7 @@
         </div>
         <div class="row-fluid padding-bottom15">
             <div class="span4 positionrelative">
+                <input type="hidden" name="TestPaperForm[SurveyRelatedGroupName]" id="TestPaperForm_SurveyRelatedGroupName" />
                 <select style="width: 100%;margin-bottom:0" name="surveyGroupName" id="surveyGroupName" class="styled" >
                     <option value="Public">Select Category</option>
                     <?php 
@@ -210,14 +211,15 @@ $("#surveyfooterids").show();
         
         $("#categoryHeaderDiv").show();
         var CategoryName = $("#"+id+" option:selected").text();
+        
         var selectVal = $("#TestPaperForm_SurveyRelatedGroupName").val();
         if(selectVal == ""){
-            selectVal = $("#surveyGroupName option:selected").text();
+            selectVal = $("#surveyGroupName").val();
         }else{
-            selectVal = selectVal+","+$("#surveyGroupName option:selected").text();
+            selectVal = selectVal+","+$("#surveyGroupName").val();
         }
         $("#TestPaperForm_SurveyRelatedGroupName").val(selectVal);
-       
+       //alert("-val----"+$("#TestPaperForm_SurveyRelatedGroupName").val());
        
                 //$("#category option:selected").attr('disabled','disabled');
          if (selectVal == "ALL"){
@@ -474,7 +476,7 @@ $("#surveyfooterids").show();
         $("#TestPaperForm_Questions").val(JSON.stringify(Garray));
         if (isValidated == true) {
             var data = $("#paperWidget").serialize();
-            //alert("data==5=="+data);
+           
             $.ajax({
                 type: 'POST',
                 url: '/testPaper/SaveSurveyQuestion?Title=' + $("#TestPaperForm_Title").val() +"&Description="+$("#TestPaperForm_Description").val()+ '&questionsCount=' + questionsCount+"&SurveyGroupName="+$("#TestPaperForm_SurveyRelatedGroupName").val(),
