@@ -1,7 +1,11 @@
-
-
-
-<div class="streamsectionarea" style="display:none" id="streamsectionarea">
+<div class="row-fluid" style="padding-top:80px">  
+<div class="span9" style="margin-right:0; padding-right:0px;">
+   <div class="row" style="margin-right:0; padding-right:0px;">
+  <div class="col-xs-12 col-md-12 col-sm-12 mobileview1" style="margin-right:0; padding-right:0px;">
+      <div class="questions_area_left_outer">
+      	<div class="questions_area_left_inner">
+        <div class="question_options_div">
+        	<div class="streamsectionarea" style="display:none" id="streamsectionarea">
     <form name="questionviewwidget" id="questionviewwidget">
         
         <div class="spotMessage" style="display: none">
@@ -27,10 +31,10 @@
                 <div id="surveySavingRes" class="surveySavingRes alert alert-success" style="display:none;margin-top:10px"><?php echo Yii::t("translation","Survey_Save_Response"); ?></div>
             </div>
         </div>
-    </div>
+    
 
-    </div>
-    </form>
+    
+    </form></div></div>
     <div class="row-fluid" style="position:relative" id="streamsectionarea_spinner"></div>
     <div style="display:none" id="streamsectionarea_error">
             <div class="ext_surveybox NPF lineheightsurvey">
@@ -38,21 +42,70 @@
             </div>
         </div>
 	</div>
-        <div class="streamsectionarea padding10" style="display:none" id="anyothervaluespage"></div>
+        <div class="streamsectionarea padding8" style="display:none" id="anyothervaluespage"></div>
+        </div>
+      
+        </div>
+      </div>
+  </div>
+ 
+  <div class="span3" style="margin-left:0; padding-left:0px;"><div class="dashboardbox dashboardboxrightpanel mobileview3">
+ <div class="questions_area_left_outer">
+ <!-- question catogories -->
+<div class="q_catogories">
+    <?php foreach($CatName as $row){ ?>
+   <div class="q_catogories_progress_active">
+   	<h3><?php echo $row['CategoryName']; ?></h3>   
+    <table cellpadding="0" cellspacing="0"  border="0" class="categoryQuestions">
+       
+        <tr>
+        <?php //error_log("====noofquestions=====".print_r($row)); 
+        for($i=0;$i <$row['NoofQuestions'];$i++){ ?>       
+       <?php if($i%5==0){  ?>
+        </tr><tr>
+             <?php } ?>
+            <td><?php echo ($i+1); ?></td>
+            
         
         
+            
+       <?php   } ?>
+        </tr>
+     
+    </table>
+    
+    <table cellpadding="0" cellspacing="0" width="100%" border="0">
+    	<tr>
+        	<!--<td style=" text-align:right;padding-right:5px"><img src="/images/time_h.png" width="52" height="52"></td>
+            <td style="text-align:left; padding-left:5px"><img src="/images/time_s.png" width="52" height="52"></td>-->
+        </tr>
+    </table>
+   </div>
+ <?php } ?>
+   
+</div>
+ <!-- question catogories end -->
+</div>
+</div></div>
+
+
+</div>
         
         
     
      <script type="text/javascript">
                      
+//                     $(document).ready(function(){
+//                         
+//                     });
+                     
          $(document).ready(function() {
-            
+           // alert('1')
             doAjax();
              var UserId = 0;
                  var Groupname = "";
                  var isOuter = false;
-                 var viewType = 2;
+                 var viewType = 1;
              function doAjax(){     
                  UserId = 0;
                  Groupname = "";
@@ -62,41 +115,43 @@
                  isOuter = '<?php echo $outerFlag; ?>';
                 viewType = '<?php echo $vType; ?>';
                 var sessionTime = '<?php echo $sessionTime?>';
-                
+                var testId = '<?php echo $TestId; ?>';
+               
                 if(isOuter == true || isOuter == 'true'){
                     $("#streamsectionarea").removeClass();
                 }
-                     scrollPleaseWait('streamsectionarea_spinner');
-                 ajaxRequest("/outside/renderQuestionView", "UserId="+UserId+"&GroupName="+Groupname+"&viewType="+viewType, function(data) {
+                    // scrollPleaseWait('streamsectionarea_spinner');
+                    //alert("UserId="+UserId+"&GroupName="+Groupname+"&viewType="+viewType+"&TestId="+testId)
+                 ajaxRequest("/outside/renderQuestionView", "UserId="+UserId+"&GroupName="+Groupname+"&viewType="+viewType+"&TestId="+testId, function(data) {
             renderSurveyView(data)
         }, "html");
              }
              function renderSurveyView(html){  
-              scrollPleaseWaitClose('streamsectionarea_spinner');
-             var strArr = html.split("_"); 
-             if($.trim(strArr[0]) == "LoadReports" || $.trim(strArr[0]) == "NotScheduled"){ 
-                $("#questionviewwidget").hide();
-                $("#streamsectionarea_error").show();
-                if($.trim(strArr[0]) == "NotScheduled")
-                    $("#errorTitle").html('<?php echo Yii::t("translation","Ex_Msg_Noschedules"); ?>');
-                else{
-                    $("#streamsectionarea").show();
-                    $("#errorTitle").html("<?php echo $_GET['groupName']; ?> Analytics");
-                    var scheduleId = strArr[1];
-                    ajaxRequest("/extendedSurvey/surveyAnalytics","ScheduleId="+scheduleId,surveyAnalticsHandler)
-                }
-            } else if(!$.isNumeric(html)){            
-                 $("#questionviewwidget,#streamsectionarea,#surveysubmitbuttons").show();
-                 $("#streamsectionarea_error").hide();
-                 
+//              scrollPleaseWaitClose('streamsectionarea_spinner');
+//             var strArr = html.split("_"); 
+//             if($.trim(strArr[0]) == "LoadReports" || $.trim(strArr[0]) == "NotScheduled"){ 
+//                $("#questionviewwidget").hide();
+//                $("#streamsectionarea_error").show();
+//                if($.trim(strArr[0]) == "NotScheduled")
+//                    $("#errorTitle").html('<?php echo Yii::t("translation","Ex_Msg_Noschedules"); ?>');
+//                else{
+//                    $("#streamsectionarea").show();
+//                    $("#errorTitle").html("<?php echo $_GET['groupName']; ?> Analytics");
+//                    var scheduleId = strArr[1];
+//                    ajaxRequest("/extendedSurvey/surveyAnalytics","ScheduleId="+scheduleId,surveyAnalticsHandler)
+//                }
+//            } else if(!$.isNumeric(html)){            
+//                 $("#questionviewwidget,#streamsectionarea,#surveysubmitbuttons").show();
+//                 $("#streamsectionarea_error").hide();
+                 $("#streamsectionarea").show();
                 $("#questionviewarea").html(html);
                
    
-            }  else {
-                $("#questionviewwidget").hide();
-                $("#streamsectionarea_error").show();
-                $("#errorTitle").html("Sorry, Please check UserId or Group Name.")
-            }
+//            }  else {
+//                $("#questionviewwidget").hide();
+//                $("#streamsectionarea_error").show();
+//                $("#errorTitle").html("Sorry, Please check UserId or Group Name.")
+//            }
          }
             <?php if(isset($this->tinyObject)){ ?>
                 $(".streamsectionarea").each(function(){
@@ -125,7 +180,8 @@
          var fromAutoSave=0;
          $("#nextQuestion").live("click",function(){
              fromPagiNation=1;
-            $("#submitQuestion").trigger("click");
+             gotoNextPage();
+           // $("#submitQuestion").trigger("click");
           
            //  alert($("#QuestionsSurveyForm_ScheduleId").attr("value"));
             
@@ -136,31 +192,32 @@
            //  alert($("#QuestionsSurveyForm_ScheduleId").attr("value"));
             
          })
+         var currentPage=0;
          function gotoNextPage(){ 
-              if(autoSaveInterval != null && autoSaveInterval != "undefined"){
-                     clearInterval(autoSaveInterval);
-                }
-             scrollPleaseWait('surveyviewspinner');
-             scrollPleaseWait('surveyviewspinner');   
+               currentPage++;
               var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
-             var queryString = {"surveyId":surveyId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};
-       // alert(queryString);      
-              ajaxRequest("/outside/sureyQuestionPagination", queryString, sureyQuestionPaginationHandler,"html");
+             var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};
+        //alert("gotoNextPage---"+queryString.toSource());
+         alert(queryString.toSource());   
+              ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
          }
-         function sureyQuestionPaginationHandler(html){
+         function sureyQuestionPaginationHandler(html){//alert(sureyQuestionPage+"next cll----"+html.toSource());
              //alert(data);                
              sureyQuestionPage++;
+             
              scrollPleaseWaitClose('surveyviewspinner');
              $("#questionviewarea").html(html);
          }
          function gotoPreviousPage(){
+             currentPage--;
              scrollPleaseWait('surveyviewspinner','previous');
              sureyQuestionPage = sureyQuestionPage-2;
               var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
-             var queryString = {"surveyId":surveyId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"previous"};
-              ajaxRequest("/outside/sureyQuestionPagination", queryString, sureyQuestionPaginationHandler,"html");
+             var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"surveyId":surveyId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"previous"};
+        alert(queryString.toSource());     
+        ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
          }
          
 </script>
