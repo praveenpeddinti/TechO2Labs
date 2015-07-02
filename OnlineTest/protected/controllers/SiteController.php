@@ -140,7 +140,8 @@ class SiteController extends Controller {
         }
     } 
    public function actionPrivacyPolicy() {
-     $this->render('privacyPolicy', array());          
+       $PrivacyPolicyForm = new PrivacyPolicyForm();
+     $this->render('privacyPolicy', array("PrivacyPolicyForm"=>$PrivacyPolicyForm));          
       }                  
           
 

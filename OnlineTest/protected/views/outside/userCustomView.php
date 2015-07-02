@@ -3,46 +3,10 @@ if(is_object($surveyObj)){ ?>
 <input type="hidden" value="<?php echo $userId; ?>" name="QuestionsSurveyForm[UserId]" id="QuestionsSurveyForm_UserId"/>
 <input type="hidden" value="<?php echo $scheduleId; ?>" name="QuestionsSurveyForm[ScheduleId]" id="QuestionsSurveyForm_ScheduleId"/>
 <input type="hidden" name="QuestionsSurveyForm[SurveyId]" value="<?php echo $surveyObj->_id; ?>" id="QuestionsSurveyForm_SurveyId">
-<input type="hidden" name="QuestionsSurveyForm[SurveyTitle]" value="<?php echo $surveyObj->SurveyTitle; ?>" id="QuestionsSurveyForm_SurveyTitle">
-<input type="hidden" name="QuestionsSurveyForm[SurveyDescription]" value="<?php echo $surveyObj->SurveyDescription; ?>" id="QuestionsSurveyForm_SurveyDescription">
-<input type="hidden" name="QuestionsSurveyForm[SurveyLogo]" value="<?php echo $surveyObj->SurveyLogo; ?>" id="QuestionsSurveyForm_SurveyLogo">
-<input type="hidden" name="QuestionsSurveyForm[Questions]" value="" id="QuestionsSurveyForm_Questions">
-<input type="hidden" name="QuestionsSurveyForm[SurveyRelatedGroupName]" value="<?php echo $surveyObj->SurveyRelatedGroupName; ?>" id="QuestionsSurveyForm_SurveyRelatedGroupName">
 
 
-<div class="padding10ltb">
-     <?php if($surveyObj->IsBannerVisible == 1){ ?>
-    <div id="userview_Bannerprofile"> 
-     <h2 class="pagetitle">Market Research</h2>
-    <div class="market_profile marginT10">
-	<div class="m_profileicon">
-            <div class="pull-left marginzero generalprofileicon  skiptaiconwidth190x190 generalprofileiconborder5 noBackGrUp">
-                            <div class="positionrelative editicondiv editicondivProfileImage no_border editicondivProfileImagelarge skiptaiconinner ">
-                                <div style="display: none;" class="edit_iconbg">
-                                    <div id="UserProfileImage"><div class="qq-uploader"><div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;">Upload a file<input type="file" multiple="multiple" capture="camera" name="file" style="position: absolute; right: 0px; top: 0px; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;"></div></div></div>
-                                </div>
-<!--                                <img id="profileImagePreviewId" src="" alt="" />-->
-                               <img alt="" src="<?php echo $surveyObj->SurveyLogo; ?>" id="profileImagePreviewId">
-                            </div>
-                
-                            <div><ul id="uploadlist_logo" class="qq-upload-list"></ul></div>
-                        </div></div>
-                        
-	   	 <div class="row-fluid padding-bottom5 padding-top35 mobilepadding-top35 ">
-                    <div class="span12">
-                    <div class="ext_surveyTitle"><?php echo $surveyObj->SurveyTitle; ?></div>
-                     <?php if($surveyObj->SurveyRelatedGroupName != "0"){?><div class="ext_groupTitle  padding8top"><?php echo $surveyObj->SurveyRelatedGroupName; ?></div> <?php } ?> 
-                     <div class="extcontent padding8top"><?php echo $surveyObj->SurveyDescription; ?> </div>
-                    </div>
-                    </div>
-                                
-    
-     </div>
-     </div>
-<!--     <div class="row-fluid groupseperator border-bottom">
-     <div class="span12 "><h2 class="pagetitle paddingleft5">Market Research Survey </h2></div>
-     </div>-->
-    <?php } ?>
+<div class="padding8top">
+   
      
      <div class="padding152010" style="" id="surveyQuestionArea">
          <?php 
@@ -874,7 +838,7 @@ if(is_object($surveyObj)){ ?>
   
 
 <script type="text/javascript">
-Custom.init();
+//Custom.init();
 var qCount = '<?php echo sizeof($surveyObj->Questions); ?>';
 sessionStorage.globalSurveyFlag =1; 
 var autoSaveInterval ;
@@ -992,7 +956,7 @@ sessionStorage.sharedURL = "";
     }
     
     
-        Custom.init();
+//        Custom.init();
         var Garray = new Array();
             var isValidate = 0;
             var isValidated = false; 
@@ -1008,8 +972,7 @@ sessionStorage.sharedURL = "";
              fromNode = 1;
              gQcnt = 0;
              notValidate = 0;
-             if(autoSaveInterval != null && autoSaveInterval != "undefined"){
-          //console.log("claer interval--");
+             if(autoSaveInterval != null && autoSaveInterval != "undefined"){          
                      clearInterval(autoSaveInterval);
                 }
            submitSurvey();
@@ -1028,6 +991,7 @@ sessionStorage.sharedURL = "";
                     $(this).html("");
                  });
             }
+            //alert(qCount)
             for(var i =1; i<=qCount;i++){
                 var isMandatory = $("#QuestionsSurveyForm_IsMadatory_"+i).val();
                 if(isMandatory != 1){
@@ -1201,17 +1165,16 @@ sessionStorage.sharedURL = "";
              }
         
         
-        function saveAnswersForQuestions(){             
-            //console.log("==fromAutoSave=="+fromAutoSave);
-           // scrollPleaseWait("extededsurvey_spinner");
+        function saveAnswersForQuestions(){
            if($("#surveySavingRes").length>0 && fromAutoSave == 0){
-                        $("#surveySavingRes").show();  
-                        $("#surveySavingRes").attr("style","margin-top:10px");
-                    }
+                $("#surveySavingRes").show();  
+                $("#surveySavingRes").attr("style","margin-top:10px");
+            }
             $("#QuestionsSurveyForm_Questions").val(JSON.stringify(Garray));
             var data = $("#questionviewwidget").serialize(); 
-            //alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount)
+           // alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount)
             if(isValidated == true){
+                //alert("kin");
                 isValidate = 0;
                 isValidated = false;
                 $.ajax({
@@ -1365,32 +1328,19 @@ function updateTextRadiohiddenFields(obj,rno,qno,col,maxValue){
     }
    var lastPage = "false";
    var pageStr = "";  
-   sureyQuestionPage = "<?php echo $page+1; ?>";
-    if("TRUE" == "<?php echo $flag; ?>"){
-        lastPage = "true";
-        fromPagiNation=0;
-        $("#submitQuestion").show();
-         $("#nextQuestion").hide();         
-         if(0 == "<?php echo $page; ?>" || 1 == "<?php echo $page; ?>"){
+   sureyQuestionPage = "<?php echo $page; ?>";
+  
+   
+       
+         if(currentPage == 0 ){
+              $("#surveysubmitbuttons,#nextQuestion").show();
              $("#prevQuestion").hide(); 
          }else{
               $("#prevQuestion").show();
          }
          pageStr = "Page <b><?php echo $page; ?></b> of <b><?php echo $totalpages; ?></b>"
          
-    }else{
-         lastPage = "false";
-         $("#submitQuestion").hide();
-         if(0 == "<?php echo $page; ?>" || 1 == "<?php echo $page; ?>"){
-             $("#nextQuestion,#pagenoforsurvey").show();
-             $("#prevQuestion").hide();
-         }else{
-             $("#nextQuestion").show();
-               $("#prevQuestion").show();
-         }
-         pageStr = "Page <b><?php echo $page; ?></b> of <b><?php echo $totalpages; ?></b>"
-        
-    }
+    
 <?php if($totalpages > 1){?>
 $("#pagenoforsurvey").html(pageStr).show();
 <?php }else{ ?>
@@ -1598,9 +1548,18 @@ $("#pagenoforsurvey").html(pageStr).show();
                     });
                     
           </script>
-     <script type="text/javascript">
+     <script type="text/javascript"> 
          var fromNode=0; //this flag is used to stop doing logout in 2 cases 1.call from node 2.submit pressed
-        
+        var categoryId = '<?php echo $categoryId?>';
+        var nocategories = '<?php echo $nocategories?>';
+        alert(nocategories);
+        if(nocategories=="true"){
+            $("#nextQuestion").hide();
+             $('#submitQuestion').show();
+             
+        }
+         var userTempId = '<?php echo $UserTempId?>';
+        //alert(userTempId);
           if("" != "<?php echo $spotMessage?>"){
            $("#spotCount").html("<?php echo $spotMessage?>");
            $(".spotMessage").show();  

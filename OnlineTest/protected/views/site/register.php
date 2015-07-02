@@ -1,8 +1,20 @@
+ <section class="login_bg" style="clear:both; height:370px; "> </section >
+<section style="clear:both;" >
+    <div class="container"  >
+<div class="customLoginform customLoginformwidth positionlogin " style=" padding-bottom:50px; margin-bottom:120px; " >
+            <div class="customLoginbg marginlr0">
 <div class=" pagetitlebg marginlr0 paddingbottom8 pagetitleloginbg" >
     <div class="section_pagetitle_padding padgetitle">
         <h4 class="padding-left12">Registration</h4>
         <p>Register here to start your Online Test</p>
     </div>
+    <div class="upload_profile  ">
+<div class="generalprofileicon skiptaiconwidth190x190">
+<a href="#" class="skiptaiconinner "><img src="images/sreeni.png"> </a><span class="helpicon"><a href="#"><img src="images/helpicon_w.png"></a></span>
+
+</div>
+<p>Upload your Picture</p>
+ </div>
     <div class="row">
         <div class="col-xs-12 ">
             <div class="reg_area">      
@@ -79,6 +91,12 @@
             </div>
         </div>
     </div>
+</div>
+</div>
+</div>
+    </div>
+</section>
+ 
 <script type="text/javascript">
    /*$("#loginId").bind("click",function(){
        var data = $("#login-form").serialize();

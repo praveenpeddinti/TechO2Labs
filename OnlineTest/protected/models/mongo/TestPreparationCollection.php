@@ -15,6 +15,7 @@ class TestPreparationCollection extends EMongoDocument {
     public $InviteUsers =0;
     public $TestInviteUsers =array();
     public $TestTakenUsers =0;
+   
     
 
     public function getCollectionName() {
@@ -43,6 +44,7 @@ class TestPreparationCollection extends EMongoDocument {
          'TestInviteUsers'=>'TestInviteUsers',
         'TestTakenUsers'=>'TestTakenUsers',
         'CreatedOn'=>'CreatedOn',
+         'TestTakenUsers'=>'TestTakenUsers',
         );
      }
 
@@ -77,6 +79,20 @@ class TestPreparationCollection extends EMongoDocument {
          }
      }
      
+
+     public function getTestDetails($testId){
+         try{
+          $criteria = new EMongoCriteria;
+          error_log("=################getTestDetails==TestId====$testId");
+        $criteria->addCond('_id', '==', new MongoId($testId));
+        return TestPreparationCollection::model()->find($criteria);
+         
+     }catch (Exception $ex) {
+             Yii::log("TestPreparationCollection:getTestDetails::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+             error_log("Exception Occurred in TestPreparationCollection->getTestDetails==".$ex->getMessage());
+         }
+     }   
+
      //SaveInviteUserDetails
      
        public function updatedSaveInviteUserDetails($TestId,$total) {
@@ -98,6 +114,26 @@ class TestPreparationCollection extends EMongoDocument {
           Yii::log("TestPreparationCollection:updatedSaveInviteUserDetails::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
       }
   }
-     
-     
+  
+  public function getTestScheduleIdByCategory($catname,$testId){
+      try{
+         $criteria = new EMongoCriteria;         
+         $criteria->addCond('Category.CategoryName', '==', (string)$catname);
+        $object = TestPreparationCollection::model()->find($criteria);
+        error_log("====$catname======testId=========$testId");
+        $c = TestPreparationCollection::model()->getCollection();
+        $result = $c->aggregate(array('$match' => array('_id' => new MongoId($testId))), array('$unwind' => '$Category'), array('$match' => array('Category.CategoryName' => (string)$catname)), array('$skip' => 0), array('$limit' => 1), array('$group' => array("_id" => "_id", "CategoryObj" => array('$push' => '$Category'))));
+//        error_log("===getTestScvhedul====".print_r($result,1));
+        $scheduleId = 0;
+        foreach($result as $rr){
+            if(isset($rr[0]['CategoryObj'][0]['ScheduleId']))
+                $scheduleId = $rr[0]['CategoryObj'][0]['ScheduleId'];
+            //error_log("==rr====".print_r($rr[0]['CategoryObj'][0]['ScheduleId'],1));
+        }
+        return $scheduleId;
+      } catch (Exception $ex) {
+
+      }
+  }
+
 }

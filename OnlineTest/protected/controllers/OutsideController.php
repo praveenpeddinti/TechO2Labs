@@ -18,23 +18,23 @@ class OutsideController extends Controller {
             $this->tinyObject = Yii::app()->session['TinyUserCollectionObj'];
             $_REQUEST['UserId'] = $this->tinyObject->UserId;
         }else{    
-            if($outerFlag == true || $outerFlag == "true"){
-                $this->layout = 'externalLayout';
-            }else{
-                $urlPath = $_SERVER['REQUEST_URI'];
-                $urlArr = explode("/", $urlPath);
-                $surveyGroupName = $urlArr[3]; 
-               //  Yii::app()->session['returnUrl'] = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
-                 // Yii::app()->request->cookies['r_u'] = new CHttpCookie('r_u',  parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH));
-                $this->redirect(array("/common/postDetail","bundle"=>$surveyGroupName));
-            }
+//            if($outerFlag == true || $outerFlag == "true"){
+//                $this->layout = 'externalLayout';
+//            }else{
+//                $urlPath = $_SERVER['REQUEST_URI'];
+//                $urlArr = explode("/", $urlPath);
+//                $surveyGroupName = $urlArr[3]; 
+//               //  Yii::app()->session['returnUrl'] = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+//                 // Yii::app()->request->cookies['r_u'] = new CHttpCookie('r_u',  parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH));
+//                $this->redirect(array("/common/postDetail","bundle"=>$surveyGroupName));
+//            }
         }
         } catch (Exception $ex) {
             Yii::log("OutsideController:init::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
     }
 
-    public function actionIndex() {
+    public function actionIndex1() {
         try {
             $urlArray =  explode("/", Yii::app()->request->url);            
             $userId = isset($urlArray[2])?$urlArray[2]:"";
@@ -53,6 +53,66 @@ class OutsideController extends Controller {
         }
     }
     
+    
+    public function actionIndex() {
+        try {
+            error_log("**********outside index");         
+            $userId = 166;
+            $groupName = "Java";
+            $outerFlag = true;
+            $vType = "1";
+            $testId = "5590ecf1fc6c3d3a1a8b45ae";
+            if($outerFlag){  
+                $this->layout = 'userLayout';
+            }  error_log("******33333****outside index"); 
+            $this->layout = 'userLayout';
+            $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
+//            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");            
+            $QuestionsSurveyForm = new QuestionsSurveyForm;
+            $this->render('index',array('QuestionsSurveyForm'=>$QuestionsSurveyForm,"userId" => $userId,"groupName"=>$groupName,"outerFlag" => $outerFlag,"vType"=>$vType,"TestId"=>$testId,"CatName"=>$questionprepareObj->Category));
+       error_log("******444444****outside index".print_r($questionprepareObj,1));
+            } catch (Exception $ex) {
+            Yii::log("OutsideController:actionIndex::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    public function prepareTempQuestions($questionObject=array(),$userId,$testId){
+        try{
+            $questionArray = array();
+            foreach ($questionObject->Category as $cat) {               //for each category
+                $questionsobj = ExtendedSurveyCollection::model()->getCategoryDetails($cat['CategoryName']);
+                $questionsArray = $questionsobj->Questions;
+                $questionsRandomKeys = array_rand($questionsArray, $cat['NoofQuestions']);
+                $questionsArray = $this->get_values_for_keys($questionsArray, $questionsRandomKeys);
+                $qn = array();
+                $qn['CategoryName'] = $cat['CategoryName'];
+                $qn['CategoryId'] = new MongoId($questionsobj->_id); // _id => CatId...
+                $qn['ScheduleId'] = ServiceFactory::getTO2TestPreparaService()->getScheduleIdByCatName($cat['CategoryName'],$testId);
+                $qn['CategoryQuestions'] = array();
+                //$qn['CategoryTime'] =  $cat['CategoryTime'];
+                //$qn['CategoryScore'] =  $cat['CategoryScore'];
+                //$qn['ReviewQuestion'] =  $cat['ReviewQuestion'];
+                foreach ($questionsArray as $qstn) {                          //for each question
+                    array_push($qn['CategoryQuestions'], $qstn["QuestionId"]);
+                }
+                array_push($questionArray, $qn);
+            }
+            try{
+                $userQuestionsCollection = new UserQuestionsCollection();
+                $userQuestionsCollection->UserId = (int)$userId;
+                $userQuestionsCollection->Testid = new MongoId($testId);
+                $userQuestionsCollection->Questions = $questionArray;
+                $userQuestionsCollection->CreatedOn = new MongoDate();
+                $resultantobj = ServiceFactory::getTO2TestPreparaService()->saveQuestionsToCollection($userQuestionsCollection);
+            }catch(Exception $qex){
+                error_log("======Question exception==@@@@@@@@@@@@@@@@@@@@===========");
+            }
+            return $resultantobj;
+        } catch (Exception $ex) {
+
+        }
+    }
+    
     public function actionRenderQuestionView(){
         try{
             $surveyGroupName = $_REQUEST['GroupName'];
@@ -61,133 +121,175 @@ class OutsideController extends Controller {
             $errMessage = "";
             $scheduleId = "";
             $viewType = $_REQUEST['viewType'];
-            $QuestionsSurveyForm = new QuestionsSurveyForm;
-            if(!empty($UserId) && !empty($surveyGroupName)){
-                if($surveyGroupName == "public"){
-                    $surveyGroupName = "0";
-                }
-                $schedulePattern = ServiceFactory::getSkiptaExSurveyServiceInstance()->isAlreadyDoneByUser($UserId,$surveyGroupName);     
-                
-                $schedulePatternArr = explode("_",$schedulePattern);
-                $scheduleId = $schedulePatternArr[1];
-                
-                if($schedulePatternArr[0] == "notdone" && !empty($scheduleId) && $scheduleId != "notscheduled"){
-                    //first check if a user already surveyed or not
-//                    $scheduleId = "5462f372b96c3de22a8b4567";
-                   
-                    $surveyId = $schedulePatternArr[2];
-                    
-                     // $page = SurveyUsersSessionCollection::model()->getLastAnsweredPage($UserId,$scheduleId,$surveyId);
-                    $page = SurveyUsersSessionCollection::model()->getUserAnsweredPage($UserId,$scheduleId,$surveyId);
-                   
-                    
-                    if($page == 0){
-                            $page=1;
-                        }
-                         CommonUtility::trackSurvey($UserId,$scheduleId,$surveyId,$page,"refresh");
-                    $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$surveyId,$scheduleId,$page);            
-                     $surveyObj = $surveyObjArray["extObj"];
-                     $surveyFullObj = $surveyObjArray["extFullObj"];
-                }else{
-                    if($schedulePatternArr[0] != "notscheduled"){
-                        $surveyId = $schedulePatternArr[2];
-                        $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$surveyId,$scheduleId,1);                                
-                       $surveyObj = $surveyObjArray["extObj"];
-                        $surveyFullObj = $surveyObjArray["extFullObj"];
-                        
-                    }
-                }
-                
-            }else{
-                if(empty($UserId)){
-//                    $errMessage = "Sorry, User not exist with this UserId.";
-                    $errMessage = 1;
-                }else if(empty($surveyGroupName)){
-//                    $errMessage = "Sorry, Group Name not exist.";
-                    $errMessage = 2;
-                }
-            }            
-            if(empty($errMessage)){
-                //anayltics view clicked
-                    if($viewType == 2){
-                        if(!empty($scheduleId)){
-                            $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId);
-                        }
-                        if(sizeof($obj->UserAnswers) > 0){
-                            //analytics view
-                            $this->renderPartial('surveyView',array("surveyObj"=>$surveyFullObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"viewType"=>$viewType));
-                        }else{
-                            $this->renderPartial('resultsView');//no analytics found
-                        }
-                    }else if($schedulePatternArr[0] == "notdone" && !empty($scheduleId) && $scheduleId != "notscheduled"){
-                         $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId); 
+            $testId = $_REQUEST['TestId'];
+            $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
+//            //$questionprepareObj = TestPreparationCollection::model()->find($criteria);
+            $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
+            if($testquestionObj == "failure"){
+              $testquestionObj = $this->prepareTempQuestions($questionprepareObj,$UserId,$testId); // saving temp. test for a user and fetching saved obj...           
+            }
+            error_log("&&&&&&&&testquestionObj".print_r($testquestionObj,1));
+            $pageno = 0;
+           // error_log("=====TestQuestionsOPbj========".print_r($testquestionObj,1));
+            
+            $surveyObjArray = ServiceFactory::getTO2TestPreparaService()->getQuestionFromCollection($testquestionObj->Questions,$pageno);
+           $surveyObj = $surveyObjArray["data"];
+            $categoryId = $surveyObjArray["categoryId"];
+            error_log("*************all categories".print_r($questionprepareObj,1));
+            $cmplteqstnArray = array();
+            error_log("============asdfsdfs fsdf sdf ");
+            $scheduleobj = ScheduleSurveyCollection::model()->getScheduleSurveyDetailsObject("SurveyId",$surveyObj->_id);
+            if($scheduleobj != "failure")
+            $scheduleId = $scheduleobj->_id;
+            error_log("=========344444444444444444=========$scheduleId");
+            $totalPages =  3;
+//                if($obj->QuestionView > 0){
+//                 $totalPages = round($surveyObj->QuestionsCount/$obj->QuestionView);
+//                }
+            
+                             $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId); 
                       //  $sessionTime = ScheduleSurveyCollection::model()->manageSurveyUserSessionNew($surveyId,$scheduleId,$UserId);
-                         $sessionTime = SurveyUsersSessionCollection::model()->manageSurveyUserSession($surveyId,$UserId,$obj);
-                    if($obj->MaxSpots > 0){
-                         $spotsCount = SurveyUsersSessionCollection::model()->getSpotsAvailabeForScheduledSurvey($obj,$surveyId);
-                     if($sessionTime == "nospots"){
-                          if( $surveyObj->IsAnalyticsShown == 0 || sizeof($obj->UserAnswers) == 0){
-                               $this->renderPartial('resultsView',array("type"=>"spots")); //no analytics found
-                          }else{
-                              $this->renderPartial('surveyView',array("surveyObj"=>$surveyFullObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"viewType"=>$viewType));
-   
-                          }
-                          return;
-                       }else{
-                          if($spotsCount>=0){
-                             $spotMessage =  CommonUtility::getSpotMessage($spotsCount,$obj->MaxSpots);
-                        
-                        } 
-                         }
-                        }
-                        $totalPages =  0;
-                        if($obj->QuestionView > 0){
-                         $totalPages = round($surveyObj->QuestionsCount/$obj->QuestionView);
-                        }
-//                         if($obj->QuestionView == 0){
-//                           ScheduleSurveyCollection::model()->addtoResumeUsers($surveyId,$obj->_id,$UserId);
-//                           $this->renderPartial('userView',array("surveyObj"=>$surveyObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"sessionTime"=>$sessionTime,"spotMessage"=>$spotMessage));
+                         $sessionTime = SurveyUsersSessionCollection::model()->manageSurveyUserSession($surveyObj->_id,$UserId,$obj);
+            
+            $QuestionsSurveyForm = new QuestionsSurveyForm;
+            //error_log("==========tottal obj=======11111111111===".print_r($surveyObj,1));
+//                ScheduleSurveyCollection::model()->addtoResumeUsers($surveyId,$obj->_id,$UserId);
+//                $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
+            //$this->renderPartial('ExSurveyview',array("CatName"=>$questionprepareObj->Category));
+            $this->renderPartial('userCustomView',array("UserTempId"=>$testquestionObj->_id,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>"Test","userId"=>$UserId,"sessionTime"=>"","spotMessage"=>"","flag"=>"TRUE","iValue"=>0,"page"=>($pageno+1),"bufferAnswers"=>array(),"totalpages"=>$totalPages));
+            // old code
+            
+//            if(!empty($UserId) && !empty($surveyGroupName)){
+//                if($surveyGroupName == "public"){
+//                    $surveyGroupName = "0";
+//                }
+//                $schedulePattern = ServiceFactory::getSkiptaExSurveyServiceInstance()->isAlreadyDoneByUser($UserId,$surveyGroupName);     
+//                
+//                $schedulePatternArr = explode("_",$schedulePattern);
+//                $scheduleId = $schedulePatternArr[1];
+//                
+//                if($schedulePatternArr[0] == "notdone" && !empty($scheduleId) && $scheduleId != "notscheduled"){
+//                    //first check if a user already surveyed or not
+////                    $scheduleId = "5462f372b96c3de22a8b4567";
+//                   
+//                    $surveyId = $schedulePatternArr[2];
+//                    
+//                     // $page = SurveyUsersSessionCollection::model()->getLastAnsweredPage($UserId,$scheduleId,$surveyId);
+//                    $page = SurveyUsersSessionCollection::model()->getUserAnsweredPage($UserId,$scheduleId,$surveyId);
+//                   
+//                    
+//                    if($page == 0){
+//                            $page=1;
+//                        }
+//                         CommonUtility::trackSurvey($UserId,$scheduleId,$surveyId,$page,"refresh");
+//                    $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$surveyId,$scheduleId,$page);            
+//                     $surveyObj = $surveyObjArray["extObj"];
+//                     $surveyFullObj = $surveyObjArray["extFullObj"];
+//                }else{
+//                    if($schedulePatternArr[0] != "notscheduled"){
+//                        $surveyId = $schedulePatternArr[2];
+//                        $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$surveyId,$scheduleId,1);                                
+//                       $surveyObj = $surveyObjArray["extObj"];
+//                        $surveyFullObj = $surveyObjArray["extFullObj"];
+//                        
+//                    }
+//                }
+//                
+//            }else{
+//                if(empty($UserId)){
+////                    $errMessage = "Sorry, User not exist with this UserId.";
+//                    $errMessage = 1;
+//                }else if(empty($surveyGroupName)){
+////                    $errMessage = "Sorry, Group Name not exist.";
+//                    $errMessage = 2;
+//                }
+//            }            
+//            if(empty($errMessage)){
+//                //anayltics view clicked
+//                    if($viewType == 2){
+//                        if(!empty($scheduleId)){
+//                            $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId);
+//                        }
+//                        if(sizeof($obj->UserAnswers) > 0){
+//                            //analytics view
+//                            $this->renderPartial('surveyView',array("surveyObj"=>$surveyFullObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"viewType"=>$viewType));
+//                        }else{
+//                            $this->renderPartial('resultsView');//no analytics found
+//                        }
+//                    }else if($schedulePatternArr[0] == "notdone" && !empty($scheduleId) && $scheduleId != "notscheduled"){
+//                         $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId); 
+//                      //  $sessionTime = ScheduleSurveyCollection::model()->manageSurveyUserSessionNew($surveyId,$scheduleId,$UserId);
+//                         $sessionTime = SurveyUsersSessionCollection::model()->manageSurveyUserSession($surveyId,$UserId,$obj);
+//                    if($obj->MaxSpots > 0){
+//                         $spotsCount = SurveyUsersSessionCollection::model()->getSpotsAvailabeForScheduledSurvey($obj,$surveyId);
+//                     if($sessionTime == "nospots"){
+//                          if( $surveyObj->IsAnalyticsShown == 0 || sizeof($obj->UserAnswers) == 0){
+//                               $this->renderPartial('resultsView',array("type"=>"spots")); //no analytics found
+//                          }else{
+//                              $this->renderPartial('surveyView',array("surveyObj"=>$surveyFullObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"viewType"=>$viewType));
+//   
+//                          }
+//                          return;
+//                       }else{
+//                          if($spotsCount>=0){
+//                             $spotMessage =  CommonUtility::getSpotMessage($spotsCount,$obj->MaxSpots);
+//                        
+//                        } 
+//                         }
+//                        }
+//                        $totalPages =  0;
+//                        if($obj->QuestionView > 0){
+//                         $totalPages = round($surveyObj->QuestionsCount/$obj->QuestionView);
+//                        }
+////                         if($obj->QuestionView == 0){
+////                           ScheduleSurveyCollection::model()->addtoResumeUsers($surveyId,$obj->_id,$UserId);
+////                           $this->renderPartial('userView',array("surveyObj"=>$surveyObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"sessionTime"=>$sessionTime,"spotMessage"=>$spotMessage));
+////  
+////                         } else{
+//                              ScheduleSurveyCollection::model()->addtoResumeUsers($surveyId,$obj->_id,$UserId);
+//                              $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
+//                              $this->renderPartial('userCustomView',array("surveyObj"=>$surveyObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"sessionTime"=>$sessionTime,"spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages));
 //  
-//                         } else{
-                              ScheduleSurveyCollection::model()->addtoResumeUsers($surveyId,$obj->_id,$UserId);
-                              $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
-                              $this->renderPartial('userCustomView',array("surveyObj"=>$surveyObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"sessionTime"=>$sessionTime,"spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages));
-  
-                        // } 
-     
-    
-                    }else if($schedulePatternArr[0] == "done" && $scheduleId != "notscheduled"){   
-                        $UserId =$this->tinyObject->UserId;
-                        $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId);
-                         $reValue = ServiceFactory::getSkiptaExSurveyServiceInstance()->getProfileDetails($UserId,$scheduleId,$surveyId);
-                         
-                         if($surveyObj->IsAcceptUserInfo == 1 && $reValue == 0){
-                             $this->renderUserAcceptionInfo($surveyObj->_id,$scheduleId,$surveyObj->SurveyTitle);
-                         }else{
-                             //!in_array($UserId,$obj->VisitedThankYou)
-                             
-                             if($surveyObj->IsAnalyticsShown == 0 || ($obj->ShowThankYou == 1 && !in_array($UserId,$obj->VisitedThankYou))){
-                                if(isset($obj->_id))
-                                      ScheduleSurveyCollection::model()->updateVisitedThankYouUsers($UserId,$obj->_id);
-                                 $this->renderPartial('thankyou',array('result'=>$obj,"ScheduleId"=>$scheduleId,"IsAnalyticsShown"=>$surveyObj->IsAnalyticsShown));
-                              }else{
-                                  $this->renderPartial('surveyView',array("surveyObj"=>$surveyFullObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"viewType"=>$viewType));
-                              }
-                         }                         
-                      
-                    }else{
-                        echo "NotScheduled_";
-                    }
-            }
-            else {
-                echo $errMessage;
-            }
+//                        // } 
+//     
+//    
+//                    }else if($schedulePatternArr[0] == "done" && $scheduleId != "notscheduled"){   
+//                        $UserId =$this->tinyObject->UserId;
+//                        $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId);
+//                         $reValue = ServiceFactory::getSkiptaExSurveyServiceInstance()->getProfileDetails($UserId,$scheduleId,$surveyId);
+//                         
+//                         if($surveyObj->IsAcceptUserInfo == 1 && $reValue == 0){
+//                             $this->renderUserAcceptionInfo($surveyObj->_id,$scheduleId,$surveyObj->SurveyTitle);
+//                         }else{
+//                             //!in_array($UserId,$obj->VisitedThankYou)
+//                             
+//                             if($surveyObj->IsAnalyticsShown == 0 || ($obj->ShowThankYou == 1 && !in_array($UserId,$obj->VisitedThankYou))){
+//                                if(isset($obj->_id))
+//                                      ScheduleSurveyCollection::model()->updateVisitedThankYouUsers($UserId,$obj->_id);
+//                                 $this->renderPartial('thankyou',array('result'=>$obj,"ScheduleId"=>$scheduleId,"IsAnalyticsShown"=>$surveyObj->IsAnalyticsShown));
+//                              }else{
+//                                  $this->renderPartial('surveyView',array("surveyObj"=>$surveyFullObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>$errMessage,"userId"=>$UserId,"viewType"=>$viewType));
+//                              }
+//                         }                         
+//                      
+//                    }else{
+//                        echo "NotScheduled_";
+//                    }
+//            }
+//            else {
+//                echo $errMessage;
+//            }
         } catch (Exception $ex) {
             error_log("Exception Occurred in OutsideController->actionRenderQuestionView==".$ex->getMessage());
             Yii::log("OutsideController:actionRenderQuestionView::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
     }
-
+function get_values_for_keys($mapping, $keys) {
+        foreach ($keys as $key) {
+            $output_arr[] = $mapping[$key];
+        }
+        return $output_arr;
+    }
     public function actionUnsetSpotForUser(){
         try{
          $userId = $_POST["userId"];
@@ -198,16 +300,20 @@ class OutsideController extends Controller {
         }
     }
     public function actionSureyQuestionPagination(){
-        try{
+        try{ error_log("=========34uyuyuuyy=========.");
               $QuestionsSurveyForm = new QuestionsSurveyForm;
-            $scheduleId = $_POST['scheduleId'];
-            $surveyId = $_POST['surveyId'];
-            $page = $_POST['page'];
-             $action = $_POST['action'];
-              $userId = $this->tinyObject['UserId'];
+              
+            $scheduleId = $_REQUEST['scheduleId'];
+            $surveyId = $_REQUEST['surveyId'];
+            $page = $_REQUEST['page'];
+             $action = $_REQUEST['action'];
+             $UserId = isset($_REQUEST['UserId'])?$_REQUEST['UserId']:1; // userId... 
+              //$userId = $this->tinyObject['UserId'];
+              error_log("=========34uyuyuuyy==1=======" );
             CommonUtility::trackSurvey($userId,$scheduleId,$surveyId,$page,$action);
             $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$surveyId,$scheduleId,$page);            
              $surveyObj = $surveyObjArray["extObj"];
+             error_log("=========34uyuyuuyy=====2====.");
              $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId); 
             if($obj->MaxSpots > 0){
               $spotsCount = SurveyUsersSessionCollection::model()->getSpotsAvailabeForScheduledSurvey($obj,$surveyId);  
@@ -217,21 +323,49 @@ class OutsideController extends Controller {
               }else{
                   $spotMessage = "";
               }
-             
+             error_log("=========34uyuyuuyy=====3====.");
             $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($userId,$scheduleId);
             //$obj->UserAnswers =  $bufferAnswers ;  
             $totalPages =  0;
+            error_log("=========34uyuyuuyy=====4====.");
             if($obj->QuestionView > 0){
              $totalPages = round($surveyObj->QuestionsCount/$obj->QuestionView);
             }
-             $this->renderPartial('userCustomView',array("surveyObj"=>$surveyObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$userId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages));
+             $this->renderPartial('userCustomView',array("surveyObj"=>$surveyObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$userId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages));
              
         } catch (Exception $ex) {
             error_log("Exception Occurred in OutsideController->actionSureyQuestionPagination==".$ex->getMessage());
             Yii::log("OutsideController:actionSureyQuestionPagination::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         } 
      }
-
+ public function actionSureyQuestionPagination1(){
+        try{ //error_log("=========34uyuyuuyy=========.");
+              $QuestionsSurveyForm = new QuestionsSurveyForm;
+              
+            $scheduleId = $_REQUEST['scheduleId'];
+            $userQuestionTempId = $_REQUEST['userQuestionTempId'];
+            $page = $_REQUEST['page'];
+             $categoryId = $_REQUEST['categoryId'];
+             $action = $_REQUEST['action'];
+             $UserId = isset($_REQUEST['UserId'])?$_REQUEST['UserId']:1; // userId... 
+            
+                $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$userQuestionTempId,$scheduleId,$page,$categoryId);            
+                       
+            $bufferAnswers = array();
+            //$bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($userId,$scheduleId);
+             $surveyObj = $surveyObjArray["data"];
+             $categoryId = $surveyObjArray["categoryId"];
+                $nocategories = $surveyObjArray['nocategories'];
+                error_log("no of cat---".$nocategories);
+             $page = $surveyObjArray["page"];
+           
+             $this->renderPartial('userCustomView',array("UserTempId"=>$userQuestionTempId,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$userId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"nocategories"=>$nocategories));
+             
+        } catch (Exception $ex) {
+            error_log("Exception Occurred in OutsideController->actionSureyQuestionPagination==".$ex->getMessage());
+            Yii::log("OutsideController:actionSureyQuestionPagination::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        } 
+     }
     public function actionValidateSurveyAnswersQuestion(){
         try{         
 //            ini_set('memory_limit', '2048M');
@@ -613,6 +747,7 @@ class OutsideController extends Controller {
                     }
                      $fromPage = $_REQUEST["Page"];
                      $NetworkId=1;
+                     error_log("Iam form".print_r($QuestionsSurveyForm,true));
                      $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage);
                      
                      if($fromAutoSave==0){

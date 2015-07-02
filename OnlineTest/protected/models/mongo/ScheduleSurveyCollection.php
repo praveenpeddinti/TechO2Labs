@@ -88,36 +88,18 @@ class ScheduleSurveyCollection extends EMongoDocument {
            
             $returnValue = 'failure';
             $scheduleSurveyObj = new ScheduleSurveyCollection();
-           // $surveyDetails = $this->getScheduleSurveyDetailsObjectByGroupName('Id', $scheduleSurveyForm->SurveyId);
-            /*if (!is_string($surveyDetails)) {
-                $scheduleSurveyObj->SurveyDescription = $surveyDetails->SurveyDescription;
-                $scheduleSurveyObj->SurveyTitle = $surveyDetails->SurveyTitle;
-                $scheduleSurveyObj->SurveyId = $surveyDetails->_id;
-                $scheduleSurveyObj->SurveyRelatedGroupName = $surveyDetails->SurveyRelatedGroupName;
-            }*/
-            error_log("-----111111111111111-----".$scheduleSurveyForm->SurveyDescription);
             $criteria = new EMongoCriteria;    
             $criteria->addCond('SurveyId', '==',  new MongoId($scheduleSurveyForm->SurveyId));            
             $criteria->addCond('SurveyRelatedGroupName', '==', (string) $scheduleSurveyForm->SurveyRelatedGroupName);
-            $isScheduleExists = ScheduleSurveyCollection::model()->find($criteria);        
-            //if(!isset($surveyDetails) || $surveyDetails == "failure"){
-            if(!isset($isScheduleExists) && sizeof($isScheduleExists) == 0){error_log("-----0000000-----");
+            $isScheduleExists = ScheduleSurveyCollection::model()->find($criteria); 
+            if(!isset($isScheduleExists) && sizeof($isScheduleExists) == 0){
             $scheduleSurveyObj->SurveyDescription = $scheduleSurveyForm->SurveyDescription;
-            $scheduleSurveyObj->SurveyTitle = $scheduleSurveyForm->SurveyTitle;
+            $scheduleSurveyObj->SurveyTitle = $scheduleSurveyForm->SurveyTitle; // SurveyTitle => Category name...
             $scheduleSurveyObj->SurveyId = $scheduleSurveyForm->SurveyId;
-            $scheduleSurveyObj->SurveyRelatedGroupName = $scheduleSurveyForm->SurveyRelatedGroupName;
+            $scheduleSurveyObj->SurveyRelatedGroupName = $scheduleSurveyForm->SurveyTitle;
             $scheduleSurveyObj->StartDate = new MongoDate(strtotime($scheduleSurveyForm->StartDate));
             $scheduleSurveyObj->EndDate = new MongoDate(strtotime($scheduleSurveyForm->EndDate));
-//            $scheduleSurveyObj->Players = array();
-//           $scheduleSurveyObj->ShowDisclaimer=(int)$scheduleSurveyForm->ShowDisclaimer;
-            /*$scheduleSurveyObj->ShowThankYou = (int) $scheduleSurveyForm->ShowThankYou;
-            $scheduleSurveyObj->ThankYouMessage = $scheduleSurveyForm->ThankYouMessage;
-            $scheduleSurveyObj->ThankYouImage = $scheduleSurveyForm->ThankYouArtifact;
-            $scheduleSurveyObj->UserAnswers = array();
-            $scheduleSurveyObj->Status = (int) 1;
-            $scheduleSurveyObj->MaxSpots = (int) $scheduleSurveyForm->MaxSpots;
-           // $scheduleSurveyObj->SessionTime = (int) $scheduleSurveyForm->SessionTime;
-            $scheduleSurveyObj->QuestionView = (int) $scheduleSurveyForm->QuestionView;*/
+            $scheduleSurveyObj->ThankYouMessage = $scheduleSurveyForm->ThankYouMessage;            
             $scheduleSurveyObj->CreatedOn = new MongoDate(strtotime(date('Y-m-d H:i:s', time())));
 //            $scheduleSurveyObj->RenewSchedules = $scheduleSurveyForm->RenewSchedules;
             //$scheduleSurveyObj->ConvertInStreamAdd = (int) $scheduleSurveyForm->ConvertInStreamAdd;
@@ -247,6 +229,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             if (is_array($scheduleSurveyObj) || is_object($scheduleSurveyObj)) {
                 $returnValue = $scheduleSurveyObj;
             }
+            error_log("*******************".print_r($returnValue,1));
             return $returnValue;
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

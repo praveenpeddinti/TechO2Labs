@@ -56,7 +56,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
             $criteria->addCond('ScheduleId', '==',new MongoId($obj->_id));
              $criteria->addCond('SurveyId', '==',new MongoId($surveyId));
             $surveySessionObj = SurveyUsersSessionCollection::model()->find($criteria);
-             if (is_object($surveySessionObj) && $this->checkSpotExist($surveyId,$userId,$obj)) {
+             if (is_object($surveySessionObj) ) {
                       
              $criteria = new EMongoCriteria;
              $criteria->addCond('UserId', '==',(int)$userId);
@@ -154,33 +154,10 @@ class SurveyUsersSessionCollection extends EMongoDocument {
               error_log("Exception Occurred in SurveyUsersSessionCollection->unsetSpotForUser==".$ex->getMessage());
           }
       }
-       public function updateSurveyAnswer1($model,$NetworkId,$UserId){
-        try{            
-         
-            $returnValue = "failed";
-          //  $scheduleObj = new ScheduleSurveyCollection();
-           // $scheduleObj->UserAnswers = $model->UserAnswers;            
-         
-            $criteria = new EMongoCriteria();
-            $modifier = new EMongoModifier();
-            $criteria->addCond('UserId', '==',(int)$UserId);
-            $criteria->addCond('ScheduleId', '==',new MongoId($model->ScheduleId));
-
-            $modifier->addModifier('UserAnswers', 'pushAll', $model->UserAnswers);
-            if(SurveyUsersSessionCollection::model()->updateAll($modifier, $criteria)){
-                             $returnValue = "success";   
-  
-            }
-                return $returnValue;
-          
-        } catch (Exception $ex) {
-            Yii::log("SurveyUsersSessionCollection:updateSurveyAnswer1::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
-            error_log("Exception Occurred in SurveyUsersSessionCollection->updateSurveyAnswer1==".$ex->getMessage());
-        }
-    }
-    public function updateSurveyAnswer($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage){
+       
+    public function updateSurveyAnswer2($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage){
         try{         
-          
+          error_log("@@@@@@!!!!!!!!!!!!!!!!!!!!!!!!!!!!f".print_r($model->UserAnswers,true));
             $returnValue = "failed";
             $scheduleObj = new SurveyUsersSessionCollection();
             $scheduleObj->UserAnswers = $model->UserAnswers;     
@@ -199,8 +176,9 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                 }
                 
             }
+           
             foreach ($scheduleObj->UserAnswers as $answers) {
-               
+                error_log("@@@@@@@@@@@@@@@@@@@@111@@@@@asdfasdfasdf@@@@sdf");
                 
                 $criteria = new EMongoCriteria();
                

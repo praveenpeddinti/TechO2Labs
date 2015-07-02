@@ -198,29 +198,17 @@ class SkiptaExSurveyService {
            error_log("Exception Occurred in SkiptaExSurveyService->getSurveyDetailsById### ".$ex->getMessage());
        }
    }
-    public function getCustomSurveyDetailsById($columnName,$_id,$scheduleId,$page){
+    public function getCustomSurveyDetailsById($columnName,$_id,$scheduleId,$page,$categoryId){
        try{
-          
-           $extObj =  ExtendedSurveyCollection::model()->getSurveyDetailsById($columnName,$_id);
-           $extFullObj = clone $extObj;
-           $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId);
-          if($obj->QuestionView >0 ){
-            $questions =  $extObj->Questions;
-            $totalQuestions = sizeof($questions);
-            $page = $page-1;
-            $startLimit = $page * $obj->QuestionView;
-            $endLimit = $startLimit+$obj->QuestionView;
-            $flag = "FALSE";
-            if($endLimit >= $totalQuestions){
-                $flag = "TRUE";
-            }
-            $questions = array_slice($questions, $startLimit, $obj->QuestionView);
-              $extObj->Questions = $questions;
-                return array("extFullObj"=>$extFullObj,"extObj"=>$extObj,"flag"=>$flag,"i"=>$startLimit+1);
-       }else{
-            return array("extObj"=>$extObj,"extFullObj"=>$extFullObj,"flag"=>"TRUE","i"=>1);
-       }
-           
+          $questionsArray =  UserQuestionsCollection::model()->getQuestionFromCollectionForPagination($_id,$categoryId,$page);
+          $questionId = $questionsArray['questionId'];
+          $categoryId = $questionsArray['categoryId'];
+           $nocategories = $questionsArray['nocategories'];
+           error_log("no of cat--**-".$nocategories);
+          $page = $questionsArray['page'];
+          $result = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId);
+           $resultArray = array("data"=>$result,"categoryId"=>$categoryId,"page"=>$page,"nocategories"=>$nocategories);
+            return $resultArray;
            } catch (Exception $ex) {
                Yii::log("SkiptaExSurveyService:getCustomSurveyDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
            error_log("Exception Occurred in SkiptaExSurveyService->getCustomSurveyDetailsById### ".$ex->getMessage());
@@ -385,12 +373,13 @@ class SkiptaExSurveyService {
 
             if ($fromPagination == 1 || $fromAutoSave == 1) {
 
-                return SurveyUsersSessionCollection::model()->updateSurveyAnswer($model, $NetworkId, $UserId, "", $fromAutoSave, $fromPage);
+                error_log("@@@@@@@@@@MMMMMMMMMMMMMMMMMMM@@2gsr2");
+                return SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, "", $fromAutoSave, $fromPage);
                 // return ScheduleSurveyCollection::model()->updateSurveyAnswer($model,$NetworkId,$UserId,"");
             } else {
-
+ error_log("@@@@@@@@@@@@@Iam done@@@@@@@@2gsr2");
                 //check spots
-                if (ScheduleSurveyCollection::model()->validateSpotsConfirmed($model)) {
+               
                     $fromPage = $fromPage > 1 ? $fromPage - 1 : 1;
                     SurveyInteractionCollection::model()->trackSurveyLogout("", $UserId, $model->ScheduleId, $model->SurveyId, $fromPage, "notRefresh");
 
@@ -404,7 +393,7 @@ class SkiptaExSurveyService {
                     return $result;
 
                     //return ScheduleSurveyCollection::model()->updateSurveyAnswer($model,$NetworkId,$UserId,"Done");
-                }
+                
             }
         } catch (Exception $ex) {
             Yii::log("SkiptaExSurveyService:saveSurveyAnswer::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

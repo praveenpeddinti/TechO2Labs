@@ -1093,7 +1093,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                         </div>     
                                                     </div>
                                                     <div class="span2 positionrelative labelpercent">
-                                                        <input value="<?php echo $question['Answers'][$j]  ?>" type="text" onkeyup="maxCheck(this,<?php echo ($i + 1); ?>)" onkeydown="allowNumericsAndCheckFields(event)" size="8" maxlength="4" class="textfield span10 distvalue_<?php echo ($i + 1);?>" name = "ExtendedSurveyForm[PercentageAnswer][<?php echo $j . "_" . ($i + 1); ?>]"/> <label class="percentlbl perUnitType_<?php echo ($i + 1); ?>" > <?php if ($question['MatrixType'] == 1) {
+                                                        <input value="<?php echo $question['Answers'][$j]  ?>" type="text" onblur="maxCheck(this,<?php echo ($i + 1); ?>)" onkeydown="allowNumericsAndCheckFields(event)" size="8" maxlength="4" class="textfield span10 distvalue_<?php echo ($i + 1);?>" name = "ExtendedSurveyForm[PercentageAnswer][<?php echo $j . "_" . ($i + 1); ?>]"/> <label class="percentlbl perUnitType_<?php echo ($i + 1); ?>" > <?php if ($question['MatrixType'] == 1) {
                 echo "%";
             } else {
                 echo "$";
@@ -1108,7 +1108,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                     <input type="hidden" name="ExtendedSurveyForm[Other][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_Other_<?php echo ($i + 1); ?>" class="otherhidden" value="<?php echo $question['Other']; ?>"/>
                                 <input type="hidden" name="ExtendedSurveyForm[OtherValue][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_OtherValue_<?php echo ($i + 1); ?>" class="otherhiddenvalue" value="<?php echo $question['OtherValue']; ?>"/>
                                 
-                                <div class="normaloutersection">
+                                <div class="normaloutersection" id="percentotherdiv_<?php echo ($i + 1); ?>">
                                 <div class="normalsection othersarea" id="othersarea_<?php echo ($i + 1); ?>">
                                     <div class="surveyradiobutton"> <input value="<?php echo $question['Other']; ?>" <?php if($question['Other'] == 1) echo "checked='true'"; ?>  type="checkbox" class="styled othercheck" name="1" id="othercheck_<?php echo ($i + 1); ?>" /> Other  </div>  
                                     <div class="row-fluid otherTextdiv" <?php if($question['Other'] != 1){ ?> style="display: none;" <?php } ?> id="otherTextdiv_<?php echo ($i + 1); ?>">
@@ -1166,6 +1166,255 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                 e.preventDefault();
                             }
                         });
+                        
+                        $("#ExtendedSurveyForm_NoofOptions_<?php echo ($i + 1); ?>").change(function(){
+    var $this = $(this);
+    $("#ExtendedSurveyForm_NoofOptions_hid_<?php echo ($i + 1); ?>").val($this.val());
+    var TotalValue = $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").val();
+    var optionValue = $this.val();
+    var URL = "/extendedSurvey/renderPercentageOptions";
+    var renderV = 0;
+    var renTemp = 0,
+            preq = 0,
+            i=0;
+    
+    $(".normalouter_<?php echo ($i + 1); ?>").each(function(key){
+            renderV++;
+        }); 
+      if(TotalValue == "" || TotalValue == 0){
+          $("#selectExtendedSurveyForm_NoofOptions_<?php echo ($i + 1); ?>").html("Please select");
+          $("#ExtendedSurveyForm_NoofOptions_<?php echo ($i + 1); ?>").val("");
+          $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>_em_").text("Total Value cannot be blank");
+          $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>_em_").show();
+          $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>_em_").fadeOut(7000);    
+          
+      }
+    if(optionValue > renderV){
+        optionValue = optionValue - renderV;
+        if(optionValue != 0 && TotalValue != 0){        
+            $("#ExtendedSurveyForm_TotalValue_hid_<?php echo ($i + 1); ?>").val(TotalValue);
+            ajaxRequest(URL, "questionNo=<?php echo ($i + 1); ?>&optionsCount="+optionValue+"&unitType="+$("#unitypeddn_<?php echo ($i + 1); ?>").val() , function(data) {
+                renderPerHandler(data, '<?php echo ($i + 1); ?>')
+            }, "html");
+        }
+    }else if(optionValue < renderV){
+            preq = 0;
+            renTemp = renderV;
+            i = 0;
+            $(".percentagehidden").each(function(key){
+                var $this = $(this);
+                var qNo = $this.closest("div.answersection1").attr("data-questionId");
+                if (preq == 0) {
+                    i = 0;
+                    preq = qNo;
+                }
+                if (preq == qNo) {
+                    i++;
+                } else {
+                    preq = qNo;
+                    i = 1;
+                }                               
+                if(renTemp != optionValue){                    
+                    $("#ExtendedSurveyForm_OptionName_hid_" + (renTemp) + "_<?php echo ($i + 1); ?>").remove();                    
+                    renTemp--;
+                } 
+            });
+            preq = 0;            
+            renTemp = renderV;
+            i = 0;
+            $(".percentageOptionname").each(function(){
+                var $this = $(this);
+                var qNo = $this.closest("div.answersection1").attr("data-questionId");
+                if (preq == 0) {
+                    i = 0;
+                    preq = qNo;
+                }
+                if (preq == qNo) {
+                    i++;
+                } else {
+                    preq = qNo;
+                    i = 1;
+                }
+                
+                if(renTemp != optionValue){  
+                    $("#ExtendedSurveyForm_percentage_" + (renTemp) + "_<?php echo ($i + 1); ?>").closest("div.normaloutersection").remove();
+                    renTemp--;
+                }                    
+                
+            });
+            preq = 0;
+            nextq = 0;
+            renTemp = renderV;
+            i = 0;
+            $(".percentageOptionerr").each(function(){
+                var $this = $(this);
+                var qNo = $this.closest("div.answersection1").attr("data-questionId");
+                if (preq == 0) {
+                    i = 0;
+                    preq = qNo;
+                }
+                if (preq == qNo) {
+                    i++;
+                } else {
+                    preq = qNo;
+                    i = 1;
+                }
+                
+                if(renTemp != optionValue){  
+                    $("#ExtendedSurveyForm_OptionName_" + (renTemp) + "_<?php echo ($i + 1); ?>_em_").remove();
+                    renTemp--;
+                }               
+
+            });
+    }
+});
+$("#unitypeddn_<?php echo ($i + 1); ?>").change(function(){
+    var $this = $(this);
+    $("#ExtendedSurveyForm_MatrixType_hid_<?php echo ($i + 1); ?>").val($this.val()); 
+    var TotalValue = $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").val();
+    var optionValue = $("#ExtendedSurveyForm_NoofOptions_hid_<?php echo ($i + 1); ?>").val();
+    var errmsgTV="",errmsgOp="";
+    var erridop,erridtv;
+    var URL = "/extendedSurvey/renderPercentageOptions";
+    erridtv = $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").attr("data-error");
+    if(TotalValue == ""){
+        errmsgTV = "Total value cann't be blank";
+    }else if(!$.isNumeric(TotalValue) || TotalValue == 0){
+        errmsgTV = "Total value is in between 2 and 10";
+    }
+    if(errmsgTV != ""){
+        $("#"+erridtv).show();
+        $("#"+erridtv).text(errmsgTV);
+        $("#"+erridtv).fadeOut(7000,function(){errmsgTV = "";});
+
+    }
+    erridop = $("#ExtendedSurveyForm_NoofOptions_<?php echo ($i + 1); ?>").attr("data-error");
+    
+    if(optionValue == ""){
+        errmsgOp = "No of Options cann't be blank";
+    }else if(!$.isNumeric(optionValue) || optionValue == 0){
+        errmsgOp = "Options value is in between 2 and 10";
+    }
+    if(errmsgOp != ""){
+        $("#"+erridop).show();
+        $("#"+erridop).text(errmsgOp);
+        $("#"+erridop).fadeOut(7000,function(){errmsgOp = "";});
+
+    }
+    var renderV = 0;
+    $(".normalouter_<?php echo ($i + 1); ?>").each(function(){
+        renderV++;
+    });
+    if(optionValue > renderV){
+        optionValue = optionValue - renderV;
+        if(optionValue != 0 && TotalValue != 0){        
+            $("#ExtendedSurveyForm_TotalValue_hid_<?php echo ($i + 1); ?>").val(TotalValue);
+            ajaxRequest(URL, "questionNo=<?php echo($i + 1); ?>&optionsCount="+optionValue+"&unitType="+$this.val() , function(data) {
+                renderPerHandler(data, '<?php echo ($i + 1); ?>')
+            }, "html");
+        }
+    }else if(optionValue == renderV){
+        $(".perUnitType_<?php echo ($i + 1); ?>").each(function(){
+            var unitType = $("#unitypeddn_<?php echo ($i + 1); ?>").val();
+            if(unitType == 1 ){
+                $(this).html("%");
+            }else if(unitType == 2){
+                $(this).html("$");
+            }    
+            
+        });
+    }
+    
+     
+});
+    function renderPerHandler(html,questionno){    
+        $(html).insertBefore("#percentotherdiv_"+questionno);
+//        $(".perUnitType_<?php echo ($i + 1); ?>").each(function(){
+//            var unitType = $("#unitypeddn_<?php echo ($i + 1); ?>").val();
+//            if(unitType == 1 ){
+//                $(this).html("%");
+//            }else if(unitType == 2){
+//                $(this).html("$");
+//            }    
+//            
+//        });
+       var preq = 0;
+       var nextq = 0;
+       var i = 0;
+        $(".percentagehidden").each(function(){
+            var $this = $(this);
+            var qNo = $this.closest("div.answersection1").attr("data-questionId");
+            if (preq == 0) {
+                i = 0;
+                preq = qNo;
+            }
+            if (preq == qNo) {
+                i++;
+            } else {
+                preq = qNo;
+                i = 1;
+            }
+            $this.attr("id", "ExtendedSurveyForm_OptionName_hid_" + (i) + "_" + qNo);
+            $this.attr("name", "ExtendedSurveyForm[OptionName][" + (i) + "_" + qNo+"]");
+        });
+        preq = 0;
+        nextq = 0;
+        i = 0;
+        $(".percentageOptionname").each(function(){
+            var $this = $(this);
+            var qNo = $this.closest("div.answersection1").attr("data-questionId");
+            if (preq == 0) {
+                i = 0;
+                preq = qNo;
+            }
+            if (preq == qNo) {
+                i++;
+            } else {
+                preq = qNo;
+                i = 1;
+            }
+            $this.attr("id", "ExtendedSurveyForm_percentage_" + (i) + "_" + qNo);
+            $this.attr("data-hiddenname", "ExtendedSurveyForm_OptionName_hid_" + (i) + "_" + qNo);
+            
+        });
+        preq = 0;
+        nextq = 0;
+        i = 0;
+        $(".percentageOptionerr").each(function(){
+            var $this = $(this);
+            var qNo = $this.closest("div.answersection1").attr("data-questionId");
+            if (preq == 0) {
+                i = 0;
+                preq = qNo;
+            }
+            if (preq == qNo) {
+                i++;
+            } else {
+                preq = qNo;
+                i = 1;
+            }
+            $this.attr("id", "ExtendedSurveyForm_OptionName_" + (i) + "_" + qNo+"_em_");            
+        });
+        
+        
+        
+    }
+$("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A
+            (e.keyCode == 65 && e.ctrlKey === true) || 
+             // Allow: home, end, left, right
+            (e.keyCode >= 35 && e.keyCode <= 39)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+                        
         <?php } ?>
             // alert('<?php //echo ($i+1);  ?>')
 
@@ -1749,7 +1998,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                            
                         }); 
             
-           //alert(radiovalue) 
+           alert(radiovalue) 
            if(noptions == count || norows == count)
         $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
         else 
