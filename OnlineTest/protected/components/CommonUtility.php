@@ -9274,20 +9274,8 @@ static function decryptString($encrypted_string) {
     
     static function trackSurvey($userId, $scheduleId, $surveyId, $page, $type) {
       try{
-           if ($type == "refresh") {
-            $latestRecord = SurveyInteractionCollection::model()->getTrackRecord($userId, $scheduleId, $surveyId, $page, "LatestOne");
-            if ($latestRecord == "norecord") {
-                SurveyInteractionCollection::model()->saveSurveyLogin($userId, $scheduleId, $surveyId, $page);
-            } else {
-                if ($latestRecord->ActionType == "SurveyLogin") {
-                    SurveyInteractionCollection::model()->trackSurveyLogout($latestRecord, $userId, $scheduleId, $surveyId, $page, $type);
-                } else {
-
-                    SurveyInteractionCollection::model()->saveSurveyLogin($userId, $scheduleId, $surveyId, $page);
-                }
-            }
-        } else {
-            if ($type == "next") {
+          
+          if ($type == "next") {
                 //perform next action
                 $currentPage = $page;
                 $previousPage = $page - 1;
@@ -9298,7 +9286,32 @@ static function decryptString($encrypted_string) {
 
            SurveyInteractionCollection::model()->trackSurveyLogout("", $userId, $scheduleId, $surveyId, $previousPage, $type);
             SurveyInteractionCollection::model()->saveSurveyLogin($userId, $scheduleId, $surveyId, $currentPage);
-        }
+//          SurveyInteractionCollection::model()->saveSurveyLogin($userId, $scheduleId, $surveyId, $currentPage);
+//           if ($type == "refresh") {
+//            $latestRecord = SurveyInteractionCollection::model()->getTrackRecord($userId, $scheduleId, $surveyId, $page, "LatestOne");
+//            if ($latestRecord == "norecord") {
+//                SurveyInteractionCollection::model()->saveSurveyLogin($userId, $scheduleId, $surveyId, $page);
+//            } else {
+//                if ($latestRecord->ActionType == "SurveyLogin") {
+//                    SurveyInteractionCollection::model()->trackSurveyLogout($latestRecord, $userId, $scheduleId, $surveyId, $page, $type);
+//                } else {
+//
+//                    SurveyInteractionCollection::model()->saveSurveyLogin($userId, $scheduleId, $surveyId, $page);
+//                }
+//            }
+//        } else {
+//            if ($type == "next") {
+//                //perform next action
+//                $currentPage = $page;
+//                $previousPage = $page - 1;
+//            } else {
+//                $currentPage = $page;
+//                $previousPage = $page + 1;
+//            }
+//
+//           SurveyInteractionCollection::model()->trackSurveyLogout("", $userId, $scheduleId, $surveyId, $previousPage, $type);
+//            SurveyInteractionCollection::model()->saveSurveyLogin($userId, $scheduleId, $surveyId, $currentPage);
+//        }
         } catch (Exception $ex) {
             Yii::log("CommonUtility:trackSurvey::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }

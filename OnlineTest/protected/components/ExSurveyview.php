@@ -1,4 +1,4 @@
-<div class="row-fluid" style="padding-top:80px">  
+<div class="row-fluid" >  
 <div class="span9" style="margin-right:0; padding-right:0px;">
    <div class="row" style="margin-right:0; padding-right:0px;">
   <div class="col-xs-12 col-md-12 col-sm-12 mobileview1" style="margin-right:0; padding-right:0px;">
@@ -53,9 +53,10 @@
  <div class="questions_area_left_outer">
  <!-- question catogories -->
 <div class="q_catogories">
-    <?php foreach($CatName as $row){ ?>
-   <div class="q_catogories_progress_active">
-   	<h3><?php echo $row['CategoryName']; ?></h3>   
+    <?php error_log("==category===".print_r($CatName,1)); foreach($CatName as $row){ ?>
+   <div class="q_catogories_progress_active position_R">
+   	<h3><?php echo $row['CategoryName']; ?></h3> 
+        <div class="subject_timer">00:30:60</div>
     <table cellpadding="0" cellspacing="0"  border="0" class="categoryQuestions">
        
         <tr>
@@ -64,7 +65,7 @@
        <?php if($i%5==0){  ?>
         </tr><tr>
              <?php } ?>
-            <td><?php echo ($i+1); ?></td>
+            <td class="questionnos" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>
             
         
         
@@ -180,32 +181,52 @@
          var fromAutoSave=0;
          $("#nextQuestion").live("click",function(){
              fromPagiNation=1;
+             fromAutoSave=0;
              gotoNextPage();
-           // $("#submitQuestion").trigger("click");
+//           $("#submitQuestion").trigger("click");
           
            //  alert($("#QuestionsSurveyForm_ScheduleId").attr("value"));
             
          })
+         
+         $(".questionnos").live("click",function(){   //question by number            
+             var $this = $(this);
+             var scheduleid = $this.data("scheduleid");
+             var catid = $this.data("catid");
+             var qno = $this.data("qno");
+             sureyQuestionPage = qno;
+             $("#QuestionsSurveyForm_ScheduleId").val(scheduleid);
+             $("#QuestionsSurveyForm_SurveyId").val(catid);
+             setGotoPageAjaxCall(scheduleid,catid,qno,"current");
+         })
          $("#prevQuestion").live("click",function(){
              fromPagiNation=1;
-          gotoPreviousPage();
-           //  alert($("#QuestionsSurveyForm_ScheduleId").attr("value"));
-            
+             gotoPreviousPage();            
          })
+         
+         function gotoPage(){
+             var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
+              var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
+              setGotoPageAjaxCall(scheduleId,surveyId,sureyQuestionPage,"next");
+              
+    }
+    
+    function setGotoPageAjaxCall(scheduleid,catid,qno,actiontype){
+        var queryString = {"userQuestionTempId":userTempId,"categoryId":catid,"scheduleId":scheduleid,"page":qno,"action":actiontype};
+            //ValidateQuestions(1, 1);
+              ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
+    }
          var currentPage=0;
          function gotoNextPage(){ 
-               currentPage++;
+              currentPage++;
               var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
-             var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};
-        //alert("gotoNextPage---"+queryString.toSource());
-         alert(queryString.toSource());   
+              var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};
+              ValidateQuestions(1, 1);
               ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
          }
-         function sureyQuestionPaginationHandler(html){//alert(sureyQuestionPage+"next cll----"+html.toSource());
-             //alert(data);                
-             sureyQuestionPage++;
-             
+         function sureyQuestionPaginationHandler(html){
+             sureyQuestionPage++;             
              scrollPleaseWaitClose('surveyviewspinner');
              $("#questionviewarea").html(html);
          }
@@ -216,7 +237,7 @@
               var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
              var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"surveyId":surveyId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"previous"};
-        alert(queryString.toSource());     
+        //alert(queryString.toSource());     
         ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
          }
          
