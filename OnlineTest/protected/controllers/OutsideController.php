@@ -13,6 +13,7 @@ class OutsideController extends Controller {
         $userId = isset($urlArray[2])?$urlArray[2]:"";
         $groupName = isset($urlArray[3])?$urlArray[3]:"";
         $outerFlag = isset($urlArray[4])?$urlArray[4]:false;
+         //$this->layout = 'userLayout';
         if(isset(Yii::app()->session['TinyUserCollectionObj']) && !empty(Yii::app()->session['TinyUserCollectionObj']) && $outerFlag == false){
             parent::init();
             $this->tinyObject = Yii::app()->session['TinyUserCollectionObj'];
@@ -52,25 +53,31 @@ class OutsideController extends Controller {
             Yii::log("OutsideController:actionIndex::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
     }
-    
+       
     
     public function actionIndex() {
         try {
-            error_log("**********outside index");         
-            $userId = 166;
+          
+            
+            error_log("**********outside index");     
+            
+            $userId = isset(Yii::app()->session['TinyUserCollectionObj']->UserId)?Yii::app()->session['TinyUserCollectionObj']->UserId:0;
             $groupName = "Java";
             $outerFlag = true;
             $vType = "1";
             $testId = "5590ecf1fc6c3d3a1a8b45ae";
+            $testRegObj = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId($userId);
+            if(isset($testRegObj) && sizeof($testRegObj)>0){
+                $testId = $testRegObj->TestId;
+            }
             if($outerFlag){  
-                $this->layout = 'userLayout';
-            }  error_log("******33333****outside index"); 
-            $this->layout = 'userLayout';
+                $this->layout = 'adminLayout';
+            } 
+            $this->layout = 'adminLayout';
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
 //            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");            
             $QuestionsSurveyForm = new QuestionsSurveyForm;
             $this->render('index',array('QuestionsSurveyForm'=>$QuestionsSurveyForm,"userId" => $userId,"groupName"=>$groupName,"outerFlag" => $outerFlag,"vType"=>$vType,"TestId"=>$testId,"CatName"=>$questionprepareObj->Category));
-       error_log("******444444****outside index".print_r($questionprepareObj,1));
             } catch (Exception $ex) {
             Yii::log("OutsideController:actionIndex::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
@@ -142,7 +149,7 @@ class OutsideController extends Controller {
             if($scheduleobj != "failure")
             $scheduleId = $scheduleobj->_id;
             error_log("=========344444444444444444=========$scheduleId");
-            $totalPages =  3;
+            $totalPages =  $questionprepareObj->Category[0]['NoofQuestions'];
 //                if($obj->QuestionView > 0){
 //                 $totalPages = round($surveyObj->QuestionsCount/$obj->QuestionView);
 //                }
@@ -156,7 +163,7 @@ class OutsideController extends Controller {
 //                ScheduleSurveyCollection::model()->addtoResumeUsers($surveyId,$obj->_id,$UserId);
 //                $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
             //$this->renderPartial('ExSurveyview',array("CatName"=>$questionprepareObj->Category));
-            $this->renderPartial('userCustomView',array("UserTempId"=>$testquestionObj->_id,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>"Test","userId"=>$UserId,"sessionTime"=>"","spotMessage"=>"","flag"=>"TRUE","iValue"=>0,"page"=>($pageno+1),"bufferAnswers"=>array(),"totalpages"=>$totalPages));
+            $this->renderPartial('userCustomView',array("UserTempId"=>$testquestionObj->_id,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>"Test","userId"=>$UserId,"sessionTime"=>"","spotMessage"=>"","flag"=>"TRUE","iValue"=>0,"page"=>($pageno+1),"bufferAnswers"=>array(),"totalpages"=>$totalPages,"sno"=>($pageno+1)));
             // old code
             
 //            if(!empty($UserId) && !empty($surveyGroupName)){
@@ -348,18 +355,22 @@ function get_values_for_keys($mapping, $keys) {
              $categoryId = $_REQUEST['categoryId'];
              $action = $_REQUEST['action'];
              $UserId = isset($_REQUEST['UserId'])?$_REQUEST['UserId']:1; // userId... 
-            
-                $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$userQuestionTempId,$scheduleId,$page,$categoryId);            
+             CommonUtility::trackSurvey($UserId,$scheduleId,$categoryId,$page,"");
+                $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$userQuestionTempId,$scheduleId,$page,$categoryId,$action);            
                        
             $bufferAnswers = array();
-            //$bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($userId,$scheduleId);
+            $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($userId,$scheduleId);
              $surveyObj = $surveyObjArray["data"];
              $categoryId = $surveyObjArray["categoryId"];
                 $nocategories = $surveyObjArray['nocategories'];
                 error_log("no of cat---".$nocategories);
              $page = $surveyObjArray["page"];
-           
-             $this->renderPartial('userCustomView',array("UserTempId"=>$userQuestionTempId,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$userId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"nocategories"=>$nocategories));
+             $totalPages = $surveyObjArray['totalpages'];
+             
+//             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
+//              $totalPages =  $questionprepareObj->Category[0]['NoofQuestions'];
+//            $totalPages =  0;
+             $this->renderPartial('userCustomView',array("UserTempId"=>$userQuestionTempId,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$UserId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"nocategories"=>$nocategories,"sno"=>($page+1)));
              
         } catch (Exception $ex) {
             error_log("Exception Occurred in OutsideController->actionSureyQuestionPagination==".$ex->getMessage());
@@ -369,6 +380,7 @@ function get_values_for_keys($mapping, $keys) {
     public function actionValidateSurveyAnswersQuestion(){
         try{         
 //            ini_set('memory_limit', '2048M');
+            error_log("=====validateSurveyAnswers=====");
             $QuestionsSurveyForm = new QuestionsSurveyForm();
             if(isset($_POST['QuestionsSurveyForm'])){
                    $QuestionsSurveyForm->attributes = $_POST['QuestionsSurveyForm'];  
@@ -376,6 +388,7 @@ function get_values_for_keys($mapping, $keys) {
                    $f =  json_decode($QuestionsSurveyForm->Questions);
                    $questionArray = array();
                    $OptionsSelected = FALSE;
+                    error_log("=====validateSurveyAnswers===sizeof form==".sizeof($f));
                 for($i=0;$i<sizeof($f);$i++){                           
                     $searcharray=array();                    
                     parse_str($f[$i],$searcharray);
@@ -391,7 +404,8 @@ function get_values_for_keys($mapping, $keys) {
                     if(sizeof($searcharray["QuestionsSurveyForm"])){                        
                         foreach($searcharray["QuestionsSurveyForm"] as $key=>$value){
                             $optioncnt = 0;
-                        if(is_array($value) && sizeof($value)){                                                        
+                        if(is_array($value) && sizeof($value)){  
+                            error_log("==@@@@@@@@@@@@@========key======++++#$key");
                             if($key == "WidgetType"){
                                 if(sizeof($value)>0){
                                     foreach($value as $m){
@@ -429,7 +443,7 @@ function get_values_for_keys($mapping, $keys) {
                                         }
                                     }
                                 }
-                           
+                           //error_log("==122222222222222222222========questiontype======++++#$questionType");
                             
                             if($key == "OptionsSelected"){
                                 $k=0;
@@ -510,6 +524,7 @@ function get_values_for_keys($mapping, $keys) {
                                 }
                                 }
                             }
+                            //error_log("===@@@@@@@@@@@@@@@@@@@@@=UserGenerated ranking=========".print_r($widget7,1));
                             if($key == "UserAnswer"){
                                 $k=0;
                                 if(sizeof($value)>0){
@@ -747,7 +762,7 @@ function get_values_for_keys($mapping, $keys) {
                     }
                      $fromPage = $_REQUEST["Page"];
                      $NetworkId=1;
-                     error_log("Iam form".print_r($QuestionsSurveyForm,true));
+                    // error_log("Iam form".print_r($QuestionsSurveyForm,true));
                      $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage);
                      
                      if($fromAutoSave==0){

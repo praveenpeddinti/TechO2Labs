@@ -198,16 +198,17 @@ class SkiptaExSurveyService {
            error_log("Exception Occurred in SkiptaExSurveyService->getSurveyDetailsById### ".$ex->getMessage());
        }
    }
-    public function getCustomSurveyDetailsById($columnName,$_id,$scheduleId,$page,$categoryId){
+    public function getCustomSurveyDetailsById($columnName,$_id,$scheduleId,$page,$categoryId,$action="next"){
        try{
-          $questionsArray =  UserQuestionsCollection::model()->getQuestionFromCollectionForPagination($_id,$categoryId,$page);
+          $questionsArray =  UserQuestionsCollection::model()->getQuestionFromCollectionForPagination($_id,$categoryId,$page,$action);
           $questionId = $questionsArray['questionId'];
           $categoryId = $questionsArray['categoryId'];
            $nocategories = $questionsArray['nocategories'];
            error_log("no of cat--**-".$nocategories);
           $page = $questionsArray['page'];
+          $totalpages = $questionsArray['totalpages'];
           $result = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId);
-           $resultArray = array("data"=>$result,"categoryId"=>$categoryId,"page"=>$page,"nocategories"=>$nocategories);
+           $resultArray = array("data"=>$result,"categoryId"=>$categoryId,"page"=>$page,"nocategories"=>$nocategories,"totalpages"=>$totalpages);
             return $resultArray;
            } catch (Exception $ex) {
                Yii::log("SkiptaExSurveyService:getCustomSurveyDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -370,7 +371,7 @@ class SkiptaExSurveyService {
     
     public function saveSurveyAnswer($model, $NetworkId, $UserId, $fromPagination, $fromAutoSave, $fromPage) {
         try {
-
+error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave===$fromAutoSave");
             if ($fromPagination == 1 || $fromAutoSave == 1) {
 
                 error_log("@@@@@@@@@@MMMMMMMMMMMMMMMMMMM@@2gsr2");

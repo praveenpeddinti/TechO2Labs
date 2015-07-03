@@ -17,10 +17,10 @@ class SiteController extends Controller {
     $cs = Yii::app()->getClientScript();
     $cs->registerCoreScript('jquery');
       
-        if (isset(Yii::app()->session['TinyUserCollectionObj'])){
-
-            $this->redirect('/users');
-        } 
+//        if (isset(Yii::app()->session['TinyUserCollectionObj'])){
+//
+//            $this->redirect('/users');
+//        } 
          
         
       
@@ -125,9 +125,17 @@ class SiteController extends Controller {
                 $takerexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExist($testTakerForm->Email);  
                 $takerPhoneexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExistWithPhone($testTakerForm->Phone);
                 if ((count($takerexist) > 0) && (count($takerPhoneexist) > 0) ) {
+                    error_log("----o---");
                     $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerDetails($testTakerForm);
+                      $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserByType($testTakerForm->Email, 'Email');
+                      //error_log("----1---".print_r($userObj,1));
+                    $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
+                     //error_log("----2---".print_r($tinyUserCollectionObj,1));
+                    Yii::app()->session['TinyUserCollectionObj'] = $tinyUserCollectionObj;
+                    Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
+                    error_log("----3---===".Yii::app()->session['TinyUserCollectionObj']->UserId);
                     $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
-                }else {
+                }else {error_log("---4--");
                     $obj = array('status' => 'error', 'error' => 'Test taker already exist.');
                 }
             }
@@ -139,10 +147,10 @@ class SiteController extends Controller {
             Yii::log("SiteController:actionLogin::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     } 
-   public function actionPrivacyPolicy() {
+     public function actionPrivacyPolicy() {error_log("---enter priv--");
        $PrivacyPolicyForm = new PrivacyPolicyForm();
      $this->render('privacyPolicy', array("PrivacyPolicyForm"=>$PrivacyPolicyForm));          
-      }                  
+      }             
           
 
 }

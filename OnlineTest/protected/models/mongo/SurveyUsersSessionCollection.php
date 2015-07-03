@@ -156,17 +156,18 @@ class SurveyUsersSessionCollection extends EMongoDocument {
       }
        
     public function updateSurveyAnswer2($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage){
-        try{         
-          error_log("@@@@@@!!!!!!!!!!!!!!!!!!!!!!!!!!!!f".print_r($model->UserAnswers,true));
+        try{        
+          
             $returnValue = "failed";
             $scheduleObj = new SurveyUsersSessionCollection();
             $scheduleObj->UserAnswers = $model->UserAnswers;     
             if($fromAutoSave == 0){
                  $criteria = new EMongoCriteria();
-               
+               error_log("===@@@@@@@@@@@@@@@=======scheduleId====$model->ScheduleId===Userid=$UserId");
                 $criteria->addCond('ScheduleId', '==', new MongoId($model->ScheduleId)); 
                 $criteria->addCond('UserId', '==', (int)$UserId);
                 $obj = SurveyUsersSessionCollection::model()->find($criteria);
+                error_log("=1111111111111!!!!!!11=obj page==$obj->Page==from page=====$fromPage======");
                 if(isset($obj)){
                    if($obj->Page < $fromPage){
                      $modifier = new EMongoModifier();
@@ -176,7 +177,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                 }
                 
             }
-           
+            //error_log("=1111111111111!!!!!!11=obj page==$obj->Page==from page=====$fromPage======");
             foreach ($scheduleObj->UserAnswers as $answers) {
                 error_log("@@@@@@@@@@@@@@@@@@@@111@@@@@asdfasdfasdf@@@@sdf");
                 
@@ -186,8 +187,13 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                 $criteria->addCond('UserId', '==', (int)$UserId);
                 $criteria->addCond('UserAnswers.QuestionId', '==', new MongoId($answers->QuestionId));
                 $obj = SurveyUsersSessionCollection::model()->find($criteria);
-                  if(is_object($obj)){
-                   
+                
+                $c = SurveyUsersSessionCollection::model()->getCollection();
+                $result = $c->aggregate(array('$match' => array('ScheduleId' =>new MongoId($model->ScheduleId))), array('$unwind' => '$UserAnswers'), array('$match' => array('UserId' => (int)$UserId)), array('$match' => array('UserAnswers.QuestionId' => new MongoID($answers->QuestionId))), array('$group' => array("_id" => "_id", "QuestionIds" => array('$push' => '$UserAnswers.QuestionId')))); 
+                error_log("=========result=====2222222222222222===".print_r($result,1));
+                
+                  if(sizeof($result['result'])>0){
+                   error_log("====@@@@@@@@@@@@@========collection object exist=========@@@@@@@@@@@@@@@@@===questionid===$answers->QuestionId");
                       $criteria = new EMongoCriteria();
                       $modifier = new EMongoModifier();
                      
@@ -229,6 +235,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                             // $modifier1->addModifier('UserAnswers.$.SelectedOption', 'set',$answers->SelectedOption );
                        }
                       $modifier->addModifier('LastUpdateDate', 'set', new MongoDate());
+                      error_log("====2222222222222222222========collection object exist=========@@@@@@@@@@@@@@@@@======");
                       $obj = SurveyUsersSessionCollection::model()->updateAll($modifier,$criteria);
 //                      $criteria = new EMongoCriteria();
 //                       $criteria->addCond('_id', '==', new MongoId($model->ScheduleId));
@@ -237,15 +244,17 @@ class SurveyUsersSessionCollection extends EMongoDocument {
 //                       ScheduleSurveyCollection::model()->updateAll($modifier1, $criteria);    
                       
                   }else{
-                   
+                   error_log("===@@@@@@@@@@!!!!!!!!!!!!!!!!!!!!!!!11=======else case==============");
                       $criteria = new EMongoCriteria();
                      $modifier = new EMongoModifier();
                      $criteria->addCond('UserId', '==',(int)$UserId);
                      $criteria->addCond('ScheduleId', '==',new MongoId($model->ScheduleId));
                     $modifier->addModifier('LastUpdateDate', 'set', new MongoDate());
                      $modifier->addModifier('UserAnswers', 'pushAll', array($answers));
+                     error_log("===@@@@@@@@@@!!!!!!!!!!!!!!!!!!!!!!2222222222222=======else case==============");
                      if(SurveyUsersSessionCollection::model()->updateAll($modifier, $criteria)){
-                                      $returnValue = "success";   
+                                      $returnValue = "success";  
+                                      error_log("============collection updated success======");
 //                          $criteria = new EMongoCriteria();
 //                           $modifier = new EMongoModifier();
 //                         $criteria->addCond('_id', '==', new MongoId($model->ScheduleId));

@@ -9,32 +9,26 @@
         <link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/favicon.png" type="image/x-icon" />
         <!--<link rel="shortcut icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/favicon.ico" type="image/x-icon">-->
         <link rel="icon" href="<?php echo Yii::app()->request->baseUrl; ?>/images/icons/favicon.ico" type="image/x-icon">
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.minicolors.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen" />
         
-        
+        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-onlinetest.css" rel="stylesheet" type="text/css" />  
         
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="screen" />
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-skiptaNeo_layout.css" rel="stylesheet" type="text/css" media="screen" />
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-skiptaNeo_page.css" rel="stylesheet" type="text/css" media="screen" />
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-skiptatheme.css" rel="stylesheet" type="text/css" media="screen" />
-        
+         
+
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/<?php echo Yii::app()->params['ThemeName']; ?>" rel="stylesheet" type="text/css" media="screen" />
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/font-awesome.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/fonts.css" rel="stylesheet" type="text/css" media="screen" />
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/editor.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/datepicker.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.atwho.css" rel="stylesheet"  type="text/css"/>
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/timepicker.css" rel="stylesheet" type="text/css" />
+
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/fileuploader.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/galleria.classic.css" rel="stylesheet" type="text/css" />
-        
         
         
         
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/foundation.css">
-        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/joyride-2.1.css">
            <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/timezone.js"></script>
         <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/simplePagination/simplePagination.css"/>
         <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/customswitch.css"/>
@@ -45,45 +39,25 @@
         <style type="text/css">.dropdown-backdrop {position: fixed;left:0;z-index:997;display:none}</style>
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.js"></script>
 
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jsrender.js"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/freshereditor.min.js" type="text/javascript"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.atwho.js"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/prettyCheckable.js"></script>
-    
+        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jsrender.js"></script>   
      
 <!--        <script src="https://platform.twitter.com/widgets.js" type="text/javascript"></script>-->
-         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/twitterwidgets.js"></script>
         <?php include 'translationVariables.php'; ?>
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/common.js"></script>
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/fileuploader.js"></script>
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/custom-form-elements.js"></script>
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-datepicker.js"></script>
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-timepicker.js"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/shortcut.js" type="text/javascript"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/farbtastic.js" type="text/javascript"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/post.js"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/translations.js"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/main.js"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/galleria-1.3.5.min.js"></script>
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-switch.min.js"></script>
                 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ajaxfileupload.js"></script>
                 
                 <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/customwidgets.js"></script>
-            <?php if (Yii::app()->params['Project'] != 'RiteChat') { ?>
-            <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-            <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/modernizr.min.js"></script>
+
             <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.slicknav.js"></script>
-        <?php } ?>
+       
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jwplayer/jwplayer.js"></script>
         <script type="text/javascript">jwplayer.key = "N5rHDC1elorgiqDb/VdbUadp/aRvTnNwLEQFlQ=="</script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jsapi.js"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/googlevis.js"></script>
-        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/googleRgbcolor.js"></script> 
-        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/googleCanvg.js"></script>
-        <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/foundation.js"></script>
-        <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/foundation.joyride.js"></script>
-         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.minicolors.js"></script>  
-         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.bxslider.min.js"></script>  
+
          
         <script type="text/javascript">
          if(navigator.userAgent.indexOf("Safari") != -1 ) 
@@ -118,15 +92,7 @@
         <!--[if lt IE 10]>
          <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie_placeholder.css" rel="stylesheet">
         <![endif]-->
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.zclip.js"></script>
-        <script src="/nodeserver/"></script>
-        <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/publications.js"></script>
 
-       <?php 
-        if(Yii::app()->session['language']=="de"){ ?>
-            <link type="text/css" rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css_translate/de.css"/>
-       <?php } ?>
-     
 
   
         <script type="text/javascript">

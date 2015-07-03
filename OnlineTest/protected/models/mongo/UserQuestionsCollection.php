@@ -59,6 +59,20 @@ class UserQuestionsCollection extends EMongoDocument {
             error_log("Exception Occurred in UserQuestionsCollection->getPreparedTest==" . $ex->getMessage());
         }
     }
+    
+    public function getUserTest($testId) {
+        try {
+            $preparecriteria = new EMongoCriteria;
+            $preparecriteria->addCond('Testid', '==', new MongoId($testId));
+            $testquestionObj = UserQuestionsCollection::model()->findAll($preparecriteria);
+            return $testquestionObj;
+        } catch (Exception $ex) {
+            Yii::log("UserQuestionsCollection:getPreparedTest::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in UserQuestionsCollection->getPreparedTest==" . $ex->getMessage());
+        }
+    }
+    
+    
     public function saveQuestionsToCollection($userQuestionsObj){
         try{
             $returnValue = "failure";
@@ -73,12 +87,12 @@ class UserQuestionsCollection extends EMongoDocument {
             return $returnValue;
         }
     }
-       public function getQuestionFromCollectionForPagination($id,$categoryId,$page){
+       public function getQuestionFromCollectionForPagination($id,$categoryId,$page,$action){
         try {
             $nocategories = "false";
             $catIndex = 0;
             error_log("getQuestionFromCollectionForPagination--".$id."---".$categoryId."--".$page);
-            $categoryQuestions = $this->getQuestionsByCategoryId($id,$categoryId);
+           // $categoryQuestions = $this->getQuestionsByCategoryId($id,$categoryId);
              
         $catIdsArray = array();
        
@@ -87,7 +101,7 @@ class UserQuestionsCollection extends EMongoDocument {
         $totalQuesitonArray = array();
         
         error_log($page."--------------------".sizeof($categoryQuestions[0]));
-        
+        if($action != "current"){
         if($page == -1){
             $catIdsArray = UserQuestionsCollection::model()->getNextCategoryId($id,$categoryId);
             $inc = 0;
@@ -133,7 +147,7 @@ class UserQuestionsCollection extends EMongoDocument {
             error_log($page."-----next dat----------------".$categoryId);
              
         }
-//      
+      }
             error_log(print_r($categoryQuestions,1));
         $totalQuesitonArray['questionId'] = isset($categoryQuestions[0][$page])?$categoryQuestions[0][$page]:"";
         $totalQuesitonArray['categoryId'] = $categoryId;
@@ -141,6 +155,8 @@ class UserQuestionsCollection extends EMongoDocument {
         error_log("no of cat--(((-".$nocategories);
         $totalQuesitonArray['nocategories'] = $nocategories;
         $totalQuesitonArray['page'] = $page;
+        $totalQuesitonArray['totalpages'] = isset($categoryQuestions[0])?sizeof($categoryQuestions[0]):0;
+        error_log("====sizeoftotalpages==@@@@@@@@@@@@@@@@@@@@@@@=======".$totalQuesitonArray['totalpages']);
         return $totalQuesitonArray;
         } catch (Exception $ex) {
             error_log("exceoitn---".$ex->getMessage())     ;

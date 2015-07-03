@@ -3,15 +3,15 @@ if(is_object($surveyObj)){ ?>
 <input type="hidden" value="<?php echo $userId; ?>" name="QuestionsSurveyForm[UserId]" id="QuestionsSurveyForm_UserId"/>
 <input type="hidden" value="<?php echo $scheduleId; ?>" name="QuestionsSurveyForm[ScheduleId]" id="QuestionsSurveyForm_ScheduleId"/>
 <input type="hidden" name="QuestionsSurveyForm[SurveyId]" value="<?php echo $surveyObj->_id; ?>" id="QuestionsSurveyForm_SurveyId">
-
-
+<input type="hidden" name="QuestionsSurveyForm[SurveyId]" value="<?php echo $surveyObj->_id; ?>" id="QuestionsSurveyForm_SurveyId">
+<input type="hidden" name="QuestionsSurveyForm[Questions]" value="" id="QuestionsSurveyForm_Questions">
 <div class="padding8top">
    
      
      <div class="padding152010" style="" id="surveyQuestionArea">
          <?php 
          $i = 1; 
-         $sno = $iValue;
+         //$sno = $iValue;
          foreach($surveyObj->Questions as $question){
              $userAnswer = array();
              ?>
@@ -838,7 +838,7 @@ if(is_object($surveyObj)){ ?>
   
 
 <script type="text/javascript">
-//Custom.init();
+Custom.init();
 var qCount = '<?php echo sizeof($surveyObj->Questions); ?>';
 sessionStorage.globalSurveyFlag =1; 
 var autoSaveInterval ;
@@ -980,7 +980,7 @@ sessionStorage.sharedURL = "";
         });
           function submitSurvey(){
               
-             
+             //alert("==submitsurvey===="+fromAutoSave)
               
                 if(fromAutoSave == 0){
                      scrollPleaseWait('surveyviewspinner');
@@ -1054,11 +1054,11 @@ sessionStorage.sharedURL = "";
         function ValidateQuestions(qNo,qCnt){ 
           //console.log("=ValidateQuestions=========fromAutoSave=="+fromAutoSave);
           
-//            alert($("#QuestionsSurveyForm_OptionsSelected_"+qNo).val())
+            
             var serializeddata = $("#questionviewWidget_"+qNo).serialize();
 //            alert(data.toSource())
            // Garray[qNo - 1] = data;   
-            
+           // alert($("#QuestionsSurveyForm_OptionsSelected_"+qNo).val()+"===ValidateQuestions=========="+serializeddata.toSource())
                 $.ajax({
                     type: 'POST',
                     url: '/outside/validateQuestions?surveyTitle=' + $("#QuestionsSurveyForm_SurveyTitle").val() + '&SurveyDescription=' + $("#QuestionsSurveyForm_SurveyDescription").val() + '&questionsCount=' + qCnt+"&SurveyGroupName="+$("#QuestionsSurveyForm_SurveyRelatedGroupName").val()+"&SurveyLogo="+$("#QuestionsSurveyForm_SurveyLogo").val(),
@@ -1068,9 +1068,10 @@ sessionStorage.sharedURL = "";
                         var data = eval(data);                    
 
                          if (data.status == 'success') {
-
+                              Garray[qNo - 1] = serializeddata; 
+                            //  alert("===")
                              if(fromAutoSave == 0){
-                                 Garray[qNo - 1] = serializeddata;   
+                                  
                              }else{
                                   Garray[0] = serializeddata;   
                              }
@@ -1095,10 +1096,12 @@ sessionStorage.sharedURL = "";
             
             if (data.status == 'success') {
                // scrollPleaseWaitClose('surveyviewspinner');
+               isValidated = true;
+               saveAnswersForQuestions();
                  if(isValidate == qCount || fromAutoSave == 1){ 
                     isValidated = true;
                     
-                    saveAnswersForQuestions();
+                    
                 }
                 
 
@@ -1110,7 +1113,7 @@ sessionStorage.sharedURL = "";
                    if(fromAutoSave == 0){
                 isValidate = 0; 
                 isValidated = false;                    
-                callSetIntervalForSurvey(); //set interval for survey answers...
+                //callSetIntervalForSurvey(); //set interval for survey answers...
                 var error = [];
                 if (typeof (data.error) == 'string') {
 
@@ -1170,9 +1173,11 @@ sessionStorage.sharedURL = "";
                 $("#surveySavingRes").show();  
                 $("#surveySavingRes").attr("style","margin-top:10px");
             }
+           // alert(Garray)
             $("#QuestionsSurveyForm_Questions").val(JSON.stringify(Garray));
             var data = $("#questionviewwidget").serialize(); 
-           // alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount)
+            
+            //alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"===="+data.toSource())
             if(isValidated == true){
                 //alert("kin");
                 isValidate = 0;
@@ -1188,7 +1193,7 @@ sessionStorage.sharedURL = "";
                         if(data != "error"){
                            //alert(lastPage);
                              if(fromPagiNation == 1 &&  lastPage == "false"){
-                             gotoNextPage();
+                             //gotoNextPage();
                         }
                         else{
                             scrollPleaseWaitClose('surveyviewspinner');
@@ -1235,7 +1240,7 @@ sessionStorage.sharedURL = "";
                //console.log("from errors through ----autoSaveInterval--");
                 fromAutoSave = 1;
                 Garray = new Array();
-                  submitSurvey();
+                  //submitSurvey();
               },'<?php echo Yii::app()->params['SurveyAutoSaveTime']?>');
         }
         function setIframeHeightInSurveySubmit(){
@@ -1329,21 +1334,25 @@ function updateTextRadiohiddenFields(obj,rno,qno,col,maxValue){
    var lastPage = "false";
    var pageStr = "";  
    sureyQuestionPage = "<?php echo $page; ?>";
+   
   
    
        
          if(currentPage == 0 ){
+             //alert("===")
               $("#surveysubmitbuttons,#nextQuestion").show();
              $("#prevQuestion").hide(); 
          }else{
               $("#prevQuestion").show();
          }
-         pageStr = "Page <b><?php echo $page; ?></b> of <b><?php echo $totalpages; ?></b>"
+         //pageStr = "Page <b><?php echo $page; ?></b> of <b><?php echo $totalpages; ?></b>"
+         pageStr = "Page <b>"+<?php echo $page; ?>+"</b> of <b><?php echo $totalpages; ?></b>"
          
-    
+    //alert("===total pages==<?php echo $totalpages; ?>")
 <?php if($totalpages > 1){?>
 $("#pagenoforsurvey").html(pageStr).show();
 <?php }else{ ?>
+    //alert("===total pages")
     $("#pagenoforsurvey").hide();
 <?php } ?>
   
@@ -1552,11 +1561,14 @@ $("#pagenoforsurvey").html(pageStr).show();
          var fromNode=0; //this flag is used to stop doing logout in 2 cases 1.call from node 2.submit pressed
         var categoryId = '<?php echo $categoryId?>';
         var nocategories = '<?php echo $nocategories?>';
-        alert(nocategories);
+        //alert(nocategories);
         if(nocategories=="true"){
             $("#nextQuestion").hide();
              $('#submitQuestion').show();
              
+        }else{
+             $("#nextQuestion").show();
+             $('#submitQuestion').hide();
         }
          var userTempId = '<?php echo $UserTempId?>';
         //alert(userTempId);
@@ -1590,7 +1602,7 @@ $("#pagenoforsurvey").html(pageStr).show();
               //return message;
       };
     
-     callSetIntervalForSurvey(); //set interval for survey answers...
+     //callSetIntervalForSurvey(); //set interval for survey answers...
    
     
 

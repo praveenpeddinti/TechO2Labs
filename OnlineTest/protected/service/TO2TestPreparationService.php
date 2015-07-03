@@ -48,6 +48,12 @@ class TO2TestPreparationService {
         }
     }
     
-    
+    public function getTestIdByUserId($userId){
+        try{
+            return TestRegister::model()->getTestIdByUserId($userId);
+        } catch (Exception $ex) {
+
+        }
+    }
 
 }
