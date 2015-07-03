@@ -1,3 +1,8 @@
+<section class="login_bg" style="clear:both; height:370px; "> </section >
+<section style="clear:both;" >
+    <div class="container"  >
+<div class="customLoginform customLoginformwidth positionlogin " style=" padding-bottom:50px; margin-bottom:120px; " >
+            <div class="customLoginbg marginlr0">
 <div class=" pagetitlebg marginlr0 paddingbottom8 pagetitleloginbg" >
                     <div class="section_pagetitle_padding padgetitle">
                         <h4 class="padding-left12" style="padding-bottom:10px">Admin Login</h4>
@@ -63,7 +68,10 @@
     </div><!--end .row -->
 <?php $this->endWidget(); ?>
                         </div>
-                    </div></div>
+                    </div></div></div>
+</div>
+    </div>
+</section>
 <script type="text/javascript">
    /*$("#loginId").bind("click",function(){
        var data = $("#login-form").serialize();
