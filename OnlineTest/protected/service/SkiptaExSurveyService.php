@@ -688,5 +688,19 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
                Yii::log("SkiptaExSurveyService:getTestDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
            error_log("Exception Occurred in SkiptaExSurveyService->getTestDetailsById### ".$ex->getMessage());
        }
-   } 
+   }
+   
+   /*
+     * @Praveen P get the TestPaper Reports ScheduleSurveyCollection
+     */
+    public function getTestReports($columnName,$value){
+       try{
+           return ScheduleSurveyCollection::model()->getTestReports($columnName,$value);
+        
+           } catch (Exception $ex) {
+               Yii::log("SkiptaExSurveyService:getTestDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+           error_log("Exception Occurred in SkiptaExSurveyService->getTestDetailsById### ".$ex->getMessage());
+       }
+   }
+   
 }
