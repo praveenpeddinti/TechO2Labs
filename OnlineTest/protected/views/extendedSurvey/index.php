@@ -431,6 +431,11 @@ bindToMandatory();
         $(".subsectionremove").live('click', function() {
                 var $this = $(this);
                  var qId = $this.attr("data-questionId");
+//                 var isedt = <?php //echo $isEditable; ?>;
+//                 if(isedt == 1){
+//                     questionsCount--;
+//                   $(this).parents('div.QuestionWidget').remove();
+//               }
        <?php if (empty($surveyId)) { ?>
                              
                         questionsCount--;
@@ -454,10 +459,10 @@ bindToMandatory();
                
         });
         
-        $(".suspendcontentdiv").live('click',function(){ 
-            var qId = $(this).attr("data-qid");
+        $(".suspendcontentdiv .btn").live('click',function(){ 
+            var qId = $(this).parent(".suspendcontentdiv").attr("data-qid");
             $("#ExtendedSurveyForm_IsSuspend_"+qId).val(0);
-            $(this).remove();
+            $(this).parent(".suspendcontentdiv").remove();
             $("#suspenddiv_"+qId).remove();
           }); 
    <?php } ?>

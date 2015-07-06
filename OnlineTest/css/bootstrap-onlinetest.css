@@ -411,7 +411,7 @@ select.styled{line-height: 20px;}
 .othersarea i{padding-top:4px;font-style:normal;color:#a3a3a3;display:inline-block}
 .surveybuttonarea{border-top:1px solid #dadada;padding:10px 0;margin-top:10px}
 .padding152010{padding:15px 20px 15px 10px}
-.market_profile{padding-left:250px;position:relative;min-height:230px}
+.market_profile{/*padding-left:250px;min-height:230px;*/position:relative;}
 .m_profileicon{position:absolute;left:10px;top:0;}
 /*.survey_profiletitleedit {border: 1px dashed #ccc;}*/
 .surveyquestionsbox{margin-bottom:15px}
@@ -569,16 +569,32 @@ input[type="color"],
 
 
 /*categoryQuestions*/
-.categoryQuestions{width:auto;margin:auto}
-.categoryQuestions tr td{border-right:2px solid #fff;border-bottom:2px solid #fff;background: #666;width:40px;height:40px;cursor: pointer;vertical-align: middle;text-align: center;font-size:14px;font-weight: bold;color:#fff}
+.categoryQuestions{width:auto;margin:0}
+.categoryQuestions tr td{border-right:2px solid #fff;border-bottom:2px solid #fff;background: #666;width:35px;height:35px;cursor: pointer;vertical-align: middle;text-align: center;font-size:14px;font-weight: bold;color:#fff}
 .categoryQuestions tr td.active, .categoryQuestions tr td:hover{background: #1ec8eb}
 .categoryQuestions tr td:last-child{border-right:0}
 /*categoryQuestions end*/
-
-.q_catogories_progress_active {background:#fff; border-top:2px solid #f4c81d;padding: 10px;}
+.q_catogories_progress{padding:0;border-top:2px solid #ccc;}
+.q_catogories_progress_active {background:#fff; border-top:2px solid #f4c81d;padding: 0px;}
 .q_catogories_progress table, .q_catogories_progress_active table { z-index:3}
 .subject_timer { z-index:2}
+
+.q_catogories_progress h3 { color:#c4c4c4; font-size: 14px; font-weight:bold;}
+.q_catogories_progress_active h3 { color:#545454; font-size: 14px; font-weight:bold;}
+.q_catogories_progress .subject_timer{ position:absolute;border-radius:5px; background:#8a8a88;right:6px; top:6px; padding:3px 6px 3px 6px; line-height:12px; text-align:center; color:#fff; font-size:11px;}
+.q_catogories_progress_active .subject_timer{ position:absolute;border-radius:5px; right:6px; top:6px; padding:3px 6px 3px 6px; line-height:12px; text-align:center; color:#fff; font-size:11px;}
+.questions_area_left_inner { border-top:2px solid #f4c81d}
+.q_catogories_progress_active h3, .q_catogories_progress h3{padding:0;margin:0;line-height: 20px;padding:5px}
+.q_catogories_progress .headerbg_cat{background:#ccc;}
+.q_catogories_progress h3{color:#333}
+.q_catogories_progress_active .headerbg_cat{background:#f4c81d;}
+.q_catogories_progress_active .subject_timer{background: #c59903}
+.headerbg_cat:after{content:"";clear:both;display: block}
+.q_catogories_progress_active{margin-bottom:10px}
+.categorydivpadding{padding:10px}
+.q_catogories .position_R:last-child{margin-bottom:0}
 .q_catogories_progress h3 { color:#c4c4c4; font-size: 16px; font-weight:normal;}
 .q_catogories_progress_active h3 { color:#545454; font-size: 16px; font-weight:normal;}
 .subject_timer{ position:absolute; background:#8a8a88;right:10px; top:10px; padding:3px 6px 3px 6px; line-height:12px; text-align:center; color:#fff; font-size:11px;}
 .questions_area_left_inner { border-top:2px solid #f4c81d}
+

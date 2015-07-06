@@ -1006,7 +1006,7 @@ sessionStorage.sharedURL = "";
              //   alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"=i=="+i)
                 if(isMandatory == 1){
 
-                     ValidateQuestions(i, qCount);
+                     ValidateQuestions(1, 1);
                 }else{
 //                    if(widtype == 3 || widtype == 4 ){                       
 //                       options = $("#QuestionsSurveyForm_OptionsSelected_"+i).val();
@@ -1020,7 +1020,7 @@ sessionStorage.sharedURL = "";
 //                        }
 //                    }
                        if($(".booleanwidget_"+i).is(":visible")){
-                           ValidateQuestions(i, qCount);
+                           ValidateQuestions(1, 1);
                        }else if($.trim($("#QuestionsSurveyForm_OptionsSelected_"+i).val()) != "" && $("#QuestionsSurveyForm_OptionsSelected_"+i).val() ){
                                ValidateQuestions(i, qCount);                               
                         } else{

@@ -1998,7 +1998,7 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                            
                         }); 
             
-           alert(radiovalue) 
+           //alert(radiovalue) 
            if(noptions == count || norows == count)
         $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
         else 

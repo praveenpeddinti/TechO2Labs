@@ -55,8 +55,11 @@
 <div class="q_catogories">
     <?php error_log("==category===".print_r($CatName,1)); foreach($CatName as $row){ ?>
    <div class="q_catogories_progress_active position_R">
-   	<h3><?php echo $row['CategoryName']; ?></h3> 
+       <div class="headerbg_cat">
+   	<h3 class="pull-left"><?php echo $row['CategoryName']; ?></h3> 
         <div class="subject_timer">00:30:60</div>
+       </div>
+        <div class="clearboth categorydivpadding">
     <table cellpadding="0" cellspacing="0"  border="0" class="categoryQuestions">
        
         <tr>
@@ -74,6 +77,7 @@
         </tr>
      
     </table>
+        </div>
     
     <table cellpadding="0" cellspacing="0" width="100%" border="0">
     	<tr>
@@ -198,11 +202,11 @@
              $("#QuestionsSurveyForm_ScheduleId").val(scheduleid);
              $("#QuestionsSurveyForm_SurveyId").val(catid);
              setGotoPageAjaxCall(scheduleid,catid,qno,"current");
-         })
+         });
          $("#prevQuestion").live("click",function(){
              fromPagiNation=1;
              gotoPreviousPage();            
-         })
+         });
          
          function gotoPage(){
              var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
@@ -237,8 +241,7 @@
               var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
              var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"surveyId":surveyId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"previous"};
-        //alert(queryString.toSource());     
-        ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
+             ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
          }
          
 </script>
