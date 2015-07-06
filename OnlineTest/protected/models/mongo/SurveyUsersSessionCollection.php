@@ -102,7 +102,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
     }
     public function saveSurveyUserSession($surveyId,$userId,$obj){
         try{
-        if($this->checkSpotExist($surveyId,$userId,$obj)){
+//        if($this->checkSpotExist($surveyId,$userId,$obj)){
             $surveyUsersSessionCollection = new SurveyUsersSessionCollection();
           //  $offlineChatCollection->roomName=$roomName;
             $surveyUsersSessionCollection->UserId = (int)$userId;
@@ -119,9 +119,9 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                  return "success";
             }
            
-           }else{
-                 return "nospots";
-          }
+//           }else{
+//                 return "nospots";
+//          }
         } catch (Exception $ex) {
                 Yii::log("SurveyUsersSessionCollection:saveSurveyUserSession::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
             }
@@ -140,7 +140,8 @@ class SurveyUsersSessionCollection extends EMongoDocument {
               
              
             if($flag == "Done"){
-            $surveySessionObj = SurveyUsersSessionCollection::model()->deleteAll($criteria); 
+                
+            //$surveySessionObj = SurveyUsersSessionCollection::model()->deleteAll($criteria); 
             }else{
             $modifier = new EMongoModifier();
             $modifier->addModifier('Status', 'set',(int)0);
@@ -155,7 +156,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
           }
       }
        
-    public function updateSurveyAnswer2($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage){
+    public function updateSurveyAnswer2($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage,$qTempId){
         try{        
           
             $returnValue = "failed";
@@ -170,10 +171,10 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                 error_log("=1111111111111!!!!!!11=obj page==$obj->Page==from page=====$fromPage======");
                 if(isset($obj)){
                    if($obj->Page < $fromPage){
-                     $modifier = new EMongoModifier();
-                     $modifier->addModifier('Page', 'set',(int)$fromPage );
-                     $obj = SurveyUsersSessionCollection::model()->updateAll($modifier,$criteria);
-                } 
+                        $modifier = new EMongoModifier();
+                        $modifier->addModifier('Page', 'set',(int)$fromPage );
+                        $obj = SurveyUsersSessionCollection::model()->updateAll($modifier,$criteria);
+                    } 
                 }
                 
             }
@@ -269,33 +270,33 @@ class SurveyUsersSessionCollection extends EMongoDocument {
             }
                     if($flag == "Done"){
                         
-               $criteria->addCond('ScheduleId', '==', new MongoId($model->ScheduleId)); 
-               $criteria->addCond('UserId', '==', (int)$UserId);
-                $obj = SurveyUsersSessionCollection::model()->find($criteria);
-                        
-                        
-                        
-                        $criteria = new EMongoCriteria();
-                        $modifier = new EMongoModifier();
-                        $criteria->addCond('_id', '==', new MongoId($model->ScheduleId));
-                        $scheduleSurveyObj = ScheduleSurveyCollection::model()->find($criteria);
-                        $resumeUsers = $scheduleSurveyObj->ResumeUsers;
-                        $SurveyTakenUsers = "";
-//                        foreach ($resumeUsers as $key => $resumeUser) {
-//                            if ($resumeUser["UserId"] == $UserId) {
-//                                $SurveyTakenUsers = $resumeUser;
-//                                unset($resumeUsers[$key]);
-//                                break;
-//                            }
-//                        }
-                       $modifier->addModifier('SurveyTakenUsers', 'push', (int)$UserId);
-                        $modifier->addModifier('ResumeUsers', 'pull',(int)$UserId);
-                         $modifier->addModifier('UserAnswers', 'pushAll', $obj->UserAnswers);
-                        if(ScheduleSurveyCollection::model()->updateAll($modifier, $criteria)){
-                             SurveyUsersSessionCollection::model()->unsetSpotForUser($UserId,$model->ScheduleId,"Done");
-                            $returnValue = $scheduleSurveyObj;
-                       }
-            
+                        $co = UserQuestionsCollection::model()->getCollection();                        
+                        $result = $co->aggregate(array('$match' => array('_id' =>new MongoId($qTempId))), array('$unwind' => '$Questions'),array('$group' => array("_id" => "_id", "ScheduleIds" => array('$push' => '$Questions.ScheduleId')))); 
+                        //error_log("==#################=Matched scheulsis====result===".print_r($result,1));
+                        $scheduleIdArray = $result['result'][0]['ScheduleIds'];                         
+                        foreach($scheduleIdArray as $rr){
+                            error_log("=$$%%%%%%%%%%%% scheduleId%%%%%%%%%===".(string)$rr);
+                            $sscheduleId = (string)$rr;
+                            $criteria = new EMongoCriteria();
+                                $modifier = new EMongoModifier();
+                                $criteria->addCond('ScheduleId', '==', new MongoId($sscheduleId)); 
+                                $criteria->addCond('UserId', '==', (int)$UserId);
+                                $obj = SurveyUsersSessionCollection::model()->find($criteria);
+                                $criteria = new EMongoCriteria();
+                                $modifier = new EMongoModifier();
+                                $criteria->addCond('_id', '==', new MongoId($sscheduleId));
+                                $scheduleSurveyObj = ScheduleSurveyCollection::model()->find($criteria);
+                                $resumeUsers = $scheduleSurveyObj->ResumeUsers;
+                                $SurveyTakenUsers = "";
+                               $modifier->addModifier('SurveyTakenUsers', 'set', (int)$UserId);
+                                $modifier->addModifier('ResumeUsers', 'pull',(int)$UserId);
+                                 $modifier->addModifier('UserAnswers', 'set', $obj->UserAnswers);
+                                if(ScheduleSurveyCollection::model()->updateAll($modifier, $criteria)){
+                                     SurveyUsersSessionCollection::model()->unsetSpotForUser($UserId,$sscheduleId,"Done");
+                                    $returnValue = $scheduleSurveyObj;
+                               }
+                        }
+                         
                 }
                     
       

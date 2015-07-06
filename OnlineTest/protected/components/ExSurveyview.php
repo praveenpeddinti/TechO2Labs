@@ -192,7 +192,7 @@
            //  alert($("#QuestionsSurveyForm_ScheduleId").attr("value"));
             
          })
-         
+          var currentPage=0;   
          $(".questionnos").live("click",function(){   //question by number            
              var $this = $(this);
              var scheduleid = $this.data("scheduleid");
@@ -220,7 +220,7 @@
             //ValidateQuestions(1, 1);
               ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
     }
-         var currentPage=0;
+              
          function gotoNextPage(){ 
               currentPage++;
               var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");

@@ -204,11 +204,13 @@ class SkiptaExSurveyService {
           $questionId = $questionsArray['questionId'];
           $categoryId = $questionsArray['categoryId'];
            $nocategories = $questionsArray['nocategories'];
+           $scheduleId = $questionsArray['scheduleId'];
+           $cateogryIds = $questionsArray['catIdsArray'];
            error_log("no of cat--**-".$nocategories);
           $page = $questionsArray['page'];
           $totalpages = $questionsArray['totalpages'];
           $result = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId);
-           $resultArray = array("data"=>$result,"categoryId"=>$categoryId,"page"=>$page,"nocategories"=>$nocategories,"totalpages"=>$totalpages);
+           $resultArray = array("data"=>$result,"categoryId"=>$categoryId,"page"=>$page,"nocategories"=>$nocategories,"totalpages"=>$totalpages,"scheduleId"=>$scheduleId,"catIdsArray"=>$cateogryIds);
             return $resultArray;
            } catch (Exception $ex) {
                Yii::log("SkiptaExSurveyService:getCustomSurveyDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -369,13 +371,13 @@ class SkiptaExSurveyService {
         }
     }
     
-    public function saveSurveyAnswer($model, $NetworkId, $UserId, $fromPagination, $fromAutoSave, $fromPage) {
+    public function saveSurveyAnswer($model, $NetworkId, $UserId, $fromPagination, $fromAutoSave, $fromPage,$questionTempId=0) {
         try {
 error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave===$fromAutoSave");
             if ($fromPagination == 1 || $fromAutoSave == 1) {
 
-                error_log("@@@@@@@@@@MMMMMMMMMMMMMMMMMMM@@2gsr2");
-                return SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, "", $fromAutoSave, $fromPage);
+                error_log("@@@@@@@@@@MMMMMMMMMMMMMMMMMMM@@2gsr2");                
+                return SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, "", $fromAutoSave, $fromPage,$questionTempId);
                 // return ScheduleSurveyCollection::model()->updateSurveyAnswer($model,$NetworkId,$UserId,"");
             } else {
  error_log("@@@@@@@@@@@@@Iam done@@@@@@@@2gsr2");
@@ -384,7 +386,7 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
                     $fromPage = $fromPage > 1 ? $fromPage - 1 : 1;
                     SurveyInteractionCollection::model()->trackSurveyLogout("", $UserId, $model->ScheduleId, $model->SurveyId, $fromPage, "notRefresh");
 
-                    $result = SurveyUsersSessionCollection::model()->updateSurveyAnswer($model, $NetworkId, $UserId, 'Done', $fromAutoSave, $fromPage);
+                    $result = SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, 'Done', $fromAutoSave, $fromPage,$questionTempId);
 
                     $surveyDetails = ExtendedSurveyCollection::model()->getSurveyDetailsById('Id', $model->SurveyId);
                     if (!is_string($surveyDetails) && $surveyDetails->ShowDerivative == 1) {

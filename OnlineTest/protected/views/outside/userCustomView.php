@@ -2,9 +2,9 @@
 if(is_object($surveyObj)){ ?>
 <input type="hidden" value="<?php echo $userId; ?>" name="QuestionsSurveyForm[UserId]" id="QuestionsSurveyForm_UserId"/>
 <input type="hidden" value="<?php echo $scheduleId; ?>" name="QuestionsSurveyForm[ScheduleId]" id="QuestionsSurveyForm_ScheduleId"/>
-<input type="hidden" name="QuestionsSurveyForm[SurveyId]" value="<?php echo $surveyObj->_id; ?>" id="QuestionsSurveyForm_SurveyId">
-<input type="hidden" name="QuestionsSurveyForm[SurveyId]" value="<?php echo $surveyObj->_id; ?>" id="QuestionsSurveyForm_SurveyId">
+<input type="hidden" name="QuestionsSurveyForm[SurveyId]" value="<?php echo $categoryId; ?>" id="QuestionsSurveyForm_SurveyId">
 <input type="hidden" name="QuestionsSurveyForm[Questions]" value="" id="QuestionsSurveyForm_Questions">
+<input type="hidden" name="QuestionsSurveyForm[QuestionTempId]" value="" id="QuestionsSurveyForm_QuestionTempId" data-tempid="">
 <div class="padding8top">
    
      
@@ -970,6 +970,7 @@ sessionStorage.sharedURL = "";
              isValidate = 0;
              fromAutoSave = 0;
              fromNode = 1;
+             fromPagiNation = 0;
              gQcnt = 0;
              notValidate = 0;
              if(autoSaveInterval != null && autoSaveInterval != "undefined"){          
@@ -1175,6 +1176,7 @@ sessionStorage.sharedURL = "";
             }
            // alert(Garray)
             $("#QuestionsSurveyForm_Questions").val(JSON.stringify(Garray));
+            $("#QuestionsSurveyForm_QuestionTempId").val('<?php echo $UserTempId?>');
             var data = $("#questionviewwidget").serialize(); 
             
             //alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"===="+data.toSource())
@@ -1184,7 +1186,7 @@ sessionStorage.sharedURL = "";
                 isValidated = false;
                 $.ajax({
                     type: 'POST',
-                    url: '/outside/validateSurveyAnswersQuestion?fromPagination='+fromPagiNation+'&fromAutoSave='+fromAutoSave+'&Page='+sureyQuestionPage,
+                    url: '/outside/validateSurveyAnswersQuestion?fromPagination='+fromPagiNation+'&fromAutoSave='+fromAutoSave+'&Page='+sureyQuestionPage+'&QuestionTempId=<?php echo $UserTempId?>',
                     data: data,
                     success: function(data) {
                       $("#surveySavingRes").hide();
@@ -1337,23 +1339,25 @@ function updateTextRadiohiddenFields(obj,rno,qno,col,maxValue){
    
   
    
-       
+       <?php if($page == 1){ ?>
+           alert("===")
+       <?php } ?>
          if(currentPage == 0 ){
-             //alert("===")
+             alert("=in curr==")
               $("#surveysubmitbuttons,#nextQuestion").show();
              $("#prevQuestion").hide(); 
          }else{
               $("#prevQuestion").show();
          }
-         //pageStr = "Page <b><?php echo $page; ?></b> of <b><?php echo $totalpages; ?></b>"
-         pageStr = "Page <b>"+<?php echo $page; ?>+"</b> of <b><?php echo $totalpages; ?></b>"
+         pageStr = "Page <b><?php echo $page; ?></b> of <b><?php echo $totalpages; ?></b>"
          
-    //alert("===total pages==<?php echo $totalpages; ?>")
+         
 <?php if($totalpages > 1){?>
 $("#pagenoforsurvey").html(pageStr).show();
 <?php }else{ ?>
-    //alert("===total pages")
-    $("#pagenoforsurvey").hide();
+    $("#pagenoforsurvey").hide().html("");
+    $("#nextQuestion").hide();
+    $("#submitQuestion").show();
 <?php } ?>
   
 
@@ -1561,7 +1565,7 @@ $("#pagenoforsurvey").html(pageStr).show();
          var fromNode=0; //this flag is used to stop doing logout in 2 cases 1.call from node 2.submit pressed
         var categoryId = '<?php echo $categoryId?>';
         var nocategories = '<?php echo $nocategories?>';
-        //alert(nocategories);
+        //alert(nocategories);        
         if(nocategories=="true"){
             $("#nextQuestion").hide();
              $('#submitQuestion').show();
