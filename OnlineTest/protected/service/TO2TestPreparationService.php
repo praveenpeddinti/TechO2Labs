@@ -28,9 +28,10 @@ class TO2TestPreparationService {
                     $categoryid = $questionsObj[0]['CategoryId'];
                     $categoryname = $questionsObj[0]['CategoryName'];
                     $questionid = $questionsObj[0]['CategoryQuestions'][$pageno];
+                    $scheduleId = $questionsObj[0]['ScheduleId'];
                 $result = ExtendedSurveyCollection::model()->getQuestionById($categoryid,$questionid);
             }
-            $resultArray = array("data"=>$result,"categoryId"=>$categoryid);
+            $resultArray = array("data"=>$result,"categoryId"=>$categoryid,"scheduleId"=>$scheduleId);
             return $resultArray;
         } catch (Exception $ex) {
             
