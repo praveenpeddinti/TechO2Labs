@@ -76,7 +76,9 @@ class OutsideController extends Controller {
             } 
             $this->layout = 'adminLayout';
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
-//            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");            
+            error_log("=UserId==$userId====TestId=$testId==questionPrepObj===".print_r($questionprepareObj,1));
+//            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");   
+            
             $QuestionsSurveyForm = new QuestionsSurveyForm;
             $this->render('index',array('QuestionsSurveyForm'=>$QuestionsSurveyForm,"userId" => $userId,"groupName"=>$groupName,"outerFlag" => $outerFlag,"vType"=>$vType,"TestId"=>$testId,"CatName"=>$questionprepareObj->Category));
             } catch (Exception $ex) {
@@ -90,8 +92,16 @@ class OutsideController extends Controller {
             foreach ($questionObject->Category as $cat) {               //for each category
                 $questionsobj = ExtendedSurveyCollection::model()->getCategoryDetails($cat['CategoryName']);
                 $questionsArray = $questionsobj->Questions;
-                $questionsRandomKeys = array_rand($questionsArray, $cat['NoofQuestions']);
-                error_log("==questionsRandomKeys=====".print_r($questionsRandomKeys,1));
+                $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$cat['ScheduleId']); 
+               //  $sessionTime = ScheduleSurveyCollection::model()->manageSurveyUserSessionNew($surveyId,$scheduleId,$UserId);
+                error_log("==#############################prepareTempQuestions==categoryId===".$cat['CategoryId']);
+                $sessionTime = SurveyUsersSessionCollection::model()->manageSurveyUserSession($cat['CategoryId'],$userId,$obj);
+                $questionsRandomKeys = array();
+                if(sizeof($questionsArray) > 1){
+                    $questionsRandomKeys = array_rand($questionsArray, $cat['NoofQuestions']);
+                }else{
+                    $questionsRandomKeys = array_keys($questionArray);
+                }
                 $questionsArray = $this->get_values_for_keys($questionsArray, $questionsRandomKeys);
                 $qn = array();
                 $qn['CategoryName'] = $cat['CategoryName'];
@@ -134,7 +144,7 @@ class OutsideController extends Controller {
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
 //            //$questionprepareObj = TestPreparationCollection::model()->find($criteria);
             $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
-            if($testquestionObj == "failure"){
+            if($testquestionObj != "failure"){
               $testquestionObj = $this->prepareTempQuestions($questionprepareObj,$UserId,$testId); // saving temp. test for a user and fetching saved obj...           
             }
             //error_log("&&&&&&&&testquestionObj".print_r($testquestionObj,1));
@@ -158,15 +168,9 @@ class OutsideController extends Controller {
 //                }
             
                              $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$scheduleId); 
-                      //  $sessionTime = ScheduleSurveyCollection::model()->manageSurveyUserSessionNew($surveyId,$scheduleId,$UserId);
-                         $sessionTime = SurveyUsersSessionCollection::model()->manageSurveyUserSession($surveyObj->_id,$UserId,$obj);
-            
+                    
             $QuestionsSurveyForm = new QuestionsSurveyForm;
-            //error_log("==========tottal obj=======11111111111===".print_r($surveyObj,1));
-//                ScheduleSurveyCollection::model()->addtoResumeUsers($surveyId,$obj->_id,$UserId);
                 $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
-                error_log("=====bufferAnsswers====".print_r($bufferAnswers,1));
-            //$this->renderPartial('ExSurveyview',array("CatName"=>$questionprepareObj->Category));
             $this->renderPartial('userCustomView',array("UserTempId"=>$testquestionObj->_id,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>"Test","userId"=>$UserId,"sessionTime"=>"","spotMessage"=>"","flag"=>"TRUE","iValue"=>0,"page"=>($pageno+1),"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"sno"=>($pageno+1)));
             // old code
             
@@ -296,10 +300,14 @@ class OutsideController extends Controller {
         }
     }
 function get_values_for_keys($mapping, $keys) {
+    try{
         foreach ($keys as $key) {
             $output_arr[] = $mapping[$key];
         }
         return $output_arr;
+    }catch(Exception $ex){
+        error_log("#########Exception Occurred=get_values_for_keys==".$ex->getMessage());
+    }
     }
     public function actionUnsetSpotForUser(){
         try{
@@ -363,18 +371,17 @@ function get_values_for_keys($mapping, $keys) {
                 $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$userQuestionTempId,$scheduleId,$page,$categoryId,$action);            
                        
             $bufferAnswers = array();
-            $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
-            error_log("*****bufferAnswers11111111111111*******".print_r($bufferAnswers,1));
+            
+            
              $surveyObj = $surveyObjArray["data"];
              $categoryId = $surveyObjArray["categoryId"];
-                $nocategories = $surveyObjArray['nocategories'];
-                error_log("no of cat---".$nocategories);
+             $nocategories = $surveyObjArray['nocategories'];
              $page = $surveyObjArray["page"];
              $totalPages = $surveyObjArray['totalpages'];
-             
-//             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
-//              $totalPages =  $questionprepareObj->Category[0]['NoofQuestions'];
-//            $totalPages =  0;
+             $scheduleId = $surveyObjArray['scheduleId'];
+             $catIdsArray = $surveyObjArray['catIdsArray'];
+             $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
+            error_log("*****bufferAnswers11111111111111*******".print_r($bufferAnswers,1));
              $this->renderPartial('userCustomView',array("UserTempId"=>$userQuestionTempId,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$UserId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"nocategories"=>$nocategories,"sno"=>($page+1)));
              
         } catch (Exception $ex) {
@@ -754,7 +761,11 @@ function get_values_for_keys($mapping, $keys) {
                 if(!$OptionsSelected){
                     $obj = array("status"=>"error");
                     //echo "error";                    
-                }else{                    
+                }else{
+                    $questionTempId = 0;
+                    if(isset($_REQUEST['QuestionTempId'])){
+                        $questionTempId = $_REQUEST['QuestionTempId'];
+                    }
                     if(isset( $_REQUEST["fromPagination"])){
                           $fromPagination = $_REQUEST["fromPagination"];
                     }else{
@@ -768,7 +779,7 @@ function get_values_for_keys($mapping, $keys) {
                      $fromPage = $_REQUEST["Page"];
                      $NetworkId=1;
                     // error_log("Iam form".print_r($QuestionsSurveyForm,true));
-                     $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage);
+                     $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId);
                      
                      if($fromAutoSave==0){
                          error_log("********fromAutoSave".$fromAutoSave);
@@ -781,7 +792,7 @@ function get_values_for_keys($mapping, $keys) {
                            UserStreamCollection::model()->updateIsDeletedForSurveryCompletedUserByUserIdAdId($UserId,$advertiseObj['id']);                         
                         }
                      }
-                     $reValue = ServiceFactory::getSkiptaExSurveyServiceInstance()->getProfileDetails($UserId,$QuestionsSurveyForm->ScheduleId,$surveyObject->SurveyId);
+                     //$reValue = ServiceFactory::getSkiptaExSurveyServiceInstance()->getProfileDetails($UserId,$QuestionsSurveyForm->ScheduleId,$surveyObject->SurveyId);
                      
                      if($exsurveyObj->IsAcceptUserInfo == 1 && $reValue == 0){
                         $this->renderUserAcceptionInfo($surveyObject->SurveyId, $QuestionsSurveyForm->ScheduleId, $exsurveyObj->SurveyTitle);
