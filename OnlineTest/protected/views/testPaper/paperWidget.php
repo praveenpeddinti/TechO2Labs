@@ -14,19 +14,20 @@
     ));
     ?>    
     <input type="hidden" name="TestPaperForm[WidgetType][<?php echo $widgetCount; ?>]" id="TestPaperForm_WidgetType_<?php echo $widgetCount; ?>" value="1" />
-    <input type="hidden" name="TestPaperForm[QuestionId][<?php echo $CategoryId; ?>]" id="TestPaperForm_QuestionId_<?php echo $CategoryId; ?>" />
-    <input type="hidden" name="TestPaperForm[NoofQuestions]" id="TestPaperForm_NoofQuestions_<?php echo $widgetCount; ?>" />
-    <input type="hidden" name="TestPaperForm[CategoryTime]" id="TestPaperForm_CategoryTime_<?php echo $widgetCount; ?>" />
-    <input type="hidden" name="TestPaperForm[NoofPoints]" id="TestPaperForm_NoofPoints_<?php echo $widgetCount; ?>" />
+    <!--<input type="hidden" name="TestPaperForm[QuestionId][<?php //echo $CategoryId; ?>]" id="TestPaperForm_QuestionId_<?php //echo $CategoryId; ?>" />
+    <input type="hidden" name="TestPaperForm[NoofQuestions]" id="TestPaperForm_NoofQuestions_<?php //echo $widgetCount; ?>" />
+    <input type="hidden" name="TestPaperForm[CategoryTime]" id="TestPaperForm_CategoryTime_<?php //echo $widgetCount; ?>" />
+    <input type="hidden" name="TestPaperForm[NoofPoints]" id="TestPaperForm_NoofPoints_<?php //echo $widgetCount; ?>" />-->
     <input type="hidden" name="TestPaperForm[CategoryName]" id="TestPaperForm_CategoryName_<?php echo $widgetCount; ?>" value="<?php echo $CategoryName;?>"/>
-    
+    <input type="hidden" name="TestPaperForm[ScheduleId]" id="TestPaperForm_ScheduleId_<?php echo $widgetCount; ?>" value="<?php echo $TestPaperForm->ScheduleId;?>"/>
+    <input type="hidden" name="TestPaperForm[CategoryId]" id="TestPaperForm_CategoryId_<?php echo $widgetCount; ?>" value="<?php echo $TestPaperForm->CategoryId;?>"/> 
     <div class="divtable ">
            
     <div class="divrow">
         <div class="divcol1"> <label class="divtablelabel">
-            <?php echo $CategoryName;?> <span rel="tooltip" data-original-title="TotalQuestion(s)">(<?php echo $QuestionsCount;?>)</span> <span rel="tooltip" data-original-title="OtherQuestion(s)">(<?php echo $OtherQuestions;?>)</span><span rel="tooltip" data-original-title="SuspendedQuestion(s)">(<?php echo $SuspendedQuestions;?>)</span></label></div>
+            <?php echo $CategoryName;?> <span rel="tooltip" data-original-title="TotalQuestion(s)">(<?php echo $QuestionsCount;?>)</span> <span rel="tooltip" data-original-title="ReviewQuestion(s)">(<?php echo $OtherQuestions;?>)</span><span rel="tooltip" data-original-title="SuspendedQuestion(s)">(<?php echo $SuspendedQuestions;?>)</span></label></div>
         <div class="divcol2">
-           <?php echo $form->textField($TestPaperForm, 'NoofQuestions', array('id' => 'TestTakerForm_NoofQuestions_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)" ,'onkeyup' => "return QuestionsValid(event,'$WithoutSupQuestions')",'onblur' => "return ScoreDiv(this.value,'$widgetCount')")); ?>
+           <?php echo $form->textField($TestPaperForm, 'NoofQuestions', array('id' => 'TestPaperForm_NoofQuestions_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)" ,'onkeyup' => "return QuestionsValid(event,'$WithoutSupQuestions')",'onblur' => "return ScoreDiv(this.value,'$widgetCount')")); ?>
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'NoofQuestions_'.$widgetCount); ?>
                         </div>
@@ -60,11 +61,13 @@
                             <?php echo $form->error($TestPaperForm, 'NoofPoints_'.$widgetCount); ?>
                         </div>
         </div>
-        <div class="divcol5 reviewquestion" >
-            <input type="hidden" value="1" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
-            <input type="checkbox" class="styled" data-qid="<?php echo $widgetCount; ?>" data-otherQ="<?php echo $OtherQuestions; ?>" checked="checked"/>
-            <div class="" style="disable:none" id="reQues_<?php echo $widgetCount;?>"></div>
+        <div class="divcol5">
+        <div class="reviewquestion" style="<?php if($OtherQuestions=='0'){echo "display:none";}else{echo "display:block";}?>">
+            <input type="hidden" value="<?php if($OtherQuestions=='0'){echo "0";}else{echo "1";}?>" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
+            <input type="checkbox"  <?php if(($Flag=='Edit') || ($Flag=='View')){ if($TestPaperForm->ReviewQuestion==1){?> checked="checked" <?php } }?>class="styled" data-qid="<?php echo $widgetCount; ?>" data-otherQ="<?php echo $OtherQuestions; ?>" />
+            <div class="" style="line-height:25px;disable:none" id="reQues_<?php echo $widgetCount;?>"></div>
         </div>
+    </div>
         <div class="divcol6"> <div class="subsectionremove subsectionremoveintable" data-questionId="<?php echo $widgetCount; ?>">
                 <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Remove Category"/>
             </div></div>
@@ -85,6 +88,14 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+       <?php if(($Flag=='Edit') || ($Flag=='View')){?>
+               ScoreDiv('<?php echo $TestPaperForm->NoofQuestions;?>','<?php echo $widgetCount;?>');
+             $("#CategoryTime_<?php echo $widgetCount;?>").val('<?php echo $TestPaperForm->CategoryTime;?>');
+              $("#NoofPoints_<?php echo $widgetCount;?>").val('<?php echo $TestPaperForm->NoofPoints;?>');
+              $("#ReviewQuestion_<?php echo $widgetCount;?>").val('<?php echo $TestPaperForm->ReviewQuestion;?>');
+              
+       <?php }?>
+       
         Custom.init();        
     });
     $("[rel=tooltip]").tooltip();
@@ -131,10 +142,8 @@
     }   
     
     function QuestionsValid(evt,totalQuestions){
-    //alert("======"+totalQuestions)
     var id = evt.target.id;    
     var value = $("#"+id).val();
-       //alert(Number(value)+"==="+id+"==="+Number(totalQuestions));
        if((Number(value) > Number(totalQuestions))){
            $("#"+id).val("");
            return false;

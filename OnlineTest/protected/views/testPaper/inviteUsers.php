@@ -83,7 +83,7 @@
             <div  class="block">
                 
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
-                    <thead><tr><th><input type="checkbox" class="styled" />Allf</th><th class="data_t_hide">Test Taker</th></tr></thead>
+                    <thead><tr><th class="customcheckthall"><input type="checkbox" name="userallcheck" class="styled" />All</th><th class="data_t_hide">Test Taker</th></tr></thead>
                     <tbody>
                         <tr id="noRecordsTR" style="display: none">
                             <td colspan="8">
@@ -92,8 +92,8 @@
                         </tr>
                          <?php $i=1;foreach($data as $Details){?> 
                     <tr class="<?php if($i%2==0){echo "odd";}else{echo "even";} ?>" >
-                        <td class="UserTd">
-                            <input type="checkbox" name="usercheck" class="styled" value="<?php echo $Details['UserId']; ?>"/>
+                        <td class="UserTd" id="UserId_<?php echo $Details['UserId']; ?>" >
+                            <input type="checkbox" name="usercheck" data-id="<?php echo $Details['UserId']; ?>" class="styled" value="<?php echo $Details['UserId']; ?>"/>
                         </td>  
                         <td  class="data_t_hide">
                             <?php echo $Details['FirstName']." ".$Details['LastName'];?>
@@ -153,18 +153,16 @@
     }
     
     $("#searchInviteUsers").click(function() {
-               var startDate = $("#InviteUserForm_StartDate").val();
-               var endDate = $("#InviteUserForm_EndDate").val();
-       //$("#pagetitle").html("Market Research Analytics");InviteUserForm_AllUsers
+        
+        UserIdAlls = "";
+        AllUserIds="";
+        $("#InviteUserForm_AllUsers").val(AllUserIds);
+        var startDate = $("#InviteUserForm_StartDate").val();
+        var endDate = $("#InviteUserForm_EndDate").val();
         var searchText=$("#InviteUserForm_Name").val();
-        //var AllUsers =$("#InviteUserForm_AllUsers").val();
-        //$("#inviteuser_div").hide();
-        //getInviteUsersWithFiltersDetails(0,"all",searchText);    
         getInviteUsersWithFiltersDetails(0,startDate,endDate,searchText);    
-        //$("#filterInviteusers_div").show();
         $("#inviteuser_div").show();
         isDuringAjax = true;
-//        ajaxRequest("/extendedSurvey/getSurveyAnalyticsData", {}, getSurveyAnalyticsHandler)
     });
     
     function getInviteUsersWithFiltersDetails(startLimit, startDate,endDate, searchText) {
@@ -190,14 +188,14 @@
     }
 // handler for getInviteUsersWithFiltersDetails...
     function getInviteUsersWithFiltersHandler(data) {
-        
-        //scrollPleaseWaitClose('spinner_admin');
+    
         var item = {
             'data': data
         };
         $("#inviteuser_div").html(
             $("#inviteUserList_render").render(item)
         );
+                     
         if (g_pageNumber == undefined) {
             g_page = 1;
         } else {
@@ -232,50 +230,91 @@
             }
 
         });
-
+        
         if ($.trim(data.searchText) != undefined && $.trim(data.searchText) != "undefined") {
 
             $('#searchTextId').val(data.searchText);
         }
         $("#searchTextId").val(g_searchText);
+        
+        setTimeout(function(){
+            $("input[name='usercheck']").each(function(key, value) {            
+            var myArr = $("#InviteUserForm_AllUsers").val().indexOf($(this).attr('data-id'));
+           
+            if(myArr>=0){
+                 $("#UserId_"+$(this).attr('data-id')+" span").removeAttr("style").attr("style","background-position: 0px -50px;");
+            $(this).attr("checked",true);
+        }
+        
+        });
+        },400)
+        
         Custom.init();
         $("[rel=tooltip]").tooltip();
     }
-
     
-    $(".UserTd span").die().live("click",function(){
+    //all checkbox select 
+    $("th.customcheckthall span").die().live("click",function(){
         var $this = $(this);
-        $("input[name='usercheck']").each(function(key, value) {            
-        if($(this).is(":checked")){
-            if(UserIdAlls == ""){
-                UserIdAlls = $(this).val();
-            }else {
-                UserIdAlls = UserIdAlls+","+$(this).val();
-            }
+        if($("input[name='userallcheck']").is(":checked")){
+            $(".UserTd span").each(function(){
+               $(this).removeAttr("style").attr("style","background-position: 0px -50px;");
+               $(this).find($("input[name='usercheck']").attr("checked",true));
+            });            
+        }else{            
+            $(".UserTd span").each(function(){
+               $(this).removeAttr("style").attr("style","background-position: 0px 0px;");
+               $(this).find($("input[name='usercheck']").attr("checked",false));
+            });
         }
         
-    });
-    
-    
-    AllUserIds = UserIdAlls;
-    $("#InviteUserForm_AllUsers").val(AllUserIds);
-    
-    UserIdAlls='';
-    AllUserIds='';
-    
-    
-    });
-    $("#submitInviteUsers").click(function() {
-            if($("#InviteUserForm_AllUsers").val()==''){
-                $("#errmsgForInviteUsers").css("display", "block");
-                $("#errmsgForInviteUsers").html("Check the Test taker(s).").fadeOut(6000);
+        $("input[name='usercheck']").each(function(key, value) {            
+            if($(this).is(":checked")){
+                var myArr = UserIdAlls.indexOf($(this).attr('data-id'));
+                if(myArr<=0){
+                    UserIdAlls = UserIdAlls+","+$(this).val();
+                }
             }
-        var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + $("#InviteUserForm_AllUsers").val();
-        //scrollPleaseWait('spinner_admin');
+        });
+  
+    $("#InviteUserForm_AllUsers").val(UserIdAlls);
+  
+     });
+   
+    //independent checkbox functionality 
+    $(".UserTd span").die().live("click",function(){
+        var $this = $(this);
+        $("th.customcheckthall span").removeAttr("style").attr("style","background-position: 0px 0px;");
+        $("th.customcheckthall span").find($("input[name='userallcheck']").attr("checked",false));
+        $("input[name='usercheck']").each(function(key, value) {            
+            if($(this).is(":checked")){
+                var myArr = UserIdAlls.indexOf($(this).attr('data-id'));
+                $("#UserId_"+$(this).attr('data-id')+" span").removeAttr("style").attr("style","background-position: 0px -50px;");
+            if(myArr<=0){
+                    UserIdAlls = UserIdAlls+","+$(this).val();
+                }
+            }else{
+               
+                $("#UserId_"+$(this).attr('data-id')+" span").removeAttr("style").attr("style","background-position: 0px 0px;");
+            }
+        });
+        $("#InviteUserForm_AllUsers").val(UserIdAlls);
+    });
+    
+    //submit button
+    $("#submitInviteUsers").click(function() {
+        if($("#InviteUserForm_AllUsers").val()==''){
+            $("#errmsgForInviteUsers").css("display", "block");
+            $("#errmsgForInviteUsers").html("Check the Test taker(s).").fadeOut(6000);
+        }
+        var ALLIDS=$("#InviteUserForm_AllUsers").val();
+        var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + ALLIDS.substring(1);
+        //alert("queryString-------"+queryString);
+        //scrollPleaseWait('spinner_admin');        
         ajaxRequest("/testPaper/saveInviteUsersDetails", queryString, saveInviteUsersHandler); 
         $("#InviteUserForm_AllUsers").val('');
-       
     });
+    
     function saveInviteUsersHandler(data){
         if(data.status=='success'){
             $("#sucmsgForInviteUsers").css("display", "block");

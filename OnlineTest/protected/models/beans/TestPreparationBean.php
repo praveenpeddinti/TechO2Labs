@@ -7,7 +7,7 @@ class TestPreparationBean{
     public $CategoryScore; 
     public $ReviewQuestion;
     public $CategoryName;
-    
+    public $CategoryId;
             
     
 }

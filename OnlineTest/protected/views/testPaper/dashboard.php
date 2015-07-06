@@ -105,7 +105,6 @@
         var $this = $(this);
         var surveyId = $this.closest('div.surveymenuicons').attr("data-id");
         var networkId = $this.closest('div.surveymenuicons').attr("data-networkId");
-        //alert(surveyId); 
         var name = $this.attr("data-name");
          if (name == "view_survey") { //edit survey...
               $('#questionview').prop('selectedIndex',0);
@@ -117,7 +116,6 @@
             window.location.href = "/extendedSurvey/managesurvey/" + surveyId;
         } else if (name == "suspend_survey") { //suspend survey...
             var divid = "#survey_" + surveyId;
-            //alert(divid);         
             suspendSurveyPopup(surveyId, networkId);
 //        ajaxRequest("/extendedSurvey/suspendSurveyById", "surveyId="+surveyId, function(data){getSurveyGroupsHandler(data);});
 //        $(divid).hide();
@@ -206,11 +204,42 @@
         $("#newModal_body").html(html);
         $("#newModal").modal('show');
     }
+    /*
+     * @Update & ViewTest Paper for test paper start
+     */
+   $(".edit").live('click', function() {
+        var $this = $(this);
+        TestPaperId = $this.attr("data-testpaperId");
+        window.location.href = "/testPaper/index/" + TestPaperId+"/Edit";
+            
+    });
+    $(".view").live('click', function() {
+        var $this = $(this);
+        TestPaperId = $this.attr("data-testpaperId");
+        window.location.href = "/testPaper/index/" + TestPaperId+"/View";
+            
+    });
     
-   
-
+    /*
+     * @Update & ViewTest Paper for test paper end
+     */
     
     
+    /*
+     * @Reports for test paper start
+     */
+   $(".deledte").live('click', function() {
+        var $this = $(this);
+        TestPaperId = $this.attr("data-testpaperId");
+        alert("Te----"+TestPaperId);
+        window.location.href = "/reports/index/" + TestPaperId;
+            
+    });
+    
+    
+    /*
+     * @Reports for test paper end
+     */
     /*function inviteUsersConfirm(surveyId) {
         var actionType = "CancelSchedule";
         var modelType = 'error_modal';
@@ -365,7 +394,6 @@
          showSurveyPreview(surveyId,questionViewType);
          }
          function sureyQuestionPaginationHandler(html){
-             //alert(data);                
              sureyQuestionPage++;
              scrollPleaseWaitClose('surveyviewspinner');
              $("#questionviewarea").html(html);

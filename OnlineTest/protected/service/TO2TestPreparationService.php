@@ -37,6 +37,18 @@ class TO2TestPreparationService {
         }
     }
     
+
+    public function updateTestPrepair($FormModel,$TestId){
+        try{
+            $return = "failed";
+            $return = TestPreparationCollection::model()->updateTestPrepair($FormModel,$TestId);
+            
+        } catch (Exception $ex) {
+            Yii::log("SkiptaExSurveyService:saveSurvey::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in SkiptaExSurveyService->saveSurvey### ".$ex->getMessage());
+        }
+    }
+
  
     
     
@@ -47,6 +59,7 @@ class TO2TestPreparationService {
 
         }
     }
+
     
     public function getTestIdByUserId($userId){
         try{

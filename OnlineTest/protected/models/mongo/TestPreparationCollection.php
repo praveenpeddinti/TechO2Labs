@@ -47,6 +47,32 @@ class TestPreparationCollection extends EMongoDocument {
          'TestTakenUsers'=>'TestTakenUsers',
         );
      }
+     
+     
+     
+     public function getTestDetailsById($columnName, $value) {
+        try {
+            
+            $returnValue = 'failure';
+            $criteria = new EMongoCriteria;
+            if ($columnName == 'Id') {
+                
+                $criteria->addCond('_id', '==', new MongoId($value));
+            }else if ($columnName == 'Title') {
+                $criteria->addCond('Title', '==', trim($value));
+            }
+            
+            $TestPaperObj = TestPreparationCollection::model()->find($criteria);
+            //if(count($TestPaperObj)>0){error_log("---if-get data----tess---".count($TestPaperObj));
+                $returnValue= $TestPaperObj;
+            //}
+            error_log("----get data-not---tess---".count($TestPaperObj));
+            return $returnValue;
+        } catch (Exception $ex) {
+            Yii::log("TestPreparationCollection:getTestDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in TestPreparationCollection->getTestDetailsById==".$ex->getMessage());
+        }
+    }
 
      public function saveTestPrepair($FormModel,$UserId){
          try{             error_log($UserId."------mongo save---");
@@ -58,8 +84,7 @@ class TestPreparationCollection extends EMongoDocument {
              $survey->CreatedOn = new MongoDate(strtotime(date('Y-m-d', time())));
              if($survey->save()){
                  $returnValue = "success";
-                 //$returnValue = $survey->_id;
-                 //TestPaperCollection::model()->saveTestPaper($returnValue,$UserId);
+                 
              }
              return $returnValue;
          } catch (Exception $ex) {
@@ -67,6 +92,29 @@ class TestPreparationCollection extends EMongoDocument {
              error_log("Exception Occurred in TestPreparationCollection->saveTestPrepair==".$ex->getMessage());
          }
      }
+     
+     public function updateTestPrepair($model,$_id) {
+        try {
+            
+            $returnValue = 'failure';            
+            $modifier = new EMongoModifier();
+            $criteria = new EMongoCriteria();
+            $criteria->addCond('_id', '==', new MongoId($_id));
+            $modifier->addModifier('Title', 'set', $model->Title);
+            $modifier->addModifier('Description', 'set', $model->Description);
+            $modifier->addModifier('Category', 'set', $model->Questions);
+            $modifier->addModifier('CreatedOn', 'set', new MongoDate(strtotime(date('Y-m-d', time()))));            
+              
+            if(TestPreparationCollection::model()->updateAll($modifier, $criteria)){
+                $returnvalue = "success";
+            }
+            error_log("-------update----".$returnValue);
+            return $returnvalue;
+        } catch (Exception $ex) {
+            Yii::log("ExtendedSurveyCollection:UpdateSurvey::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in ExtendedSurveyCollection->UpdateSurvey==".$ex->getMessage());
+        }
+    }
      
      public function getTestPreparationCollection(){
          try{

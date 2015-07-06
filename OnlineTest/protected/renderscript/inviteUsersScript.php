@@ -4,7 +4,7 @@
         <div  class="block">
        <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
 
-                    <thead><tr><th><input type="checkbox" class="styled" />All</th><th class="data_t_hide">Test Taker</th></tr></thead>
+                    <thead><tr><th class="customcheckthall"><input type="checkbox" name="userallcheck" class="styled" />All</th><th class="data_t_hide">Test Taker</th></tr></thead>
                     <tbody>
                         <tr id="noRecordsTR" style="display: none">
                             <td colspan="8">
@@ -13,9 +13,9 @@
                         </tr>
                         {{for data.data}}    
                         <tr class="{{if (#index)%2==0}} even {{else}} odd {{/if}}">
-                            <td class="UserTd" >
+                            <td class="UserTd" id="UserId_{{>UserId}}">
                                  
-                        <input type="checkbox" name="usercheck" class="styled" value="{{>UserId}}" />
+                        <input type="checkbox" name="usercheck" data-id="{{>UserId}}" class="styled" value="{{>UserId}}" />
                             </td>  
                             <td  class="data_t_hide">
                                 {{>FirstName}} {{>LastName}} 

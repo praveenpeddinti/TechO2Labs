@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class TestPaperController extends Controller {
+class ReportsController extends Controller {
 
     public function __construct($id, $module = null) {
         parent::__construct($id, $module);
@@ -36,18 +36,12 @@ class TestPaperController extends Controller {
                     $urlArray = explode("/", Yii::app()->request->url);
                     
                     $TestPaperId = $urlArray[3];
-                    $Flag = $urlArray[4];
+                    
                     $TestPaperForm = new TestPaperForm();
                     $surveyGroupNames = ExSurveyResearchGroup::model()->getLinkGroups();
-                    if(($Flag=='Edit') || ($Flag=='View')){
-                    $getTestPaperDetails = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTestDetailsById('Id', $TestPaperId);
-                    $TestPaperForm->Title = $getTestPaperDetails->Title;
-                    $TestPaperForm->Description = $getTestPaperDetails->Description;
-                    $TestPaperForm->Question = $getTestPaperDetails->Category;
-                    
-                    }
+                   
                     //$TestPaperForm->Title = "test;;;;";
-                    $this->render('index', array("TestPaperForm" => $TestPaperForm, "surveyGroupNames" => $surveyGroupNames, "Flag" => $Flag, "TestPaperId" => $TestPaperId));
+                    $this->render('index', array("TestPaperForm" => $TestPaperForm, "surveyGroupNames" => $surveyGroupNames, "TestPaperId" => $TestPaperId));
                 } else {
                     $this->redirect('/');
                 }

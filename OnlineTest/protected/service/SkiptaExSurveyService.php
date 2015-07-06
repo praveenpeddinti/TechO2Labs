@@ -677,5 +677,16 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
         }
     }
     
-
+    /*
+     * @Praveen P check the TestPaper exist or not in TestPreparationCollection
+     */
+    public function getTestDetailsById($columnName,$value){
+       try{
+           return TestPreparationCollection::model()->getTestDetailsById($columnName,$value);
+        
+           } catch (Exception $ex) {
+               Yii::log("SkiptaExSurveyService:getTestDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+           error_log("Exception Occurred in SkiptaExSurveyService->getTestDetailsById### ".$ex->getMessage());
+       }
+   } 
 }

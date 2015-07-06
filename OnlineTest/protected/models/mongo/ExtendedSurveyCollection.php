@@ -793,7 +793,6 @@ class ExtendedSurveyCollection extends EMongoDocument {
             if (is_array($surveyObj) || is_object($surveyObj)) {
                 $returnValue = $surveyObj;
             }
-            error_log("=====frm coll.===getSurveyDetails====".print_r($returnValue,1));
             return $returnValue;
         } catch (Exception $ex) {
             Yii::log("ExtendedSurveyCollection:getSurveyDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -1071,7 +1070,8 @@ public function getQuestionOfSurvey($surveyId,$questionId){
     */
     public function getOtherQuestionsCount($_id){
         $c = ExtendedSurveyCollection::model()->getCollection();
-        $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($_id))),array('$unwind' =>'$Questions'),array('$match' => array('Questions.Other' =>1)),array('$group' => array("_id" => '$_id',"SuspendedQuestions" => array('$push' => '$Questions.IsSuspended'))));   
+        //$result = $c->aggregate(array('$match' => array('_id' =>new MongoID($_id))),array('$unwind' =>'$Questions'),array('$match' => array('Questions.Other' =>1)),array('$group' => array("_id" => '$_id',"SuspendedQuestions" => array('$push' => '$Questions.IsSuspended'))));   
+        $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($_id))),array('$unwind' =>'$Questions'),array('$match' => array('Questions.IsReviewed' =>1)),array('$group' => array("_id" => '$_id',"SuspendedQuestions" => array('$push' => '$Questions.IsSuspended'))));   
         $questionsArray = $result['result'];
         $re = 0;
             foreach($questionsArray as $res){

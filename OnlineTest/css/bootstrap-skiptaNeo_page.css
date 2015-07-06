@@ -4138,3 +4138,12 @@ input.span12, textarea.span12, .uneditable-input.span12{width: 100%}
 .advn_maxwidthheight{max-height:66px;margin-bottom:2px;float:right}
 .advn_maxwidthheight img{max-height:66px}
 .customwidget_outer .customwidget .pictocv img, .pictocv img{border:1px solid #e8e8e8;padding:1px}
+
+
+.TestpaperEditModeDiv{
+    position: absolute;
+    background: none repeat scroll 0% 0% rgb(0, 0, 0); 
+    left: 0px; right: 0px; top: 0px; bottom: 0px; 
+    z-index: 10; opacity: 0.4;
+    filter: alpha(opacity=40);
+}

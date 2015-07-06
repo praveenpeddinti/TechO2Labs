@@ -1,4 +1,5 @@
 <div class="alert alert-success" id="sucmsg" style='text-align:center;display:none;'></div>
+<div class="alert alert-error" id="errmsgForCheckTestPaper" style='display: none'></div>
 <div class="padding10ltb">
     <div class="row-fluid groupseperator headermarginzero" id="dashboardtop">
     <div class="span12 paddingtop10 border-bottom">
@@ -23,7 +24,8 @@
  
     <?php echo $form->hiddenField($TestPaperForm, 'Questions'); ?>
     
-     <div class="questionmainpaddingtop" style="padding-top:20px">
+     <div class="questionmainpaddingtop" style="padding-top:20px;position:relative;">
+         <div class="TestpaperEditModeDiv" stle="display:none"></div>  
     <div class="market_profile2 marginT102 paddin" id="testPaperDiv">
         
        
@@ -84,7 +86,7 @@
         
     </div> 
     
-    <div class="row-fluid" id="surveyfooterids" style="display: none;">
+    <div class="row-fluid" id="surveyfooterids" style="display: block;">
         <div id="extededsurvey_spinner" style="position: relative"></div>
         <div class="alignright padding10 bggrey">
             <?php echo CHtml::Button('Save', array('onclick' => 'saveTestPaperForm();', 'class' => 'btn', 'id' => 'surveyFormButtonId')); ?> 
@@ -99,13 +101,34 @@
 <script>
     Custom.init();
 $(document).ready(function(){
-    
+    $(".TestpaperEditModeDiv").hide();
+    <?php if($Flag =='Edit'){ ?>
+   $("#pagetitle").html("Edit Test Paper"); 
+    $("#surveyFormButtonId").val("Update");
+ $(".TestpaperEditModeDiv").hide();
+    <?php foreach($TestPaperForm->Question as $cate){ ?>
+        $("#surveyGroupName option:selected").val('<?php echo $cate["CategoryName"];?>');
+        $("#selectsurveyGroupName").html('<?php echo $cate["CategoryName"];?>');
+       addCategory('surveyGroupName','<?php echo $cate["CategoryName"];?>','<?php echo $TestPaperId;?>','<?php echo $Flag;?>');
+    <?php  }?>
+    <?php } ?>
+      <?php if($Flag =='View'){ ?>
+   $("#pagetitle").html("View Test Paper"); 
+    $(".TestpaperEditModeDiv").show();
+    $("#surveyfooterids").hide();
+ 
+    <?php foreach($TestPaperForm->Question as $cate){ ?>
+        $("#surveyGroupName option:selected").val('<?php echo $cate["CategoryName"];?>');
+        $("#selectsurveyGroupName").html('<?php echo $cate["CategoryName"];?>');
+       addCategory('surveyGroupName','<?php echo $cate["CategoryName"];?>','<?php echo $TestPaperId;?>','<?php echo $Flag;?>');
+    <?php  }?>
+    <?php } ?>  
 /*$('#TestPaperForm_SurveyDescription').focusin(function(){
    $(this).attr("style","height:150px;")
 }).focusout(function(){
     $(this).attr("style","")
 });*/
-$("#surveyfooterids").show();
+//$("#surveyfooterids").show();
 	// hide #back-top first
 	$("#back-top").hide();
 	
@@ -158,7 +181,7 @@ $("#surveyfooterids").show();
 
     $('#ReviewQuestion').bootstrapSwitch();
 
-         $('#ReviewQuestion').on('switch-change', function(e, data) {           
+         $('#ReviewQuestion').on('switch-change', function(e, data) {
                var switchedValue = data.value ? 1 : 0;               
                if (switchedValue == 1) {
                    $("#TestPaperForm_ReviewQuestion").val(0);
@@ -183,7 +206,8 @@ $("#surveyfooterids").show();
     var questionsCount = 0; 
     var CategoryName ='';
     var TotalQuestions = '<?php echo Yii::app()->params['TotalSurveyQuestions']; ?>';
-    
+    var Flags = '<?php echo $Flag;?>';
+    var TestIdForUpdate = '<?php echo $TestPaperId;?>';
     TotalQuestions = Number(TotalQuestions);
     var dumpCat = new Array(); 
    
@@ -194,6 +218,7 @@ $("#surveyfooterids").show();
         scrollPleaseWaitClose("extededsurvey_spinner")
         if (type == "add") {
             $("#extendedSurveyWidgets").append(html);
+            
         } else {
             $("#extendedSurveyWidgets").html(html);
         }
@@ -203,24 +228,23 @@ $("#surveyfooterids").show();
         
         
         //alert("==="+$('#surveyGroupName').val());
-        addCategory('surveyGroupName',$(this).val());
+        addCategory('surveyGroupName',$(this).val(),'','New');
         
     });
     
-    function addCategory(id,val){ 
-        
+    function addCategory(id,val,TestId,Flag){ 
         $("#categoryHeaderDiv").show();
-        var CategoryName = $("#"+id+" option:selected").text();
-        
-        var selectVal = $("#TestPaperForm_SurveyRelatedGroupName").val();
+        var CategoryName = val;
+        //var CategoryName = $("#"+id+" option:selected").text();
+        var selectVal = val;
+        /*var selectVal = $("#TestPaperForm_SurveyRelatedGroupName").val();
         if(selectVal == ""){
             selectVal = $("#surveyGroupName").val();
         }else{
             selectVal = selectVal+","+$("#surveyGroupName").val();
-        }
+        }*/
         $("#TestPaperForm_SurveyRelatedGroupName").val(selectVal);
-       //alert("-val----"+$("#TestPaperForm_SurveyRelatedGroupName").val());
-       
+           //alert("----selec----"+selectVal);  
                 //$("#category option:selected").attr('disabled','disabled');
          if (selectVal == "ALL"){
                 // cannot disable all the options in select box
@@ -232,16 +256,15 @@ $("#surveyfooterids").show();
         }
 
                 
-                if(CategoryName!="Select Category"){
+                if(CategoryName!="Public"){
                     questionsCount++; 
-                    //alert("ques1-----"+questionsCount);
+                    
                 scrollPleaseWait("extededsurvey_spinner");
-                ajaxRequest("/testPaper/renderQuestionWidget", "questionNo=" + questionsCount+"&CategoryName=" +CategoryName+"&CategoryId=" +val,function(data) {
+                ajaxRequest("/testPaper/renderQuestionWidget", "questionNo=" + questionsCount+"&CategoryName=" +CategoryName+"&CategoryId=" +val+"&TestId=" +TestId+"&Flag=" +Flag,function(data) {
                     renderQuestionwidgetHandler(data, "add")
                 }, "html");
             }
         }
-    
     
     $(".subsectionremove").live('click', function() {
         var cqNo = $(this).parents('div.QuestionWidget').attr("data-questionId"); 
@@ -270,8 +293,7 @@ $("#surveyfooterids").show();
      var Garray = new Array();
     function saveTestPaperForm() {
         isValidate = 0;
-        //alert("category------"+$("#surveyGroupName option:selected").val());
-             
+        
         if (($("#TestPaperForm_Title").val() == "") || ($("#TestPaperForm_Description").val() == "") || ($("#surveyGroupName option:selected").val() == "Public") ){      
                 if ($("#TestPaperForm_Title").val() == "") {
                         $("#TestPaperForm_Title_em_").text("Title cannot be blank");
@@ -288,17 +310,17 @@ $("#surveyfooterids").show();
 
                  }
                  //if ((questionsCount==0) && ($("#surveyGroupName option:selected").val() == "null")) {
-                 if ((questionsCount==0) && ($("#surveyGroupName").val() == null)) {    
+                
+                if ((questionsCount==0) && ($("#TestPaperForm_SurveyRelatedGroupName").val() == '')) {    
                      $("#TestPaperForm_SurveyRelatedGroupName_em_").text("Please select category");
                      $("#TestPaperForm_SurveyRelatedGroupName_em_").show();
                      $("#TestPaperForm_SurveyRelatedGroupName_em_").fadeOut(12000);
                      $("#TestPaperForm_SurveyRelatedGroupName").parent().addClass('error');
 
                  }
+             
           return false;      
         }
-        //alert("---ok----");
-        
         $("#surveyFormButtonId").attr("disabled",true);
         for (var i = 1; i <= questionsCount; i++) {
             saveQuestion(i, "radio",questionsCount);
@@ -306,10 +328,9 @@ $("#surveyfooterids").show();
         }
 
     }
-     function saveQuestion(no, optionType,totalQuestions) {//alert("---saveQues---"+no+"----"+optionType+"======"+totalQuestions);
+     function saveQuestion(no, optionType,totalQuestions) {
         scrollPleaseWait("extededsurvey_spinner");
         var data = $("#questionWidget_" + no).serialize();
-        //alert("validateSurveyQuestion-1-data---"+data);
         var noofratings = "";        
 //        if($("#ExtendedSurveyForm_NoofRatings_hid_"+no).length > 0){
 //            noofratings = $("#ExtendedSurveyForm_NoofRatings_hid_"+no).val();
@@ -321,10 +342,10 @@ $("#surveyfooterids").show();
             async:true,
             success: function(data) {
                 var data = eval(data);
-                if (data.status == 'success') {//alert(isValidate+"--isValidate--2--if---"+data.status);
+                if (data.status == 'success') {
                     isValidate++;                    
                 }
-                if(data.status == "error"){//alert("------esle---"+data.status);
+                if(data.status == "error"){
                     isValidate = 0;
                     isValidated = false;
                 }
@@ -339,16 +360,14 @@ $("#surveyfooterids").show();
         });
     }
     function surveyHandler(data,totalQuestions,no) {   
-        //alert("-----surveyHan---"+data.toSource());
         var data = eval(data);
-        if (data.status == 'success') {  //alert(totalQuestions+"-tq--3--surveyHan-isValidate--"+isValidate);          
-              if(isValidate == totalQuestions){  //alert("--3---surveyHan---");                  
+        if (data.status == 'success') {           
+              if(isValidate == totalQuestions){                    
                     isValidated = true;
                     surveyFinalSubmit();
                 }
 
         } else {
-            //alert("==1");
             $("#surveyFormButtonId").attr("disabled",false);            
             isValidate = 0;
             isValidated = false;
@@ -356,7 +375,7 @@ $("#surveyfooterids").show();
             var lengthvalue = data.error.length;
             var msg = data.data;
             var error = [];
-            if (typeof (data.error) == 'string') {//alert("=data.error=2");
+            if (typeof (data.error) == 'string') {
 
                 var error = eval("(" + data.error.toString() + ")");
 
@@ -364,7 +383,7 @@ $("#surveyfooterids").show();
                 var error = eval(data.error);
             }
             
-            if(typeof(data.oerror)=='string'){//alert("=data.oerror=3");
+            if(typeof(data.oerror)=='string'){
                 var errorStr=eval("("+data.oerror.toString()+")");
             }else{
                 var errorStr=eval(data.oerror);
@@ -385,7 +404,6 @@ $("#surveyfooterids").show();
             
             
             $.each(error, function(key, val) {
-                //alert("==error=last=");
                 if (key == "TestPaperForm_Title") {
                     if ($("#TestPaperForm_Title").val() == "") {
                         $("#TestPaperForm_Title_em_").text(val);
@@ -476,10 +494,9 @@ $("#surveyfooterids").show();
         $("#TestPaperForm_Questions").val(JSON.stringify(Garray));
         if (isValidated == true) {
             var data = $("#paperWidget").serialize();
-           
             $.ajax({
                 type: 'POST',
-                url: '/testPaper/SaveSurveyQuestion?Title=' + $("#TestPaperForm_Title").val() +"&Description="+$("#TestPaperForm_Description").val()+ '&questionsCount=' + questionsCount+"&SurveyGroupName="+$("#TestPaperForm_SurveyRelatedGroupName").val(),
+                url: '/testPaper/SaveSurveyQuestion?Title=' + $("#TestPaperForm_Title").val() +"&Description="+$("#TestPaperForm_Description").val()+ '&questionsCount=' + questionsCount+"&SurveyGroupName="+$("#TestPaperForm_SurveyRelatedGroupName").val()+ '&Flag=' + Flags+'&TestId='+TestIdForUpdate,
                 data: data,
                 success: surveyFinalHandler,
                 error: function(data) { // if error occured
@@ -506,10 +523,15 @@ $("#surveyfooterids").show();
                 scrollPleaseWaitClose("extededsurvey_spinner");
                 window.location.href = "/testpaper";
             });
+        }else{
+            $("#errmsgForCheckTestPaper").css("display", "block");
+            $("#errmsgForCheckTestPaper").html("TestPaper already exists");
+            $("body,html").animate({scrollTop:0}, 1000,function(){})
+            $("#errmsgForCheckTestPaper").fadeOut(9000)
         }
     }
     
-    /*$(".reviewquestion span").live("click",function(){  
+    $(".reviewquestion span").live("click",function(){  
         var $this = $(this);
        
         var qid = $(this).siblings("input[type=checkbox]").attr("data-qid");
@@ -520,21 +542,22 @@ $("#surveyfooterids").show();
         }else{
             $("#ReviewQuestion_"+qid).val(1);
         }
-        if(($("#TestTakerForm_NoofQuestions_"+qid).val()!='') && ($("#ReviewQuestion_"+qid).val()==0)){
-            if($("#TestTakerForm_NoofQuestions_"+qid).val()>=otherQuestions){
-                alert("no check");
+        //if(($("#TestTakerForm_NoofQuestions_"+qid).val()!='') && ($("#ReviewQuestion_"+qid).val()==0)){
+            //if($("#TestTakerForm_NoofQuestions_"+qid).val()>=otherQuestions){
+                if(otherQuestions<=0){
                 $("#reQues_"+qid).text("No Technical Questions");
+                $("#reQues_"+qid).css('color','red');
                     $("#reQues_"+qid).show();
                     $("#reQues_"+qid).fadeOut(5000);
                     $("#reQues_"+qid).parent().addClass('error');
                     $(this).attr("style",'background-position: 0px -50px');
                     $("#ReviewQuestion_"+qid).val(1);
             }else{
-                alert("ye check");
+                //alert("ye check");
             }
             //alert(otherQuestions+"if--"+$("#TestTakerForm_NoofQuestions_"+qid).val());
-        }
-    });*/
+        //}
+    });
      
      function CancelTestPaperForm(){
         window.location.href = "/testpaper";

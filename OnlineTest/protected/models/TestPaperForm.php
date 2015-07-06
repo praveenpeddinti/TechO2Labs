@@ -25,6 +25,9 @@ class TestPaperForm extends CFormModel {
     public $NoofPoints;
     public $ReviewQuestion;
     public $CategoryName;
+    public $ScheduleId;
+    public $CategoryId;
+    
     
     /**
      * Declares the validation rules.
@@ -39,7 +42,7 @@ class TestPaperForm extends CFormModel {
             array('NoofQuestions', 'validateQuestionsFields', 'fieldname' => 'NoofQuestions', 'message' => 'Other Value '),
             array('CategoryTime', 'validateTimeFields', 'fieldname' => 'CategoryTime', 'message' => 'Other Value '),
             array('NoofPoints', 'validateScoreFields', 'fieldname' => 'NoofPoints', 'message' => 'Other Value '),
-            array('UserId,CategoryName,Questions,Question,QuestionId,WidgetType,CreatedBy,QuestionsCount,Status,Title,Description,SurveyRelatedGroupName,NoofQuestions,CategoryTime,NoofPoints,ReviewQuestion', 'safe'),
+            array('CategoryId,ScheduleId,UserId,CategoryName,Questions,Question,QuestionId,WidgetType,CreatedBy,QuestionsCount,Status,Title,Description,SurveyRelatedGroupName,NoofQuestions,CategoryTime,NoofPoints,ReviewQuestion', 'safe'),
         );
     }
 

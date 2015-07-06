@@ -109,10 +109,12 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $scheduleSurveyObj->IsCurrentSchedule = (int) 1;
             $scheduleSurveyObj->CreatedUserId = (int) $userId;
             if ($scheduleSurveyObj->save()) {error_log("---dfdfsd-----savesch---");
-                $returnValue = $scheduleSurveyObj->_id;
+                //$returnValue = $scheduleSurveyObj->_id;
+                $returnValue = $scheduleSurveyObj;
             }
             }else if(isset($isScheduleExists)){
-                $returnValue = $isScheduleExists->_id;
+                //$returnValue = $isScheduleExists->_id;
+                $returnValue = $isScheduleExists;
             }
             //}
             return $returnValue;
