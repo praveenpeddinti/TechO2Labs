@@ -1098,6 +1098,28 @@ class ScheduleSurveyCollection extends EMongoDocument {
             error_log("Exception Occurred in ScheduleSurveyCollection->GetSurveySchedulesBySurveyId==".$ex->getMessage());
         }
     }
+    /*
+     * @Praveen Get the Reports for Test paper
+     */
+    public function getTestReports($columnName,$value) {
+        try {
+            $returnValue = 'failure';
+            $criteria = new EMongoCriteria;
+            if ($columnName == 'TestId') {
+                $criteria->addCond('TestId', '==', new MongoId($value));
+            }
+            $scheduleSurveyObj = ScheduleSurveyCollection::model()->find($criteria);
+            if (is_array($scheduleSurveyObj) || is_object($scheduleSurveyObj)) {
+                $returnValue = $scheduleSurveyObj;
+            }
+            error_log("*******************".print_r($returnValue,1));
+            return $returnValue;
+        } catch (Exception $ex) {
+            Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in ScheduleSurveyCollection->getScheduleSurveyDetailsObject==".$ex->getMessage());
+            return $returnValue;
+        }
+    }
 
 }
 
