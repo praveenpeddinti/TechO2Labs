@@ -231,7 +231,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             if (is_array($scheduleSurveyObj) || is_object($scheduleSurveyObj)) {
                 $returnValue = $scheduleSurveyObj;
             }
-            error_log("*******************".print_r($returnValue,1));
+            //error_log("*******************".print_r($returnValue,1));
             return $returnValue;
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

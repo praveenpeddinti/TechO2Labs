@@ -178,6 +178,16 @@ TestRegister T on U.UserId not in (T.UserId)";*/
         return $result;
     }
     
+    public function getTestIdByUserId($userId){
+        try{
+            return TestRegister::model()->findByAttributes(array("UserId"=>$userId));            
+            
+        } catch (Exception $ex) {
+            error_log("TestRegister:getTestIdByUserId::".$ex->getMessage());
+            Yii::log("TestRegister:getTestIdByUserId::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
     
 }
 

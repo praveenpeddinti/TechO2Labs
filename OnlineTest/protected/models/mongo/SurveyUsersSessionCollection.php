@@ -310,10 +310,12 @@ class SurveyUsersSessionCollection extends EMongoDocument {
    
     public function getAnswersForSurvey($userId,$scheduleId){
         try{
+            error_log("===UserId===$userId===scheduleId-===$scheduleId=");
          $criteria = new EMongoCriteria();
           $criteria->addCond('ScheduleId', '==', new MongoId($scheduleId)); 
            $criteria->addCond('UserId', '==', (int)$userId); 
          $obj = SurveyUsersSessionCollection::model()->find($criteria);
+          //error_log("===UserId===$userId===scheduleId-===$scheduleId=");
          if(is_object($obj)){
            
              return  $obj->UserAnswers;
