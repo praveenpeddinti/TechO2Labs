@@ -237,12 +237,12 @@ $(document).ready(function(){
         var CategoryName = val;
         //var CategoryName = $("#"+id+" option:selected").text();
         var selectVal = val;
-        /*var selectVal = $("#TestPaperForm_SurveyRelatedGroupName").val();
+        //var selectVal = $("#TestPaperForm_SurveyRelatedGroupName").val();
         if(selectVal == ""){
             selectVal = $("#surveyGroupName").val();
         }else{
             selectVal = selectVal+","+$("#surveyGroupName").val();
-        }*/
+        }
         $("#TestPaperForm_SurveyRelatedGroupName").val(selectVal);
            //alert("----selec----"+selectVal);  
                 //$("#category option:selected").attr('disabled','disabled');
