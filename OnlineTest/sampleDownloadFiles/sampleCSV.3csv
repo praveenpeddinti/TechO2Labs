@@ -1,7 +1,0 @@
-"FistName","LastName","MiddleName","NameSuffix","Email","EmployeeId","MemberType","RelationType","RelatedTo","Sex","DOB","SSN"
-"asdl","alsdj","asd","jlasd","asdjlfj@gmail.com",,"Dependent","GSR",,"Male","21/8/1980",5865
-"admin","techo2","admin","mr","suresh.govindu@techo2.com","TO201","employee",0,0,"Male","21/8/1980",1111
-"Sample ","User",,,"kartheek.vemula@techo2.com","TO202","employee",0,0,"Female","21/8/1980",1245
-"Sreeni","Jakka",,,"suresh.govindu@gmail.com","TO203","Dependent",0,"TO202","Male","21/8/1980",1150
-"Sample ","User",,,"mikeaaron8@gmail.com","TO2043","employee",0,"TO201","Female","21/8/1980",5454
-"Sample ","dep",,,,,"Dependent","father","TO201","Male","21/8/1980",5885
