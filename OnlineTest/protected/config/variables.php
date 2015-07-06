@@ -1,8 +1,8 @@
 <?php
 
 if(DEPLOYMENT_MODE=='DEVELOPMENT'){
-defined('DBNAME') || define('DBNAME','TO2_OnlineTest');
-defined('DBNAMEMONGO') || define('DBNAMEMONGO','SkiptaNeo_NEW');
+defined('DBNAME') || define('DBNAME','TO2_NEW');
+defined('DBNAMEMONGO') || define('DBNAMEMONGO','TO2_OnlineTest');
 defined('DBPASSWORD') || define('DBPASSWORD','techo2');
 defined('NAME') || define('NAME','SkiptaNeo');
 defined('DBIPMYSQL') || define('DBIPMYSQL','10.10.73.111');
