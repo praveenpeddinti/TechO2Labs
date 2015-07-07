@@ -1101,18 +1101,56 @@ class ScheduleSurveyCollection extends EMongoDocument {
     /*
      * @Praveen Get the Reports for Test paper
      */
-    public function getTestReports($columnName,$value) {
+    public function getTestReports($columnName,$testId) {
         try {
+            error_log("test Id------".$testId);
             $returnValue = 'failure';
-            $criteria = new EMongoCriteria;
-            if ($columnName == 'TestId') {
-                $criteria->addCond('TestId', '==', new MongoId($value));
+            $getReportsDataArray = array();
+            $testObject = TestPreparationCollection::model()->getTestDetails($testId);
+            $categories = $testObject->Category;
+            $testTakenUsers = $testObject->TestTakenUsers;
+            $noofQuestions = $testObject->NoofQuestions;
+            $categoryLabels = array();
+           $categoryScores = array();
+            
+              foreach ($categories as $category) {
+                  
+                  $categoryObj = ScheduleSurveyCollection::model()->prepareCategoryReport($testId,$category['CategoryId'],$category['ScheduleId']);
+                  array_push($categoryScores, $categoryObj);
+                  array_push($categoryLabels, $category['CategoryName']);
+                 // break;  
+                }
+          
+              
+             $userReportObject = array();
+            
+            foreach ($testTakenUsers as $user) {
+                 $userReportBean = new UserReportBean();
+             $userObject =  UserCollection::model()->getTinyUserCollection($user);
+             $userReportBean->userName = $userObject->uniqueHandle;
+             error_log("--user name-----".$userReportBean->userName);
+             $userCategoryScoreArray = array();
+             $totalMarks=0;
+             $totalReviewQ=0;
+             foreach ($categoryScores as $key=>$categoryScore) {
+                 $label = $categoryLabels[$key];
+                 $score = $categoryScore[$userObject->UserId];
+                 $IsReview = $categoryScore[$userObject->UserId.'_IsReview'];
+                 $totalReviewQ = $totalReviewQ+$IsReview;
+                 $totalMarks =$totalMarks+$score;
+                 array_push($userCategoryScoreArray,array("categoryName"=>$label,"score"=>$score));
+             }
+             
+              $userReportBean->categoryScoreArray = $userCategoryScoreArray;
+              $userReportBean->totalMarks = $totalMarks;
+              $userReportBean->totalReviewQ = $totalReviewQ;
+             array_push($getReportsDataArray, $userReportBean);
             }
-            $scheduleSurveyObj = ScheduleSurveyCollection::model()->find($criteria);
-            if (is_array($scheduleSurveyObj) || is_object($scheduleSurveyObj)) {
-                $returnValue = $scheduleSurveyObj;
-            }
-            error_log("*******************".print_r($returnValue,1));
+            
+           
+            
+            $returnValue = $getReportsDataArray;
+          
             return $returnValue;
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -1120,6 +1158,40 @@ class ScheduleSurveyCollection extends EMongoDocument {
             return $returnValue;
         }
     }
+    
+    public function prepareCategoryReport($testId,$categoryId,$scheduleId){
+        try{
+              error_log($testId."--category---".$categoryId."--scheduleId--".$scheduleId); 
+            $c = ScheduleSurveyCollection::model()->getCollection();
+           //$result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1),"Score_Sum" => array('$sum' => '$UserAnswers.Score'))));
+           $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1),"IsReviewed" => array('$sum' => '$UserAnswers.IsReviewed'),"Score_Sum" => array('$sum' => '$UserAnswers.Score'))));
+           
+           //error_log(print_r($result,1));
+           $result = $result['result'];
+           $finalArray = array();
+           if(is_array($result) && sizeof($result) > 0 ){
+              foreach($result as $value){
+                 // error_log("---".print_r($value,1));
+                  error_log("useId----".$value["_id"]."---score--".$value["Score_Sum"]);
+                   $finalArray[$value["_id"]]=$value["Score_Sum"];
+                   $finalArray[$value["_id"].'_IsReview']=$value["IsReviewed"];
+                   
+                   
+              }
+              
+            }
+            error_log("finsl---".print_r($finalArray,1));
+            return $finalArray;
+            //error_log("useIds---".print_r($userIds,1));
+            
+           // error_log("scores---".print_r($scores,1));
+        } catch (Exception $ex) {
+             Yii::log("ScheduleSurveyCollection:prepareCategoryReport::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in ScheduleSurveyCollection->prepareCategoryReport==".$ex->getMessage());
+            return $returnValue;
+        }
+    }
+   
 
 }
 

@@ -41,10 +41,11 @@ class TestPreparationCollection extends EMongoDocument {
         'Description'=>'Description',
         'Category'=>'Category',
         'InviteUsers'=>'InviteUsers',
-         'TestInviteUsers'=>'TestInviteUsers',
+        'NoofQuestions'=>'NoofQuestions', 
+        'TestInviteUsers'=>'TestInviteUsers',
         'TestTakenUsers'=>'TestTakenUsers',
         'CreatedOn'=>'CreatedOn',
-         'TestTakenUsers'=>'TestTakenUsers',
+        'TestTakenUsers'=>'TestTakenUsers',
         );
      }
      
@@ -81,6 +82,7 @@ class TestPreparationCollection extends EMongoDocument {
              $survey->Title = $FormModel->Title;
              $survey->Description = $FormModel->Description;
              $survey->Category = $FormModel->Questions;
+             $survey->NoofQuestions = $FormModel->QuestionsCount;
              $survey->CreatedOn = new MongoDate(strtotime(date('Y-m-d', time())));
              if($survey->save()){
                  $returnValue = "success";
@@ -103,6 +105,7 @@ class TestPreparationCollection extends EMongoDocument {
             $modifier->addModifier('Title', 'set', $model->Title);
             $modifier->addModifier('Description', 'set', $model->Description);
             $modifier->addModifier('Category', 'set', $model->Questions);
+            $modifier->addModifier('NoofQuestions', 'set', $model->QuestionsCount);
             $modifier->addModifier('CreatedOn', 'set', new MongoDate(strtotime(date('Y-m-d', time()))));            
               
             if(TestPreparationCollection::model()->updateAll($modifier, $criteria)){
