@@ -53,11 +53,14 @@
  <div class="questions_area_left_outer">
  <!-- question catogories -->
 <div class="q_catogories">
-    <?php error_log("==category===".print_r($CatName,1)); foreach($CatName as $row){ ?>
-   <div class="q_catogories_progress_active position_R">
+    <?php error_log("==category===".print_r($CatName,1)); $k = 0; foreach($CatName as $row){ ?>
+   <div class="q_catogories_progress position_R" id="q_categories_<?php echo ($k+1); ?>" >
        <div class="headerbg_cat">
-   	<h3 class="pull-left"><?php echo $row['CategoryName']; ?></h3> 
-        <div class="subject_timer">00:30:60</div>
+   	<h3 class="pull-left" onclick="timechange(<?php echo ($k+1); ?>,<?php echo $row['CategoryTime']; ?>)" data-info="<?php echo ($k+1); ?>"><?php echo $row['CategoryName']; ?></h3> 
+        <div class="subject_timer" id="subject_timer_<?php echo ($k+1); ?>">
+            <div class="timer"><span class="hour" id="hour_<?php echo ($k+1); ?>">00</span>:<span class="minute" id="minute_<?php echo ($k+1); ?>">00</span>:<span class="second" id="second_<?php echo ($k+1); ?>">00</span>
+            </div>
+            </div>
        </div>
         <div class="clearboth categorydivpadding">
     <table cellpadding="0" cellspacing="0"  border="0" class="categoryQuestions">
@@ -79,14 +82,9 @@
     </table>
         </div>
     
-    <table cellpadding="0" cellspacing="0" width="100%" border="0">
-    	<tr>
-        	<!--<td style=" text-align:right;padding-right:5px"><img src="/images/time_h.png" width="52" height="52"></td>
-            <td style="text-align:left; padding-left:5px"><img src="/images/time_s.png" width="52" height="52"></td>-->
-        </tr>
-    </table>
+    
    </div>
- <?php } ?>
+ <?php $k++; } ?>
    
 </div>
  <!-- question catogories end -->
@@ -99,13 +97,17 @@
         
     
      <script type="text/javascript">
-                     
-//                     $(document).ready(function(){
-//                         
-//                     });
-                     
+          var timer;
+          var g_timer1;
+          var g_timer2;
+          var g_timer3;
+           var timeleft = '600';
          $(document).ready(function() {
            // alert('1')
+           $(".q_catogories div.q_catogories_progress").first().addClass("q_catogories_progress_active");
+           $("#subject_timer_1").find("*").prop("disabled", false);
+           //$(".q_catogories div.q_catogories_progress div.subject_timer span").first().attr("disabled":"false");
+           timedisplay(1);
             doAjax();
              var UserId = 0;
                  var Groupname = "";
@@ -132,32 +134,10 @@
         }, "html");
              }
              function renderSurveyView(html){  
-//              scrollPleaseWaitClose('streamsectionarea_spinner');
-//             var strArr = html.split("_"); 
-//             if($.trim(strArr[0]) == "LoadReports" || $.trim(strArr[0]) == "NotScheduled"){ 
-//                $("#questionviewwidget").hide();
-//                $("#streamsectionarea_error").show();
-//                if($.trim(strArr[0]) == "NotScheduled")
-//                    $("#errorTitle").html('<?php echo Yii::t("translation","Ex_Msg_Noschedules"); ?>');
-//                else{
-//                    $("#streamsectionarea").show();
-//                    $("#errorTitle").html("<?php echo $_GET['groupName']; ?> Analytics");
-//                    var scheduleId = strArr[1];
-//                    ajaxRequest("/extendedSurvey/surveyAnalytics","ScheduleId="+scheduleId,surveyAnalticsHandler)
-//                }
-//            } else if(!$.isNumeric(html)){            
-//                 $("#questionviewwidget,#streamsectionarea,#surveysubmitbuttons").show();
-//                 $("#streamsectionarea_error").hide();
+
                  $("#streamsectionarea").show();
                 $("#questionviewarea").html(html);
-               
-   
-//            }  else {
-//                $("#questionviewwidget").hide();
-//                $("#streamsectionarea_error").show();
-//                $("#errorTitle").html("Sorry, Please check UserId or Group Name.")
-//            }
-         }
+        }
             <?php if(isset($this->tinyObject)){ ?>
                 $(".streamsectionarea").each(function(){
                     if($(this).attr("id") == "streamsectionarea"){
@@ -243,5 +223,82 @@
              var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"surveyId":surveyId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"previous"};
              ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
          }
+         
+         //timer code
+         function timechange(catno,qtime){
+            var $this = $(this);
+            var timer1;
+            
+            var timeleft1 = qtime;
+            //alert($(this).class)
+             $(".q_catogories div.q_catogories_progress").removeClass("q_catogories_progress_active");
+             $("#q_categories_"+catno).addClass("q_catogories_progress_active");
+            $("#q_categories_"+catno).parent("div.q_catogories_progress").addClass("q_catogories_progress_active");
+            $("#subject_timer_"+catno).find("*").prop("disabled", true);
+           // $("#q_categories_"+catno).next("div.subject_timer span").attr("disabled","false");
+            // $("#q_categories_"+catno+" div.subject_timer").first().attr("disabled":"false");
+           //$("#q_categories_"+catno).children("div.subject_timer").attr("disabled":false);
+             timedisplay(catno);
+         }
+         function timedisplay1(qn,timer1,qtime){
+        //   timer1 =    setInterval(function(){checktime1(qn,timer1,qtime)},1000);
+          
+         }
+         
+        function timedisplay(qn){
+            setInterval(function(){checktime(qn)},1000);
+          
+         }
+    function checktime(qn) {
+        if(timeleft>=0){
+            var seconds = Math.round(timeleft);
+            var minutes = Math.floor(seconds/60);
+            seconds = seconds - (minutes*60);
+            var hours = Math.floor(minutes/60);
+            minutes = minutes - (hours*60);
+            
+            if(seconds>=10){seconds = seconds;}else{seconds = '0'+seconds;};
+            if(minutes>=10){minutes = minutes;}else{minutes = '0'+minutes;};
+            if(hours>=10){hours = hours;}else{hours = '0'+hours;};
+
+            $('#hour_'+qn).html(hours);
+            $('#minute_'+qn).html(minutes);
+            $('#second_'+qn).html(seconds);
+            timeleft-=1;
+            
+        }else{
+           clearInterval(timer);
+           //alert('test has been completed');
+           //alert('Your test time completed, test closed automatically');
+           
+        }
+    } 
+    
+    function checktime1(qn,timer1,qtime) {
+        if(qtime>=0){
+          
+            var seconds = Math.round(qtime);
+            var minutes = Math.floor(seconds/60);
+            seconds = seconds - (minutes*60);
+            var hours = Math.floor(minutes/60);
+            minutes = minutes - (hours*60);
+            
+            if(seconds>=10){seconds = seconds;}else{seconds = '0'+seconds;};
+            if(minutes>=10){minutes = minutes;}else{minutes = '0'+minutes;};
+            if(hours>=10){hours = hours;}else{hours = '0'+hours;};
+
+            $('#hour_'+qn).html(hours);
+            $('#minute_'+qn).html(minutes);
+            $('#second_'+qn).html(seconds);
+            qtime-=1;
+            
+        }else{
+           clearInterval(timer1);
+           //alert('test has been completed');
+           //alert('Your test time completed, test closed automatically');
+           
+        }
+    } 
+         //timer end
          
 </script>
