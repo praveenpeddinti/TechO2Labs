@@ -206,7 +206,8 @@
               currentPage++;
               scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
-              ValidateQuestions(1, 1);
+//              ValidateQuestions(1, 1);
+submitSurvey();
               
          }
          function sureyQuestionPaginationHandler(html){
