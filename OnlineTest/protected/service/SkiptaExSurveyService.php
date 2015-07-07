@@ -705,4 +705,37 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
        }
    }
    
+     public function getReviewQuestions($testPaperId,$userId){
+       try{
+           $resultValue =  ScheduleSurveyCollection::model()->getReviewQuestions($testPaperId,$userId);
+            $questionObjArray = array();
+           if($resultValue != "failure" ){
+                foreach($resultValue as $value){
+                 // error_log("---".print_r($value,1));
+                  error_log("categoryId----".$value["_id"]);
+                  $categoryId = $value["_id"];
+                  $reviewQuestionIds = $value["ReviewQuestionIds"];
+                   $reviewQuestionAnswers = $value["ReviewQuestionAnswers"];
+                 
+                  foreach ($reviewQuestionIds as $key=>$questionId) {
+                      error_log("question id----------------".$questionId);
+                     $questionObj = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId); 
+                     $answer = $reviewQuestionAnswers[$key];
+                     array_push($questionObjArray,array("question"=>$questionObj,"answer"=>$answer));
+                     
+                  }
+                  
+//                   $finalArray[$value["_id"]]=$value["Score_Sum"];
+//                   $finalArray[$value["_id"].'_IsReview']=$value["IsReviewed"];
+                   
+              }
+         }  
+         error_log("leiggt------------".count($questionObjArray));
+           return $questionObjArray;
+           } catch (Exception $ex) {
+               Yii::log("SkiptaExSurveyService:getTestDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+           error_log("Exception Occurred in SkiptaExSurveyService->getTestDetailsById### ".$ex->getMessage());
+       }
+   }
+   
 }

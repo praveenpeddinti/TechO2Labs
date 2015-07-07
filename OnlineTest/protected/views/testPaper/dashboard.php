@@ -200,6 +200,7 @@
         $("#newModal .modal-dialog").removeClass('alert_modal');
         $("#newModal .modal-dialog").removeClass('error_modal');
         $("#newModalLabel").html("Invite Users");
+        $("#newModal .modal-dialog").css('width',"600px");
         $("#newModal_footer").hide();
         $("#newModal_body").html(html);
         $("#newModal").modal('show');

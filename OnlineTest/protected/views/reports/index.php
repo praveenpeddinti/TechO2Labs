@@ -118,12 +118,25 @@ function renderReportsHandler(html){
     //alert('renderReportsHandler--'+html);
     $("#inviteuser_div").html(html);
 }
-$("#reviewNow").live(function(){
-     var data= {"testPaperId":"559a561c900cecfc1f8b4620","userId":"169"};
+$("#reviewNow").live("click",function(){
+     var data= {"testPaperId":"559a561c900cecfc1f8b4620","userId":"179"};
+     //alert(data.toSource());
    ajaxRequest("/reports/getReviewQuestions",data ,reviewQuestionsHandler, "html");
 });
 function reviewQuestionsHandler(html){
-    alert(html);
+    //alert(html);
+    try{
+          $("#newModal .modal-dialog").removeClass('info_modal');
+        $("#newModal .modal-dialog").removeClass('alert_modal');
+        $("#newModal .modal-dialog").removeClass('error_modal');
+        $("#newModalLabel").html("Review Questions");
+         $("#newModal .modal-dialog").css('width',"1000px");
+        $("#newModal_footer").hide();
+        $("#newModal_body").html(html);
+        $("#newModal").modal('show');
+    }catch(err){alert(err);
+    }
+   
 }
 </script>
 

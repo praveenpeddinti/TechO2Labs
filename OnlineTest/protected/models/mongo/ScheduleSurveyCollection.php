@@ -1191,7 +1191,23 @@ class ScheduleSurveyCollection extends EMongoDocument {
             return $returnValue;
         }
     }
-   
+   public function getReviewQuestions($testPaperId,$userId){
+       try{
+           $returnValue = "failure";
+       error_log("getReviewQuestions---------".$testPaperId."---".$userId);
+      $c = ScheduleSurveyCollection::model()->getCollection();
+     $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>(int)1,'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'))));          
+    // error_log("get review ---".print_r($result,1));
+      $result = $result['result'];
+       if(is_array($result) && sizeof($result) > 0 ){
+          $returnValue =  $result; 
+       }
+     return $returnValue;
+     
+     } catch (Exception $ex) {
+ Yii::log("ScheduleSurveyCollection:getReviewQuestions::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+       }
+   }
 
 }
 

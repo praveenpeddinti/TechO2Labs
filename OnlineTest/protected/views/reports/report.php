@@ -42,7 +42,7 @@
                                 <?php echo $Details->totalReviewQ;?>
                             </td>
                             <?php if($Details->totalReviewQ>0){?>
-                            <td  class="data_t_hide" id="reviewNow">Review Now</td>  
+                            <td  class="data_t_hide" id="reviewNow" style="cursor: pointer">Review Now</td>  
                            <?php }?>
                         </tr>
                          <?php $i++;}?>

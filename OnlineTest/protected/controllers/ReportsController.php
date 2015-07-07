@@ -69,13 +69,13 @@ class ReportsController extends Controller {
 
       public function actionGetReviewQuestions(){
         try{
-          
+            error_log("--actionGetReviewQuestions----");
            $testPaperId = $_POST["testPaperId"];
            $userId = $_POST["userId"];
-            $getTestReports = ServiceFactory::getSkiptaExSurveyServiceInstance()->getReviewQuestions($testPaperId,$userId);
-            error_log("-------final data---".print_r($getTestReports,1));
+            $reviewReportsData = ServiceFactory::getSkiptaExSurveyServiceInstance()->getReviewQuestions($testPaperId,$userId);
+           // error_log("-------getReviewReports data---".print_r($reviewReportsData,1));
             
-            $this->renderPartial("report",array("reportData"=>$getTestReports));
+            $this->renderPartial("reviewQuestions",array("surveyObjArray"=>$reviewReportsData,"bufferAnswers"=>array()));
         } catch (Exception $ex) {
  error_log("Exception Occurred in ReportsController->actionRenderReports==" . $ex->getMessage());
             Yii::log("ReportsController:actionRenderReports::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
