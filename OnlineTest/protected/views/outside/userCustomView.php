@@ -1005,7 +1005,7 @@ sessionStorage.sharedURL = "";
                 }
             }
             
-             for(var i =1; i<=qCount;i++){  
+             for(var i =1; i<=1;i++){  
                  gQcnt++;
                 var widtype = $("#QuestionsSurveyForm_WidgetType_"+i).val();
         var isMandatory = $("#QuestionsSurveyForm_IsMadatory_"+i).val(); 
