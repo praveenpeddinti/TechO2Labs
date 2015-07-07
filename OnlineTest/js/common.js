@@ -2697,7 +2697,7 @@ function checkSession()
     $.ajax({
         dataType: 'json',    
         type: "POST",
-        url: "/user/checkSession",   
+        //url: "/user/checkSession",   
         async: false,
         success: function(data) {       
         checksessioncallback(data);

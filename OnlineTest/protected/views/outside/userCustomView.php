@@ -40,7 +40,7 @@ if(is_object($surveyObj)){ ?>
             
             //error_log("========userAnsser=====".print_r($userAnswer,1));
             ?>   
-
+         <input type="hidden" name="QuestionsSurveyForm[IsReviewed][<?php echo ($i); ?>]" value="<?php echo $question['IsReviewed']; ?>">
          <input type="hidden" name="QuestionsSurveyForm[WidgetType][<?php echo ($i); ?>]" value="1" id="QuestionsSurveyForm_WidgetType_<?php echo ($i); ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[QuestionId][<?php echo ($i); ?>]"  value="<?php echo $question['QuestionId']; ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[Other][<?php echo ($i); ?>]" id="QuestionsSurveyForm_Other_<?php echo ($i); ?>" value="<?php echo $userAnswerObj["Other"]?>"/>
@@ -103,6 +103,7 @@ if(is_object($surveyObj)){ ?>
              }
            // echo "ss-".print_r($userAnswer,true);
             ?> 
+         <input type="hidden" name="QuestionsSurveyForm[IsReviewed][<?php echo ($i); ?>]" value="<?php echo $question['IsReviewed']; ?>">
         <input type="hidden" name="QuestionsSurveyForm[WidgetType][<?php echo ($i); ?>]" value="2" id="QuestionsSurveyForm_WidgetType_<?php echo ($i); ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[QuestionId][<?php echo ($i); ?>]"  value="<?php echo $question['QuestionId']; ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[Other][<?php echo ($i); ?>]" id="QuestionsSurveyForm_Other_<?php echo ($i); ?>" value="<?php echo $userAnswerObj["Other"]?>"/>
@@ -214,6 +215,7 @@ if(is_object($surveyObj)){ ?>
  
             }
             ?> 
+          <input type="hidden" name="QuestionsSurveyForm[IsReviewed][<?php echo ($i); ?>]" value="<?php echo $question['IsReviewed']; ?>">
         <input type="hidden" name="QuestionsSurveyForm[WidgetType][<?php echo ($i); ?>]" value="3" id="QuestionsSurveyForm_WidgetType_<?php echo ($i); ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[QuestionId][<?php echo ($i); ?>]"  value="<?php echo $question['QuestionId']; ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[Other][<?php echo ($i); ?>]" id="QuestionsSurveyForm_Other_<?php echo ($i); ?>"/>
@@ -379,6 +381,7 @@ if(is_object($surveyObj)){ ?>
             }
               //echo "ss-".print_r($userAnswer,TRUE)."array[0]==".$userAnswer[0];
             ?> 
+         <input type="hidden" name="QuestionsSurveyForm[IsReviewed][<?php echo ($i); ?>]" value="<?php echo $question['IsReviewed']; ?>">
            <input type="hidden" name="QuestionsSurveyForm[WidgetType][<?php echo ($i); ?>]" value="4" id="QuestionsSurveyForm_WidgetType_<?php echo ($i); ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[QuestionId][<?php echo ($i); ?>]"  value="<?php echo $question['QuestionId']; ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[Other][<?php echo ($i); ?>]" id="QuestionsSurveyForm_Other_<?php echo ($i); ?>"/>
@@ -533,6 +536,7 @@ if(is_object($surveyObj)){ ?>
              
              // echo "ss-".print_r($userAnswerObj,TRUE);
             ?> 
+         <input type="hidden" name="QuestionsSurveyForm[IsReviewed][<?php echo ($i); ?>]" value="<?php echo $question['IsReviewed']; ?>">
         <input type="hidden" name="QuestionsSurveyForm[WidgetType][<?php echo ($i); ?>]" value="5" id="QuestionsSurveyForm_WidgetType_<?php echo ($i); ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[QuestionId][<?php echo ($i); ?>]"  value="<?php echo $question['QuestionId']; ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[OptionsSelected][<?php echo ($sno); ?>]"   id="QuestionsSurveyForm_OptionsSelected_<?php echo ($i); ?>" value="<?php if(is_array($userAnswer)){echo array_sum($userAnswer);}?>"/>
@@ -639,6 +643,7 @@ if(is_object($surveyObj)){ ?>
  
             }
             ?> 
+                    <input type="hidden" name="QuestionsSurveyForm[IsReviewed][<?php echo ($i); ?>]" value="<?php echo $question['IsReviewed']; ?>">
         <input type="hidden" name="QuestionsSurveyForm[WidgetType][<?php echo ($i); ?>]" value="6" id="QuestionsSurveyForm_WidgetType_<?php echo ($i); ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[QuestionId][<?php echo ($i); ?>]"  value="<?php echo $question['QuestionId']; ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[UserAnswer][<?php echo ($sno); ?>]"  id="QuestionsSurveyForm_UserAnswer_hid_<?php echo ($i); ?>" value="<?php echo $userAnswer;?>"/>
@@ -702,7 +707,7 @@ if(is_object($surveyObj)){ ?>
  
             }
            
-            ?> 
+            ?> <input type="hidden" name="QuestionsSurveyForm[IsReviewed][<?php echo ($i); ?>]" value="<?php echo $question['IsReviewed']; ?>">
         <input type="hidden" name="QuestionsSurveyForm[WidgetType][<?php echo ($i); ?>]" value="7" id="QuestionsSurveyForm_WidgetType_<?php echo ($i); ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[QuestionId][<?php echo ($i); ?>]"  value="<?php echo $question['QuestionId']; ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[OptionsSelected][<?php echo ($sno); ?>]"  id="QuestionsSurveyForm_OptionsSelected_hid_<?php echo ($i); ?>" value="<?php if(is_array($userAnswer) && sizeof($userAnswer)>0){echo "dummy";}?>"/>
@@ -776,7 +781,7 @@ if(is_object($surveyObj)){ ?>
            // echo print_r($userAnswer,true);
             // echo $otherValue;
             ?>   
-
+                    <input type="hidden" name="QuestionsSurveyForm[IsReviewed][<?php echo ($i); ?>]" value="<?php echo $question['IsReviewed']; ?>">
                     <input type="hidden" name="QuestionsSurveyForm[WidgetType][<?php echo ($i); ?>]" value="1" id="QuestionsSurveyForm_WidgetType_<?php echo ($i); ?>"/>
                     <input type="hidden" name="QuestionsSurveyForm[QuestionId][<?php echo ($i); ?>]"  value="<?php echo $question['QuestionId']; ?>"/>
                     <input type="hidden" name="QuestionsSurveyForm[OtherJustification][<?php echo ($i); ?>]" id="QuestionsSurveyForm_Other_<?php echo ($i); ?>" value="<?php if(!empty($userAnswerObj["OtherValue"])){ echo "1";}?>" />
@@ -1177,8 +1182,7 @@ sessionStorage.sharedURL = "";
            // alert(Garray)
             $("#QuestionsSurveyForm_Questions").val(JSON.stringify(Garray));
             $("#QuestionsSurveyForm_QuestionTempId").val('<?php echo $UserTempId?>');
-            var data = $("#questionviewwidget").serialize(); 
-            
+            var data = $("#questionviewwidget").serialize();             
             //alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"===="+data.toSource())
             if(isValidated == true){
                 //alert("kin");
@@ -1197,12 +1201,14 @@ sessionStorage.sharedURL = "";
                              if(fromPagiNation == 1 &&  lastPage == "false"){
                              //gotoNextPage();
                         }
+                       
                         else{
                             scrollPleaseWaitClose('surveyviewspinner');
                              $("#surveysubmitbuttons").hide(); 
                             $("#surveyQuestionArea").html(data); 
                         }
-                           
+                            var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};                        
+                            ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
                         }else{
                             scrollPleaseWaitClose('surveyviewspinner');
                             $("#userviewErrMessage").text("Please choose at least one survey");
@@ -1339,13 +1345,10 @@ function updateTextRadiohiddenFields(obj,rno,qno,col,maxValue){
    
   
    
-       <?php if($page == 1){ ?>
-           alert("===")
-       <?php } ?>
-         if(currentPage == 0 ){
-             alert("=in curr==")
+       
+         if(currentPage == 0){             
               $("#surveysubmitbuttons,#nextQuestion").show();
-             $("#prevQuestion").hide(); 
+             //$("#prevQuestion").hide(); 
          }else{
               $("#prevQuestion").show();
          }
@@ -1564,66 +1567,45 @@ $("#pagenoforsurvey").html(pageStr).show();
      <script type="text/javascript"> 
          var fromNode=0; //this flag is used to stop doing logout in 2 cases 1.call from node 2.submit pressed
         var categoryId = '<?php echo $categoryId?>';
-        var nocategories = '<?php echo $nocategories?>';
-        //alert(nocategories);        
-        if(nocategories=="true"){
-            $("#nextQuestion").hide();
-             $('#submitQuestion').show();
-             
-        }else{
+        var nocategories = '<?php echo $nocategories?>';        
+        <?php if(($catPosition == "first") && $page == 1){  ?>
+             $("#prevQuestion").hide(); 
              $("#nextQuestion").show();
              $('#submitQuestion').hide();
-        }
+        <?php }else if($catPosition == "last" && $page == $totalpages){?>
+            $("#nextQuestion").hide();            
+            $('#submitQuestion,#prevQuestion').show();
+        <?php }else{ ?>
+            $("#prevQuestion").show();
+            $("#nextQuestion").show();
+            $("#submitQuestion").hide();
+        <?php } ?>
+
          var userTempId = '<?php echo $UserTempId?>';
-        //alert(userTempId);
-          if("" != "<?php echo $spotMessage?>"){
-           $("#spotCount").html("<?php echo $spotMessage?>");
-           $(".spotMessage").show();  
-        }
+          
       var loginUserId = '<?php echo $this->tinyObject->UserId; ?>';
    
     var scheduleId = "<?php echo $scheduleId; ?>";
      sessionStorage.userId = loginUserId;
      sessionStorage.scheduleId = scheduleId;
         window.onbeforeunload = function (e) {
-                    //  fromAutoSave = 1;
-                 // alert(sureyQuestionPage);
-                // console.log("--onbeforeunload----"+fromNode);
                  if(fromNode == 0){
                       logoutSurveyPage();
                       unsetSpot(loginUserId,scheduleId);
                  }
-                
-            //  var message = "Your confirmation message goes here.",
-            //  e = e || window.event;
-            //  // For IE and Firefox
-            //  if (e) {
-            //    e.returnValue = message;
-            //  }
-            //    submitSurvey();
-            //alert(message);
-              // For Safari
-              //return message;
+           
       };
-    
-     //callSetIntervalForSurvey(); //set interval for survey answers...
-   
-    
 
  function logoutSurveyPage(){
      fromNode = 1;
-    //console.log("logoutSurveyPage---");
-      var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
+     var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
      var data = {"Page":sureyQuestionPage-1,"ScheduleId":sessionStorage.scheduleId,"SurveyId" :surveyId,"UserId": loginUserId};
-    // alert(data.toSource());
-        ajaxRequest("/outside/logoutSurveyPage",data,function(){});
+     ajaxRequest("/outside/logoutSurveyPage",data,function(){});
  }
  function loginSurveyPage(){
-   // console.log("logoutSurveyPage---");
-      var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
+     var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
      var data = {"Page":sureyQuestionPage-1,"ScheduleId":sessionStorage.scheduleId,"SurveyId" :surveyId,"UserId": loginUserId};
-    // alert(data.toSource());
-        ajaxRequest("/outside/loginSurveyPage",data,function(){});
+     ajaxRequest("/outside/loginSurveyPage",data,function(){});
  }
 var logoutSurveyPageTimeOut;
 if(logoutSurveyPageTimeOut != null && logoutSurveyPageTimeOut != "undefined"){
@@ -1647,19 +1629,15 @@ if(logoutSurveyPageTimeOut != null && logoutSurveyPageTimeOut != "undefined"){
            var jsonObject = JSON.stringify(ObjectA); 
         socketSurvey.emit('connectToSurvey', loginUserId,scheduleId,jsonObject);
          socketSurvey.on('connectToSurveyResponse', function(data) {
-             //  alert('connectToSurveyresponse---'+data.toSource());
                data = eval("(" + data + ")");
                 var userId = data.loginUserId;
                sessionStorage.userId = userId;
-               sessionStorage.scheduleId = data.scheduleId;
-            // alert(data.spotMessage);
+               sessionStorage.scheduleId = data.scheduleId;            
                $("#spotCount").html(data.spotMessage);
                $(".spotMessage").show();
-              // ajaxRequest("/user/checkSession","",function(){});
             });
      
       socketSurvey.on('SurveyPageLoadResponse', function(data) {
-       //  alert("SurveyPageLoadResponse--***-"+data.toSource());
          var scheduleId = data.scheduleId;
           var userId = data.userId;
           if(scheduleId == sessionStorage.scheduleId  && userId == loginUserId){
@@ -1670,7 +1648,6 @@ if(logoutSurveyPageTimeOut != null && logoutSurveyPageTimeOut != "undefined"){
      })
        
            function unsetSpotFromNode(){
-                // alert(sessionStorage.userId+"--"+sessionStorage.scheduleId);
             socketSurvey.emit('unsetSpotforSchedule', sessionStorage.userId,sessionStorage.scheduleId );
         }
        

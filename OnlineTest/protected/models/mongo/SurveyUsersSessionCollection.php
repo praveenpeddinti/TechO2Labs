@@ -191,7 +191,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                 
                 $c = SurveyUsersSessionCollection::model()->getCollection();
                 $result = $c->aggregate(array('$match' => array('ScheduleId' =>new MongoId($model->ScheduleId))), array('$unwind' => '$UserAnswers'), array('$match' => array('UserId' => (int)$UserId)), array('$match' => array('UserAnswers.QuestionId' => new MongoID($answers->QuestionId))), array('$group' => array("_id" => "_id", "QuestionIds" => array('$push' => '$UserAnswers.QuestionId')))); 
-                error_log("=========result=====2222222222222222===".print_r($result,1));
+                //error_log("=========result=====2222222222222222===".print_r($result,1));
                 
                   if(sizeof($result['result'])>0){
                    error_log("====@@@@@@@@@@@@@========collection object exist=========@@@@@@@@@@@@@@@@@===questionid===$answers->QuestionId");
@@ -206,6 +206,9 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                       $modifier->addModifier('UserAnswers.$.Other', 'set',$answers->Other );
                     //  $modifier1->addModifier('UserAnswers.$.Other', 'set',$answers->Other );
                        $modifier->addModifier('UserAnswers.$.OtherValue', 'set',$answers->OtherValue );
+                       $modifier->addModifier('UserAnswers.$.Score', 'set',$answers->Score );
+                       $modifier->addModifier('UserAnswers.$.IsReviewed', 'set',$answers->IsReviewed );
+                       
                       //   $modifier1->addModifier('UserAnswers.$.OtherValue', 'set',$answers->OtherValue );
                          if($answers->QuestionType == 2 ){
                              $modifier->addModifier('UserAnswers.$.SelectAll', 'set',$answers->SelectAll );

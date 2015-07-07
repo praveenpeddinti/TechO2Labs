@@ -517,11 +517,11 @@ var phpSessionTimeOut;
 if(phpSessionTimeOut != null && phpSessionTimeOut != "undefined"){
    clearTimeout(phpSessionTimeOut); 
 }
- phpSessionTimeOut =  setInterval(function(){ 
-  console.log("sessin tmie out occurs");
-  ajaxRequest("/user/checkSession","","");
-    
- },<?php echo (Yii::app()->session->timeout+5)*1000?>)
+// phpSessionTimeOut =  setInterval(function(){ 
+//  console.log("sessin tmie out occurs");
+//  ajaxRequest("/user/checkSession","","");
+//    
+// },<?php //echo (Yii::app()->session->timeout+5)*1000?>)
 
         </script>
 

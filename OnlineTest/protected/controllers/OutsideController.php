@@ -76,7 +76,7 @@ class OutsideController extends Controller {
             } 
             $this->layout = 'adminLayout';
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
-            error_log("=UserId==$userId====TestId=$testId==questionPrepObj===".print_r($questionprepareObj,1));
+            //error_log("=UserId==$userId====TestId=$testId==questionPrepObj===".print_r($questionprepareObj,1));
 //            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");   
             
             $QuestionsSurveyForm = new QuestionsSurveyForm;
@@ -94,7 +94,7 @@ class OutsideController extends Controller {
                 $questionsArray = $questionsobj->Questions;
                 $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$cat['ScheduleId']); 
                //  $sessionTime = ScheduleSurveyCollection::model()->manageSurveyUserSessionNew($surveyId,$scheduleId,$UserId);
-                error_log("==#############################prepareTempQuestions==categoryId===".$cat['CategoryId']);
+                //error_log("==#############################prepareTempQuestions==categoryId===".$cat['CategoryId']);
                 $sessionTime = SurveyUsersSessionCollection::model()->manageSurveyUserSession($cat['CategoryId'],$userId,$obj);
                 $questionsRandomKeys = array();
                 if(sizeof($questionsArray) > 1){
@@ -144,7 +144,7 @@ class OutsideController extends Controller {
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
 //            //$questionprepareObj = TestPreparationCollection::model()->find($criteria);
             $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
-            if($testquestionObj != "failure"){
+            if($testquestionObj == "failure"){
               $testquestionObj = $this->prepareTempQuestions($questionprepareObj,$UserId,$testId); // saving temp. test for a user and fetching saved obj...           
             }
             //error_log("&&&&&&&&testquestionObj".print_r($testquestionObj,1));
@@ -157,11 +157,10 @@ class OutsideController extends Controller {
             $scheduleId = $surveyObjArray["scheduleId"];
             //error_log("*************all categories".print_r($questionprepareObj,1));
             $cmplteqstnArray = array();
-            error_log("============asdfsdfs fsdf sdf ");
 //            $scheduleobj = ScheduleSurveyCollection::model()->getScheduleSurveyDetailsObject("SurveyId",$surveyObj->_id);
 //            if($scheduleobj != "failure")
 //            $scheduleId = $scheduleobj->_id;
-            error_log("==Userid==$UserId=====344444444444444444=========$scheduleId");
+            //error_log("==Userid==$UserId=====344444444444444444=========$scheduleId");
             $totalPages =  $questionprepareObj->Category[0]['NoofQuestions'];
 //                if($obj->QuestionView > 0){
 //                 $totalPages = round($surveyObj->QuestionsCount/$obj->QuestionView);
@@ -171,7 +170,7 @@ class OutsideController extends Controller {
                     
             $QuestionsSurveyForm = new QuestionsSurveyForm;
                 $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
-            $this->renderPartial('userCustomView',array("UserTempId"=>$testquestionObj->_id,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>"Test","userId"=>$UserId,"sessionTime"=>"","spotMessage"=>"","flag"=>"TRUE","iValue"=>0,"page"=>($pageno+1),"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"sno"=>($pageno+1)));
+            $this->renderPartial('userCustomView',array("UserTempId"=>$testquestionObj->_id,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"errMessage"=>"Test","userId"=>$UserId,"sessionTime"=>"","spotMessage"=>"","flag"=>"TRUE","iValue"=>0,"page"=>($pageno+1),"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"sno"=>($pageno+1),"catPosition"=>"first"));
             // old code
             
 //            if(!empty($UserId) && !empty($surveyGroupName)){
@@ -380,9 +379,10 @@ function get_values_for_keys($mapping, $keys) {
              $totalPages = $surveyObjArray['totalpages'];
              $scheduleId = $surveyObjArray['scheduleId'];
              $catIdsArray = $surveyObjArray['catIdsArray'];
+             $catPosition = $surveyObjArray['catPosition'];
              $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
-            error_log("*****bufferAnswers11111111111111*******".print_r($bufferAnswers,1));
-             $this->renderPartial('userCustomView',array("UserTempId"=>$userQuestionTempId,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$UserId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"nocategories"=>$nocategories,"sno"=>($page+1)));
+            //error_log("*****bufferAnswers11111111111111*******".print_r($bufferAnswers,1));
+             $this->renderPartial('userCustomView',array("UserTempId"=>$userQuestionTempId,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$UserId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"nocategories"=>$nocategories,"sno"=>($page+1),"catPosition"=>$catPosition));
              
         } catch (Exception $ex) {
             error_log("Exception Occurred in OutsideController->actionSureyQuestionPagination==".$ex->getMessage());
@@ -397,6 +397,7 @@ function get_values_for_keys($mapping, $keys) {
             if(isset($_POST['QuestionsSurveyForm'])){
                    $QuestionsSurveyForm->attributes = $_POST['QuestionsSurveyForm'];  
                    $UserId = $QuestionsSurveyForm->UserId;
+                   $categoryId = $QuestionsSurveyForm->SurveyId;
                    $f =  json_decode($QuestionsSurveyForm->Questions);
                    $questionArray = array();
                    $OptionsSelected = FALSE;
@@ -412,7 +413,7 @@ function get_values_for_keys($mapping, $keys) {
                     $widget7 = new ExUserWidget7();
                     $optionsArray = array();
                     $questionType = 0;    
-                    
+                    $questionId = "";
                     if(sizeof($searcharray["QuestionsSurveyForm"])){                        
                         foreach($searcharray["QuestionsSurveyForm"] as $key=>$value){
                             $optioncnt = 0;
@@ -433,10 +434,21 @@ function get_values_for_keys($mapping, $keys) {
                                         }else if($m == 7){
                                             $widget7->QuestionType = (int) $m;
                                         }
+                                        
                                     }
                                 }
                                 }
-                            
+                                if($key == "IsReviewed"){
+                                    if(sizeof($value)>0){                                        
+                                        foreach($value as $m){  
+                                            $widget12->IsReviewed = (int)$m;
+                                            $widget34->IsReviewed = (int)$m;
+                                            $widget5->IsReviewed = (int)$m;
+                                            $widget6->IsReviewed = (int)$m;
+                                            $widget7->IsReviewed = (int)$m;
+                                        }
+                                    }
+                                }
                                 if($key == "QuestionId"){
                                     if(sizeof($value)>0){
                                         foreach($value as $m){                                        
@@ -451,7 +463,7 @@ function get_values_for_keys($mapping, $keys) {
                                             }else if($questionType == 7){
                                                 $widget7->QuestionId = new MongoId($m);
                                             }
-
+                                            $questionId = new MongoId($m);
                                         }
                                     }
                                 }
@@ -460,20 +472,36 @@ function get_values_for_keys($mapping, $keys) {
                             if($key == "OptionsSelected"){
                                 $k=0;
                                 if(sizeof($value)>0){
+                                    
                                 foreach($value as $m){       
                                     if($questionType == 1 || $questionType == 2){ 
                                         if(!empty($m)){
                                             $OptionsSelected = TRUE;
                                         }
                                             $widget12->SelectedOption = explode(",",$m); 
+                                            if($widget12->IsReviewed == 0){ 
+                                                $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget12->QuestionId);
+                                                $result = array_intersect($questionAns, $widget12->SelectedOption);
+                                                if(sizeof($widget12->SelectedOption) == sizeof($result)){
+                                                     $widget12->Score = (int)1;   
+                                                }
+                                            }
                                     }
                                     else if($questionType == 3 || $questionType == 4){
                                         if(!empty($m)){
                                             $OptionsSelected = TRUE;
                                         }
-                                            $optionsArray = explode(",",$m);                                        
-                                            $widget34->Options = $optionsArray;
-                                            $optioncnt = sizeof($widget34->Options);
+                                        $optionsArray = explode(",",$m);                                        
+                                        $widget34->Options = $optionsArray;
+                                        $optioncnt = sizeof($widget34->Options);       
+                                        if($widget34->IsReviewed == 0){
+                                            $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget34->QuestionId);
+                                            $result = array_intersect($questionAns, $widget34->Options);
+                                            if(sizeof($widget34->Options) == sizeof($result)){
+                                                 $widget34->Score = (int)$optioncnt;
+                                            }
+                                        }
+                                            
                                     }
                                     $k++;
 
@@ -489,8 +517,11 @@ function get_values_for_keys($mapping, $keys) {
                                         $widget12->Other = (int) $m;
                                     else if($questionType == 3 || $questionType == 4)                                          
                                         $widget34->Other = (int) $m;
-                                    else if($questionType == 5 )                                          
+                                    else if($questionType == 5 ){
                                         $widget5->Other = (int) $m;
+                                        
+                                        
+                                    }
                                 }
                                 }
 
@@ -521,6 +552,13 @@ function get_values_for_keys($mapping, $keys) {
                                         $widget5->DistributionValues[$k++] = $m;                                        
                                     }
                                 }
+                                if($questionType == 5 && $widget5->IsReviewed == 0){                                    
+                                        $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget5->QuestionId);
+                                        $result = array_intersect($questionAns, $widget5->DistributionValues);
+                                        if(sizeof($result) == sizeof($widget5->DistributionValues)){
+                                             $widget5->Score = (int)1;
+                                        }
+                                    }
                                 }
                             }
                             if($key == "UsergeneratedRanking"){
@@ -531,12 +569,19 @@ function get_values_for_keys($mapping, $keys) {
                                             $OptionsSelected = TRUE;
                                         }
                                     if($questionType == 7){                                        
-                                      $widget7->UsergeneratedRankingOptions[$k++] = $m;                                        
+                                        $widget7->UsergeneratedRankingOptions[$k++] = $m;  
+                                        $widget7->Score = 0;
                                     }
                                 }
+                                 if($questionType == 7 && $widget7->IsReviewed == 0){     
+                                     $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget7->QuestionId);
+                                        $result = array_intersect($questionAns, $widget7->UsergeneratedRankingOptions);
+                                        if(sizeof($result) == sizeof($widget7->UsergeneratedRankingOptions)){
+                                             $widget5->Score = (int)1;
+                                        }
+                                 }
                                 }
                             }
-                            //error_log("===@@@@@@@@@@@@@@@@@@@@@=UserGenerated ranking=========".print_r($widget7,1));
                             if($key == "UserAnswer"){
                                 $k=0;
                                 if(sizeof($value)>0){
@@ -545,8 +590,15 @@ function get_values_for_keys($mapping, $keys) {
                                             $OptionsSelected = TRUE;
                                         }
                                     if($questionType == 6)
-                                        $widget6->UserAnswer = $m;                                        
+                                        $widget6->UserAnswer = $m;                                       
                                 }
+                                    if($questionType == 6 && $widget6->IsReviewed == 0){   
+                                        $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget6->QuestionId);
+                                        $result = array_intersect($questionAns, array($widget6->UserAnswer));
+                                        if(sizeof($result) == sizeof(array($widget6->UserAnswer))){
+                                             $widget6->Score = (int)1;
+                                        }
+                                    }
                                 }
                             }
                             if($key == "OptionCommnetValue"){
@@ -566,23 +618,7 @@ function get_values_for_keys($mapping, $keys) {
                                 }
                                 }
                             }
-                            
-//                            if($key == "AnyOtherValue"){
-//                                $k=0;
-//                                if(sizeof($value)>0){                                   
-//                                foreach($value as $m){ 
-//                                     if($questionType == 3 || $questionType == 4){  
-//                                         if($m != ""){                                            
-////                                            $widget34->AnyOtherValue = $m;
-//                                            array_push($widget34->Options,$m);
-//                                         }
-//                                    }
-//                                    $k++;
-//
-//                                }
-//                                }
-//                            }
-                            
+
                             if($key == "AnyOtherComment"){
                                 $k=1;
                                 if(sizeof($value)>0){ 

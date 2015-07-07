@@ -206,11 +206,12 @@ class SkiptaExSurveyService {
            $nocategories = $questionsArray['nocategories'];
            $scheduleId = $questionsArray['scheduleId'];
            $cateogryIds = $questionsArray['catIdsArray'];
-           error_log("no of cat--**-".$nocategories);
+           $catPosition = $questionsArray['categoryPosition'];
+           error_log("no of cat--**-".$nocategories."======%%^^^%^^^^^^^^^^^==categorypos===$catPosition");
           $page = $questionsArray['page'];
           $totalpages = $questionsArray['totalpages'];
           $result = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId);
-           $resultArray = array("data"=>$result,"categoryId"=>$categoryId,"page"=>$page,"nocategories"=>$nocategories,"totalpages"=>$totalpages,"scheduleId"=>$scheduleId,"catIdsArray"=>$cateogryIds);
+           $resultArray = array("data"=>$result,"categoryId"=>$categoryId,"page"=>$page,"nocategories"=>$nocategories,"totalpages"=>$totalpages,"scheduleId"=>$scheduleId,"catIdsArray"=>$cateogryIds,"catPosition"=>$catPosition);
             return $resultArray;
            } catch (Exception $ex) {
                Yii::log("SkiptaExSurveyService:getCustomSurveyDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

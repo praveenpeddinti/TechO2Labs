@@ -11171,4 +11171,11 @@ static function getGeocodes($addressArray){
             error_log("Exception Occurred in CommonUtility->prepareSurveyDashboradData==".$ex->getMessage());
         }
     }
+    public static function getAnswersByQuestionId($catId=0,$qId=0){
+        try{
+            return ExtendedSurveyCollection::model()->getAnswersByQuestionId($catId,(string)$qId);
+        } catch (Exception $ex) {
+            error_log("Exception Occurred in CommonUtility->getAnswersByQuestionId==".$ex->getMessage());
+        }
+    }
 }   

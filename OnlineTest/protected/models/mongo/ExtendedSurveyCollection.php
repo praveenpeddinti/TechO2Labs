@@ -1143,5 +1143,17 @@ public function getQuestionOfSurvey($surveyId,$questionId){
             error_log("Exception Occurred in  ExtendedSurveyCollection->getQuestionById==" . $ex->getMessage());
         }
     }
+    
+    public function getAnswersByQuestionId($catId,$qId){
+        try{
+            error_log("=@@@@@@@@@@@@@@@@@@@@==categoryId==$catId===questionId===$qId==");
+            $c = ExtendedSurveyCollection::model()->getCollection();
+            $result = $c->aggregate(array('$match' => array('_id' => new MongoID($catId))), array('$unwind' => '$Questions'), array('$match' => array('Questions.QuestionId' => new MongoId($qId))), array('$group' => array("_id" => '$_id', "QAnswers" => array('$push' => '$Questions.Answers'))));
+            error_log("===getAnswersByQuestionId=Result====".print_r($result['result'][0]['QAnswers'][0],1));
+            return isset($result['result'][0]['QAnswers'][0])?$result['result'][0]['QAnswers'][0]:array();
+        } catch (Exception $ex) {
+
+        }
+    }
 
 }

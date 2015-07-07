@@ -163,6 +163,7 @@
         var sureyQuestionPage=2;
         var fromPagiNation=0;
          var fromAutoSave=0;
+         var scheduleId = "";
          $("#nextQuestion").live("click",function(){
              fromPagiNation=1;
              fromAutoSave=0;
@@ -203,11 +204,10 @@
               
          function gotoNextPage(){ 
               currentPage++;
-              var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
+              scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
-              var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};
               ValidateQuestions(1, 1);
-              ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
+              
          }
          function sureyQuestionPaginationHandler(html){
              sureyQuestionPage++;             
