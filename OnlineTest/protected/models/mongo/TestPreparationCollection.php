@@ -68,7 +68,7 @@ class TestPreparationCollection extends EMongoDocument {
             //if(count($TestPaperObj)>0){error_log("---if-get data----tess---".count($TestPaperObj));
                 $returnValue= $TestPaperObj;
             //}
-            error_log("----get data-not---tess---".count($TestPaperObj));
+            
             return $returnValue;
         } catch (Exception $ex) {
             Yii::log("TestPreparationCollection:getTestDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -77,7 +77,7 @@ class TestPreparationCollection extends EMongoDocument {
     }
 
      public function saveTestPrepair($FormModel,$UserId){
-         try{             error_log($UserId."------mongo save---");
+         try{             
              $returnValue = "failed";
              $survey = new TestPreparationCollection();
              $survey->Title = $FormModel->Title;
@@ -121,7 +121,7 @@ class TestPreparationCollection extends EMongoDocument {
             if(TestPreparationCollection::model()->updateAll($modifier, $criteria)){
                 $returnvalue = "success";
             }
-            error_log("-------update----".$returnValue);
+           
             return $returnvalue;
         } catch (Exception $ex) {
             Yii::log("ExtendedSurveyCollection:UpdateSurvey::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -144,7 +144,7 @@ class TestPreparationCollection extends EMongoDocument {
      public function getTestDetails($testId){
          try{
           $criteria = new EMongoCriteria;
-          error_log("=################getTestDetails==TestId====$testId");
+          
         $criteria->addCond('_id', '==', new MongoId($testId));
         return TestPreparationCollection::model()->find($criteria);
          
@@ -157,7 +157,7 @@ class TestPreparationCollection extends EMongoDocument {
      //SaveInviteUserDetails
      
        public function updatedSaveInviteUserDetails($TestId,$total) {
-      try{error_log($TestId."-----enter update function------".$total);
+      try{
            
             $mongoCriteria = new EMongoCriteria;
             $mongoModifier = new EMongoModifier;
@@ -165,11 +165,7 @@ class TestPreparationCollection extends EMongoDocument {
              $mongoModifier->addModifier('InviteUsers', 'inc',(int)1);
             $mongoCriteria->addCond('_id', '==',  new MongoID($TestId));
             TestPreparationCollection::model()->updateAll($mongoModifier, $mongoCriteria);
-           error_log("-----enter update function---2---");
-           
-           
-           
-           
+            
 
       } catch (Exception $ex) {
           Yii::log("TestPreparationCollection:updatedSaveInviteUserDetails::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -181,7 +177,7 @@ class TestPreparationCollection extends EMongoDocument {
          $criteria = new EMongoCriteria;         
          $criteria->addCond('Category.CategoryName', '==', (string)$catname);
         $object = TestPreparationCollection::model()->find($criteria);
-        error_log("====$catname======testId=========$testId");
+        
         $c = TestPreparationCollection::model()->getCollection();
         $result = $c->aggregate(array('$match' => array('_id' => new MongoId($testId))), array('$unwind' => '$Category'), array('$match' => array('Category.CategoryName' => (string)$catname)), array('$skip' => 0), array('$limit' => 1), array('$group' => array("_id" => "_id", "CategoryObj" => array('$push' => '$Category'))));
 //        error_log("===getTestScvhedul====".print_r($result,1));

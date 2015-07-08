@@ -73,9 +73,10 @@ class User extends CActiveRecord {
       }
       }
 
-    public function checkUserExistWithPhone($phone) {
+    public function checkUserExistWithPhone($phone) {error_log("--phone---check---".$phone);
       try {
-      $user = User::model()->findByAttributes(array('Phone' => $phone));
+      $user = User::model()->findByAttributes(array('Phone' => $phone));    
+      //$user = User::model()->findByAttributes(array('Email' => $email,'Phone' => $phone,));
       return $user;
       } catch (Exception $ex) {
           Yii::log("User:checkUserExistWithPhone::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

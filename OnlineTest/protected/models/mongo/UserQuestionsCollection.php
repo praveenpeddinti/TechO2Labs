@@ -279,4 +279,39 @@ public function getScheduleIdByUQuestionId($id,$categoryId){
     }
 }
 
+
+public function getTestUserDetails($testId,$sDate,$eDate,$startLimit,$pageLength){
+        try{
+            $criteria = new EMongoCriteria;
+            $criteria->limit($pageLength);
+            $criteria->offset($startLimit);
+            $criteria->addCond('Testid', '==', new MongoId($testId));
+            //$criteria->addCond('CreatedOn', '>=', new MongoDate(strtotime($date)));
+            if(!empty($sDate)){
+            $criteria->CreatedOn = array('$gte' =>new MongoDate(strtotime($sDate)),'$lte' => new MongoDate(strtotime($eDate)));
+            }
+            $Testobj = UserQuestionsCollection::model()->findAll($criteria);
+            return $Testobj;
+            
+        } catch (Exception $ex) {
+             Yii::log("UserQuestionsCollection:getTestUserDetails::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in UserQuestionsCollection->getTestUserDetails==".$ex->getMessage());
+            return $returnValue;
+        }
+    }
+    public function getTestTakenUsers($testId,$startDate,$endDate){
+        try{
+            $criteria = new EMongoCriteria;            
+            $criteria->addCond('Testid', '==', new MongoId($testId));
+            //$criteria->addCond('CreatedOn', '>=', new MongoDate(strtotime($date)));
+            if(!empty($sDate)){
+                $criteria->CreatedOn = array('$gte' =>new MongoDate(strtotime($sDate)),'$lte' => new MongoDate(strtotime($eDate)));
+            }
+            return UserQuestionsCollection::model()->count($criteria);
+        } catch (Exception $ex) {
+            Yii::log("UserQuestionsCollection:getTestTakenUsers::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in UserQuestionsCollection->getTestTakenUsers==".$ex->getMessage());
+        }
+    }
+
 }
