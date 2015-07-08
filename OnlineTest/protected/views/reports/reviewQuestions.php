@@ -2,6 +2,9 @@
 foreach ($surveyObjArray as $surveyObject) {
     $surveyObj = $surveyObject["question"];
     $userAnswerObj = $surveyObject["answer"];
+     $categoryId = $surveyObject["categoryId"];
+      $testId = $surveyObject["testId"];
+        $uniqueId= $surveyObject["uniqueId"];
     // echo print_r($surveyObj->Questions[0]['Answers']);
     //echo "ss-".print_r($userAnswerObj,true);
  error_log("for-----------");
@@ -91,7 +94,10 @@ if(is_object($surveyObj)){
                         } ?>
                        
                         
-                    </div>   
+                    </div> 
+                           <div style="float:right">
+                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                         </div>
                      </div>
                     </div>
              <?php $this->endWidget(); ?>  
@@ -491,6 +497,9 @@ if(is_object($surveyObj)){
                        
                         
                     </div>
+                         <div style="float:right">
+                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                         </div>
                         </div>
                    
                      </div>
@@ -594,7 +603,10 @@ if(is_object($surveyObj)){
                         } ?>
                        
                         
-                    </div>   
+                    </div>  
+                             <div style="float:right">
+                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                         </div>
                     </div>
                     </div>
          
@@ -799,14 +811,17 @@ if(is_object($surveyObj)){
                         </div> 
                      </div>
                      </div>
-                           <div style="color:grey">
+                     <div style="color:grey">
                         Correct Answers : <?php echo $correctAnswers;?>
                         <?php if($otherValue!=""){
                            echo "<br/>Other Option : ". $otherValue;                            
                         } ?>
                        
                         
-                    </div>   
+                    </div> 
+                          <div style="float:right">
+                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                         </div>
                      </div>
                     </div>
              <?php $this->endWidget(); ?>  
@@ -825,7 +840,7 @@ if(is_object($surveyObj)){
 <script type="text/javascript">
 Custom.init();
 var qCount = '<?php echo sizeof($surveyObj->Questions); ?>';
-$("input").prop('readonly', true);
+//$("input").prop('readonly', true);
 
 </script>
 
@@ -837,4 +852,11 @@ $("input").prop('readonly', true);
            error_log("elseeeeeeeeeeeeeee");
       echo $errMessage; }
       }
+      
 ?>
+ <div class="row-fluid" >
+        <div class="span12">
+                <label>&nbsp;&nbsp;</label>
+                    <input type="button" value="Submit"  class="btn" id="submitReviewAnswers"> 
+        </div>
+    </div>

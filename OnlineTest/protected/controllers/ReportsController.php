@@ -81,4 +81,28 @@ class ReportsController extends Controller {
             Yii::log("ReportsController:actionRenderReports::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
+    
+        public function actionSaveReviewQuestions(){
+        try{
+            error_log("--actionSaveReviewQuestions----");
+            $reviewQuestions = json_decode($_POST["data"], true);
+
+            foreach ($reviewQuestions as $reviewQuestion){
+               // error_log(print_r($reviewQuestion,1));
+                $testPaperId = $reviewQuestion["testPaperId"];
+                //$userId = $this->tinyObject->UserId;
+                 $userId = 179;
+                $questionId = $reviewQuestion["questionId"];
+                $uniqueId = $reviewQuestion["uniqueId"];
+                $categoryId = $reviewQuestion["categoryId"];
+                $score = $reviewQuestion["score"];
+                $saveReviewResult = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveReviewQuestions($testPaperId,$userId,$questionId,$categoryId,$uniqueId,$score);
+             break;
+                
+            }
+        } catch (Exception $ex) {
+ error_log("Exception Occurred in ReportsController->actionRenderReports==" . $ex->getMessage());
+            Yii::log("ReportsController:actionSaveReviewQuestions::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
 }

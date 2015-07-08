@@ -138,5 +138,33 @@ function reviewQuestionsHandler(html){
     }
    
 }
+$("#submitReviewAnswers").live("click",function(){
+    alert('submit');
+    var finalResult = new Array();
+    
+    $("[name=reviewQuestions]").each(function( index ) {
+         var result = new Object();
+      //alert( $( this ).attr("data-qid") + ": " + $( this ).attr("data-categoryId") + ": " + $( this ).attr("data-testId") + ": " +$( this ).val() );
+     var testPaperId = $( this ).attr("data-testId");
+     var questionId = $( this ).attr("data-qid");
+     var categoryId = $( this ).attr("data-categoryId");
+      var uniqueId = $( this ).attr("data-uniqueId");
+     var score = $( this ).val();
+        var data= {"testPaperId":testPaperId,"questionId":questionId,"categoryId":categoryId,"score":score};
+    
+        result.testPaperId=testPaperId;
+        result.questionId=questionId;
+        result.categoryId=categoryId;
+        result.score=score;
+       finalResult.push(result);
+       });
+       //finalResult.data= result;
+      var jsonProducts = JSON.stringify(finalResult);
+     // alert(jsonProducts);
+      var data={"data":jsonProducts};
+       ajaxRequest("/reports/saveReviewQuestions",data ,saveReviewQuestionsHandler);
+})
+function saveReviewQuestionsHandler(data){
+    }
 </script>
 

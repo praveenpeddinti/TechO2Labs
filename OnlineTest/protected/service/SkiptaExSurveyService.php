@@ -716,13 +716,15 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
                   error_log("categoryId----".$value["_id"]);
                   $categoryId = $value["_id"];
                   $reviewQuestionIds = $value["ReviewQuestionIds"];
+                   $reviewQuestionUniqueIds = $value["ReviewQuestionUniqueIds"];
                    $reviewQuestionAnswers = $value["ReviewQuestionAnswers"];
                  
                   foreach ($reviewQuestionIds as $key=>$questionId) {
                       error_log("question id----------------".$questionId);
                      $questionObj = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId); 
                      $answer = $reviewQuestionAnswers[$key];
-                     array_push($questionObjArray,array("question"=>$questionObj,"answer"=>$answer));
+                     $uniqueId = $reviewQuestionUniqueIds[$key];
+                     array_push($questionObjArray,array("question"=>$questionObj,"answer"=>$answer,"categoryId"=>$categoryId,"testId"=>$testPaperId,"uniqueId"=>$uniqueId));
                      
                   }
                   
@@ -736,6 +738,16 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
            } catch (Exception $ex) {
                Yii::log("SkiptaExSurveyService:getTestDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
            error_log("Exception Occurred in SkiptaExSurveyService->getTestDetailsById### ".$ex->getMessage());
+       }
+   }
+   
+       public function saveReviewQuestions($testPaperId,$userId,$questionId,$categoryId,$uniqueId,$score){
+       try{
+           $resultValue =  ScheduleSurveyCollection::model()->saveReviewQuestions($testPaperId,$userId,$questionId,$categoryId,$uniqueId,$score);
+           return $resultValue;
+           } catch (Exception $ex) {
+               Yii::log("SkiptaExSurveyService:saveReviewQuestions::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+           error_log("Exception Occurred in SkiptaExSurveyService->saveReviewQuestions### ".$ex->getMessage());
        }
    }
    

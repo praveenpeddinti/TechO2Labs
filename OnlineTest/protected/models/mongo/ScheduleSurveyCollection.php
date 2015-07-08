@@ -1196,7 +1196,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
            $returnValue = "failure";
        error_log("getReviewQuestions---------".$testPaperId."---".$userId);
       $c = ScheduleSurveyCollection::model()->getCollection();
-     $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>(int)1,'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'))));          
+     $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>(int)1,'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionUniqueIds" => array('$push' => '$UserAnswers.UniqueId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'))));          
     // error_log("get review ---".print_r($result,1));
       $result = $result['result'];
        if(is_array($result) && sizeof($result) > 0 ){
@@ -1205,6 +1205,35 @@ class ScheduleSurveyCollection extends EMongoDocument {
      return $returnValue;
      
      } catch (Exception $ex) {
+ Yii::log("ScheduleSurveyCollection:getReviewQuestions::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+       }
+   }
+   
+      public function saveReviewQuestions($testPaperId,$userId,$questionId,$categoryId,$uniqueId,$score){
+       try{
+      $returnValue = "failure";
+       error_log("saveReviewQuestions---------".$testPaperId."---".$userId."--".$questionId."---".$categoryId."---".$uniqueId."---".$score);
+                           $criteria = new EMongoCriteria();
+                             $modifier = new EMongoModifier();
+                       $criteria->addCond('TestId', '==', new MongoId($testPaperId));
+                      //  $criteria->addCond('UserAnswers.UserId', '==', (int)$userId);
+                      $criteria->addCond('UserAnswers.$uniqueId', '==', new MongoId($uniqueId));
+                       $modifier->addModifier('UserAnswers.0.Score', 'set',(int)$score);
+                      // ScheduleSurveyCollection::model()->updateAll($modifier, $criteria);
+                       
+              $c = ScheduleSurveyCollection::model()->getCollection();           
+     $c->update(array(
+    "TestId"=> new MongoId($testPaperId), 
+   
+    "UserAnswers.QuestionId"=>  new MongoId($questionId) ,
+          "UserAnswers.UserId"=> (int)$userId, 
+    
+  ),
+  array('$set'=> array("UserAnswers.$.Score"=> (int)$score))
+);
+error_log("ened--------------------------");
+     } catch (Exception $ex) {
+         error_log("excepitno------------".$ex->getMessage());
  Yii::log("ScheduleSurveyCollection:getReviewQuestions::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
        }
    }
