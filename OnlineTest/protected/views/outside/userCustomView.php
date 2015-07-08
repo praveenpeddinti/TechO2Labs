@@ -1209,12 +1209,13 @@ sessionStorage.sharedURL = "";
                            //alert(lastPage);
                              if(fromPagiNation == 1 &&  lastPage == "false"){
                              //gotoNextPage();
-                        }
+                               }
                        
                         else{
                             scrollPleaseWaitClose('surveyviewspinner');
                              $("#surveysubmitbuttons").hide(); 
-                            $("#surveyQuestionArea").html(data); 
+//                                $("#surveyQuestionArea").html(data); 
+                                window.location.href = "/outside/thankyouPage?done=done";
                         }
                             var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};                        
                             ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");

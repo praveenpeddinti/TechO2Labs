@@ -51,23 +51,7 @@ class UserController extends Controller {
         try {
             Yii::app()->user->logout();
             Yii::app()->session->destroy();
-             if(!isset($_REQUEST['mobile'])){
-                $randomString = Yii::app()->user->getState('s_k');
-                $userId = Yii::app()->session['TinyUserCollectionObj']->UserId;
-                ServiceFactory::getSkiptaUserServiceInstance()->deleteCookieRandomKeyForUser($userId,$randomString);
-                Yii::app()->request->cookies->clear();
-                $this->redirect('/site'); 
-            }else{
-                $sessionId = $_POST["sessionId"];
-                $userId = $_POST["userId"];
-                $response = ServiceFactory::getSkiptaUserServiceInstance()->logout($sessionId,$userId);  
-                if($response){
-                $obj = array("status"=>"success","data"=>"","error"=>"");    
-                }else{
-                     $obj = array("status"=>"failure","data"=>"","error"=>"");
-                }
-                echo $this->rendering($obj);
-            }
+             $this->redirect('/'); 
         } catch (Exception $ex) {
             Yii::log("UserController:actionLogout::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }

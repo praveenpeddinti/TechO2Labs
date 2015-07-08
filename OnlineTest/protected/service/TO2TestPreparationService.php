@@ -69,5 +69,13 @@ class TO2TestPreparationService {
 
         }
     }
+    public function getUserTestObjectByUserIdTestId($userId,$testId){
+        try{
+            return TestRegister::model()->getUserTestObjectByUserIdTestId($userId,$testId);
+        } catch (Exception $ex) {
+
+        }
+    }
+    
 
 }

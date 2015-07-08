@@ -10,7 +10,7 @@
                    ?>
                     <img src="<?php echo $thankuImage;?>" width="250px">
                 </div>
-                <div class="congratulationsMessage"><?php echo 'Successfully Completed Test';?></div>
+                <div class="congratulationsMessage"><?php echo 'Already, done your test';?></div>
                 
                 
             </div>

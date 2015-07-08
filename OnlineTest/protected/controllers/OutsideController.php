@@ -63,26 +63,25 @@ class OutsideController extends Controller {
             
             $userId = isset(Yii::app()->session['TinyUserCollectionObj']->UserId)?Yii::app()->session['TinyUserCollectionObj']->UserId:0;
             error_log("====UserId==$userId=");
-            $groupName = "Java";
-            $outerFlag = true;
             $vType = "1";
-            $testId = "5590ecf1fc6c3d3a1a8b45ae";
+            $testId = "";
             $testRegObj = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId($userId);
             if(isset($testRegObj) && sizeof($testRegObj)>0){
                 $testId = $testRegObj->TestId;
-            }
-            if($outerFlag){  
-                $this->layout = 'adminLayout';
-            } 
+            }            
             $this->layout = 'adminLayout';
-            $reg = TestRegister::model()->updateTestByUserId($userId,1);
-            error_log("******Registerduser***$userId*$reg");
-            $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
-            //error_log("=UserId==$userId====TestId=$testId==questionPrepObj===".print_r($questionprepareObj,1));
-//            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");   
+            $UTestObj = ServiceFactory::getTO2TestPreparaService()->getUserTestObjectByUserIdTestId($userId,$testId);
+            if(isset($UTestObj->UserId) && $UTestObj->Status == 0){
+                $reg = TestRegister::model()->updateTestByUserId($userId,1);
+                $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);                
+                $QuestionsSurveyForm = new QuestionsSurveyForm;
+                $this->render('index',array('QuestionsSurveyForm'=>$QuestionsSurveyForm,"userId" => $userId,"groupName"=>$groupName,"outerFlag" => $outerFlag,"vType"=>$vType,"TestId"=>$testId,"CatName"=>$questionprepareObj->Category));
+            }else{
+                $this->render('submissionerror');
+            }
             
-            $QuestionsSurveyForm = new QuestionsSurveyForm;
-            $this->render('index',array('QuestionsSurveyForm'=>$QuestionsSurveyForm,"userId" => $userId,"groupName"=>$groupName,"outerFlag" => $outerFlag,"vType"=>$vType,"TestId"=>$testId,"CatName"=>$questionprepareObj->Category));
+            
+            
             } catch (Exception $ex) {
             Yii::log("OutsideController:actionIndex::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
@@ -282,11 +281,19 @@ function get_values_for_keys($mapping, $keys) {
                    $QuestionsSurveyForm->attributes = $_POST['QuestionsSurveyForm'];  
                    $UserId = $QuestionsSurveyForm->UserId;
                    $categoryId = $QuestionsSurveyForm->SurveyId;
+                   
                    $f =  json_decode($QuestionsSurveyForm->Questions);
-                   $questionArray = array();
-                   $OptionsSelected = FALSE;
-                    error_log("=====validateSurveyAnswers===sizeof form==".sizeof($f));
-                for($i=0;$i<sizeof($f);$i++){                           
+                   $questionTempId = 0;
+                   if(isset($_REQUEST['QuestionTempId'])){
+                        $questionTempId = $_REQUEST['QuestionTempId'];
+                    }
+                    $userQuestionObj = array();
+                    if($questionTempId != 0){
+                        $userQuestionObj = UserQuestionsCollection::model()->getPreparedTest($questionTempId);
+                    }
+                    $questionArray = array();
+                    $OptionsSelected = FALSE;
+                    for($i=0;$i<sizeof($f);$i++){                           
                     $searcharray=array();                    
                     parse_str($f[$i],$searcharray);
                     $ExUserAnswerBean = new ExUserAnswersBeans();
@@ -682,10 +689,8 @@ function get_values_for_keys($mapping, $keys) {
                     $obj = array("status"=>"error");
                     //echo "error";                    
                 }else{
-                    $questionTempId = 0;
-                    if(isset($_REQUEST['QuestionTempId'])){
-                        $questionTempId = $_REQUEST['QuestionTempId'];
-                    }
+                    
+                    
                     if(isset( $_REQUEST["fromPagination"])){
                           $fromPagination = $_REQUEST["fromPagination"];
                     }else{
@@ -702,31 +707,31 @@ function get_values_for_keys($mapping, $keys) {
                      $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId);
                      $reg = TestRegister::model()->updateTestByUserId($UserId,2);
                      if($fromAutoSave==0){
-                         error_log("********fromAutoSave".$fromAutoSave);
+                         error_log("from pagination==$fromPagination********fromAutoSave".$fromAutoSave);
                      $exsurveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('Id',$surveyObject->SurveyId);  
                      $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$QuestionsSurveyForm->ScheduleId);                     
-                     $advertiseObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyAdvertisementByScheduleId($QuestionsSurveyForm->ScheduleId);
-                     if(isset($advertiseObj) && !empty($advertiseObj) && $advertiseObj != "failure"){                         
-                         UserStreamCollection::model()->updateSurveyTakenUsersList($UserId,$advertiseObj['id']);
-                        if(isset(Yii::app()->params['NewRegisteredUserSurveyBundle']) && Yii::app()->params['NewRegisteredUserSurveyBundle'] == $obj->SurveyRelatedGroupName){
-                           UserStreamCollection::model()->updateIsDeletedForSurveryCompletedUserByUserIdAdId($UserId,$advertiseObj['id']);                         
-                        }
+                     if ($fromPagination == 1 || $fromAutoSave == 1) {
+                        error_log("==========if========!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                     }else{
+                          error_log("==========else========!222222222222222222!!!!!!!");
+                         echo "success";
                      }
                      //$reValue = ServiceFactory::getSkiptaExSurveyServiceInstance()->getProfileDetails($UserId,$QuestionsSurveyForm->ScheduleId,$surveyObject->SurveyId);
                      
-                     if($exsurveyObj->IsAcceptUserInfo == 1 && $reValue == 0){
-                        $this->renderUserAcceptionInfo($surveyObject->SurveyId, $QuestionsSurveyForm->ScheduleId, $exsurveyObj->SurveyTitle);
-                     }else{
-                         if($obj->ShowThankYou == 1 || $exsurveyObj->IsAnalyticsShown == 0){                             
-//                             if($fromAutoSave == 0)
-//                                ScheduleSurveyCollection::model()->updateVisitedThankYouUsers($UserId,$QuestionsSurveyForm->ScheduleId);
-                            $this->renderPartial('thankyou',array('result'=>$obj,"ScheduleId"=>$QuestionsSurveyForm->ScheduleId,"IsAnalyticsShown"=>$exsurveyObj->IsAnalyticsShown));
-                        }else{
-                            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('Id',$surveyObject->SurveyId); 
-
-                            $this->renderPartial('surveyView',array("surveyObj"=>$surveyObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$QuestionsSurveyForm->ScheduleId,"errMessage"=>"","userId"=>$UserId));
-                        }
-                     }
+//                     if($exsurveyObj->IsAcceptUserInfo == 1 && $reValue == 0){
+//                        $this->renderUserAcceptionInfo($surveyObject->SurveyId, $QuestionsSurveyForm->ScheduleId, $exsurveyObj->SurveyTitle);
+//                     }else{
+//                         if($obj->ShowThankYou == 1 || $exsurveyObj->IsAnalyticsShown == 0){                             
+////                             if($fromAutoSave == 0)
+////                                ScheduleSurveyCollection::model()->updateVisitedThankYouUsers($UserId,$QuestionsSurveyForm->ScheduleId);
+//                            $this->renderPartial('thankyou',array('result'=>$obj,"ScheduleId"=>$QuestionsSurveyForm->ScheduleId,"IsAnalyticsShown"=>$exsurveyObj->IsAnalyticsShown));
+//                        }else{
+//                            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('Id',$surveyObject->SurveyId); 
+//
+//                            $this->renderPartial('surveyView',array("surveyObj"=>$surveyObj,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$QuestionsSurveyForm->ScheduleId,"errMessage"=>"","userId"=>$UserId));
+//                        }
+//                     }
+                        //$this->renderPartial('thankyou',array('result'=>$obj,"ScheduleId"=>$QuestionsSurveyForm->ScheduleId,"IsAnalyticsShown"=>$exsurveyObj->IsAnalyticsShown));
                      }
                     
                 
@@ -962,6 +967,19 @@ function get_values_for_keys($mapping, $keys) {
          Yii::log("ExtendedSurveyController:actionGetAdminSurveyPreview::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
         
+    }
+    
+    public function actionThankyouPage(){
+        try{
+            $response = $_REQUEST['done'];
+            if($response == "done"){
+                $this->render('thankyou');
+            }else{
+                $this->render("index");
+            }
+        } catch (Exception $ex) {
+
+        }
     }
 
 }

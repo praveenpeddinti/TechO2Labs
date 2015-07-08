@@ -180,7 +180,7 @@ TestRegister T on U.UserId not in (T.UserId)";*/
     
     public function getTestIdByUserId($userId){
         try{
-            return TestRegister::model()->findByAttributes(array("UserId"=>$userId));            
+            return TestRegister::model()->findByAttributes(array("UserId"=>$userId,"Status"=>0));            
             
         } catch (Exception $ex) {
             error_log("TestRegister:getTestIdByUserId::".$ex->getMessage());
@@ -190,10 +190,14 @@ TestRegister T on U.UserId not in (T.UserId)";*/
     
     public function updateTestByUserId($userId,$val){
         try{
+            $result = "failure";
             $query="update TestRegister set Status = $val where UserId = $userId";
-            $result = Yii::app()->db->createCommand($query)->queryRow(); 
-            error_log("******updateRegister111111+++$result");
-            return $result;
+            error_log("******updateRegister111111+++$query");
+            if(Yii::app()->db->createCommand($query)->execute()){
+                $result = "success";
+            } 
+            
+            return ;
         } catch (Exception $ex) {
          error_log("TestRegister:getTestIdByUserId::".$ex->getMessage());
             Yii::log("TestRegister:getTestIdByUserId::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -201,7 +205,13 @@ TestRegister T on U.UserId not in (T.UserId)";*/
         
         
     }
-    
+    public function getUserTestObjectByUserIdTestId($userId,$testId){
+        try{
+            return TestRegister::model()->findByAttributes(array("UserId"=>$userId,"TestId"=>"$testId"));
+        } catch (Exception $ex) {
+            error_log("TestRegister:getUserTestObjectByUserIdTestId::".$ex->getMessage());
+        }
+    }
     
 }
 
