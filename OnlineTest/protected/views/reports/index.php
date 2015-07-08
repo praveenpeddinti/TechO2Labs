@@ -83,11 +83,15 @@
 $(document).ready(function(){
     Custom.init();
         loadEvents();
-   var data= {"testPaperId":"<?php echo $testPaperId?>"};
-  
-      ajaxRequest("/reports/renderReports",data ,renderReportsHandler, "html");
+        
+   renderReport();
 
 });
+function renderReport(){
+    var data= {"testPaperId":"<?php echo $testPaperId?>"};
+    ajaxRequest("/reports/renderReports",data ,renderReportsHandler, "html");
+}
+
     function loadEvents() {
         var nowTemp = new Date();
         var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -165,6 +169,7 @@ $("#submitReviewAnswers").live("click",function(){
        ajaxRequest("/reports/saveReviewQuestions",data ,saveReviewQuestionsHandler);
 })
 function saveReviewQuestionsHandler(data){
+    renderReport();
     }
 </script>
 
