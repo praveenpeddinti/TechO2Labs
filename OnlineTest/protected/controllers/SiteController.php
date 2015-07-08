@@ -128,9 +128,9 @@ class SiteController extends Controller {
                     error_log("----o---");
                     $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerDetails($testTakerForm);
                     $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserByType($testTakerForm->Email, 'Email');
-                      //error_log("----1---".print_r($userObj,1));
+                      error_log("----1---".print_r($userObj,1));
                     $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
-                     //error_log("----2---".print_r($tinyUserCollectionObj,1));
+                     error_log("----2---".print_r($tinyUserCollectionObj,1));
                     Yii::app()->session['TinyUserCollectionObj'] = $tinyUserCollectionObj;
                     Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
                     $obj = array('status' => 'success', 'data' => '', 'error' => ""); 

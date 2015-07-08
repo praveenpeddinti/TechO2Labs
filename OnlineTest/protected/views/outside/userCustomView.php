@@ -47,13 +47,14 @@ if(is_object($surveyObj)){ ?>
          <input type="hidden" name="QuestionsSurveyForm[OtherValue][<?php echo ($i); ?>]"  id="QuestionsSurveyForm_OtherValue_<?php echo ($i); ?>" value="<?php echo $userAnswerObj["OtherValue"]?>"/>
          <input type="hidden" name="QuestionsSurveyForm[OptionsSelected][<?php echo ($sno); ?>]"   id="QuestionsSurveyForm_OptionsSelected_<?php echo ($i); ?>" value="<?php if(isset($userAnswer) && sizeof($userAnswer) > 0){ echo implode(",", $userAnswer);} ?>"/>
                     <div class="surveyquestionsbox" data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
-                        
+                       
                                 <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_OptionsSelected_<?php echo ($sno); ?>_em_" class="errorMessage"></div>
                             
                      <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
                         <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
-                     <div class="answersection">
+                      <?php  include 'artifactdisplay.php'; ?>
+                        <div class="answersection">
                       <?php $j = 1;foreach($question['Options'] as $rw){ ?>   
                          <div class="normalsection ">
                              <div data-questionid="<?php echo ($i); ?>" class="surveyradiobutton  radiooption_first" data-optionid="<?php echo ($j."_".$i); ?>"> <input value="<?php echo ($j); ?>" <?php if(isset($userAnswer) && in_array($j,$userAnswer)) echo "checked"; else echo ""?> type="radio" class="styled " name="radio_<?php echo $i;?>" id="optionradio_<?php echo $j."_".$i;?>"></div>
@@ -111,13 +112,13 @@ if(is_object($surveyObj)){ ?>
          <input type="hidden" name="QuestionsSurveyForm[OptionsSelected][<?php echo ($sno); ?>]"   id="QuestionsSurveyForm_OptionsSelected_<?php echo ($i); ?>" value="<?php if(isset($userAnswer) && sizeof($userAnswer) > 0){ echo implode(",", $userAnswer);} ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[SelectAll][<?php echo ($i); ?>]"   id="QuestionsSurveyForm_SelectAll_<?php echo ($i); ?>" value="<?php echo $userAnswerObj['SelectAll'];?>"/>
             <div class="surveyquestionsbox"  data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
-                
+                 
                                 <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_OptionsSelected_<?php echo $sno; ?>_em_" class="errorMessage"></div>
                             
                 <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
                         <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
-                        
+                        <?php  include 'artifactdisplay.php'; ?>
                      <div class="answersection">
                           <?php if($question['DisplayType'] == 1){ //Checkbox ?>
                          
@@ -222,11 +223,13 @@ if(is_object($surveyObj)){ ?>
          <input type="hidden" name="QuestionsSurveyForm[OtherValue][<?php echo ($i); ?>]"  id="QuestionsSurveyForm_OtherValue_<?php echo ($i); ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[OptionsSelected][<?php if($question['MatrixType'] == 3)echo ($sno) ;else echo ($i) ?>]"   id="QuestionsSurveyForm_OptionsSelected_<?php echo ($i); ?>" value="<?php if(isset($userAnswer) && sizeof($userAnswer) > 0){ echo implode(",", $userAnswer);} ?>"/>
                        <div class="surveyquestionsbox"  data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
+                          
                            <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_OptionsSelected_<?php if($question['MatrixType'] == 3)echo ($sno) ;else echo ($i)  ?>_em_" class="errorMessage"></div>
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
-                        <div class="answersection">
+                         <?php  include 'artifactdisplay.php'; ?> 
+                           <div class="answersection">
                        <div class="paddingtop12">
                            <div class="MR_view_table"> 
                         <table cellpadding="0" cellspacing="0" class="customsurvaytable customsurvaytableview">
@@ -389,12 +392,14 @@ if(is_object($surveyObj)){ ?>
         
          <input type="hidden" name="QuestionsSurveyForm[OptionsSelected][<?php if($question['MatrixType'] == 3)echo ($sno) ;else echo ($i) ?>]"   id="QuestionsSurveyForm_OptionsSelected_<?php echo ($i); ?>" value="<?php if($question['MatrixType'] == 3){ if(isset($userAnswer[0]) && sizeof($userAnswer[0]) > 0 && $userAnswer[0] != ""){ echo "1";} }else{if(isset($userAnswer[0]) && sizeof($userAnswer[0]) > 0 && $userAnswer[0] != "") echo implode(",",$userAnswer);} ?>"/>
                 <div class="surveyquestionsbox"  data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
+                     
                     <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_OptionsSelected_<?php if($question['MatrixType'] == 3)echo ($sno) ;else echo ($i) ?>_em_" class="errorMessage"></div>                        
                     
                     <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
-                        <div class="answersection">
+                        <?php  include 'artifactdisplay.php'; ?>
+                           <div class="answersection">
                        <div class="paddingtop12">
                            <div class="MR_view_table"> 
                         <table cellpadding="0" cellspacing="0" class="customsurvaytable customsurvaytableview">
@@ -545,13 +550,15 @@ if(is_object($surveyObj)){ ?>
          <input type="hidden" name="QuestionsSurveyForm[OtherValue][<?php echo ($i); ?>]"  id="QuestionsSurveyForm_OtherValue_<?php echo ($i); ?>" value="<?php echo $userAnswerObj["OtherValue"]?>"/>
          
                 <div class="surveyquestionsbox"  data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
+                     
                     <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_TotalCalValue_<?php echo $sno; ?>_em_" class="errorMessage"></div>    
                   <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_OptionsSelected_<?php echo $sno; ?>_em_" class="errorMessage"></div> 
 
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
-                           <?php $k = 1; foreach($question['OptionName'] as $rw){ ?>
+                           <?php  include 'artifactdisplay.php'; ?>
+                               <?php $k = 1; foreach($question['OptionName'] as $rw){ ?>
                            <input type="hidden" name="QuestionsSurveyForm[DistValue][<?php echo ($k."_".$i); ?>]" id="QuestionsSurveyForm_DistValue_hid_<?php echo ($k."_".$i); ?>" value="<?php echo $userAnswer[$k-1]?>"/>
                        <div class="answersection">
                      <div class="normalsection ">
@@ -648,11 +655,12 @@ if(is_object($surveyObj)){ ?>
          <input type="hidden" name="QuestionsSurveyForm[QuestionId][<?php echo ($i); ?>]"  value="<?php echo $question['QuestionId']; ?>"/>
          <input type="hidden" name="QuestionsSurveyForm[UserAnswer][<?php echo ($sno); ?>]"  id="QuestionsSurveyForm_UserAnswer_hid_<?php echo ($i); ?>" value="<?php echo $userAnswer;?>"/>
                      <div class="surveyquestionsbox"  data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
+                         
                          <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_UserAnswer_<?php echo $sno; ?>_em_" class="errorMessage"></div>    
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
-                        
+                        <?php  include 'artifactdisplay.php'; ?>
                            <div class="answersection">
                          <div class="normalsection paddingleftzero ">
                         <div class="row-fluid">
@@ -794,7 +802,8 @@ if(is_object($surveyObj)){ ?>
                      <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
                         <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
-                     <div class="answersection">
+                      <?php  include 'artifactdisplay.php'; ?>
+                        <div class="answersection">
                       <?php $j = 1;foreach($question['Options'] as $ky=>$rw){ ?>   
                          <div class="normalsection ">
                              <div data-justificationapplied="<?php echo $question['JustificationAppliedToAll']; ?>" data-justvalue="<?php  if(isset($question['Justification'][0]) && sizeof($question['Justification']) > 0){ echo implode(",",$question['Justification']); }  ?>" class="surveyradiobutton surveybooleanoptionsdiv confirmation_<?php echo ($i); ?>" data-sno="<?php echo ($sno); ?>" data-questionid="<?php echo ($i); ?>" data-stype="<?php echo $question['SelectionType']; ?>" data-optionid="<?php echo ($j."_".$i); ?>" data-value="<?php echo ($j); ?>"> 
@@ -970,7 +979,7 @@ sessionStorage.sharedURL = "";
             var notValidate = 0;
             var errorInterval = 0;
              $("#submitQuestion").die("click"); 
-        $("#submitQuestion").live("click",function(){ 
+        $("#submitQuestion").live("click",function(){ alert(done)
              Garray = new Array();
              isValidate = 0;
              fromAutoSave = 0;
@@ -1345,9 +1354,13 @@ function updateTextRadiohiddenFields(obj,rno,qno,col,maxValue){
    
   
    
-       
+
+       <?php if($page == 1){ ?>
+          
+       <?php } ?>
          if(currentPage == 0){             
               $("#surveysubmitbuttons,#nextQuestion").show();
+
              //$("#prevQuestion").hide(); 
          }else{
               $("#prevQuestion").show();

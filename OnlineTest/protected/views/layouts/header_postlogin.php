@@ -54,6 +54,7 @@
                 <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/customwidgets.js"></script>
 
             <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.slicknav.js"></script>
+            <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.countdownTimer.min.js"></script>
        
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jwplayer/jwplayer.js"></script>
         <script type="text/javascript">jwplayer.key = "N5rHDC1elorgiqDb/VdbUadp/aRvTnNwLEQFlQ=="</script>

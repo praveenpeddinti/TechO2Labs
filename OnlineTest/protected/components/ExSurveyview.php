@@ -53,12 +53,19 @@
  <div class="questions_area_left_outer">
  <!-- question catogories -->
 <div class="q_catogories">
-    <?php error_log("==category===".print_r($CatName,1)); $k = 0; foreach($CatName as $row){ ?>
-   <div class="q_catogories_progress position_R" id="q_categories_<?php echo ($k+1); ?>" >
+    <div><span id="hms_timer"></span><span style="display:none" id="hms_timer_hidden"></span><span style="display:none" id="hms_timer_stop"></span></div>
+    <script type="text/javascript">
+         var TotalTimerDivs={};
+          var CategoryDivs=new Array();
+        </script>
+           <?php
+           $Totaltime = 0;
+ $k = 0; foreach($CatName as $row){ ?>
+   <div class="q_catogories_progress position_R" id="q_categories_<?php echo ($k+1); ?>" data-val="<?php echo ($k+1); ?>" >
        <div class="headerbg_cat">
-   	<h3 class="pull-left" onclick="timechange(<?php echo ($k+1); ?>,<?php echo $row['CategoryTime']; ?>)" data-info="<?php echo ($k+1); ?>"><?php echo $row['CategoryName']; ?></h3> 
+   	<h3 class="pull-left" data-info="<?php echo ($k+1); ?>"><?php echo $row['CategoryName']; ?></h3> 
         <div class="subject_timer" id="subject_timer_<?php echo ($k+1); ?>">
-            <div class="timer"><span class="hour" id="hour_<?php echo ($k+1); ?>">00</span>:<span class="minute" id="minute_<?php echo ($k+1); ?>">00</span>:<span class="second" id="second_<?php echo ($k+1); ?>">00</span>
+            <div class="timer"><span id="hms_timer<?php echo ($k+1); ?>"></span><span style="display:none" id="hms_timer<?php echo ($k+1); ?>_hidden"></span><span style="display:none" id="hms_timer<?php echo ($k+1); ?>_stop"></span>
             </div>
             </div>
        </div>
@@ -71,7 +78,7 @@
        <?php if($i%5==0){  ?>
         </tr><tr>
              <?php } ?>
-            <td class="questionnos" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>
+            <td class="questionnos" data-activetimer="hms_timer<?php echo ($k+1); ?>_hidden" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>
             
         
         
@@ -84,6 +91,31 @@
     
     
    </div>
+     <script type="text/javascript">
+         
+     $(function(){
+                                    $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
+                                        hours : 0,
+                                        minutes :0,//<?php echo $row['CategoryTime']; ?>,
+                                        seconds : 5,
+                                        size : "lg",
+					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
+					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
+                                        //timeUp:"hms_timer<?php echo ($k+1); ?>"
+                                        timeUp : "q_categories_<?php echo ($k+1); ?>"
+                                    });
+                                    if('#hms_timer<?php echo ($k+1); ?>_stop'!="#hms_timer1_stop"){
+                                        $('#hms_timer<?php echo ($k+1); ?>_stop').val("stop").trigger('click');
+                                     }
+                                    
+                                });
+                               var TimerDivs=TimerDivs+","+"#hms_timer<?php echo ($k+1); ?>_hidden";
+                               var Totaltime = <?php echo $Totaltime = $Totaltime+$row['CategoryTime']; ?>;
+                              
+                               CategoryDivs.push("q_categories_<?php echo ($k+1); ?>");
+                               TotalTimerDivs["q_categories_<?php echo ($k+1); ?>"]="hms_timer<?php echo ($k+1); ?>_hidden";
+                              // alert(TotalTimerDivs)
+                                </script>
  <?php $k++; } ?>
    
 </div>
@@ -97,18 +129,45 @@
         
     
      <script type="text/javascript">
-          var timer;
-          var g_timer1;
-          var g_timer2;
-          var g_timer3;
-           var timeleft = '600';
+        //alert(TotalTimerDivs['q_categories_1'])
+        var closedCategory=new Array();
+        var openCategory=new Array();
+         function expiryCategory(divid){
+             closedCategory.push(divid)
+           //  alert("I am done----"+divid)
+             $('#'+divid).css('opacity',0.2);
+             $('#'+divid).append("<div class='suspendcontentdiv'></div><div class='suspenddiv'></div>");
+             $('#'+divid).removeClass('q_catogories_progress_active');
+             openCategory=arr_diff(CategoryDivs,closedCategory);
+             if(openCategory.length>0){
+              //alert(openCategory[0]+"i am in");
+                stopandStartTimer(TotalTimerDivs[openCategory[0]]); 
+                getOpenCategoryQuestion(openCategory[0]);
+             }else{
+                 //alert('timeup')
+                //getDone(); 
+             }
+            
+              
+         }
          $(document).ready(function() {
-           // alert('1')
+             //main timer code
+             $(function(){
+                                    $('#hms_timer').countdowntimer({
+                                        hours : 0,
+                                        minutes :Totaltime,//<?php //echo $row['CategoryTime']; ?>,
+                                        seconds : 0,
+                                        size : "lg",
+					pauseButton : "hms_timer_hidden",
+					stopButton : "hms_timer_stop",
+                                       // timeUp : "q_categories_<?php echo ($k+1); ?>"
+                                    });
+                                    
+                                    
+                                });
+             //main timer end
            $(".q_catogories div.q_catogories_progress").first().addClass("q_catogories_progress_active");
-           $("#subject_timer_1").find("*").prop("disabled", false);
-           //$(".q_catogories div.q_catogories_progress div.subject_timer span").first().attr("disabled":"false");
-           timedisplay(1);
-            doAjax();
+           doAjax();
              var UserId = 0;
                  var Groupname = "";
                  var isOuter = false;
@@ -134,8 +193,7 @@
         }, "html");
              }
              function renderSurveyView(html){  
-
-                 $("#streamsectionarea").show();
+                $("#streamsectionarea").show();
                 $("#questionviewarea").html(html);
         }
             <?php if(isset($this->tinyObject)){ ?>
@@ -176,6 +234,10 @@
           var currentPage=0;   
          $(".questionnos").live("click",function(){   //question by number            
              var $this = $(this);
+             
+              var activetimerdiv = $this.data("activetimer");
+              //alert(activetimerdiv);
+              stopandStartTimer(activetimerdiv);
              var scheduleid = $this.data("scheduleid");
              var catid = $this.data("catid");
              var qno = $this.data("qno");
@@ -184,6 +246,40 @@
              $("#QuestionsSurveyForm_SurveyId").val(catid);
              setGotoPageAjaxCall(scheduleid,catid,qno,"current");
          });
+         
+         function getOpenCategoryQuestion(divid){
+        //  $(".q_catogories div.q_catogories_progress").first().addClass("q_catogories_progress_active");
+             //alert("#"+divid+"  .questionnos")
+            $("#"+divid+" .questionnos").first().trigger("click",function(){   //question by number            
+             var $this = $(this);
+              var activetimerdiv = $this.data("activetimer");
+               stopandStartTimer(activetimerdiv);
+             var scheduleid = $this.data("scheduleid");
+             var catid = $this.data("catid");
+             var qno = $this.data("qno");
+             sureyQuestionPage = qno;
+             $("#QuestionsSurveyForm_ScheduleId").val(scheduleid);
+             $("#QuestionsSurveyForm_SurveyId").val(catid);
+             setGotoPageAjaxCall(scheduleid,catid,qno,"current");
+         });
+     }
+     function getDone(){
+         
+         $("#submitQuestion").live("click",function(){ alert('--2')
+             Garray = new Array();
+             isValidate = 0;
+             fromAutoSave = 0;
+             fromNode = 1;
+             fromPagiNation = 0;
+             gQcnt = 0;
+             notValidate = 0;
+             if(autoSaveInterval != null && autoSaveInterval != "undefined"){          
+                     clearInterval(autoSaveInterval);
+                }
+           submitSurvey();
+          
+        });
+     }
          $("#prevQuestion").live("click",function(){
              fromPagiNation=1;
              gotoPreviousPage();            
@@ -195,7 +291,27 @@
               setGotoPageAjaxCall(scheduleId,surveyId,sureyQuestionPage,"next");
               
     }
+    function stopandStartTimer(div){
+       
+        $(TimerDivs).val("pause").trigger('click');
+        $('#'+div).val("resume").trigger('click'); 
+    }
+    function startnext(divid){
+        alert(divid+'----'+TimerDivs)
+    }
     
+    function arr_diff(a1, a2)
+{
+  var a=[], diff=[];
+  for(var i=0;i<a1.length;i++)
+    a[a1[i]]=true;
+  for(var i=0;i<a2.length;i++)
+    if(a[a2[i]]) delete a[a2[i]];
+    else a[a2[i]]=true;
+  for(var k in a)
+    diff.push(k);
+  return diff;
+}
     function setGotoPageAjaxCall(scheduleid,catid,qno,actiontype){
         var queryString = {"userQuestionTempId":userTempId,"categoryId":catid,"scheduleId":scheduleid,"page":qno,"action":actiontype};
             //ValidateQuestions(1, 1);
@@ -225,81 +341,15 @@ submitSurvey();
              ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
          }
          
-         //timer code
-         function timechange(catno,qtime){
-            var $this = $(this);
-            var timer1;
-            
-            var timeleft1 = qtime;
-            //alert($(this).class)
-             $(".q_catogories div.q_catogories_progress").removeClass("q_catogories_progress_active");
-             $("#q_categories_"+catno).addClass("q_catogories_progress_active");
-            $("#q_categories_"+catno).parent("div.q_catogories_progress").addClass("q_catogories_progress_active");
-            $("#subject_timer_"+catno).find("*").prop("disabled", true);
-           // $("#q_categories_"+catno).next("div.subject_timer span").attr("disabled","false");
-            // $("#q_categories_"+catno+" div.subject_timer").first().attr("disabled":"false");
-           //$("#q_categories_"+catno).children("div.subject_timer").attr("disabled":false);
-             timedisplay(catno);
-         }
-         function timedisplay1(qn,timer1,qtime){
-        //   timer1 =    setInterval(function(){checktime1(qn,timer1,qtime)},1000);
-          
-         }
-         
-        function timedisplay(qn){
-            setInterval(function(){checktime(qn)},1000);
-          
-         }
-    function checktime(qn) {
-        if(timeleft>=0){
-            var seconds = Math.round(timeleft);
-            var minutes = Math.floor(seconds/60);
-            seconds = seconds - (minutes*60);
-            var hours = Math.floor(minutes/60);
-            minutes = minutes - (hours*60);
-            
-            if(seconds>=10){seconds = seconds;}else{seconds = '0'+seconds;};
-            if(minutes>=10){minutes = minutes;}else{minutes = '0'+minutes;};
-            if(hours>=10){hours = hours;}else{hours = '0'+hours;};
-
-            $('#hour_'+qn).html(hours);
-            $('#minute_'+qn).html(minutes);
-            $('#second_'+qn).html(seconds);
-            timeleft-=1;
-            
-        }else{
-           clearInterval(timer);
-           //alert('test has been completed');
-           //alert('Your test time completed, test closed automatically');
-           
-        }
-    } 
-    
-    function checktime1(qn,timer1,qtime) {
-        if(qtime>=0){
-          
-            var seconds = Math.round(qtime);
-            var minutes = Math.floor(seconds/60);
-            seconds = seconds - (minutes*60);
-            var hours = Math.floor(minutes/60);
-            minutes = minutes - (hours*60);
-            
-            if(seconds>=10){seconds = seconds;}else{seconds = '0'+seconds;};
-            if(minutes>=10){minutes = minutes;}else{minutes = '0'+minutes;};
-            if(hours>=10){hours = hours;}else{hours = '0'+hours;};
-
-            $('#hour_'+qn).html(hours);
-            $('#minute_'+qn).html(minutes);
-            $('#second_'+qn).html(seconds);
-            qtime-=1;
-            
-        }else{
-           clearInterval(timer1);
-           //alert('test has been completed');
-           //alert('Your test time completed, test closed automatically');
-           
-        }
-    } 
+      
          //timer end
+         $('#pauseBtnhms1').on('click', function() {
+  //  hasTimer = true;
+  
+        $('#hms_timer_hidden,#hms_timer_hidden1').val("pause").trigger('click');
+        $('#hms_timer_hidden1').val("resume").trigger('click');
+        // $('#timer1').timer('resume');
+         
+ });
          
 </script>

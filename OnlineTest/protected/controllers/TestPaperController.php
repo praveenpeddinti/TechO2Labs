@@ -323,9 +323,10 @@ class TestPaperController extends Controller {
             $result = array();
             $TestId = $_REQUEST['TestId'];
             $UserIds = $_REQUEST['UserIds'];
+            error_log("===UserIds=======$UserIds");
             $a =array();
             $af = split(',', $UserIds);
-            
+            error_log("===UserIdsArry=======".print_r($af,1));
             for($i=0;$i<sizeof($af);$i++){
                 
             $data = ServiceFactory::getSkiptaUserServiceInstance()->saveInviteUserForTest($TestId,$af[$i]);
