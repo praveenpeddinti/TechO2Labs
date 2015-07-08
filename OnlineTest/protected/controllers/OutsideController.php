@@ -705,7 +705,7 @@ function get_values_for_keys($mapping, $keys) {
                      $NetworkId=1;
                     // error_log("Iam form".print_r($QuestionsSurveyForm,true));
                      $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId);
-                     $reg = TestRegister::model()->updateTestByUserId($UserId,2);
+                     
                      if($fromAutoSave==0){
                          error_log("from pagination==$fromPagination********fromAutoSave".$fromAutoSave);
                      $exsurveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('Id',$surveyObject->SurveyId);  
@@ -713,6 +713,7 @@ function get_values_for_keys($mapping, $keys) {
                      if ($fromPagination == 1 || $fromAutoSave == 1) {
                         error_log("==========if========!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                      }else{
+                         $reg = TestRegister::model()->updateTestByUserId($UserId,2);
                           error_log("==========else========!222222222222222222!!!!!!!");
                          echo "success";
                      }
