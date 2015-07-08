@@ -188,6 +188,20 @@ TestRegister T on U.UserId not in (T.UserId)";*/
         }
     }
     
+    public function updateTestByUserId($userId,$val){
+        try{
+            $query="update TestRegister set Status = $val where UserId = $userId";
+            $result = Yii::app()->db->createCommand($query)->queryRow(); 
+            error_log("******updateRegister111111+++$result");
+            return $result;
+        } catch (Exception $ex) {
+         error_log("TestRegister:getTestIdByUserId::".$ex->getMessage());
+            Yii::log("TestRegister:getTestIdByUserId::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+        
+        
+    }
+    
     
 }
 
