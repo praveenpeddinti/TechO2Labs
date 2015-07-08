@@ -59,6 +59,21 @@
                 <div class="control-group controlerror"> 
                     <?php echo $form->error($model, 'Phone'); ?>
                 </div>
+                
+                <!--<div class="form-group loginform">
+                <input type="hidden" name="UserRegistrationForm[IdentityProof]" id="UserRegistrationForm_IdentityProof" />
+                <select style="width: 100%;margin-bottom:0" name="IdentityProof" id="IdentityProof" class="styled" >
+                    <option value="">Select IdProof</option>
+                    <option value="Pancard">Pancard</option>                                      
+                    <option value="Passport">Passport</option>
+                    <option value="Driving Licence">Driving Licence</option> 
+                </select>
+                <div class="control-group controlerror">
+                      <?php echo $form->error($model, 'IdentityProof'); ?>
+                </div>
+                </div>-->
+                
+                
                 <div class="form-group loginform" id="pancarddiv">
                     <label class="pancardlbl" for="Pancard" >Pancard</label>
                     <?php echo $form->textField($model,'Pancard',array('maxlength' => 40, 'class' => 'form-control email')); ?>
@@ -123,12 +138,24 @@
             var msg = data.data;
             var error = [];
             if (msg != "") {
-                if (data.error == "Test taker already exist.") { 
+                if (data.error == "Test taker doesnot exist."){ 
                     $("#error").text(data.error);
                     $("#error").show();
                     $("#error").fadeOut(5000);
                     $("#error").parent().addClass('error');
-                } 
+                }
+                if (data.error == "Test taker already taken Test."){ 
+                    $("#error").text(data.error);
+                    $("#error").show();
+                    $("#error").fadeOut(5000);
+                    $("#error").parent().addClass('error');
+                }
+                if (data.error == "Test taker not allowed."){ 
+                    $("#error").text(data.error);
+                    $("#error").show();
+                    $("#error").fadeOut(5000);
+                    $("#error").parent().addClass('error');
+                }
             } else {
                 if (typeof (data.error) == 'string') {
                     var error = eval("(" + data.error.toString() + ")");

@@ -180,8 +180,11 @@ TestRegister T on U.UserId not in (T.UserId)";*/
     
     public function getTestIdByUserId($userId){
         try{
-            return TestRegister::model()->findByAttributes(array("UserId"=>$userId,"Status"=>0));            
-            
+            //$query = "select * from TestRegister where UserId=$userId AND Status=0 limit 1";
+            //error_log("query------".$query);
+            //$result = Yii::app()->db->createCommand($query)->queryRow();
+            return TestRegister::model()->findByAttributes(array("UserId"=>$userId));            
+            //return $result;
         } catch (Exception $ex) {
             error_log("TestRegister:getTestIdByUserId::".$ex->getMessage());
             Yii::log("TestRegister:getTestIdByUserId::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

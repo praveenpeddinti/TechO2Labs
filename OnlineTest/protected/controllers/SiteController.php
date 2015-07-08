@@ -125,17 +125,25 @@ class SiteController extends Controller {
                 $takerexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExist($testTakerForm->Email);  
                 $takerPhoneexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExistWithPhone($testTakerForm->Phone);
                 if ((count($takerexist) > 0) && (count($takerPhoneexist) > 0) ) {
-                //if ( (count($takerPhoneexist) > 0) ) {
-                    error_log("----o---".print_r($takerPhoneexist,1));
-                    $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerDetails($testTakerForm);
-                    $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserByType($testTakerForm->Email, 'Email');
-                      error_log("----1---".print_r($userObj,1));
-                    $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
-                     error_log("----2---".print_r($tinyUserCollectionObj,1));
-                    Yii::app()->session['TinyUserCollectionObj'] = $tinyUserCollectionObj;
-                    Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
-                    $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
-                }else {error_log("---4--");
+                    //if ( (count($takerPhoneexist) > 0) ) {
+                        $checkUserTesttaken = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId($takerPhoneexist->UserId);
+                        error_log(count($checkUserTesttaken)."----o---".$takerPhoneexist->UserId);
+                        if(isset($checkUserTesttaken) && sizeof($checkUserTesttaken)>0){
+                                
+                            if($checkUserTesttaken->Status==0){
+                                $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerDetails($testTakerForm);
+                                $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserByType($testTakerForm->Email, 'Email');
+                                $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
+                                Yii::app()->session['TinyUserCollectionObj'] = $tinyUserCollectionObj;
+                                Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
+                                $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
+                            }else {
+                                $obj = array('status' => 'error', 'error' => 'Test taker already taken Test.');  
+                            }
+                        }else{
+                          $obj = array('status' => 'error', 'error' => 'Test taker not allowed.');  
+                        }
+                    }else {
                     $obj = array('status' => 'error', 'error' => 'Test taker doesnot exist.');
                 }
             }
