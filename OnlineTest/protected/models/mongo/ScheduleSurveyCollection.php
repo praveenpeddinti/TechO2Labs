@@ -1221,18 +1221,18 @@ class ScheduleSurveyCollection extends EMongoDocument {
                       
                        $modifier->addModifier('UserAnswers.$.Score', 'set',(int)$score);
                         $modifier->addModifier('UserAnswers.$.IsReviewed', 'set',(int)2);
-                      // ScheduleSurveyCollection::model()->updateAll($modifier, $criteria);
+                       ScheduleSurveyCollection::model()->updateAll($modifier, $criteria);
                        
-              $c = ScheduleSurveyCollection::model()->getCollection();           
-     $c->update(array(
-    "TestId"=> new MongoId($testPaperId), 
-   
-    "UserAnswers.QuestionId"=>  new MongoId($questionId) ,
-          "UserAnswers.UserId"=> (int)$userId, 
-    
-  ),
-  array('$set'=> array("UserAnswers.$.Score"=> (int)$score))
-);
+//              $c = ScheduleSurveyCollection::model()->getCollection();           
+//     $c->update(array(
+//    "TestId"=> new MongoId($testPaperId), 
+//   
+//    "UserAnswers.QuestionId"=>  new MongoId($questionId) ,
+//          "UserAnswers.UserId"=> (int)$userId, 
+//    
+//  ),
+//  array('$set'=> array("UserAnswers.$.Score"=> (int)$score))
+//);
 error_log("ened--------------------------");
      } catch (Exception $ex) {
          error_log("excepitno------------".$ex->getMessage());
