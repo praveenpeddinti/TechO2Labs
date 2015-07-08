@@ -24,6 +24,7 @@
         ),
     ));
     ?>
+    <input type="hidden" id="TId" value="<?php echo $testPaperId?>"/>
     
     <div id="inviteUsersSpinner"></div>
     <div class="row-fluid">
@@ -53,12 +54,18 @@
                 </div>
             </div>
             <div class="span4">
-                <?php $j=1;foreach($reportData as $Details){ if($j==sizeof($reportData)){?> 
-                            <?php foreach($Details->categoryScoreArray as $value){?>
-                            <label><?php echo $value['categoryName'];?></label>
-                            <input id="<?php echo $value['categoryName'];?>" type="text" maxlength="3" />
-                            <?php }} $j++;}?>
+                <?php //$j=1;foreach($reportDataIndex as $Details){ if($j==sizeof($reportDataIndex)){?> 
+                
+                            <?php //foreach($Details->categoryScoreArray as $value){?>
+                            <!--<label><?php ///echo $value['categoryName'];?></label>
+                            <input class="categorysearch" id="<?php //echo $value['categoryName'];?>" type="text" maxlength="3" />-->
+                            <?php //}} $j++;}?>
                     
+                
+                            <?php foreach($reportDataIndex as $value){?>
+                            <label><?php echo $value['CategoryName'];?></label>
+                            <input class="categorysearch" id="<?php echo $value['CategoryName'];?>" type="text" maxlength="3" />
+                            <?php }?>
             </div>
             
             
@@ -68,7 +75,7 @@
         <div class="span12">
                 <label>&nbsp;&nbsp;</label>
                     <?php 
-                        echo CHtml::button('Search',array("id"=>"searchInviteUsers",'class' => 'btn')); 
+                        echo CHtml::button('Search',array("id"=>"reportssearchUsers",'class' => 'btn')); 
                         echo "&nbsp;";
                         echo CHtml::resetButton('Reset', array("id" => 'resetInviteUsers', 'class' => 'btn btn_gray')); ?>
         </div>
@@ -78,17 +85,61 @@
 <div id="inviteuser_div">
      
     </div>
+    <script>
+    $("#reportssearchUsers").click(function() { 
+        var testPaperId=$("#TId").val();
+        var startDate = $("#InviteUserForm_StartDate").val();
+        var endDate = $("#InviteUserForm_EndDate").val();
+        var searchText='';
+        $(".categorysearch").each(function(){
+            var $this = $(this);
+        //if($this.val()!=''){
+           
+        if(searchText==''){
+                searchText = $this.attr("id")+"~"+$this.val();
+            }else{
+                searchText = searchText+','+$this.attr("id")+"~"+$this.val();
+            }//}
+        });
+        
+        //alert("cat-----"+searchText);
+        getInviteUsersWithFiltersDetails(0,testPaperId,startDate,endDate,searchText);
+        //var data= {"testPaperId":testPaperId,
+        //           "startDate":startDate,             
+        //           "endDate":endDate,
+        //           "Arithmetic1":cat1
+        //          };
+  
+      //ajaxRequest("/reports/renderReports",data ,renderReportsHandler, "html");
+        
+    });
+   
+
+</script>
 <script>
     
+    
+var g_filterValue = "";
+var g_pageNumber = 1;
+var g_searchText = "";
+var g_startLimit = 0;
+var g_pageLength = 5; 
+ var g_startdate = "";
+ var g_enddate = "";
+ var startdate = enddate = "";
 $(document).ready(function(){
     Custom.init();
         loadEvents();
+
         
    renderReport();
 
+
 });
 function renderReport(){
-    var data= {"testPaperId":"<?php echo $testPaperId?>"};
+     var data= {"testPaperId":"<?php echo $testPaperId?>","startDate":'',"endDate":'',"pageLength":g_pageLength};
+  
+    //    var data= {"testPaperId":"<?php echo $testPaperId?>"};
     ajaxRequest("/reports/renderReports",data ,renderReportsHandler, "html");
 }
 
@@ -111,7 +162,7 @@ function renderReport(){
 
         var checkout = $('#dpd2').datepicker({
             onRender: function(date) {
-                return date.valueOf() < checkin.date.valueOf() ? '' : 'disabled';
+                return date.valueOf() > checkin.date.valueOf() ? '' : 'disabled';
             }
         }).on('changeDate', function(ev) {
             checkout.hide();
@@ -119,9 +170,42 @@ function renderReport(){
 
     }
 function renderReportsHandler(html){
-    //alert('renderReportsHandler--'+html);
     $("#inviteuser_div").html(html);
+    var testPaperId=$("#TId").val();
+        if (typeof g_pageNumber == "undefined") {
+            g_page = 1;
+        } else {
+            g_page = g_pageNumber;
+        }
+        if (g_startdate != '') {
+            $("#InviteUserForm_StartDate").val(g_startdate);
+        } else {
+            g_startdate = "";
+        }
+        if (g_enddate != '') {
+            $("#InviteUserForm_EndDate").val(g_enddate);
+        } else {
+            g_enddate = "";
+        } 
+        if(g_searchText != undefined && g_searchText != ""){
+           
+        }
+         $("#pagination").pagination({
+            currentPage: g_page,
+            items: Number($("#reporsttopdiv").attr("data-total")),
+            itemsOnPage: g_pageLength,
+            cssStyle: 'light-theme',
+            onPageClick: function(pageNumber, event) {
+                g_pageNumber = pageNumber;
+                var startLimit = ((parseInt(pageNumber) - 1) * parseInt(g_pageLength));
+                getInviteUsersWithFiltersDetails(startLimit,testPaperId, g_startdate, g_enddate, g_searchText);
+            }
+
+        });
+        
+        
 }
+
 $("#reviewNow").live("click",function(){
      var data= {"testPaperId":"559a561c900cecfc1f8b4620","userId":"179"};
      //alert(data.toSource());
@@ -142,8 +226,39 @@ function reviewQuestionsHandler(html){
     }
    
 }
+
+
+function getInviteUsersWithFiltersDetails(startLimit, testPaperId,startDate,endDate, searchText) {
+        if (startDate == "" || startDate == undefined) {
+            startdate = "";
+        }
+        startdate = $.trim(startDate);
+        
+        g_startdate = startdate; // assgining filtervalue to global variable...
+        if (endDate == "" || endDate == undefined) {
+            enddate = "";
+        }
+        enddate = $.trim(endDate);
+        g_enddate = enddate; // assgining filtervalue to global variable...
+        if (startLimit == 0) {
+            g_pageNumber = 1;
+        }
+        //alert("ssss--2-"+g_pageLength);
+        //if (searchText == 'search') {
+          g_searchText = searchText;
+        //}
+        var queryString = "testPaperId="+testPaperId+"&startDate="+g_startdate+"&endDate=" + g_enddate + "&searchText=" + g_searchText + "&startLimit=" + startLimit + "&pageLength=" +g_pageLength;
+        //alert("querystring====="+queryString);
+        //scrollPleaseWait('spinner_admin');
+        //ajaxRequest("/reports/renderReports",data ,renderReportsHandler, "html");
+        ajaxRequest("/reports/renderReports", queryString, renderReportsHandler,"html")        
+    }
+
+    
+
+
 $("#submitReviewAnswers").live("click",function(){
-    alert('submit');
+    
     var finalResult = new Array();
     
     $("[name=reviewQuestions]").each(function( index ) {
@@ -171,5 +286,6 @@ $("#submitReviewAnswers").live("click",function(){
 function saveReviewQuestionsHandler(data){
     renderReport();
     }
+
 </script>
 

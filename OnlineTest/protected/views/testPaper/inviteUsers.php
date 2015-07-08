@@ -305,14 +305,14 @@
     $("#submitInviteUsers").click(function() {
         if($("#InviteUserForm_AllUsers").val()==''){
             $("#errmsgForInviteUsers").css("display", "block");
-            $("#errmsgForInviteUsers").html("Check the Test taker(s).").fadeOut(6000);
-        }
+            $("#errmsgForInviteUsers").html("Select the Test taker(s).").fadeOut(6000);
+            return false;
+        }else{
         var ALLIDS=$("#InviteUserForm_AllUsers").val();
         var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + ALLIDS.substring(1);
-        //alert("queryString-------"+queryString);
         //scrollPleaseWait('spinner_admin');        
         ajaxRequest("/testPaper/saveInviteUsersDetails", queryString, saveInviteUsersHandler); 
-        $("#InviteUserForm_AllUsers").val('');
+        $("#InviteUserForm_AllUsers").val('');}
     });
     
     function saveInviteUsersHandler(data){

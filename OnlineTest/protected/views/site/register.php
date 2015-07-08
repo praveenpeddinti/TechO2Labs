@@ -81,7 +81,7 @@
                         }',
                         'complete' => 'function(){
                         }',
-                        'success' => 'function(data,status,xhr) { logincallbackre(data,status,xhr);}'),
+                        'success' => 'function(data,status,xhr) { testInviteLogincallback(data,status,xhr);}'),
                             array('type' => 'submit','class'=>'btn btn-primary btn-raised btn-custom')
                         );
                     ?> 
@@ -114,7 +114,7 @@
    });*/
    
    
-    function logincallbackre(data, txtstatus, xhr) {
+    function testInviteLogincallback(data, txtstatus, xhr) {
         var data = eval(data);
         if (data.status == 'success') {
                     window.location = '/site/privacyPolicy';

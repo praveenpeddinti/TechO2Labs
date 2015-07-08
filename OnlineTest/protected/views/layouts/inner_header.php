@@ -17,7 +17,7 @@
                                     <div class="generalprofileicon skiptaiconwidth60x60" >
                                         <a aria-expanded="false" role="button" data-toggle="dropdown" data-placement="right" class="dropdown-toggle skiptaiconinner " href="#"><img src="/images/sreeni.png"> <span class="caret"></span></a> </a>
                                         <ul role="menu" class="dropdown-menu">
-                                            <li> <a href="/user/logout" id="logoutId" onclick="logout()"><i class="logOutIcon"><img src="/images/system/spacer.png" ></i><?php echo Yii::t('translation', 'Logout'); ?></a></li>
+                                            <li> <a href="/user/logout" id="logoutId"><i class="logOutIcon"><img src="/images/system/spacer.png" ></i><?php echo Yii::t('translation', 'Logout'); ?></a></li>
                                         </ul>
                                     </div>
                                  </li>

@@ -418,12 +418,7 @@ if (sessionStorage.old_key == undefined || sessionStorage.old_key == "") {
                 }
 
                 
-                function logout() {
-                    pF1 = pF2 = 1;                   
-                   
-                     unsetSpot(loginUserId,sessionStorage.scheduleId);
-                      sessionStorage.clear();
-                }
+                
 
             }
             $(document).ready(function() {
@@ -508,12 +503,7 @@ if (sessionStorage.old_key == undefined || sessionStorage.old_key == "") {
             }
             
 
-function unsetSpot(userId,scheduleId){
-   
-sessionStorage.removeItem("globalSurveyFlag");
-var queryString = {"userId":userId,"scheduleId":scheduleId};
-ajaxRequest("/outside/unsetSpotForUser", queryString, "");
-}
+
 var phpSessionTimeOut;
 if(phpSessionTimeOut != null && phpSessionTimeOut != "undefined"){
    clearTimeout(phpSessionTimeOut); 

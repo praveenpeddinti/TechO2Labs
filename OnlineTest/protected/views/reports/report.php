@@ -1,6 +1,6 @@
    
 
-<div style="position: relative">
+<div style="position: relative" id="reporsttopdiv" data-total="<?php echo $total; ?>">
             <div  class="block">
                 
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
@@ -34,7 +34,7 @@
                             </td>
                             <?php foreach($Details->categoryScoreArray as $value){?>
                             <td class="data_t_hide"><?php echo $value['score'];?></td>
-                            <?}?>
+                            <?php }?>
                             <td  class="data_t_hide">
                                 <?php echo $Details->totalMarks;?>
                             </td>
@@ -48,5 +48,8 @@
                          <?php $i++;}?>
                     </tbody>
                 </table>
+                <div class="pagination pagination-right">
+            <div id="pagination"></div> 
             </div>        
         </div>
+    </div>
