@@ -125,7 +125,8 @@ class SiteController extends Controller {
                 $takerexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExist($testTakerForm->Email);  
                 $takerPhoneexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExistWithPhone($testTakerForm->Phone);
                 if ((count($takerexist) > 0) && (count($takerPhoneexist) > 0) ) {
-                    error_log("----o---");
+                //if ( (count($takerPhoneexist) > 0) ) {
+                    error_log("----o---".print_r($takerPhoneexist,1));
                     $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerDetails($testTakerForm);
                     $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserByType($testTakerForm->Email, 'Email');
                       error_log("----1---".print_r($userObj,1));
@@ -135,7 +136,7 @@ class SiteController extends Controller {
                     Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
                     $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
                 }else {error_log("---4--");
-                    $obj = array('status' => 'error', 'error' => 'Test taker already exist.');
+                    $obj = array('status' => 'error', 'error' => 'Test taker doesnot exist.');
                 }
             }
             echo CJSON::encode($obj);

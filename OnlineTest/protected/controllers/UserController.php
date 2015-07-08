@@ -49,9 +49,10 @@ class UserController extends Controller {
 
     public function actionLogout(){
         try {
-            Yii::app()->user->logout();
             Yii::app()->session->destroy();
+
              $this->redirect('/'); 
+
         } catch (Exception $ex) {
             Yii::log("UserController:actionLogout::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
