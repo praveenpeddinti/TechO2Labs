@@ -436,7 +436,7 @@ bindToMandatory();
 //                     questionsCount--;
 //                   $(this).parents('div.QuestionWidget').remove();
 //               }
-       <?php if (empty($surveyId)) { ?>
+       <?php //if (empty($surveyId)) { ?>
                              
                         questionsCount--;
                        
@@ -451,11 +451,11 @@ bindToMandatory();
                         questionsCount = 1;
                     }
                     updateDivs();
-       <?php } else { ?>
-           $("#QuestionWidget_"+qId).append("<div class='suspendcontentdiv' data-qid='"+qId+"'><div class='btn'>Click here to Resume</div></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>");
-                    // $(this).parents('div#QuestionWidget_'+qId).append("<div class='suspendcontentdiv' data-qid='"+qId+"'><div class='btn'>Click here to Resume</div></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>")
-                    $("#ExtendedSurveyForm_IsSuspend_"+qId).val(1);
-       <?php } ?>
+       <?php //} else { ?>
+//           $("#QuestionWidget_"+qId).append("<div class='suspendcontentdiv' data-qid='"+qId+"'><div class='btn'>Click here to Resume</div></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>");
+//                    // $(this).parents('div#QuestionWidget_'+qId).append("<div class='suspendcontentdiv' data-qid='"+qId+"'><div class='btn'>Click here to Resume</div></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>")
+//                    $("#ExtendedSurveyForm_IsSuspend_"+qId).val(1);
+       <?php //} ?>
                
         });
         

@@ -37,7 +37,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                  
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule != 1){ ?>
-                    <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
+                    <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
@@ -214,7 +214,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                   
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
-                    <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
+                    <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
@@ -389,7 +389,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                  
                 <div class="surveyareaheader">
                    <?php if($isAlreadySchedule == 0){ ?>
-                    <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
+                    <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
@@ -587,7 +587,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                     <?php if($question['TextOptions'] ==1 || $question['TextOptions'] == 3) {for ($k = 0; $k < sizeof($question['OptionName']); $k++) { ?>
                                                     <td>
                                                         <div class="answersection1" data-qtype="3" data-questionId="<?php echo ($i+1); ?>" id="answersection1_<?php echo ($i+1); ?>">
-                                                        <div class="positionrelative displaytable onlinetestradio radioTable_<?php echo $k."_".$i; ?>" data-info="<?php echo $j; ?>">
+                                                        <div class="positionrelative displaytable onlinetestradio radioTable_<?php echo $k."_".($i+1); ?>" data-info="<?php echo $j; ?>">
                                                             <input type="radio" value="<?php echo ($k+1); ?>" class="styled ranking_radio radiotype_<?php echo ($i+1); ?>" <?php if($question['Answers'][$k] == ($j+1)){?>checked="checked" <?php }?> name="radio_<?php echo $j . "_" . ($i+1); ?>" data-qid="<?php echo ($i + 1); ?>" id="radio_<?php echo $j. "_" . ($i+1); ?>" />
                                                         </div>
                                                         </div>
@@ -596,15 +596,15 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                                  
                                     
                                     
-                                        $("div.radioTable_<?php echo $k."_".$i; ?> span.radio").live("click",function(){
+                                        $("div.radioTable_<?php echo $k."_".($i+1); ?> span.radio").live("click",function(){
                                             <?php //$ik++; ?>
                                         
-                                        $("div.radioTable_<?php echo $k."_".$i; ?> span.radio").each(function(key){                                         
+                                        $("div.radioTable_<?php echo $k."_".($i+1); ?> span.radio").each(function(key){                                         
                                             $(this).attr("style","background-position:0 0");                                            
-                                            $(this).siblings('.radiotype_<?php echo $i; ?>').attr('checked',false);
+                                            $(this).siblings('.radiotype_<?php echo ($i+1); ?>').attr('checked',false);
                                         });                                        
                                          $(this).attr("style","background-position:0 -50px");
-                                         $(this).siblings('.radiotype_<?php echo $i; ?>').attr('checked',true);
+                                         $(this).siblings('.radiotype_<?php echo ($i+1); ?>').attr('checked',true);
 
                                     });
                                     
@@ -714,7 +714,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                   
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
-                    <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
+                    <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
@@ -1024,7 +1024,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                   
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
-                    <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
+                    <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
@@ -1452,7 +1452,7 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                  
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
-                    <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
+                    <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
@@ -1597,7 +1597,7 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                   
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule == 0){ ?>
-                    <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
+                    <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
@@ -1738,7 +1738,7 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                   
                 <div class="surveyareaheader">
                     <?php if($isAlreadySchedule != 1){ ?>
-                    <div class="subsectionremove" data-questionId="<?php echo ($i + 1); ?>">
+                    <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
                     <?php } ?>
@@ -2013,8 +2013,19 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
         //$("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
       $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
     });
+    
+   
         </script>
 <?php }
 
  }else{echo 0;}
 ?>
+        <script type="text/javascript">
+         $(".subsectionremoveEdit").live('click', function() {
+                var $this = $(this);
+                 var qId = $this.attr("data-questionId");
+    $("#QuestionWidget_"+qId).append("<div class='suspendcontentdiv' data-qid='"+qId+"'><div class='btn'>Click here to Resume</div></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>");
+                    // $(this).parents('div#QuestionWidget_'+qId).append("<div class='suspendcontentdiv' data-qid='"+qId+"'><div class='btn'>Click here to Resume</div></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>")
+                    $("#ExtendedSurveyForm_IsSuspend_"+qId).val(1);
+                     });
+        </script>

@@ -614,7 +614,7 @@ function getCollectionDataHandler(html,URL,CollectionName,MainDiv,NoDataMessage,
                 }
             }
             if(page<=2){
-                initializeTrackViews(URL);
+                //initializeTrackViews(URL);
             }
 /** Please don't delete the below code **/            
        // jsonObject = getJsonObjectForNode();         

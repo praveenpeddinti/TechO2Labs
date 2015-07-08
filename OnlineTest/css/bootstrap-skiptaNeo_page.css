@@ -3017,6 +3017,9 @@ advertisement changes
 .subsectionremove{position:absolute;right:-10px;top:-10px}
 .subsectionremoveintable{position:static;}
 .subsectionremove img{width:25px; height:25px;background:url(../images/system/extendedsurvey_icons.png) no-repeat 2px -427px;cursor:pointer}
+.subsectionremoveEdit{position:absolute;right:-10px;top:-10px}
+.subsectionremoveintable{position:static;}
+.subsectionremoveEdit img{width:25px; height:25px;background:url(../images/system/extendedsurvey_icons.png) no-repeat 2px -427px;cursor:pointer}
 .othersarea{position:relative;height:30px;}
 .othersarea i{padding-top:4px;font-style:normal;color:#a3a3a3;display:inline-block}
 .surveybuttonarea{border-top:1px solid #dadada;padding:10px 0;margin-top:10px}
