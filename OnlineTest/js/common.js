@@ -90,7 +90,7 @@ function ajaxRequest(url, queryString,callback,dataType,beforeSendCallback) {
     if(dataType==null || dataType==undefined){
         dataType = "json";
     }
-   
+   //alert(dataType);
     if(typeof(data)=="object"){
         data.timezone = timezoneName;
     }else{
@@ -617,7 +617,7 @@ function getCollectionDataHandler(html,URL,CollectionName,MainDiv,NoDataMessage,
                 initializeTrackViews(URL);
             }
 /** Please don't delete the below code **/            
-        jsonObject = getJsonObjectForNode();         
+       // jsonObject = getJsonObjectForNode();         
 
 }
 /**
