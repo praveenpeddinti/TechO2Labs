@@ -141,7 +141,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
              
             if($flag == "Done"){
                 
-            //$surveySessionObj = SurveyUsersSessionCollection::model()->deleteAll($criteria); 
+            $surveySessionObj = SurveyUsersSessionCollection::model()->deleteAll($criteria); 
             }else{
             $modifier = new EMongoModifier();
             $modifier->addModifier('Status', 'set',(int)0);
@@ -239,7 +239,6 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                             // $modifier1->addModifier('UserAnswers.$.SelectedOption', 'set',$answers->SelectedOption );
                        }
                       $modifier->addModifier('LastUpdateDate', 'set', new MongoDate());
-                      error_log("====2222222222222222222========collection object exist=========@@@@@@@@@@@@@@@@@======");
                       $obj = SurveyUsersSessionCollection::model()->updateAll($modifier,$criteria);
 //                      $criteria = new EMongoCriteria();
 //                       $criteria->addCond('_id', '==', new MongoId($model->ScheduleId));
@@ -248,24 +247,14 @@ class SurveyUsersSessionCollection extends EMongoDocument {
 //                       ScheduleSurveyCollection::model()->updateAll($modifier1, $criteria);    
                       
                   }else{
-                   error_log("===@@@@@@@@@@!!!!!!!!!!!!!!!!!!!!!!!11=======else case==============");
                       $criteria = new EMongoCriteria();
                      $modifier = new EMongoModifier();
                      $criteria->addCond('UserId', '==',(int)$UserId);
                      $criteria->addCond('ScheduleId', '==',new MongoId($model->ScheduleId));
                     $modifier->addModifier('LastUpdateDate', 'set', new MongoDate());
                      $modifier->addModifier('UserAnswers', 'pushAll', array($answers));
-                     error_log("===@@@@@@@@@@!!!!!!!!!!!!!!!!!!!!!!2222222222222=======else case==============");
                      if(SurveyUsersSessionCollection::model()->updateAll($modifier, $criteria)){
-                                      $returnValue = "success";  
-                                      error_log("============collection updated success======");
-//                          $criteria = new EMongoCriteria();
-//                           $modifier = new EMongoModifier();
-//                         $criteria->addCond('_id', '==', new MongoId($model->ScheduleId));
-//                          $modifier->addModifier('UserAnswers', 'pushAll', array($answers));
-//                       ScheduleSurveyCollection::model()->updateAll($modifier, $criteria);               
-
-
+                                      $returnValue = "success";
                      }
                      
                   }
@@ -289,10 +278,8 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                         
                         $co = UserQuestionsCollection::model()->getCollection();                        
                         $result = $co->aggregate(array('$match' => array('_id' =>new MongoId($qTempId))), array('$unwind' => '$Questions'),array('$group' => array("_id" => "_id", "ScheduleIds" => array('$push' => '$Questions.ScheduleId')))); 
-                        //error_log("==#################=Matched scheulsis====result===".print_r($result,1));
                         $scheduleIdArray = $result['result'][0]['ScheduleIds'];                         
                         foreach($scheduleIdArray as $rr){
-                            error_log("=$$%%%%%%%%%%%% scheduleId%%%%%%%%%===".(string)$rr);
                             $sscheduleId = (string)$rr;
                             $criteria = new EMongoCriteria();
                                 $modifier = new EMongoModifier();
@@ -315,8 +302,6 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                         }
                          
                 }
-                    
-      
       
                 return $returnValue;
           
