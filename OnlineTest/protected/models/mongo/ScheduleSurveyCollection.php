@@ -1217,7 +1217,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                              $modifier = new EMongoModifier();
                        $criteria->addCond('TestId', '==', new MongoId($testPaperId));
                       //  $criteria->addCond('UserAnswers.UserId', '==', (int)$userId);
-                      $criteria->addCond('UserAnswers.$uniqueId', '==', new MongoId($uniqueId));
+                      $criteria->addCond('UserAnswers.uniqueId', '==', new MongoId($uniqueId));
                       
                        $modifier->addModifier('UserAnswers.$.Score', 'set',(int)$score);
                         $modifier->addModifier('UserAnswers.$.IsReviewed', 'set',(int)2);
