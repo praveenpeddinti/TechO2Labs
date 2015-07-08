@@ -75,6 +75,8 @@ class OutsideController extends Controller {
                 $this->layout = 'adminLayout';
             } 
             $this->layout = 'adminLayout';
+            $reg = TestRegister::model()->updateTestByUserId($userId,1);
+            error_log("******Registerduser***$userId*$reg");
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
             //error_log("=UserId==$userId====TestId=$testId==questionPrepObj===".print_r($questionprepareObj,1));
 //            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");   
@@ -698,7 +700,7 @@ function get_values_for_keys($mapping, $keys) {
                      $NetworkId=1;
                     // error_log("Iam form".print_r($QuestionsSurveyForm,true));
                      $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId);
-                     
+                     $reg = TestRegister::model()->updateTestByUserId($UserId,2);
                      if($fromAutoSave==0){
                          error_log("********fromAutoSave".$fromAutoSave);
                      $exsurveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('Id',$surveyObject->SurveyId);  
