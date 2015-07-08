@@ -1329,15 +1329,7 @@ $("#unitypeddn_<?php echo ($i + 1); ?>").change(function(){
 });
     function renderPerHandler(html,questionno){    
         $(html).insertBefore("#percentotherdiv_"+questionno);
-//        $(".perUnitType_<?php echo ($i + 1); ?>").each(function(){
-//            var unitType = $("#unitypeddn_<?php echo ($i + 1); ?>").val();
-//            if(unitType == 1 ){
-//                $(this).html("%");
-//            }else if(unitType == 2){
-//                $(this).html("$");
-//            }    
-//            
-//        });
+
        var preq = 0;
        var nextq = 0;
        var i = 0;
@@ -2014,7 +2006,7 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
       $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
     });
     
-   
+       
         </script>
 <?php }
 

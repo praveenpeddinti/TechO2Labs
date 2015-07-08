@@ -8,5 +8,8 @@ class ExUserWidget12Bean{
     public $OtherValue = "";    
     public $SelectedOption = array();
     public $SelectAll = 0;
+    public $Score = 0;
+    public $IsReviewed = 0;
+    public $UniqueId = "";
             
 }

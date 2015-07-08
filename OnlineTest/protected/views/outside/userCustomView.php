@@ -979,7 +979,7 @@ sessionStorage.sharedURL = "";
             var notValidate = 0;
             var errorInterval = 0;
              $("#submitQuestion").die("click"); 
-        $("#submitQuestion").live("click",function(){ alert(done)
+        $("#submitQuestion").live("click",function(){ 
              Garray = new Array();
              isValidate = 0;
              fromAutoSave = 0;
@@ -1580,12 +1580,12 @@ $("#pagenoforsurvey").html(pageStr).show();
      <script type="text/javascript"> 
          var fromNode=0; //this flag is used to stop doing logout in 2 cases 1.call from node 2.submit pressed
         var categoryId = '<?php echo $categoryId?>';
-        var nocategories = '<?php echo $nocategories?>';        
+        var nocategories = '<?php echo $nocategories?>';  
         <?php if(($catPosition == "first") && $page == 1){  ?>
              $("#prevQuestion").hide(); 
              $("#nextQuestion").show();
              $('#submitQuestion').hide();
-        <?php }else if($catPosition == "last" && $page == $totalpages){?>
+        <?php }else if(($catPosition == "last" && $page == $totalpages) || $nocategories == "true"){?>
             $("#nextQuestion").hide();            
             $('#submitQuestion,#prevQuestion').show();
         <?php }else{ ?>

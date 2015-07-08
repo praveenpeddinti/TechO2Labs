@@ -718,8 +718,8 @@ function get_values_for_keys($mapping, $keys) {
                         $this->renderUserAcceptionInfo($surveyObject->SurveyId, $QuestionsSurveyForm->ScheduleId, $exsurveyObj->SurveyTitle);
                      }else{
                          if($obj->ShowThankYou == 1 || $exsurveyObj->IsAnalyticsShown == 0){                             
-                             if($fromAutoSave == 0)
-                                ScheduleSurveyCollection::model()->updateVisitedThankYouUsers($UserId,$QuestionsSurveyForm->ScheduleId);
+//                             if($fromAutoSave == 0)
+//                                ScheduleSurveyCollection::model()->updateVisitedThankYouUsers($UserId,$QuestionsSurveyForm->ScheduleId);
                             $this->renderPartial('thankyou',array('result'=>$obj,"ScheduleId"=>$QuestionsSurveyForm->ScheduleId,"IsAnalyticsShown"=>$exsurveyObj->IsAnalyticsShown));
                         }else{
                             $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('Id',$surveyObject->SurveyId); 

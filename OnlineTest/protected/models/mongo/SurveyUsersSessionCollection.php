@@ -181,7 +181,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
             //error_log("=1111111111111!!!!!!11=obj page==$obj->Page==from page=====$fromPage======");
             foreach ($scheduleObj->UserAnswers as $answers) {
                 error_log("@@@@@@@@@@@@@@@@@@@@111@@@@@asdfasdfasdf@@@@sdf");
-                
+                $answers->UniqueId = new MongoId();
                 $criteria = new EMongoCriteria();
                
                 $criteria->addCond('ScheduleId', '==', new MongoId($model->ScheduleId)); 
@@ -272,6 +272,20 @@ class SurveyUsersSessionCollection extends EMongoDocument {
             
             }
                     if($flag == "Done"){
+                        $criteria = new EMongoCriteria;
+                        $criteria->addCond("_id","==",new MongoId($qTempId));
+                        $userQuestionObj = UserQuestionsCollection::model()->find($criteria);
+                        if(isset($userQuestionObj)){
+                            $criteria = new EMongoCriteria;
+                            $criteria->addCond("_id","==", new MongoId($userQuestionObj->Testid));
+                            $testPrepareObj = TestPreparationCollection::model()->find($criteria);
+                            $modifier = new EMongoModifier;
+                            $modifier->addModifier("TestTakenUsers", "push", (int)$UserId);
+                            $modifier->addModifier("TestTakenUsersCount", "inc", (int)1);
+                            if($testPrepareObj->updateAll($modifier, $criteria)){
+                                ;
+                            }
+                        }
                         
                         $co = UserQuestionsCollection::model()->getCollection();                        
                         $result = $co->aggregate(array('$match' => array('_id' =>new MongoId($qTempId))), array('$unwind' => '$Questions'),array('$group' => array("_id" => "_id", "ScheduleIds" => array('$push' => '$Questions.ScheduleId')))); 

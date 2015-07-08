@@ -14,7 +14,8 @@ class TestPreparationCollection extends EMongoDocument {
     public $CreatedOn;
     public $InviteUsers =0;
     public $TestInviteUsers =array();
-    public $TestTakenUsers =0;
+    public $TestTakenUsers =array();
+    public $TestTakenUsersCount =0;
    
     
 
@@ -86,7 +87,16 @@ class TestPreparationCollection extends EMongoDocument {
              $survey->CreatedOn = new MongoDate(strtotime(date('Y-m-d', time())));
              if($survey->save()){
                  $returnValue = "success";
-                 
+                 $questionprepareObj = $this->getTestDetails($survey->_id);
+                 foreach($questionprepareObj->Category as $testarray){
+                     $criteria = new EMongoCriteria;
+                     $criteria->addCond("_id","==",new MongoId($testarray['ScheduleId']));
+                     $scheduleObj = ScheduleSurveyCollection::model()->find($criteria);
+                     $scheduleObj->TestId = $survey->_id;
+                     if($scheduleObj->update()){
+                         error_log("===Schedule ===++Update===$survey->_id=");
+                     }
+                 }
              }
              return $returnValue;
          } catch (Exception $ex) {

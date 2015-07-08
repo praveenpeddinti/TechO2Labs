@@ -33,6 +33,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
     public $QuestionView;
     public $ResumeUsers  = array();
     public $VisitedThankYou = array();
+    public $TestId="";
     public function getCollectionName() {
         return 'ScheduleSurveyCollection';
     }
@@ -76,7 +77,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
          "QuestionView"=>"QuestionView",
          "ResumeUsers" => "ResumeUsers",
          'VisitedThankYou' => 'VisitedThankYou',
-         
+         'TestId' => 'TestId'
      );
      
      

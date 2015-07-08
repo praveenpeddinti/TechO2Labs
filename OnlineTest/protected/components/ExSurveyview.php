@@ -94,19 +94,19 @@
      <script type="text/javascript">
          
      $(function(){
-                                    $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
-                                        hours : 0,
-                                        minutes :0,//<?php echo $row['CategoryTime']; ?>,
-                                        seconds : 5,
-                                        size : "lg",
-					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
-					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
-                                        //timeUp:"hms_timer<?php echo ($k+1); ?>"
-                                        timeUp : "q_categories_<?php echo ($k+1); ?>"
-                                    });
-                                    if('#hms_timer<?php echo ($k+1); ?>_stop'!="#hms_timer1_stop"){
-                                        $('#hms_timer<?php echo ($k+1); ?>_stop').val("stop").trigger('click');
-                                     }
+//                                    $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
+//                                        hours : 0,
+//                                        minutes :0,//<?php echo $row['CategoryTime']; ?>,
+//                                        seconds : 5,
+//                                        size : "lg",
+//					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
+//					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
+                                        timeUp:"hms_timer<?php echo ($k+1); ?>"
+//                                        timeUp : "q_categories_<?php echo ($k+1); ?>"
+//                                    });
+//                                    if('#hms_timer<?php echo ($k+1); ?>_stop'!="#hms_timer1_stop"){
+//                                        $('#hms_timer<?php echo ($k+1); ?>_stop').val("stop").trigger('click');
+//                                     }
                                     
                                 });
                                var TimerDivs=TimerDivs+","+"#hms_timer<?php echo ($k+1); ?>_hidden";
@@ -145,7 +145,7 @@
                 getOpenCategoryQuestion(openCategory[0]);
              }else{
                  //alert('timeup')
-                //getDone(); 
+                //submitSurvey() 
              }
             
               
@@ -153,15 +153,15 @@
          $(document).ready(function() {
              //main timer code
              $(function(){
-                                    $('#hms_timer').countdowntimer({
-                                        hours : 0,
-                                        minutes :Totaltime,//<?php //echo $row['CategoryTime']; ?>,
-                                        seconds : 0,
-                                        size : "lg",
-					pauseButton : "hms_timer_hidden",
-					stopButton : "hms_timer_stop",
-                                       // timeUp : "q_categories_<?php echo ($k+1); ?>"
-                                    });
+//                                    $('#hms_timer').countdowntimer({
+//                                        hours : 0,
+//                                        minutes :Totaltime,//<?php //echo $row['CategoryTime']; ?>,
+//                                        seconds : 0,
+//                                        size : "lg",
+//					pauseButton : "hms_timer_hidden",
+//					stopButton : "hms_timer_stop",
+//                                       // timeUp : "q_categories_<?php echo ($k+1); ?>"
+//                                    });
                                     
                                     
                                 });
@@ -235,9 +235,9 @@
          $(".questionnos").live("click",function(){   //question by number            
              var $this = $(this);
              
-              var activetimerdiv = $this.data("activetimer");
-              //alert(activetimerdiv);
-              stopandStartTimer(activetimerdiv);
+//              var activetimerdiv = $this.data("activetimer");
+//              //alert(activetimerdiv);
+//              stopandStartTimer(activetimerdiv);
              var scheduleid = $this.data("scheduleid");
              var catid = $this.data("catid");
              var qno = $this.data("qno");

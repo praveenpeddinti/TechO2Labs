@@ -145,7 +145,7 @@ class TestPaperController extends Controller {
                 $Flag = $_REQUEST['Flag'];
                 $TestPaperId = $_REQUEST['TestId'];
                 $categories = explode(",",$_GET['SurveyGroupName']);  
-                error_log("==1111111111=category names====".print_r($categories,1));
+                error_log("=test=1111111111=category names====".print_r($categories,1));
                 $errors = array();
                 $TestPaperForm->CreatedBy = $this->tinyObject->UserId;
                 $checkTestPaper = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTestDetailsById('Title', $TestPaperForm->Title);

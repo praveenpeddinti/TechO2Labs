@@ -13,5 +13,8 @@ class ExUserWidget34Bean{
     public $AnyOtherComment = array();
     public $OptionOtherTextValue = "";
     public $UserTextValue = array();
+    public $Score = 0;
+    public $IsReviewed = 0;
+    public $UniqueId = "";
             
 }
