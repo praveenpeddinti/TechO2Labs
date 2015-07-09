@@ -46,7 +46,7 @@ class TestPreparationCollection extends EMongoDocument {
         'TestInviteUsers'=>'TestInviteUsers',
         'TestTakenUsers'=>'TestTakenUsers',
         'CreatedOn'=>'CreatedOn',
-        'TestTakenUsers'=>'TestTakenUsers',
+        'TestTakenUsersCount'=>'TestTakenUsersCount',
         );
      }
      
@@ -107,7 +107,7 @@ class TestPreparationCollection extends EMongoDocument {
      
      public function updateTestPrepair($model,$_id) {
         try {
-            
+            error_log("---qto---".$model->QuestionsCount);
             $returnValue = 'failure';            
             $modifier = new EMongoModifier();
             $criteria = new EMongoCriteria();
@@ -116,6 +116,7 @@ class TestPreparationCollection extends EMongoDocument {
             $modifier->addModifier('Description', 'set', $model->Description);
             $modifier->addModifier('Category', 'set', $model->Questions);
             $modifier->addModifier('NoofQuestions', 'set', $model->QuestionsCount);
+            
             $modifier->addModifier('CreatedOn', 'set', new MongoDate(strtotime(date('Y-m-d', time()))));            
               
             if(TestPreparationCollection::model()->updateAll($modifier, $criteria)){

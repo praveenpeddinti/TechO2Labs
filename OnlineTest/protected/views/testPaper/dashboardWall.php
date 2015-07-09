@@ -40,7 +40,7 @@
                     
                     <li>
                         <div>
-                            <label><?php echo $data->TestTakenUsers; ?></label>
+                            <label><?php echo $data->TestTakenUsersCount; ?></label>
                             <p># Users taken Test</p>
                         </div>
                     </li>

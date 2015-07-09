@@ -2,7 +2,7 @@
 
 <div style="position: relative" id="reporsttopdiv" data-total="<?php echo $total; ?>">
             <div  class="block">
-                
+                 <?php if($total>0){?>
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
                     <thead><tr><th class="data_t_hide">Name</th>
                             <th class="data_t_hide">Date</th>
@@ -16,11 +16,8 @@
                             <th class="data_t_hide">Action</th>
                         </tr></thead>
                     <tbody>
-                        <tr id="noRecordsTR" style="display: none">
-                            <td colspan="8">
-                                <span class="text-error"> <b>No records found</b></span>
-                            </td>
-                        </tr>
+                        
+                        
                         <?php $i=1;foreach($reportData as $Details){?> 
                         <tr class="<?php if($i%2==0){echo "odd";}else{echo "even";} ?>" >
                             <td class="data_t_hide">
@@ -46,10 +43,32 @@
                            <?php }?>
                         </tr>
                          <?php $i++;}?>
+                        
                     </tbody>
                 </table>
                 <div class="pagination pagination-right">
             <div id="pagination"></div> 
-            </div>        
+            </div> 
+                <?php } else{ ?>
+                <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
+                    <thead><tr><th class="data_t_hide">Name</th>
+                            <th class="data_t_hide">Date</th>
+                            <th class="data_t_hide">Total Questions</th>
+                            <?php $j=1;foreach($reportData as $Details){ if($j==sizeof($reportData)){?> 
+                            <?php foreach($Details->categoryScoreArray as $value){?>
+                            <th><?php echo $value['categoryName'];?></th>
+                            <?php }} $j++;}?>
+                            <th class="data_t_hide">Total Marks</th>
+                            <th class="data_t_hide">Review</th>
+                            <th class="data_t_hide">Action</th>
+                        </tr></thead>
+                    <tbody>
+                        <tr id="noRecordsTR">
+                            <td colspan="8">
+                                <span class="text-error"> <b>No records found</b></span>
+                            </td>
+                        </tr></tbody>
+                </table>
+                            <?php }?>
         </div>
     </div>

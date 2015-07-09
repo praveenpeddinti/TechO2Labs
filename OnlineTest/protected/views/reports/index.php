@@ -170,6 +170,7 @@ function renderReport(){
 
     }
 function renderReportsHandler(html){
+    
     $("#inviteuser_div").html(html);
     var testPaperId=$("#TId").val();
         if (typeof g_pageNumber == "undefined") {

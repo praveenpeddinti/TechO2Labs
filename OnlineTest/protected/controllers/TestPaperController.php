@@ -155,7 +155,7 @@ class TestPaperController extends Controller {
                 }else{
                     $searcharray = array();
                     $f = json_decode($TestPaperForm->Questions);                
-                    $questionArray = array();                
+                    $questionArray = array(); $TotalQuestions = 0;               
                     for ($i = 0; $i < sizeof($f); $i++) {
                         $searcharray = array();
                         parse_str($f[$i], $searcharray);
@@ -177,14 +177,15 @@ class TestPaperController extends Controller {
                             $TestPreparationBean->CategoryId =  new MongoId($result->SurveyId);
                         }
                         
-
+                         
                         foreach ($searcharray["TestPaperForm"] as $key => $value) {
-
+                                
                                if ($key == "CategoryName") {
                                     $TestPreparationBean->CategoryName = $value;
                                 }
                                 if ($key == "NoofQuestions") {
                                     $TestPreparationBean->NoofQuestions = (int) $value;
+                                   $TotalQuestions += $value;
                                 }
                                 if ($key == "CategoryTime") {
                                     $TestPreparationBean->CategoryTime = (int) $value;
@@ -205,7 +206,9 @@ class TestPaperController extends Controller {
                         }
                         array_push($questionArray, $TestPreparationBean);
                     }
-                    $TestPaperForm->Questions = $questionArray;  
+                    $TestPaperForm->Questions = $questionArray; 
+                    $TestPaperForm->QuestionsCount=$TotalQuestions;
+                    //error_log("---total----".$TotalQuestions);
                     if($Flag!='Edit'){
                     $saveTest = ServiceFactory::getTO2TestPreparaService()->saveTestPrepair($TestPaperForm, $UserId);
                     }else{
