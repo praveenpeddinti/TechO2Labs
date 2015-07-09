@@ -5,7 +5,7 @@ class ExUserWidget7{
     public $QuestionId;
     public $QuestionType = 0;
     public $UsergeneratedRankingOptions = array();
-    public $Score = 0;
+    public $Score = "";
     public $IsReviewed = 0;
     public $UniqueId = ""; 
            
