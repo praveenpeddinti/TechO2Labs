@@ -724,6 +724,7 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
                  // error_log("---".print_r($value,1));
                   error_log("categoryId----".$value["_id"]);
                   $categoryId = $value["_id"];
+                  $categoryNames = $value["CategoryNames"];
                   $reviewQuestionIds = $value["ReviewQuestionIds"];
                    $reviewQuestionUniqueIds = $value["ReviewQuestionUniqueIds"];
                    $reviewQuestionAnswers = $value["ReviewQuestionAnswers"];
@@ -733,7 +734,8 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
                      $questionObj = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId); 
                      $answer = $reviewQuestionAnswers[$key];
                      $uniqueId = $reviewQuestionUniqueIds[$key];
-                     array_push($questionObjArray,array("question"=>$questionObj,"answer"=>$answer,"categoryId"=>$categoryId,"testId"=>$testPaperId,"uniqueId"=>$uniqueId));
+                     $categoryName = $categoryNames[$key];
+                     array_push($questionObjArray,array("question"=>$questionObj,"answer"=>$answer,"categoryId"=>$categoryId,"categoryName"=>$categoryName,"testId"=>$testPaperId,"uniqueId"=>$uniqueId));
                      
                   }
                   

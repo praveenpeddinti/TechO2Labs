@@ -14,7 +14,7 @@
                             <?php }} $j++;}?>
                              <th class="data_t_hide">System Marks</th>
                               <th class="data_t_hide">Review Marks</th>
-                            <th class="data_t_hide">Review</th>
+                            <th class="data_t_hide">Review Pending / Total</th>
                             <th class="data_t_hide">Action</th>
                         </tr></thead>
                     <tbody>
@@ -43,11 +43,24 @@
                                 <?php echo $Details->reviewMarks;?>
                             </td>
                             <td  class="data_t_hide">
-                                <?php echo $Details->totalReviewQ;?>
+                                <?php echo $Details->reviewPendingCount." / ".$Details->totalReviewQ;?>
                             </td>
-                            <?php if($Details->totalReviewQ>0){?>
-                            <td  class="data_t_hide" id="reviewNow" data-userId="<?php echo $Details->userId;?>" data-testId="<?php echo $testPaperId; ?>" style="cursor: pointer">Review Now</td>  
-                           <?php }?>
+                             
+                          
+                            <td  class="data_t_hide" id="reviewNow" data-userId="<?php echo $Details->userId;?>" data-testId="<?php echo $testPaperId; ?>" style="cursor: pointer">
+                               
+                            <?php if($Details->reviewPendingCount>0){?>
+                                 
+                                 <input  class="btn" type="button" value="Review Now" >
+                                <?
+                                
+                            }else{ ?>
+                                  <input  class="btn btn_gray" type="button" value="View Review" >
+                                
+                           <?php  }
+                           ?>
+                            </td>  
+                          
                         </tr>
                          <?php $i++;}?>
                         

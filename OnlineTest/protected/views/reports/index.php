@@ -208,8 +208,11 @@ function renderReportsHandler(html){
 }
 
 $("#reviewNow").live("click",function(){
-     var data= {"testPaperId":"559e15b29f8ccb065a8b4573","userId":"179"};
-     //alert(data.toSource());
+    var testPaperId = $(this).attr("data-testid");
+    var userId = $(this).attr("data-userid");
+     var data= {"testPaperId":testPaperId,"userId":userId};
+   // alert(data.toSource());
+   sessionStorage.reviewUserId = userId;
    ajaxRequest("/reports/getReviewQuestions",data ,reviewQuestionsHandler, "html");
 });
 function reviewQuestionsHandler(html){
@@ -282,7 +285,7 @@ $("#submitReviewAnswers").live("click",function(){
        //finalResult.data= result;
       var jsonProducts = JSON.stringify(finalResult);
      // alert(jsonProducts);
-      var data={"data":jsonProducts};
+      var data={"data":jsonProducts,"reviewUserId":sessionStorage.reviewUserId};
        ajaxRequest("/reports/saveReviewQuestions",data ,saveReviewQuestionsHandler);
 })
 function saveReviewQuestionsHandler(data){

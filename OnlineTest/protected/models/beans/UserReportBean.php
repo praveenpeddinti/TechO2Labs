@@ -12,6 +12,7 @@ class UserReportBean{
     public $systemMarks;
     public $reviewMarks;
     public $totalReviewQ;
+    public $reviewPendingCount;
     
             
 }

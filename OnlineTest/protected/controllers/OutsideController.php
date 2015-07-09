@@ -470,7 +470,7 @@ function get_values_for_keys($mapping, $keys) {
                                         }
                                     if($questionType == 7){                                        
                                         $widget7->UsergeneratedRankingOptions[$k++] = $m;  
-                                        $widget7->Score = 0;
+                                        //$widget7->Score = 0;
                                     }
                                 }
                                  if($questionType == 7 && $widget7->IsReviewed == 0){     

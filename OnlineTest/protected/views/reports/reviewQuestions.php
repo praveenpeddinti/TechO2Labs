@@ -1,17 +1,18 @@
 <?php  $i = 1;
+
+if(count($surveyObjArray)>0){
 foreach ($surveyObjArray as $surveyObject) {
     $surveyObj = $surveyObject["question"];
     $userAnswerObj = $surveyObject["answer"];
-     $categoryId = $surveyObject["categoryId"];
-      $testId = $surveyObject["testId"];
-        $uniqueId= $surveyObject["uniqueId"];
-    // echo print_r($surveyObj->Questions[0]['Answers']);
-    //echo "ss-".print_r($userAnswerObj,true);
- error_log("for-----------");
+    $categoryId = $surveyObject["categoryId"];
+    $categoryName = $surveyObject["categoryName"];
+    //echo $categoryName;
+   // echo $surveyObj->Questions[0]['QuestionType']."---".$userAnswerObj["IsReviewed"];
+    $testId = $surveyObject["testId"];
+    $uniqueId= $surveyObject["uniqueId"];
+
 if(is_object($surveyObj)){ 
-     error_log("asdfsafsd-----------");
-   // error_log(print_r($surveyObj,1));
-   //echo "categoru--".$categoryId;
+    
     ?>
 
 <div class="padding8top">
@@ -65,7 +66,8 @@ if(is_object($surveyObj)){
                      <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
                         <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
-                     <div class="answersection">
+                        <div style="float:right"><?php echo $categoryName?></div>
+                        <div class="answersection">
                       <?php $j = 1;foreach($question['Options'] as $rw){ ?>   
                          <div class="normalsection ">
                              <div data-questionid="<?php echo ($i); ?>" class="surveyradiobutton  radiooption_first" data-optionid="<?php echo ($j."_".$i); ?>"> <input value="<?php echo ($j); ?>" <?php if(isset($userAnswer) && in_array($j,$userAnswer)) echo "checked"; else echo ""?> type="radio" class="styled " name="radio_<?php echo $i;?>" id="optionradio_<?php echo $j."_".$i;?>"></div>
@@ -95,8 +97,8 @@ if(is_object($surveyObj)){
                        
                         
                     </div> 
-                           <div style="float:right">
-                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                              <div style="float:right">
+                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                      </div>
                     </div>
@@ -134,7 +136,7 @@ if(is_object($surveyObj)){
                 <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
                         <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
-                        
+                         <div style="float:right"><?php echo $categoryName?></div>
                      <div class="answersection">
                           <?php if($question['DisplayType'] == 1){ //Checkbox ?>
                          
@@ -231,6 +233,13 @@ if(is_object($surveyObj)){
               $userAnswer =  $userAnswerObj["Options"];
  
             }
+             $correctAnswers = implode(",", $question['Answers']);
+             // echo "oter---".$question['Other'];
+              $otherValue = "";
+              if($question['Other'] == 1){
+                 $otherValue =  $question["OtherValue"];
+               
+              }
             ?> 
       
                        <div class="surveyquestionsbox"  data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
@@ -238,7 +247,8 @@ if(is_object($surveyObj)){
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
-                        <div class="answersection">
+                        <div style="float:right"><?php echo $categoryName?></div>
+                           <div class="answersection">
                        <div class="paddingtop12">
                            <div class="MR_view_table"> 
                         <table cellpadding="0" cellspacing="0" class="customsurvaytable customsurvaytableview">
@@ -334,6 +344,17 @@ if(is_object($surveyObj)){
                       </div>
                         </div>
                         </div>
+                             <div style="color:grey">
+                        Correct Answers : <?php echo $correctAnswers;?>
+                        <?php if($otherValue!=""){
+                           echo "<br/>Other Option : ". $otherValue;                            
+                        } ?>
+                       
+                        
+                    </div> 
+                             <div style="float:right">
+                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
+                         </div>
                         </div>
                      </div>
           <?php $this->endWidget(); ?>
@@ -377,7 +398,8 @@ if(is_object($surveyObj)){
                     <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
-                        <div class="answersection">
+                         <div style="float:right"><?php echo $categoryName?></div>
+                           <div class="answersection">
                        <div class="paddingtop12">
                            <div class="MR_view_table"> 
                         <table cellpadding="0" cellspacing="0" class="customsurvaytable customsurvaytableview">
@@ -497,8 +519,8 @@ if(is_object($surveyObj)){
                        
                         
                     </div>
-                         <div style="float:right">
-                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                          <div style="float:right">
+                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                         </div>
                    
@@ -549,7 +571,8 @@ if(is_object($surveyObj)){
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
-                           <?php $k = 1; foreach($question['OptionName'] as $rw){ ?>
+ <div style="float:right"><?php echo $categoryName?></div>                          
+ <?php $k = 1; foreach($question['OptionName'] as $rw){ ?>
                            <input type="hidden" name="QuestionsSurveyForm[DistValue][<?php echo ($k."_".$i); ?>]" id="QuestionsSurveyForm_DistValue_hid_<?php echo ($k."_".$i); ?>" value="<?php echo $userAnswer[$k-1]?>"/>
                        <div class="answersection">
                      <div class="normalsection ">
@@ -604,8 +627,8 @@ if(is_object($surveyObj)){
                        
                         
                     </div>  
-                             <div style="float:right">
-                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                              <div style="float:right">
+                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                     </div>
                     </div>
@@ -649,7 +672,7 @@ if(is_object($surveyObj)){
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
-                        
+                         <div style="float:right"><?php echo $categoryName?></div>
                            <div class="answersection">
                          <div class="normalsection paddingleftzero ">
                         <div class="row-fluid">
@@ -683,8 +706,8 @@ if(is_object($surveyObj)){
                        
                         
                     </div>  
-                        <div style="float:right">
-                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                           <div style="float:right">
+                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                         </div>
                         </div>
@@ -728,7 +751,7 @@ if(is_object($surveyObj)){
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
-                        
+                         <div style="float:right"><?php echo $categoryName?></div>
                            <div class="answersection">
                             <?php for($j=1; $j<=$question['NoofOptions']; $j++){?>
                                <input type="hidden" name="QuestionsSurveyForm[UsergeneratedRanking][<?php echo ($j."_".$i); ?>]" id="QuestionsSurveyForm_UsergeneratedRanking_hid_<?php echo ($j."_".$i); ?>" value="<?php echo $userAnswer[$j-1]?>"/>
@@ -759,8 +782,8 @@ if(is_object($surveyObj)){
                        
                         
                     </div>  
-                        <div style="float:right">
-                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                           <div style="float:right">
+                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                         </div>
                         </div>
@@ -816,7 +839,8 @@ if(is_object($surveyObj)){
                      <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
                         <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
-                     <div class="answersection">
+                    <div style="float:right"><?php echo $categoryName?></div>
+                        <div class="answersection">
                       <?php $j = 1;foreach($question['Options'] as $ky=>$rw){ ?>   
                          <div class="normalsection ">
                              <div data-justificationapplied="<?php echo $question['JustificationAppliedToAll']; ?>" data-justvalue="<?php  if(isset($question['Justification'][0]) && sizeof($question['Justification']) > 0){ echo implode(",",$question['Justification']); }  ?>" class="surveyradiobutton surveybooleanoptionsdiv confirmation_<?php echo ($i); ?>" data-sno="<?php echo ($i); ?>" data-questionid="<?php echo ($i); ?>" data-stype="<?php echo $question['SelectionType']; ?>" data-optionid="<?php echo ($j."_".$i); ?>" data-value="<?php echo ($j); ?>"> 
@@ -855,44 +879,52 @@ if(is_object($surveyObj)){
                        
                         
                     </div> 
-                          <div style="float:right">
-                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                            <div style="float:right">
+                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                      </div>
                     </div>
              <?php $this->endWidget(); ?>  
         
          <?php }
-          error_log("ivaaa--be----------".$i);
+         
      $i++;
-     error_log("ivaaa------------".$i);
-   
-                             } ?>
-     
-     
-     
+    } ?>
   
-
 <script type="text/javascript">
-Custom.init();
-var qCount = '<?php echo sizeof($surveyObj->Questions); ?>';
-//$("input").prop('readonly', true);
 
+var qCount = '<?php echo sizeof($surveyObj->Questions); ?>';
+$("input.textfield").prop('readonly', true);
+$("input:radio").attr('disabled',true);
+$("input:checkbox").attr('disabled',true);
+Custom.init();
 </script>
 
-
-    
-
-
-  <?php       }else{  
-           error_log("elseeeeeeeeeeeeeee");
-      echo $errMessage; }
+  <?php  }
       }
-      
-?>
- <div class="row-fluid" >
+      ?>
+<div class="row-fluid" >
         <div class="span12">
-                <label>&nbsp;&nbsp;</label>
+            <div class="span10">
+                
+            </div>
+            <div class="span2">
+                 <label>&nbsp;&nbsp;</label>
                     <input type="button" value="Submit"  class="btn" id="submitReviewAnswers"> 
+            </div>
+               
         </div>
     </div>
+<?php 
+
+}else{?>
+
+
+<span class="text-error">
+<b>No review questions found</b>
+</span>
+<?php    
+}
+      
+?>
+ 
