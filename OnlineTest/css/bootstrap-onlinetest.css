@@ -572,7 +572,10 @@ input[type="color"],
 .categoryQuestions{width:auto;margin:0}
 .categoryQuestions tr td{border-right:2px solid #fff;border-bottom:2px solid #fff;background: #666;width:35px;height:35px;cursor: pointer;vertical-align: middle;text-align: center;font-size:14px;font-weight: bold;color:#fff}
 .categoryQuestions tr td.active, .categoryQuestions tr td:hover{background: #1ec8eb}
+.categoryQuestions tr td.completed{background:#f4c81d;}
 .categoryQuestions tr td:last-child{border-right:0}
+.questiondcompleted{background:#f4c81d;}
+
 /*categoryQuestions end*/
 .q_catogories_progress{padding:0;border-top:2px solid #ccc;}
 .q_catogories_progress_active {background:#fff; border-top:2px solid #f4c81d;padding: 0px;}
