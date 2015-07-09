@@ -19,6 +19,7 @@ class User extends CActiveRecord {
     public $LastLoginDate;
     public $IsAdmin=0;
     public $IdentityProof;
+    public $ImagePath;
     
 
     public static function model($className = __CLASS__) {
@@ -104,6 +105,29 @@ class User extends CActiveRecord {
         }
         return $return;
     }
+    
+    
+      /*
+    * Update the IdentityProof for test taker when the registration time.
+    */
+
+    public function updateTestTakerImagePath($testTakerForm) {
+        try {
+            $return = "failed";
+            $user = User::model()->findByAttributes(array("Email" => $testTakerForm->Email));
+            if (isset($user)) {
+                $user->ImagePath = $testTakerForm->Imagesrc;
+                if ($user->update()) {
+                    $return = "success";
+                }
+            }
+        } catch (Exception $ex) {
+            error_log("Asddddddddddddddd".$ex->getTraceAsString());
+            Yii::log("User:updateUserStatus::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+        return $return;
+    }
+    
       
       
 
