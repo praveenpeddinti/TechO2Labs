@@ -2,7 +2,7 @@
 (
     "fb_api_key" => '1462829210646952',
     "Logo" => '/images/system/logo.png',
-    "ServerURL" => 'https://10.10.73.68',
+    "ServerURL" => 'https://10.10.73.102:445',
     "Language" => 'en',
     "PrimaryUser" => 'Pharmacist',
     "SecondaryUser" => 'Pharmacy Manager',
