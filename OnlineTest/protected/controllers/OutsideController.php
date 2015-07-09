@@ -70,6 +70,13 @@ class OutsideController extends Controller {
                 $testId = $testRegObj->TestId;
             }            
             $this->layout = 'adminLayout';
+
+            //$reg = TestRegister::model()->updateTestByUserId($userId,1);
+            error_log("******Registerduser***$userId*$reg");
+            $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
+            //error_log("=UserId==$userId====TestId=$testId==questionPrepObj===".print_r($questionprepareObj,1));
+//            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");   
+
             $UTestObj = ServiceFactory::getTO2TestPreparaService()->getUserTestObjectByUserIdTestId($userId,$testId);
             if(isset($UTestObj->UserId) && $UTestObj->Status == 0){
                 $reg = TestRegister::model()->updateTestByUserId($userId,1);
@@ -79,6 +86,7 @@ class OutsideController extends Controller {
             }else{
                 $this->render('submissionerror');
             }
+
             
             
             
@@ -250,6 +258,7 @@ function get_values_for_keys($mapping, $keys) {
              $action = $_REQUEST['action'];
              $UserId = isset($_REQUEST['UserId'])?$_REQUEST['UserId']:1; // userId... 
              CommonUtility::trackSurvey($UserId,$scheduleId,$categoryId,$page,"");
+              error_log($scheduleId."***######gsr3###################*******");
                 $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$userQuestionTempId,$scheduleId,$page,$categoryId,$action);            
                        
             $bufferAnswers = array();
@@ -264,7 +273,7 @@ function get_values_for_keys($mapping, $keys) {
              $catIdsArray = $surveyObjArray['catIdsArray'];
              $catPosition = $surveyObjArray['catPosition'];
              $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
-            //error_log("*****bufferAnswers11111111111111*******".print_r($bufferAnswers,1));
+            error_log($categoryId."***######gsr**bufferAnswers11111111111111*******");
              $this->renderPartial('userCustomView',array("UserTempId"=>$userQuestionTempId,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$UserId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"nocategories"=>$nocategories,"sno"=>($page+1),"catPosition"=>$catPosition));
              
         } catch (Exception $ex) {
@@ -705,7 +714,11 @@ function get_values_for_keys($mapping, $keys) {
                      $NetworkId=1;
                     // error_log("Iam form".print_r($QuestionsSurveyForm,true));
                      $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId);
+
+                     $reg = TestRegister::model()->updateTestByUserId($UserId,2);
+
                      
+
                      if($fromAutoSave==0){
                          error_log("from pagination==$fromPagination********fromAutoSave".$fromAutoSave);
                      $exsurveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('Id',$surveyObject->SurveyId);  

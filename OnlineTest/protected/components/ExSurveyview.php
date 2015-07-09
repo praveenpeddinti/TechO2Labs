@@ -56,11 +56,16 @@
     <div><span id="hms_timer"></span><span style="display:none" id="hms_timer_hidden"></span><span style="display:none" id="hms_timer_stop"></span></div>
     <script type="text/javascript">
          var TotalTimerDivs={};
+         var CategoryIdwithCategory={};
           var CategoryDivs=new Array();
+          var CategoryIdArray=new Array();
+          var qn = 0;
         </script>
            <?php
            $Totaltime = 0;
- $k = 0; foreach($CatName as $row){ ?>
+ $k = 0; foreach($CatName as $row){
+     
+     ?>
    <div class="q_catogories_progress position_R" id="q_categories_<?php echo ($k+1); ?>" data-val="<?php echo ($k+1); ?>" >
        <div class="headerbg_cat">
    	<h3 class="pull-left" data-info="<?php echo ($k+1); ?>"><?php echo $row['CategoryName']; ?></h3> 
@@ -78,7 +83,7 @@
        <?php if($i%5==0){  ?>
         </tr><tr>
              <?php } ?>
-            <td class="questionnos" data-activetimer="hms_timer<?php echo ($k+1); ?>_hidden" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>
+            <td class="questionnos" id="qno_<?php echo ($k+1-1)._.($i+1); ?>" data-activetimer="hms_timer<?php echo ($k+1); ?>_hidden" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>
             
         
         
@@ -94,26 +99,32 @@
      <script type="text/javascript">
          
      $(function(){
-//                                    $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
-//                                        hours : 0,
-//                                        minutes :0,//<?php echo $row['CategoryTime']; ?>,
-//                                        seconds : 5,
-//                                        size : "lg",
-//					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
-//					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
-                                        timeUp:"hms_timer<?php echo ($k+1); ?>"
-//                                        timeUp : "q_categories_<?php echo ($k+1); ?>"
-//                                    });
-//                                    if('#hms_timer<?php echo ($k+1); ?>_stop'!="#hms_timer1_stop"){
-//                                        $('#hms_timer<?php echo ($k+1); ?>_stop').val("stop").trigger('click');
-//                                     }
+
+                                    $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
+                                        hours : 0,
+                                        minutes :<?php echo $row['CategoryTime']; ?>,
+                                        seconds : 0,
+                                        size : "lg",
+					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
+					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
+                                        //timeUp:"hms_timer<?php echo ($k+1); ?>"
+                                        timeUp : "q_categories_<?php echo ($k+1); ?>"
+                                    });
+                                    if('#hms_timer<?php echo ($k+1); ?>_stop'!="#hms_timer1_stop"){
+                                        $('#hms_timer<?php echo ($k+1); ?>_stop').val("stop").trigger('click');
+                                     }
+
+
                                     
                                 });
                                var TimerDivs=TimerDivs+","+"#hms_timer<?php echo ($k+1); ?>_hidden";
+                               var CategoryDivsID=CategoryDivsID+","+"#q_categories_<?php echo ($k+1); ?>";
                                var Totaltime = <?php echo $Totaltime = $Totaltime+$row['CategoryTime']; ?>;
                               
                                CategoryDivs.push("q_categories_<?php echo ($k+1); ?>");
+                               CategoryIdArray.push("<?php echo $row['CategoryId']?>");
                                TotalTimerDivs["q_categories_<?php echo ($k+1); ?>"]="hms_timer<?php echo ($k+1); ?>_hidden";
+                               CategoryIdwithCategory["<?php echo $row['CategoryId']?>"]="q_categories_<?php echo ($k+1); ?>";
                               // alert(TotalTimerDivs)
                                 </script>
  <?php $k++; } ?>
@@ -132,41 +143,53 @@
         //alert(TotalTimerDivs['q_categories_1'])
         var closedCategory=new Array();
         var openCategory=new Array();
+        
          function expiryCategory(divid){
+             if(divid=='timeisup'){
+                 submitSurvey();
+             }else{
              closedCategory.push(divid)
            //  alert("I am done----"+divid)
              $('#'+divid).css('opacity',0.2);
              $('#'+divid).append("<div class='suspendcontentdiv'></div><div class='suspenddiv'></div>");
-             $('#'+divid).removeClass('q_catogories_progress_active');
+             
              openCategory=arr_diff(CategoryDivs,closedCategory);
              if(openCategory.length>0){
               //alert(openCategory[0]+"i am in");
+          
+               activeCategoryDiv(openCategory[0])
                 stopandStartTimer(TotalTimerDivs[openCategory[0]]); 
                 getOpenCategoryQuestion(openCategory[0]);
              }else{
                  //alert('timeup')
-                //submitSurvey() 
+
+                  //$("#prevQuestion").hide();
+                 submitSurvey();
+                
+
              }
             
-              
+        }   
          }
          $(document).ready(function() {
              //main timer code
              $(function(){
-//                                    $('#hms_timer').countdowntimer({
-//                                        hours : 0,
-//                                        minutes :Totaltime,//<?php //echo $row['CategoryTime']; ?>,
-//                                        seconds : 0,
-//                                        size : "lg",
-//					pauseButton : "hms_timer_hidden",
-//					stopButton : "hms_timer_stop",
-//                                       // timeUp : "q_categories_<?php echo ($k+1); ?>"
-//                                    });
+
+                                    $('#hms_timer').countdowntimer({
+                                        hours : 0,
+                                        minutes :Totaltime,//<?php echo $row['CategoryTime']; ?>,
+                                        seconds : 0,
+                                        size : "lg",
+					pauseButton : "hms_timer_hidden",
+					stopButton : "hms_timer_stop",
+                                        timeUp : "timeisup"
+                                    });
+
+
                                     
                                     
                                 });
              //main timer end
-           $(".q_catogories div.q_catogories_progress").first().addClass("q_catogories_progress_active");
            doAjax();
              var UserId = 0;
                  var Groupname = "";
@@ -223,6 +246,7 @@
          var fromAutoSave=0;
          var scheduleId = "";
          $("#nextQuestion").live("click",function(){
+             openCategory=arr_diff(CategoryDivs,closedCategory);
              fromPagiNation=1;
              fromAutoSave=0;
              gotoNextPage();
@@ -234,7 +258,8 @@
           var currentPage=0;   
          $(".questionnos").live("click",function(){   //question by number            
              var $this = $(this);
-             
+             $(".questionnos").removeClass("active");
+             $this.addClass("active");
 //              var activetimerdiv = $this.data("activetimer");
 //              //alert(activetimerdiv);
 //              stopandStartTimer(activetimerdiv);
@@ -244,6 +269,7 @@
              sureyQuestionPage = qno;
              $("#QuestionsSurveyForm_ScheduleId").val(scheduleid);
              $("#QuestionsSurveyForm_SurveyId").val(catid);
+             qn = Number($("#q_categories_"+qno).attr("data-val"))+1;
              setGotoPageAjaxCall(scheduleid,catid,qno,"current");
          });
          
@@ -263,23 +289,7 @@
              setGotoPageAjaxCall(scheduleid,catid,qno,"current");
          });
      }
-     function getDone(){
-         
-         $("#submitQuestion").live("click",function(){ alert('--2')
-             Garray = new Array();
-             isValidate = 0;
-             fromAutoSave = 0;
-             fromNode = 1;
-             fromPagiNation = 0;
-             gQcnt = 0;
-             notValidate = 0;
-             if(autoSaveInterval != null && autoSaveInterval != "undefined"){          
-                     clearInterval(autoSaveInterval);
-                }
-           submitSurvey();
-          
-        });
-     }
+   
          $("#prevQuestion").live("click",function(){
              fromPagiNation=1;
              gotoPreviousPage();            
@@ -296,10 +306,53 @@
         $(TimerDivs).val("pause").trigger('click');
         $('#'+div).val("resume").trigger('click'); 
     }
-    function startnext(divid){
-        alert(divid+'----'+TimerDivs)
+      function activeCategoryDiv(div){
+
+        $(CategoryDivsID).removeClass("q_catogories_progress_active");
+        $('#'+div).addClass("q_catogories_progress_active"); 
     }
     
+       function buttonhideing(categoryId){
+       //alert(CategoryIdArray.indexOf(categoryId))
+         CategoryIdArray.indexOf(categoryId);
+         if(CategoryIdArray.indexOf(categoryId)==0){
+              $("#prevQuestion").hide(); 
+         }
+          if(CategoryIdArray.indexOf(categoryId)==CategoryIdArray.length){
+              $("#nextQuestion").hide(); 
+         }
+           
+          if(CategoryIdArray.indexOf(categoryId)>0){
+          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
+               openCategory=arr_diff(CategoryDivs,closedCategory);
+          // alert(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]]));
+           if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]])>=0){
+               $("#prevQuestion").show(); 
+           }else{
+              $("#prevQuestion").hide(); 
+           }
+          
+           
+           
+          }
+             if(CategoryIdArray.indexOf(categoryId)>0){
+          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
+               openCategory=arr_diff(CategoryDivs,closedCategory);
+          // alert(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]]));
+           if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)+1]])>=0){
+               $("#nextQuestion").show(); 
+           }else{
+                $("#nextQuestion").hide(); 
+           }
+          
+           
+           
+          }
+          
+         
+    
+    }
+   
     function arr_diff(a1, a2)
 {
   var a=[], diff=[];
@@ -322,6 +375,7 @@
               currentPage++;
               scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
+             $("#qno_"+currentPage).addClass("completed");
 //              ValidateQuestions(1, 1);
 submitSurvey();
               
@@ -338,7 +392,7 @@ submitSurvey();
               var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
              var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"surveyId":surveyId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"previous"};
-             ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
+        ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
          }
          
       

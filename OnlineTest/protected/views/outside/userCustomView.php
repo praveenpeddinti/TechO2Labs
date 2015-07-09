@@ -994,7 +994,7 @@ sessionStorage.sharedURL = "";
           
         });
           function submitSurvey(){
-              
+               $("#"+questionActiveID).css("background-color", "")
              //alert("==submitsurvey===="+fromAutoSave)
               
                 if(fromAutoSave == 0){
@@ -1034,6 +1034,7 @@ sessionStorage.sharedURL = "";
 //                            isValidate++;      
 //                        }
 //                    }
+ //ValidateQuestions(i, qCount);
                        if($(".booleanwidget_"+i).is(":visible")){
                            ValidateQuestions(1, 1);
                        }else if($.trim($("#QuestionsSurveyForm_OptionsSelected_"+i).val()) != "" && $("#QuestionsSurveyForm_OptionsSelected_"+i).val() ){
@@ -1068,7 +1069,7 @@ sessionStorage.sharedURL = "";
         
         function ValidateQuestions(qNo,qCnt){ 
           //console.log("=ValidateQuestions=========fromAutoSave=="+fromAutoSave);
-          
+     
             
             var serializeddata = $("#questionviewWidget_"+qNo).serialize();
 //            alert(data.toSource())
@@ -1088,6 +1089,7 @@ sessionStorage.sharedURL = "";
                              if(fromAutoSave == 0){
                                   
                              }else{
+                                 
                                   Garray[0] = serializeddata;   
                              }
 
@@ -1108,8 +1110,10 @@ sessionStorage.sharedURL = "";
             }
         function ValidateQuestionsHandler(data,qNo){
             var data = eval(data);  
-            
+           
             if (data.status == 'success') {
+               // alert(questionActiveID+"I am fuck")
+                $("#"+questionActiveID).css("background-color", "green")
                // scrollPleaseWaitClose('surveyviewspinner');
                isValidated = true;
                saveAnswersForQuestions();
@@ -1184,6 +1188,7 @@ sessionStorage.sharedURL = "";
         
         
         function saveAnswersForQuestions(){
+            
            if($("#surveySavingRes").length>0 && fromAutoSave == 0){
                 $("#surveySavingRes").show();  
                 $("#surveySavingRes").attr("style","margin-top:10px");
@@ -1217,6 +1222,7 @@ sessionStorage.sharedURL = "";
 //                                $("#surveyQuestionArea").html(data); 
                                 window.location.href = "/outside/thankyouPage?done=done";
                         }
+                       // alert(categoryId+"(("+sureyQuestionPage)
                             var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};                        
                             ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
                         }else{
@@ -1581,7 +1587,11 @@ $("#pagenoforsurvey").html(pageStr).show();
      <script type="text/javascript"> 
          var fromNode=0; //this flag is used to stop doing logout in 2 cases 1.call from node 2.submit pressed
         var categoryId = '<?php echo $categoryId?>';
-        var nocategories = '<?php echo $nocategories?>';  
+
+   var nocategories = '<?php echo $nocategories?>';
+        openCategory=arr_diff(CategoryDivs,closedCategory);
+var questionActiveID="qno_"+CategoryIdArray.indexOf(categoryId)+"_"+'<?php echo $page;?>';
+$("#"+questionActiveID).css("background-color", "orange");
         <?php if(($catPosition == "first") && $page == 1){  ?>
              $("#prevQuestion").hide(); 
              $("#nextQuestion").show();
@@ -1589,11 +1599,16 @@ $("#pagenoforsurvey").html(pageStr).show();
         <?php }else if(($catPosition == "last" && $page == $totalpages) || $nocategories == "true"){?>
             $("#nextQuestion").hide();            
             $('#submitQuestion,#prevQuestion').show();
-        <?php }else{ ?>
+        <?php }else{ //if($page==1){?>
+            //if()
             $("#prevQuestion").show();
             $("#nextQuestion").show();
             $("#submitQuestion").hide();
         <?php } ?>
+
+stopandStartTimer(TotalTimerDivs[CategoryIdwithCategory[categoryId]]);  
+activeCategoryDiv(CategoryIdwithCategory[categoryId]);
+buttonhideing(categoryId)
 
          var userTempId = '<?php echo $UserTempId?>';
           
