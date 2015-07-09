@@ -199,9 +199,8 @@ TestRegister T on U.UserId not in (T.UserId)";*/
             if(Yii::app()->db->createCommand($query)->execute()){
                 $result = "success";
             } 
-            
             return ;
-        } catch (Exception $ex) {
+      } catch (Exception $ex) {
          error_log("TestRegister:getTestIdByUserId::".$ex->getMessage());
             Yii::log("TestRegister:getTestIdByUserId::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
