@@ -109,6 +109,22 @@ class SiteController extends Controller {
          Yii::log("SiteController:actionIndex::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
     }
+    function saveimage($userId,$testTakerForm){
+ error_log("&&###########&&&&&&&&&&&".print_r($testTakerForm->Imagesrc,true));
+   
+ if(trim($testTakerForm->Imagesrc)!=""){
+ $filteredData = explode(',', $testTakerForm->Imagesrc);
+
+$unencoded = base64_decode($filteredData[1]);
+$imgpath="images/users/".$userId.'.png';
+$fp = fopen("images/users/".$userId.'.png', 'w');
+fwrite($fp, $unencoded);
+fclose($fp);
+return $imgpath;
+    }
+    return '/images/users/noimage.png';
+    }
+    
     
     public function actionRegistration() {
     try {
@@ -118,10 +134,25 @@ class SiteController extends Controller {
             $testTakerForm->attributes = $_POST['UserRegistrationForm'];
             $errors = CActiveForm::validate($testTakerForm);
             if ($errors != '[]') {
-                $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
+
+$obj = array('status' => 'error', 'data' => '', 'error' => $errors);
             } else {
                 $takerexist =array();
                 $takerPhoneexist =array();
+            //    error_log("&&&&&&&&&&&&&".print_r($testTakerForm->Imagesrc,true));
+   if (trim($testTakerForm->Imagesrc) != "") {
+                     error_log("@@@@@@@@@@@@@@22");
+                $filteredData = explode(',', $testTakerForm->Imagesrc);
+                     $randomName = rand(10000, 10000000);
+
+                                    $unencoded = base64_decode($filteredData[1]);
+                                    $imgpath = "images/users/" . $randomName . '.png';
+                                    $fp = fopen("images/users/" . $randomName. '.png', 'w');
+                                    fwrite($fp, $unencoded);
+                                    fclose($fp);
+                 }
+
+
                 $takerexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExist($testTakerForm->Email);  
                 $takerPhoneexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExistWithPhone($testTakerForm->Phone);
                 if ((count($takerexist) > 0) && (count($takerPhoneexist) > 0) ) {
@@ -132,7 +163,22 @@ class SiteController extends Controller {
                                 
                             if($checkUserTesttaken->Status==0){
                                 $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerDetails($testTakerForm);
+                                
                                 $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserByType($testTakerForm->Email, 'Email');
+                            
+                                 if (trim($testTakerForm->Imagesrc) != "") {
+                                     $destpath="images/users/" . $userObj->UserId. '.png';
+                                 rename("/usr/share/nginx/www/OnlineTest/".$imgpath,"/usr/share/nginx/www/OnlineTest/".$destpath);
+                                    $destpath= '/'.$destpath; 
+                                }else{
+                                     $destpath= '/images/users/noimage.png';
+   
+                                }
+                                error_log("DESTSSSSSSSSSSSSSSs".$destpath);
+                                $testTakerForm->Imagesrc=$destpath;
+                              $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerImagePath($testTakerForm,$userObj->UserId);
+
+
                                 $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
                                 Yii::app()->session['TinyUserCollectionObj'] = $tinyUserCollectionObj;
                                 Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
