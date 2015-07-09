@@ -294,7 +294,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                                 $SurveyTakenUsers = "";
                                $modifier->addModifier('SurveyTakenUsers', 'set', (int)$UserId);
                                 $modifier->addModifier('ResumeUsers', 'pull',(int)$UserId);
-                                 $modifier->addModifier('UserAnswers', 'set', $obj->UserAnswers);
+                                 $modifier->addModifier('UserAnswers', 'push', $obj->UserAnswers);
                                 if(ScheduleSurveyCollection::model()->updateAll($modifier, $criteria)){
                                      SurveyUsersSessionCollection::model()->unsetSpotForUser($UserId,$sscheduleId,"Done");
                                     $returnValue = $scheduleSurveyObj;
