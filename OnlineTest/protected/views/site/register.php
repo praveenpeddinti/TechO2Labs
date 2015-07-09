@@ -1,4 +1,4 @@
- <section class="login_bg" style="clear:both; height:370px; "> </section >
+<section class="login_bg" style="clear:both; height:370px; "> </section >
 <section style="clear:both;" >
     <div class="container"  >
 <div class="customLoginform customLoginformwidth positionlogin " style=" padding-bottom:50px; margin-bottom:120px; " >
@@ -8,11 +8,18 @@
         <h4 class="padding-left12">Registration</h4>
         <p>Register here to start your Online Test</p>
     </div>
+  
     <div class="upload_profile  ">
 <div class="generalprofileicon skiptaiconwidth190x190">
-<a href="#" class="skiptaiconinner "><img src="images/sreeni.png"> </a><span class="helpicon"><a href="#"><img src="images/helpicon_w.png"></a></span>
+<video id="video" autoplay></video>    
 
+   
+	<canvas id="canvas" width="200" height="200"></canvas>
+    
 </div>
+         <button onclick="Captureimage()"  id="new">New</button>
+     <button id="snap">Capture</button>
+    <button id="upload" style="display:none;">Upload</button>
 <p>Upload your Picture</p>
  </div>
     <div class="row">
@@ -59,6 +66,7 @@
                 <div class="control-group controlerror"> 
                     <?php echo $form->error($model, 'Phone'); ?>
                 </div>
+                  <?php echo $form->hiddenField($model,'Imagesrc'); ?>
                 
                 <!--<div class="form-group loginform">
                 <input type="hidden" name="UserRegistrationForm[IdentityProof]" id="UserRegistrationForm_IdentityProof" />
@@ -90,9 +98,11 @@
                         'error'=>'function(error){
                         }',
                         'beforeSend' => 'function(){
-                            if ($("#rememberMe_login").is(":checked")) {
-                                $("#LoginForm_rememberMe").val(1);
-                            }
+                              
+                                                     alert($("#register-form").serialize());
+
+                           
+                            
                         }',
                         'complete' => 'function(){
                         }',
@@ -177,6 +187,69 @@
     }
     
 
+    function Captureimage(){
+        alert("**")
+     var canvas = document.getElementById("canvas"),
+				context = canvas.getContext("2d"),
+				video = document.getElementById("video"),
+				videoObj = { "video": true },
+				errBack = function(error) {
+					console.log("Video capture error: ", error.code); 
+				};
+
+			// Put video listeners into place
+			if(navigator.getUserMedia) { // Standard
+				navigator.getUserMedia(videoObj, function(stream) {
+					video.src = stream;
+					video.play();
+				}, errBack);
+			} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+				navigator.webkitGetUserMedia(videoObj, function(stream){
+					video.src = window.webkitURL.createObjectURL(stream);
+					video.play();
+				}, errBack);
+			} else if(navigator.mozGetUserMedia) { // WebKit-prefixed
+				navigator.mozGetUserMedia(videoObj, function(stream){
+					video.src = window.URL.createObjectURL(stream);
+					video.play();
+				}, errBack);
+			}
+
+			// Trigger photo take
+			document.getElementById("snap").addEventListener("click", function() {
+				context.drawImage(video, 0, 0, 190, 190);
+				// Littel effects
+				$('#video').fadeOut('slow');
+				$('#canvas').fadeIn('slow');
+				$('#snap').hide();
+				$('#new').show();
+                                  $("#UserRegistrationForm_Imagesrc").val(canvas.toDataURL());
+				// Allso show upload button
+				//$('#upload').show();
+			});
+			
+			// Capture New Photo
+			document.getElementById("new").addEventListener("click", function() {
+				$('#video').fadeIn('slow');
+				$('#canvas').fadeOut('slow');
+				$('#snap').show();
+				$('#new').hide();
+			});
+			// Upload image to sever 
+			document.getElementById("upload").addEventListener("click", function(){
+				var dataUrl = canvas.toDataURL();
+				$.ajax({
+				  type: "POST",
+				  url: "camsave.php",
+				  data: { 
+					 imgBase64: dataUrl
+				  }
+				}).done(function(msg) {
+				  console.log('saved');
+				 // Do Any thing you want
+				});
+			});   
+    }
     
  sessionStorage.clear();
     </script>
