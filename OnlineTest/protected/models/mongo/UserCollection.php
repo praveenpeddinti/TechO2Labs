@@ -11,21 +11,11 @@ class UserCollection extends EMongoDocument {
     public $uniqueHandle;
     public $ProfilePicture;
     public $AboutMe="";
-    public $NetworkId;
-    public $cookieRandomKey;
-    public $profile250x250;
-    public $profile70x70;
-    public $profile45x45;
+   
     public $Status=0;
     public $UserIdentityType=0;
-    public $Language="en";
-    public $CountryId=0;
-    public $SegmentId=0;
-    public $Latitude;
-    public $Longitude;
-    public $UserClassification=1;
-    public $State;
-    public $SubSpeciality;
+ 
+  
 
   
    
@@ -72,22 +62,13 @@ class UserCollection extends EMongoDocument {
             'DisplayName' => 'DisplayName',
             'uniqueHandle' => 'uniqueHandle',
             'ProfilePicture' => 'ProfilePicture',
-            'NetworkId' => 'NetworkId',
+           
             'AboutMe' => 'AboutMe',
-            'cookieRandomKey' => 'cookieRandomKey',
-            'profile250x250'=>'profile250x250',
-            'profile70x70'=>'profile70x70',
-            'profile45x45'=>'profile45x45',
+      
+          
             'Status'=>'Status',
             'UserIdentityType'=>'UserIdentityType',
-            'Language'=>'Language',
-            'SegmentId'=>'SegmentId',
-            'CountryId'=>'CountryId',
-            'Latitude'=>'Latitude',
-            'Longitude'=>'Longitude',         
-            'UserClassification'=>'UserClassification',
-            'State'=>'State',
-            'SubSpeciality'=>'SubSpeciality'
+        
            
 
             
@@ -736,10 +717,7 @@ public function getAllNotLoggedInUsersFromPastFourdays(){
             $mongoCriteria = new EMongoCriteria;
             $mongoModifier = new EMongoModifier;
             $mongoCriteria->addCond('UserId', '==', (int) $user->UserId);                       
-            $mongoModifier->addModifier('CountryId', 'set', $user->Country);
-            $mongoModifier->addModifier('State', 'set', $user->State);
-            $mongoModifier->addModifier('City', 'set', $user->City);
-            $mongoModifier->addModifier('Zip', 'set', $user->Zip);
+     
             UserCollection::model()->updateAll($mongoModifier, $mongoCriteria);
             $returnValue ="success";
             return $returnValue;
@@ -750,5 +728,23 @@ public function getAllNotLoggedInUsersFromPastFourdays(){
       }
     }
 
+    
+      public function updateTestTakerImagePath($object,$userid){
+      $returnValue='failure';
+      try {
+            $mongoCriteria = new EMongoCriteria;
+            $mongoModifier = new EMongoModifier;
+            $mongoCriteria->addCond('UserId', '==', (int) $userid);                       
+            $mongoModifier->addModifier('ProfilePicture', 'set', Yii::app()->params['ServerURL'].$object->Imagesrc);
+        
+            UserCollection::model()->updateAll($mongoModifier, $mongoCriteria);
+            $returnValue ="success";
+            return $returnValue;
+      } catch (Exception $ex) {
+          Yii::log("UserCollection:updateUserTinyCollection::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+          return $returnValue;
+         
+      }
+    }
 }
 
