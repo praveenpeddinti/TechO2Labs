@@ -19,7 +19,6 @@
                         </tr></thead>
                     <tbody>
                         
-                        
                         <?php $i=1;foreach($reportData as $Details){?> 
                         <tr class="<?php if($i%2==0){echo "odd";}else{echo "even";} ?>" >
                             <td class="data_t_hide">
@@ -47,7 +46,7 @@
                                 <?php echo $Details->totalReviewQ;?>
                             </td>
                             <?php if($Details->totalReviewQ>0){?>
-                            <td  class="data_t_hide" id="reviewNow" style="cursor: pointer">Review Now</td>  
+                            <td  class="data_t_hide" id="reviewNow" data-userId="<?php echo $Details->userId;?>" data-testId="<?php echo $testPaperId; ?>" style="cursor: pointer">Review Now</td>  
                            <?php }?>
                         </tr>
                          <?php $i++;}?>
@@ -61,12 +60,13 @@
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
                     <thead><tr><th class="data_t_hide">Name</th>
                             <th class="data_t_hide">Date</th>
-                            <th class="data_t_hide">Total Questions</th>
+                            <th class="data_t_hide">Total Marks</th>
                             <?php $j=1;foreach($reportData as $Details){ if($j==sizeof($reportData)){?> 
                             <?php foreach($Details->categoryScoreArray as $value){?>
                             <th><?php echo $value['categoryName'];?></th>
                             <?php }} $j++;}?>
-                            <th class="data_t_hide">Total Marks</th>
+                            <th class="data_t_hide">System Marks</th>
+                              <th class="data_t_hide">Review Marks</th>
                             <th class="data_t_hide">Review</th>
                             <th class="data_t_hide">Action</th>
                         </tr></thead>

@@ -1225,6 +1225,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 $userReportBean = new UserReportBean();
                 $userObject = UserCollection::model()->getTinyUserCollection($user);
                 $userReportBean->userName = $userObject->uniqueHandle;
+                $userReportBean->userId = $userObject->UserId;
                 $userCategoryScoreArray = array();
                 $totalMarks = 0;
                  $systemMarks = 0;

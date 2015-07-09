@@ -1,6 +1,7 @@
 <?php
 
 class UserReportBean{
+    public $userId;
     public $userName;
     public $totalQuestions;
     public $categoryScoreArray;
