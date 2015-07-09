@@ -1115,8 +1115,13 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $noofQuestions = $testObject->NoofQuestions;
             $categoryLabels = array();
            $categoryScores = array();
-             foreach ($categories as $category) {
-                  
+
+            $reviewCountScores =array();
+              foreach ($categories as $category) {
+
+                  $reviewCountObj = ScheduleSurveyCollection::model()->getReviewCount($testId,$category['CategoryId'],$category['ScheduleId']);
+                  array_push($reviewCountScores, $reviewCountObj);
+                  $systemAnswerCountObj = ScheduleSurveyCollection::model()->getSystemAnswerCount($testId,$category['CategoryId'],$category['ScheduleId']);
                   $categoryObj = ScheduleSurveyCollection::model()->prepareCategoryReportIndex($testId,$category['CategoryId'],$category['ScheduleId']);
                   
                   array_push($categoryScores, $categoryObj);
@@ -1137,15 +1142,19 @@ class ScheduleSurveyCollection extends EMongoDocument {
              foreach ($categoryScores as $key=>$categoryScore) {
                  $label = $categoryLabels[$key];
                  $score = $categoryScore[$userObject->UserId];
-                 $IsReview = $categoryScore[$userObject->UserId.'_IsReview'];
-                 $totalReviewQ = $totalReviewQ+$IsReview;
+//                 $IsReview = $categoryScore[$userObject->UserId.'_IsReview'];
+//                 $totalReviewQ = $totalReviewQ+$IsReview;
+                
                  $totalMarks =$totalMarks+$score;
                  array_push($userCategoryScoreArray,array("categoryName"=>$label,"score"=>$score));
              }
              
               $userReportBean->categoryScoreArray = $userCategoryScoreArray;
               $userReportBean->totalMarks = $totalMarks;
+              foreach ($reviewCountScores as $key=>$c) {
+                  $totalReviewQ=$totalReviewQ+$c[$user];
               $userReportBean->totalReviewQ = $totalReviewQ;
+              error_log($userObject->UserId."------count---".$userReportBean->totalReviewQ);}
              array_push($getReportsDataArray, $userReportBean);
             }*/
             
@@ -1170,7 +1179,9 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $TestTakenUsers = array();
             $testObject = TestPreparationCollection::model()->getTestDetails($testId);
             $getTestUserObject = UserQuestionsCollection::model()->getTestUserDetails($testId, $startDate, $endDate, $startLimit, $pageLength);
-            $getTestTakenUsers = UserQuestionsCollection::model()->getTestTakenUsers($testId, $startDate, $endDate);
+            error_log(print_r($getTestUserObject,1));
+            $getTestTakenUsersCount = UserQuestionsCollection::model()->getTestTakenUsers($testId, $startDate, $endDate);
+            error_log("count000---".$getTestTakenUsersCount);
             foreach ($getTestUserObject as $u) {
                 array_push($TestTakenUsers, $u['UserId']);
             }
@@ -1186,7 +1197,16 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 $a = split("~", $value);
                 $spiltCateVa[$a[0]] = $a[1];
             }
+              $reviewCountScores =array();
+              $scoresByType = array();
             foreach ($categories as $category) {
+                
+                  $reviewCountObj = ScheduleSurveyCollection::model()->getReviewCount($testId,$category['CategoryId'],$category['ScheduleId']);
+                  array_push($reviewCountScores, $reviewCountObj);
+                  $systemAnswerCountObj = ScheduleSurveyCollection::model()->getSystemAnswerCount($testId,$category['CategoryId'],$category['ScheduleId']);
+                 //$scoresByType[$systemAnswerCountObj[]] = 
+                  array_push($scoresByType, $systemAnswerCountObj);
+                  error_log("scrop by tyupe--".print_r($scoresByType,1));
                 if ($searchCategoryScore != '') {
                     if (array_key_exists($category['CategoryName'], $spiltCateVa)) {
                         $categoryObj = ScheduleSurveyCollection::model()->prepareCategoryReport($testId, $category['CategoryId'], $category['ScheduleId'], $spiltCateVa[$category['CategoryName']]);
@@ -1207,35 +1227,54 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 $userReportBean->userName = $userObject->uniqueHandle;
                 $userCategoryScoreArray = array();
                 $totalMarks = 0;
+                 $systemMarks = 0;
+                 $reviewMarks = 0;
                 $totalReviewQ = 0;
                 $dicardUser = 0;
                 foreach ($categoryScores as $key => $categoryScore) {
                     $label = $categoryLabels[$key];
+                    error_log($userObject->UserId."---".print_r(array_keys($categoryScore),1));
                     if ($dicardUser == 0 && in_array($userObject->UserId, array_keys($categoryScore))) {
                         $dicardUser = 0;
                         $score = $categoryScore[$userObject->UserId];
-                        $IsReview = $categoryScore[$userObject->UserId . '_IsReview'];
-                        $totalReviewQ = $totalReviewQ + $IsReview;
+                       
+                         
+                       // $IsReview = $categoryScore[$userObject->UserId . '_IsReview'];
+                       // $totalReviewQ = $totalReviewQ + $IsReview;
                         $totalMarks = $totalMarks + $score;
+                       
                         array_push($userCategoryScoreArray, array("categoryName" => $label, "score" => $score));
                     } else {
+                       
                         $dicardUser = 1;
                     }
                 }
+                 foreach ($scoresByType as $sc) {
+                             $scoreByTypeArray = $sc[$userObject->UserId];
+                              error_log("system marls---".$scoreByTypeArray["systemMarks"]."---".$scoreByTypeArray["reviewMarks"]);
+                            $systemMarks = $systemMarks + $scoreByTypeArray["systemMarks"];
+                           $reviewMarks = $reviewMarks + $scoreByTypeArray["reviewMarks"];
+                        }
                 if ($dicardUser == 0) {
                     $userReportBean->categoryScoreArray = $userCategoryScoreArray;
                     $userReportBean->totalMarks = $totalMarks;
+                     $userReportBean->systemMarks = $systemMarks;
+                        $userReportBean->reviewMarks = $reviewMarks;
+                        
+                    foreach ($reviewCountScores as $key=>$c) {
+                     $totalReviewQ=$totalReviewQ+$c[$user];
                     $userReportBean->totalReviewQ = $totalReviewQ;
+                    error_log($userObject->UserId."------count---".$userReportBean->totalReviewQ);}
                     array_push($getReportsDataArray, $userReportBean);
                 }else{
-                    
-                    $getTestTakenUsers--;
+                     error_log("esleeeeeeeeeeee");
+                    $getTestTakenUsersCount--;
                 }
             }
 
             $returnValue = $getReportsDataArray;
 
-            return array("data" => $returnValue, "totalTakenUsers" => $getTestTakenUsers);
+            return array("data" => $returnValue, "totalTakenUsers" => $getTestTakenUsersCount);
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
             error_log("Exception Occurred in ScheduleSurveyCollection->getScheduleSurveyDetailsObject==" . $ex->getMessage());
@@ -1246,10 +1285,11 @@ class ScheduleSurveyCollection extends EMongoDocument {
     public function prepareCategoryReport($testId, $categoryId, $scheduleId, $scoreValue) {
         try {
             $c = ScheduleSurveyCollection::model()->getCollection();
-            //$result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1),"Score_Sum" => array('$sum' => '$UserAnswers.Score'))));
-            $result = $c->aggregate(array('$match' => array('_id' => new MongoID($scheduleId), 'TestId' => new MongoID($testId), 'SurveyId' => new MongoID($categoryId))), array('$unwind' => '$UserAnswers'), array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1), "IsReviewed" => array('$sum' => '$UserAnswers.IsReviewed'), "Score_Sum" => array('$sum' => '$UserAnswers.Score'))));
-
+            error_log($testId."------".$categoryId."----".$scheduleId."----".$scoreValue);
+             $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1),"Score_Sum" => array('$sum' => '$UserAnswers.Score'))));
+           
             $result = $result['result'];
+              error_log(print_r($result,1));
             $finalArray = array();
             if (is_array($result) && sizeof($result) > 0) {
                 foreach ($result as $value) {
@@ -1257,14 +1297,17 @@ class ScheduleSurveyCollection extends EMongoDocument {
                         if ((int) $scoreValue <= (int) $value["Score_Sum"]) {
                             error_log("I am condif");
                             $finalArray[$value["_id"]] = $value["Score_Sum"];
-                            $finalArray[$value["_id"] . '_IsReview'] = $value["IsReviewed"];
+                          
                         }
                     } else {
                         error_log("I am condelse");
                         $finalArray[$value["_id"]] = $value["Score_Sum"];
-                        $finalArray[$value["_id"] . '_IsReview'] = $value["IsReviewed"];
+                     
                     }
                 }
+
+            }else{
+                error_log("*************************");
             }
             return $finalArray;
         } catch (Exception $ex) {
@@ -1274,12 +1317,96 @@ class ScheduleSurveyCollection extends EMongoDocument {
         }
     }
 
+     public function getReviewCount($testId,$categoryId,$scheduleId){
+        try{
+              error_log($testId."--category---".$categoryId."--scheduleId--".$scheduleId); 
+            $c = ScheduleSurveyCollection::model()->getCollection();
+           //$result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1),"Score_Sum" => array('$sum' => '$UserAnswers.Score'))));
+           $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>array('$in'=>array(1,2)))),array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1),"IsReviewed" => array('$push' => '$UserAnswers.IsReviewed'))));
+           
+           
+           $result = $result['result'];
+           $finalArray = array();
+           if(is_array($result) && sizeof($result) > 0 ){
+              foreach($result as $value){
+                  //error_log("--333-".print_r(array_count_values($value["IsReviewed"]),1));
+                  
+                  error_log("useId----".$value["_id"]."---score--".$value["count"]);
+                   $finalArray[$value["_id"]]=$value["count"];
+                   //$finalArray[$value["_id"].'_IsReview']=$value["IsReviewed"];
+                   
+                   
+              }
+              
+            }
+           // error_log("finsl---".print_r($finalArray,1));
+            return $finalArray;
+            //error_log("useIds---".print_r($userIds,1));
+            
+           // error_log("scores---".print_r($scores,1));
+        } catch (Exception $ex) {
+             Yii::log("ScheduleSurveyCollection:prepareCategoryReport::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in ScheduleSurveyCollection->prepareCategoryReport==".$ex->getMessage());
+            return $returnValue;
+        }
+    }
+    
+    // System Answers count 
+    public function getSystemAnswerCount($testId,$categoryId,$scheduleId){
+        try{
+              error_log($testId."-System Answers count-category---".$categoryId."--scheduleId--".$scheduleId); 
+            $c = ScheduleSurveyCollection::model()->getCollection();
+           //$result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1),"Score_Sum" => array('$sum' => '$UserAnswers.Score'))));
+           $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>array('$in'=>array(0,2)))),array('$group' => array('_id' => '$UserAnswers.UserId','count' => array('$sum' => 1),"Scores" => array('$push' => '$UserAnswers.Score'),"isReviewed" => array('$push' => '$UserAnswers.IsReviewed'))));
+           
+           error_log("---getSystemAnswerCount-----".print_r($result,1));
+          
+           $result = $result['result'];
+           $finalArray = array();
+           $systemMarks = 0;
+           $reviewMarks = 0;
+           if(is_array($result) && sizeof($result) > 0 ){
+              foreach($result as $value){
+                  
+                  $scores = $value["Scores"];
+                  $isReviewed = $value["isReviewed"];
+                  error_log("scores---".print_r($scores,1));
+                   error_log("isReviewed---".print_r($isReviewed,1));
+                  
+                   //$finalArray[$value["_id"].'_IsReview']=$value["IsReviewed"];
+                   foreach ($isReviewed as $key=>$v) {
+                       if($v == 0){
+                           $systemMarks = $systemMarks + $scores[$key];
+                       }else{
+                           $reviewMarks = $reviewMarks + $scores[$key];
+                       }
+                   }
+                  $finalArray[$value["_id"]]=array("systemMarks"=>$systemMarks,"reviewMarks"=>$reviewMarks); 
+                   
+                   
+              }
+              
+            }
+            error_log("systemfinal---".print_r($finalArray,1));
+           
+              
+            return $finalArray;
+            //error_log("useIds---".print_r($userIds,1));
+            
+           // error_log("scores---".print_r($scores,1));
+        } catch (Exception $ex) {
+             Yii::log("ScheduleSurveyCollection:prepareCategoryReport::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in ScheduleSurveyCollection->prepareCategoryReport==".$ex->getMessage());
+            return $returnValue;
+        }
+    }
+
    public function getReviewQuestions($testPaperId,$userId){
        try{
            $returnValue = "failure";
        error_log("getReviewQuestions---------".$testPaperId."---".$userId);
       $c = ScheduleSurveyCollection::model()->getCollection();
-     $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>(int)1,'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionUniqueIds" => array('$push' => '$UserAnswers.UniqueId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'))));          
+     $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>array('$in'=>array(1,2)),'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionUniqueIds" => array('$push' => '$UserAnswers.UniqueId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'))));          
     // error_log("get review ---".print_r($result,1));
       $result = $result['result'];
        if(is_array($result) && sizeof($result) > 0 ){
@@ -1296,12 +1423,12 @@ class ScheduleSurveyCollection extends EMongoDocument {
       public function saveReviewQuestions($testPaperId,$userId,$questionId,$categoryId,$uniqueId,$score){
        try{
       $returnValue = "failure";
-       error_log("saveReviewQuestions---------".$testPaperId."---".$userId."--".$questionId."---".$categoryId."---".$uniqueId."---".$score);
+       error_log("saveReviewQuestions---------".$testPaperId."---".$userId."--".$questionId."---".$categoryId."---uni".$uniqueId."---".$score);
                            $criteria = new EMongoCriteria();
                              $modifier = new EMongoModifier();
                        $criteria->addCond('TestId', '==', new MongoId($testPaperId));
                       //  $criteria->addCond('UserAnswers.UserId', '==', (int)$userId);
-                      $criteria->addCond('UserAnswers.uniqueId', '==', new MongoId($uniqueId));
+                      $criteria->addCond('UserAnswers.UniqueId', '==', new MongoId($uniqueId));
                       
                        $modifier->addModifier('UserAnswers.$.Score', 'set',(int)$score);
                         $modifier->addModifier('UserAnswers.$.IsReviewed', 'set',(int)2);

@@ -208,7 +208,7 @@ function renderReportsHandler(html){
 }
 
 $("#reviewNow").live("click",function(){
-     var data= {"testPaperId":"559a561c900cecfc1f8b4620","userId":"179"};
+     var data= {"testPaperId":"559e15b29f8ccb065a8b4573","userId":"179"};
      //alert(data.toSource());
    ajaxRequest("/reports/getReviewQuestions",data ,reviewQuestionsHandler, "html");
 });
@@ -275,6 +275,7 @@ $("#submitReviewAnswers").live("click",function(){
         result.testPaperId=testPaperId;
         result.questionId=questionId;
         result.categoryId=categoryId;
+        result.uniqueId=uniqueId;
         result.score=score;
        finalResult.push(result);
        });
@@ -285,6 +286,8 @@ $("#submitReviewAnswers").live("click",function(){
        ajaxRequest("/reports/saveReviewQuestions",data ,saveReviewQuestionsHandler);
 })
 function saveReviewQuestionsHandler(data){
+    alert(data.toSource());
+     $("#newModal").modal('hide');
     renderReport();
     }
 

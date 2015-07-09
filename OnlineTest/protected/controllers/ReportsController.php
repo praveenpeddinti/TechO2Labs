@@ -104,6 +104,9 @@ class ReportsController extends Controller {
              break;
                 
             }
+             $obj = array('status' => "success", 'data' => '', 'error' => "");
+             $renderScript = $this->rendering($obj);
+             echo $renderScript;
         } catch (Exception $ex) {
  error_log("Exception Occurred in ReportsController->actionRenderReports==" . $ex->getMessage());
             Yii::log("ReportsController:actionSaveReviewQuestions::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');

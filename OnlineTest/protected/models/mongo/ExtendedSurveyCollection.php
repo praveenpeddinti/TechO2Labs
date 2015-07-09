@@ -1136,7 +1136,7 @@ public function getQuestionOfSurvey($surveyId,$questionId){
             if(sizeof($rw[0])>0)
                 $surveyobj->Questions = $rw[0]['Question'];
         }
-       // error_log("---".print_r($surveyobj->Questions,1));
+        error_log("---".print_r($surveyobj->Questions,1));
         return $surveyobj;
         } catch (Exception $ex) {
              Yii::log(" ExtendedSurveyCollection:getQuestionById::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');

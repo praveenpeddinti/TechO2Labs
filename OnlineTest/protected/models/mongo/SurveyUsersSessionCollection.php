@@ -286,6 +286,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                                 $criteria->addCond('ScheduleId', '==', new MongoId($sscheduleId)); 
                                 $criteria->addCond('UserId', '==', (int)$UserId);
                                 $obj = SurveyUsersSessionCollection::model()->find($criteria);
+                                error_log("data----".print_r($obj->UserAnswers,1));
                                 $criteria = new EMongoCriteria();
                                 $modifier = new EMongoModifier();
                                 $criteria->addCond('_id', '==', new MongoId($sscheduleId));
@@ -294,7 +295,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                                 $SurveyTakenUsers = "";
                                $modifier->addModifier('SurveyTakenUsers', 'push', (int)$UserId);
                                 $modifier->addModifier('ResumeUsers', 'pull',(int)$UserId);
-                                 $modifier->addModifier('UserAnswers', 'push', $obj->UserAnswers);
+                                 $modifier->addModifier('UserAnswers', 'pushAll', $obj->UserAnswers);
                                 if(ScheduleSurveyCollection::model()->updateAll($modifier, $criteria)){
                                      SurveyUsersSessionCollection::model()->unsetSpotForUser($UserId,$sscheduleId,"Done");
                                     $returnValue = $scheduleSurveyObj;

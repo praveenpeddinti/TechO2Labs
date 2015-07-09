@@ -11,7 +11,7 @@ foreach ($surveyObjArray as $surveyObject) {
 if(is_object($surveyObj)){ 
      error_log("asdfsafsd-----------");
    // error_log(print_r($surveyObj,1));
-   
+   //echo "categoru--".$categoryId;
     ?>
 
 <div class="padding8top">
@@ -45,9 +45,9 @@ if(is_object($surveyObj)){
              if(isset($userAnswerObj["SelectedOption"])){
                   $userAnswer =  $userAnswerObj["SelectedOption"]; 
              }
-              echo "ss---".print_r($question['Answers']);
+            //  echo "ss---".print_r($question['Answers']);
               $correctAnswers = implode(",", $question['Answers']);
-              echo "oter---".$question['Other'];
+             // echo "oter---".$question['Other'];
               $otherValue = "";
               if($question['Other'] == 1){
                  $otherValue =  $question["OtherValue"];
@@ -360,9 +360,9 @@ if(is_object($surveyObj)){
               $userAnswer =  $userAnswerObj["Options"];
  
             }
-              echo "ss---".print_r($question['Answers']);
+              //echo "ss---".print_r($question['Answers']);
               $correctAnswers = implode(",", $question['Answers']);
-              echo "oter---".$question['AnyOther'];
+             // echo "oter---".$question['AnyOther'];
               $otherValue = "";
               if($question['AnyOther'] == 1){
                  $optionName =  $question["OptionName"];
@@ -529,9 +529,9 @@ if(is_object($surveyObj)){
  
             }
               
-              echo "ss---".print_r($question['Answers']);
+              //echo "ss---".print_r($question['Answers']);
               $correctAnswers = implode(",", $question['Answers']);
-              echo "oter---".$question['Other'];
+             // echo "oter---".$question['Other'];
               $otherValue = "";
               if($question['Other'] == 1){
                  $otherValue =  $question["OtherValue"];
@@ -634,6 +634,14 @@ if(is_object($surveyObj)){
                $userAnswer =  $userAnswerObj["UserAnswer"];
  
             }
+             // echo "ss---".print_r($question['Answers']);
+              $correctAnswers = implode(",", $question['Answers']);
+              //echo "oter---".$question['AnyOther'];
+              $otherValue = "";
+              if($question['AnyOther'] == 1){
+                 $optionName =  $question["OptionName"];
+                 $otherValue =  array_pop($optionName);
+              }
             ?> 
         
                      <div class="surveyquestionsbox"  data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
@@ -667,8 +675,17 @@ if(is_object($surveyObj)){
 
 
                         </div>
-
-
+                           <div style="color:grey">
+                        Correct Answers : <?php echo $correctAnswers;?>
+                        <?php if($otherValue!=""){
+                           echo "<br/>Other Option : ". $otherValue;                            
+                        } ?>
+                       
+                        
+                    </div>  
+                        <div style="float:right">
+                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                         </div>
                         </div>
                         </div>
                       
@@ -695,6 +712,14 @@ if(is_object($surveyObj)){
               $userAnswer =  $userAnswerObj["UsergeneratedRankingOptions"];
  
             }
+            // echo "ss---".print_r($question['Answers']);
+              $correctAnswers = implode(",", $question['Answers']);
+              //echo "oter---".$question['AnyOther'];
+              $otherValue = "";
+              if($question['AnyOther'] == 1){
+                 $optionName =  $question["OptionName"];
+                 $otherValue =  array_pop($optionName);
+              }
            
             ?> 
        
@@ -726,6 +751,17 @@ if(is_object($surveyObj)){
 
 
                         </div>
+                               <div style="color:grey">
+                        Correct Answers : <?php echo $correctAnswers;?>
+                        <?php if($otherValue!=""){
+                           echo "<br/>Other Option : ". $otherValue;                            
+                        } ?>
+                       
+                        
+                    </div>  
+                        <div style="float:right">
+                             <input type="text" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>"/>
+                         </div>
                         </div>
                         </div>
          <?php $this->endWidget(); ?>    
@@ -760,7 +796,7 @@ if(is_object($surveyObj)){
  
             }
              
-              echo "ss---".print_r($question['Answers']);
+             // echo "ss---".print_r($question['Answers']);
               $correctAnswers = implode(",", $question['Answers']);
              
              

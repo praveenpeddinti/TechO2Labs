@@ -8,6 +8,8 @@ class UserReportBean{
     public $isTechnicalReviewExist;
     public $testDate;
     public $totalMarks;
+    public $systemMarks;
+    public $reviewMarks;
     public $totalReviewQ;
     
             

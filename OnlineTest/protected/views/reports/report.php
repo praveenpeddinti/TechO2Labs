@@ -6,12 +6,14 @@
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
                     <thead><tr><th class="data_t_hide">Name</th>
                             <th class="data_t_hide">Date</th>
-                            <th class="data_t_hide">Total Questions</th>
+                            <th class="data_t_hide">Total Marks</th>
+                            <!--<th class="data_t_hide">Total Questions</th>-->
                             <?php $j=1;foreach($reportData as $Details){ if($j==sizeof($reportData)){?> 
                             <?php foreach($Details->categoryScoreArray as $value){?>
                             <th><?php echo $value['categoryName'];?></th>
                             <?php }} $j++;}?>
-                            <th class="data_t_hide">Total Marks</th>
+                             <th class="data_t_hide">System Marks</th>
+                              <th class="data_t_hide">Review Marks</th>
                             <th class="data_t_hide">Review</th>
                             <th class="data_t_hide">Action</th>
                         </tr></thead>
@@ -26,14 +28,20 @@
                             <td  class="data_t_hide">
                                 <?php echo $Details->testDate;?>
                             </td>
+                            <!--<td  class="data_t_hide">
+                                <?php //echo $Details->totalQuestions;?>
+                            </td>-->
                             <td  class="data_t_hide">
-                                <?php echo $Details->totalQuestions;?>
+                                <?php echo $Details->totalMarks;?>
                             </td>
                             <?php foreach($Details->categoryScoreArray as $value){?>
                             <td class="data_t_hide"><?php echo $value['score'];?></td>
                             <?php }?>
-                            <td  class="data_t_hide">
-                                <?php echo $Details->totalMarks;?>
+                             <td  class="data_t_hide">
+                                <?php echo $Details->systemMarks;?>
+                            </td>
+                             <td  class="data_t_hide">
+                                <?php echo $Details->reviewMarks;?>
                             </td>
                             <td  class="data_t_hide">
                                 <?php echo $Details->totalReviewQ;?>
