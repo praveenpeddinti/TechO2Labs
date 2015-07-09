@@ -13,6 +13,7 @@ class UserRegistrationForm extends CFormModel
         public $Email;
        public $Phone;
        public $Pancard;
+         public $Imagesrc;
 	/**
 	 * Declares the validation rules.
 	 * The rules state that username and password are required,
@@ -40,7 +41,7 @@ class UserRegistrationForm extends CFormModel
                             'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9]/',
                             'message'=>Yii::t('translation','attribute_Invalid_characters')
                       ),
-                        array('FirstName,LastName,Email,Phone,Pancard', 'safe'),
+                        array('FirstName,LastName,Email,Phone,Pancard,Imagesrc', 'safe'),
                       );
            
 	}
