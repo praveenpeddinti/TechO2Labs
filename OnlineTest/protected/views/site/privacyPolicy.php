@@ -10,7 +10,7 @@
                     </div>
 <div class="upload_profile  ">
 <div class="generalprofileicon skiptaiconwidth190x190">
-<a href="#" class="skiptaiconinner "><img src="/images/sreeni.png"> </a><span class="helpicon"><a href="#"><img src="/images/helpicon_w.png"></a></span>
+<a href="#" class="skiptaiconinner "><img src="<?php echo Yii::app()->session['TinyUserCollectionObj']->ProfilePicture?>"> </a><span class="helpicon"><a href="#"><img src="/images/helpicon_w.png"></a></span>
 
 </div>
 
