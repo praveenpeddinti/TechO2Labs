@@ -1723,7 +1723,7 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
-            <!--<input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>-->
+            <input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
            
                
                     <div class="surveyquestionsbox">

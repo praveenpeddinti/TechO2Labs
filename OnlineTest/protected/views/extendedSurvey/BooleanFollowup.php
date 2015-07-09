@@ -1,5 +1,6 @@
 <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($widgetCount); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($widgetCount); ?>" />
 <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo $widgetCount; ?>" />
+<input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($widgetCount); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($widgetCount); ?>" />
 <div class="paddingtblr1030">
     
     <?php include 'WidgetOptions.php'; ?>

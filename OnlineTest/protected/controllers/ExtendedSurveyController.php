@@ -361,7 +361,7 @@ class ExtendedSurveyController extends Controller {
                                  $k = 0;
                                 foreach ($value as $m) {
                                     error_log("************AnswerSelected555*****$m");
-                                    $ExSurveyBean->Answers =  explode(",",$m);
+                                    $ExSurveyBean->Answers =  explode(",",trim($m));
                                     
                                 }
                                
@@ -370,14 +370,14 @@ class ExtendedSurveyController extends Controller {
                                  $k = 0;
                                 foreach ($value as $m) {
                                     error_log("************AnswerSelected*****");
-                                    $ExSurveyBean->Answers =  explode(",",$m);
+                                    $ExSurveyBean->Answers =  explode(",",trim($m));
                                     
                                 }
                             }
                               if ($key == "PercentageAnswer") {
                                  $l = 0;
                                 foreach ($value as $n) {
-                                    $ExSurveyBean->Answers[$l++] =  $n;
+                                    $ExSurveyBean->Answers[$l++] =  trim($n);
                                     
                                 }
                             }
@@ -427,7 +427,7 @@ class ExtendedSurveyController extends Controller {
                                 foreach ($value as $m) {
                                     
                                     error_log("*******************UserAnswerSelected**$m");
-                                      $ExSurveyBean->Answers[] =  $m;
+                                      $ExSurveyBean->Answers[] =  trim($m);
                                      }
                                      $ExSurveyBean->IsReviewed = 1;
                             }
@@ -438,7 +438,7 @@ class ExtendedSurveyController extends Controller {
                                 foreach ($value as $m) {
                                     
                                     error_log("*******************MatrixAnswer**$m");
-                                      $ExSurveyBean->Answers[$k++] =  $m;
+                                      $ExSurveyBean->Answers[$k++] =  trim($m);
                                      }
                                      
                             }
@@ -618,14 +618,14 @@ class ExtendedSurveyController extends Controller {
                             if($ExSurveyBean->NoofChars == 100){
                                 if($key == 'QuestionAnswerTextSelected'){
                                     foreach($value as $m){
-                                        $ExSurveyBean->Answers[0]=$m;
+                                        $ExSurveyBean->Answers[0]=trim($m);
                                         $ExSurveyBean->IsReviewed = 1;
                                     }
                                 }
                             }else if($ExSurveyBean->NoofChars != 0){
                                 if($key == 'QuestionAnswerSelected'){
                                     foreach($value as $m){
-                                        $ExSurveyBean->Answers[0]=$m;
+                                        $ExSurveyBean->Answers[0]=trim($m);
                                         $ExSurveyBean->IsReviewed = 1;
                                     }
                                 }
