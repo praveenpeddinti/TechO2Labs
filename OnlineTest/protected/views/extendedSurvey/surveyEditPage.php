@@ -206,7 +206,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[DisplayType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_DisplayType_<?php echo ($i + 1); ?>" value="<?php echo $question['DisplayType']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>"  value="1"/>
-            <input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
+            <input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(',', $question['Answers']); ?>"/>
             <div style="display: none;" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>_em_" class="alert alert-error " data-questionno="<?php echo ($i + 1); ?>" ></div>
             <div class="surveyquestionsbox">
                 
@@ -381,7 +381,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[WidgetType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_WidgetType_<?php echo ($i + 1); ?>" value="1" />
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
-            <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
+            <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(',', $question['Answers']); ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
             <div class="surveyquestionsbox">
                 
@@ -730,7 +730,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     <input type="hidden" name="ExtendedSurveyForm[Other][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_NA_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['Other']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[AnyOther][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_AnyOther_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['AnyOther']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[StylingOption][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_StylingOption_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['StylingOption']; ?>"/>
-                    <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
+                    <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(',', $question['Answers']); ?>"/>
                     <div style="display: none;" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>_em_" class="alert alert-error " data-questionno="<?php echo ($i + 1); ?>" >
                         
                         </div>
@@ -1722,8 +1722,8 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
             <input type="hidden" name="ExtendedSurveyForm[SelectionType][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_SelectionType_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['SelectionType']; ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
-            <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
-            <input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(', ', $question['Answers']); ?>"/>
+            <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(',', $question['Answers']); ?>"/>
+            <input type="hidden" name="ExtendedSurveyForm[AnswerSelectedEdit][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelectedEdit_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(',', $question['Answers']); ?>"/>
            
                
                     <div class="surveyquestionsbox">
