@@ -229,7 +229,7 @@
     /*
      * @Reports for test paper start
      */
-   $(".deledte").live('click', function() {
+   $(".reports").live('click', function() {
         var $this = $(this);
         TestPaperId = $this.attr("data-testpaperId");
         window.location.href = "/reports/index/" + TestPaperId;

@@ -193,11 +193,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', end
 .printrest_box_style .actions_area { clear:both; border-top:1px solid #999; padding:0; margin:0; }
 .printrest_box_style .actions_area ul{ text-align:right; float:right;list-style:none; margin:3px 5px; }
 .printrest_box_style .actions_area ul li{ float:left; list-style: none; width:32px; margin:2px ; padding:0}
-.printrest_box_style .actions_area ul li a.view img, .printrest_box_style .actions_area ul li a.edit img, .printrest_box_style .actions_area ul li a.deledte img, .printrest_box_style .actions_area ul li a.invite img{ background:url(../images/all_icone.png) no-repeat; width:32px;}
+.printrest_box_style .actions_area ul li a.view img, .printrest_box_style .actions_area ul li a.edit img, .printrest_box_style .actions_area ul li a.deledte img, .printrest_box_style .actions_area ul li a.invite img, .printrest_box_style .actions_area ul li a.reports img{ background:url(../images/all_icone.png) no-repeat; width:32px;}
 .printrest_box_style .actions_area ul li a.view img{ background-position:-29px -153px}
 .printrest_box_style .actions_area ul li a.edit img{ background-position:-29px -235px}
 .printrest_box_style .actions_area ul li a.deledte img{background-position:-29px -300px}
 .printrest_box_style .actions_area ul li a.invite img{ background-position:-29px -87px}
+.printrest_box_style .actions_area ul li a.reports img{ background-position:-29px -353px}
 
 
 /**/

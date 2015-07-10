@@ -983,17 +983,6 @@ function get_values_for_keys($mapping, $keys) {
         
     }
     
-    public function actionThankyouPage(){
-        try{
-            $response = $_REQUEST['done'];
-            if($response == "done"){
-                $this->render('thankyou');
-            }else{
-                $this->render("index");
-            }
-        } catch (Exception $ex) {
-
-        }
-    }
+    
 
 }

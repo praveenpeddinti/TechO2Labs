@@ -1220,7 +1220,7 @@ sessionStorage.sharedURL = "";
                             scrollPleaseWaitClose('surveyviewspinner');
                              $("#surveysubmitbuttons").hide(); 
 //                                $("#surveyQuestionArea").html(data); 
-                                window.location.href = "/outside/thankyouPage?done=done";
+                                window.location.href = "/site/thankyouPage?done=done";
                         }
                        // alert(categoryId+"(("+sureyQuestionPage)
                             var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};                        

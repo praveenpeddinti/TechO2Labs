@@ -52,8 +52,8 @@
                 	<li id="invite_<?php echo $data->_id;?>" >  <a href="#" class="invite" data-testpaperId="<?php echo $data->_id;?>"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" rel="tooltip"  data-original-title="Invite"></a></li>
                     <li id="view_<?php echo $data->_id;?>"> <a href="#" class="view" data-testpaperId="<?php echo $data->_id;?>"><img src="images/spacer.png" rel="tooltip"  data-original-title="View"></a></li>
                     <li id="edit_<?php echo $data->_id;?>"> <a href="#" class="edit" data-testpaperId="<?php echo $data->_id;?>" ><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" rel="tooltip"  data-original-title="Edit"></a></li>
-                    <li id="deledte_<?php echo $data->_id;?>"> <a href="#" class="deledte" data-testpaperId="<?php echo $data->_id;?>" ><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" rel="tooltip"  data-original-title="Reports"></a></li>
-                    <!--<li > <a href="#" class="deledte"><img src="<?php //echo Yii::app()->request->baseUrl; ?>/images/spacer.png" rel="tooltip"  data-original-title="Suspend"></a></li>-->
+                    <li id="reports_<?php echo $data->_id;?>"> <a href="#" class="reports" data-testpaperId="<?php echo $data->_id;?>" ><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" rel="tooltip"  data-original-title="Reports"></a></li>
+                    <li > <a href="#" class="deledte"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/spacer.png" rel="tooltip"  data-original-title="Suspend"></a></li>
                 </ul>
             </div>
             
