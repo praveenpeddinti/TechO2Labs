@@ -60,7 +60,7 @@ class TestRegister extends CActiveRecord {
      */
 
     public function getInviteUserProfile($startDate,$endDate, $searchText, $startLimit = 0, $pageLength = 10) {
-        try {error_log("------sDate---".$startDate);
+        try {
         $searchText = trim($searchText);
         if (trim($startDate) == "") {
                 
@@ -77,17 +77,18 @@ class TestRegister extends CActiveRecord {
                 if((isset($namesArray[1]) && !empty($namesArray[1]))){
                     $lastName = trim($namesArray[1]);
                 }
-                             
+                
+                
                 if(isset($lastName) && !empty($lastName)){                    
                    $condition .= 'FirstName LIKE "%'.$firstName.'%" AND LastName LIKE "%'.$lastName.'%" ';
-                }else{error_log("--7---");
-                   $condition .= 'FirstName LIKE "%'.$firstName.'%"';   
+                }else{
+                   $condition .= 'FirstName LIKE "%'.$firstName.'%" OR Email LIKE "%'.$searchText.'%"';   
                 }
                 
             
                    
             }
-            if((trim($startDate) != "") && (empty($searchText))){error_log("-----cond1----");
+            if((trim($startDate) != "") && (empty($searchText))){
             $query="select UserId, FirstName, LastName, Email, Phone from User1 where UserId not in (select UserId from TestRegister ) AND IsAdmin=0 AND $condition1 Order by UserId DESC limit $startLimit,$pageLength";
             //$query=  "select distinct(U.UserId),U.FirstName,U.LastName,U.Email,U.Phone,T.Status from User1 U right join 
 //TestRegister T on U.UserId not in (T.UserId) where $condition Order by U.UserId DESC limit $startLimit,$pageLength";
@@ -105,7 +106,7 @@ class TestRegister extends CActiveRecord {
 //TestRegister T on U.UserId not in (T.UserId) Order by U.UserId DESC limit $startLimit,$pageLength";
             
         }
-        error_log("-------query----".$query);
+        
         $result = Yii::app()->db->createCommand($query)->queryAll(); 
         } catch (Exception $ex) {
             Yii::log("User:getUserProfile::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -121,7 +122,7 @@ class TestRegister extends CActiveRecord {
     public function getInviteUserProfileCount($startDate,$endDate, $searchText, $segmentId=0) {
         try {
             $searchText = trim($searchText);
-        if (trim($startDate) == "") {error_log("-----cond1----");
+        if (trim($startDate) == "") {
                 $condition = '';
             }else{
                 $condition1 = "DATE_FORMAT(RegistredDate,'%m/%dd/%Y') >='$startDate' AND DATE_FORMAT(RegistredDate,'%m/%dd/%Y') <='$endDate'";
@@ -143,14 +144,14 @@ class TestRegister extends CActiveRecord {
                               
                 if(isset($lastName) && !empty($lastName)){                  
                    $condition .= 'FirstName LIKE "%'.$firstName.'%" AND LastName LIKE "%'.$lastName.'%" ';
-                }else{error_log("--7---");
-                   $condition .= 'FirstName LIKE "%'.$firstName.'%"';   
+                }else{
+                   $condition .= 'FirstName LIKE "%'.$firstName.'%" OR Email LIKE "%'.$searchText.'%"';      
                 }
                 
             
                    
             }
-        if((trim($startDate) != "") && (empty($searchText))){error_log("--count---cond1----");
+        if((trim($startDate) != "") && (empty($searchText))){
         $query="select count(UserId) as totalCount from User1 where UserId not in (select UserId from TestRegister) AND IsAdmin=0 AND $condition1";
             
             /*$query=  "select count(distinct(U.UserId)) as totalCount from User1 U right join 
@@ -165,7 +166,7 @@ TestRegister T on U.UserId not in (T.UserId) where $condition";*/
             
             /*$query=  "select count(distinct(U.UserId)) as totalCount from User1 U right join 
 TestRegister T on U.UserId not in (T.UserId) where $condition";*/
-        }else{error_log("--else---cond1----");
+        }else{
             $query="select count(UserId) as totalCount from User1 where UserId not in (select UserId from TestRegister) AND IsAdmin=0";
             /*$query=  "select count(distinct(U.UserId)) as totalCount from User1 U right join 
 TestRegister T on U.UserId not in (T.UserId)";*/
