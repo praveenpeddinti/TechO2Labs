@@ -68,21 +68,24 @@ class AdminController extends Controller{
      */
     // used for ajaxcalls...
     public function actionGetUserManagementDetails() {
-        try {               
+        try {     error_log("---data--88");          
             // Initializing variables with default values...
             $result = array();
             $filterValue = $_REQUEST['filterValue'];
             $searchText = $_REQUEST['searchText'];
             $startLimit = $_REQUEST['startLimit'];
             $pageLength = $_REQUEST['pageLength'];
-            //$segmentId = (int)$this->tinyObject->SegmentId;
+
             $data = ServiceFactory::getSkiptaUserServiceInstance()->getUserProfile($filterValue,$searchText,$startLimit, $pageLength);
+           
             $totalUsers["totalCount"] = ServiceFactory::getSkiptaUserServiceInstance()->getUserProfileCount($filterValue,$searchText);
-            $userTypes=ServiceFactory::getSkiptaUserServiceInstance()->getRoles();
-            $userIndentityType=$this->tinyObject->UserIdentityType;;
+            //$userTypes=ServiceFactory::getSkiptaUserServiceInstance()->getRoles();
+        //    $userIndentityType=$this->tinyObject->UserIdentityType;;
+
             // preparing the resultant array for rendering purpose...
             
-            $result = array("data" => $data, "total" => $totalUsers, "status" => 'success',"searchText"=>$searchText, 'userTypes'=>$userTypes);
+            $result = array("data" => $data, "total" => $totalUsers, "status" => 'success',"searchText"=>$searchText, 'userTypes'=>'');
+            
             echo json_encode($result);
         } catch (Exception $ex) {
             Yii::log("AdminController:actionGetUserManagementDetails::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
