@@ -34,9 +34,9 @@
 
         </div>
         <div class="divcol3">
-            <div class="positionrelative">
+            <!--<div class="positionrelative">-->
             <?php //echo $form->textField($TestPaperForm, 'CategoryTime', array('id' => 'TestTakerForm_CategoryTime_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
-                        <select  name="TestPaperForm[CategoryTime]" class="styled" id="CategoryTime_<?php echo $widgetCount;?>" style="width: 100%;margin-bottom:0">
+                        <select  name="TestPaperForm[CategoryTime]" class="span8" id="CategoryTime_<?php echo $widgetCount;?>" style="width: 100%;margin-bottom:0">
                         <option value="">Time</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -46,13 +46,13 @@
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'CategoryTime_'.$widgetCount); ?>
                         </div>
-            </div>
+            <!--</div>-->
 
         </div>
         <div class="divcol4 ">
             <div class="positionrelative">
             <?php //echo $form->textField($TestPaperForm, 'NoofPoints', array('id' => 'TestTakerForm_NoofPoints_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
-                <select  name="TestPaperForm[NoofPoints]" class="styled" id="NoofPoints_<?php echo $widgetCount;?>" style="width: 100%;margin-bottom:0">
+                <select  name="TestPaperForm[NoofPoints]" class="span8" id="NoofPoints_<?php echo $widgetCount;?>" style="width: 100%;margin-bottom:0">
                         <option value="">Score</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -156,7 +156,7 @@
     
     return true;
 }
-function ScoreDiv(value,no){
+function ScoreDiv(value,no){alert("-----value"+value+"-----no---"+no);
         
     $("#CategoryTime_"+no).find('option').remove();
     $("#NoofPoints_"+no).find('option').remove();
