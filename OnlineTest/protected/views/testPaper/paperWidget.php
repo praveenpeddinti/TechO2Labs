@@ -156,7 +156,7 @@
     
     return true;
 }
-function ScoreDiv(value,no){alert("-----value"+value+"-----no---"+no);
+function ScoreDiv(value,no){
         
     $("#CategoryTime_"+no).find('option').remove();
     $("#NoofPoints_"+no).find('option').remove();
