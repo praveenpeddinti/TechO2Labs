@@ -1363,7 +1363,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
            //$result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1),"Score_Sum" => array('$sum' => '$UserAnswers.Score'))));
            $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>array('$in'=>array(0,1,2)))),array('$group' => array('_id' => '$UserAnswers.UserId','count' => array('$sum' => 1),"Scores" => array('$push' => '$UserAnswers.Score'),"isReviewed" => array('$push' => '$UserAnswers.IsReviewed'))));
            
-           error_log("---getSystemAnswerCount-----".print_r($result,1));
+          // error_log("---getSystemAnswerCount-----".print_r($result,1));
           
            $result = $result['result'];
            $finalArray = array();
@@ -1396,7 +1396,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
               }
               
             }
-            error_log("systemfinal---".print_r($finalArray,1));
+            //error_log("systemfinal---".print_r($finalArray,1));
            
               
             return $finalArray;
