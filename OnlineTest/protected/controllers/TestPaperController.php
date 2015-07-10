@@ -145,7 +145,7 @@ class TestPaperController extends Controller {
                 $Flag = $_REQUEST['Flag'];
                 $TestPaperId = $_REQUEST['TestId'];
                 $categories = explode(",",$_GET['SurveyGroupName']);  
-                error_log("=test=1111111111=category names====".print_r($categories,1));
+                
                 $errors = array();
                 $TestPaperForm->CreatedBy = $this->tinyObject->UserId;
                 $checkTestPaper = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTestDetailsById('Title', $TestPaperForm->Title);
@@ -208,7 +208,7 @@ class TestPaperController extends Controller {
                     }
                     $TestPaperForm->Questions = $questionArray; 
                     $TestPaperForm->QuestionsCount=$TotalQuestions;
-                    //error_log("---total----".$TotalQuestions);
+                   
                     if($Flag!='Edit'){
                     $saveTest = ServiceFactory::getTO2TestPreparaService()->saveTestPrepair($TestPaperForm, $UserId);
                     }else{
@@ -253,7 +253,6 @@ class TestPaperController extends Controller {
                     ));
                 
                 //$cc= ($_GET['ExtendedSurveyBean_page'] <= ceil($provider->getTotalItemCount() / $pageSize));
-                //error_log($pageSize."----".$cc."---ifffff---3---".print_r($provider->getData(),true));
                 $preparedObject = array();
                 $providerArray = array();
                 if ($provider->getTotalItemCount() == 0) {
@@ -308,7 +307,6 @@ class TestPaperController extends Controller {
             $startLimit = $_REQUEST['startLimit'];
             $pageLength = $_REQUEST['pageLength'];
             //$MyUserIds = $_REQUEST['MyUserIds'];
-            //error_log("-----MyUserIds===".$MyUserIds);
             $data = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfile($startDate,$endDate,$searchText,$startLimit, $pageLength);
             $totalUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfileCount($startDate,$endDate,$searchText);
             $inviteForm1 = new InviteUserForm();
@@ -324,17 +322,23 @@ class TestPaperController extends Controller {
     public function actionSaveInviteUsersDetails(){
         try{
             $result = array();
+            $UserEmailIds = $_REQUEST['UserEmailIds'];
+            $date=$_REQUEST['Date'];
+            $time=$_REQUEST['Time'];
             $TestId = $_REQUEST['TestId'];
             $UserIds = $_REQUEST['UserIds'];
-            error_log("===UserIds=======$UserIds");
-            $a =array();
-            $af = split(',', $UserIds);
-
-            error_log("===UserIdsArry=======".print_r($af,1));
-
-            for($i=0;$i<sizeof($af);$i++){
+            $AllUserIds = split(',', $UserIds);
+            $AllEmailIds = split(',', $UserEmailIds);
+            for($i=0;$i<sizeof($AllUserIds);$i++){
                 
-            $data = ServiceFactory::getSkiptaUserServiceInstance()->saveInviteUserForTest($TestId,$af[$i]);
+                $data = ServiceFactory::getSkiptaUserServiceInstance()->saveInviteUserForTest($TestId,$AllUserIds[$i]);
+                $to = $AllEmailIds[$i];
+                $subject = "Congratulations! Welcome to Techo2";
+                //$fromAddress = "info@skipta.com"; 
+                $messageview="UserAccountInfoMail";                 
+                $params = array('date' => $date ." ".$time, 'email'=>$to);
+                $sendMailToUser = new CommonUtility;
+                $mailSentStatus = $sendMailToUser->actionSendmail($messageview,$params, $subject, $to);
             
             }//$saveInviteUserDetails = ServiceFactory::getSkiptaUserServiceInstance()->SaveInviteUserDetails($TestId,$af);
             $result=array("status" => 'success');   

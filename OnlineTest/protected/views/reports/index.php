@@ -289,7 +289,7 @@ $("#submitReviewAnswers").live("click",function(){
        ajaxRequest("/reports/saveReviewQuestions",data ,saveReviewQuestionsHandler);
 })
 function saveReviewQuestionsHandler(data){
-    alert(data.toSource());
+    
      $("#newModal").modal('hide');
     renderReport();
     }

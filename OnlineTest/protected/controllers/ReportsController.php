@@ -64,7 +64,7 @@ class ReportsController extends Controller {
            $startLimit = $_POST["startLimit"];
            $pageLength = $_POST["pageLength"];
            $getTestReports = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTestReports('TestId', $testPaperId,$startDate,$endDate,$searchCategoryScore,$startLimit,$pageLength);
-           $this->renderPartial("report",array("testPaperId"=>$testPaperId,"reportData"=>$getTestReports['data'],"total" => $getTestReports['totalTakenUsers'] ));
+           $this->renderPartial("report",array("testPaperId"=>$testPaperId,"reportData"=>$getTestReports['data'],"total" => $getTestReports['totalTakenUsers'], "totalQuestions" => $getTestReports['totalQuestions'] ));
         } catch (Exception $ex) {
             error_log("Exception Occurred in ReportsController->actionRenderReports==" . $ex->getMessage());
             Yii::log("ReportsController:actionRenderReports::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
@@ -73,7 +73,6 @@ class ReportsController extends Controller {
 
       public function actionGetReviewQuestions(){
         try{
-            error_log("--actionGetReviewQuestions----");
            $testPaperId = $_POST["testPaperId"];
            $userId = $_POST["userId"];
 
@@ -88,7 +87,6 @@ class ReportsController extends Controller {
     
         public function actionSaveReviewQuestions(){
         try{
-            error_log("--actionSaveReviewQuestions----");
             $reviewQuestions = json_decode($_POST["data"], true);
            $reviewUserId = $_POST["reviewUserId"];
             foreach ($reviewQuestions as $key=>$reviewQuestion){

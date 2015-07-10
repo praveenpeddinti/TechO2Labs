@@ -75,9 +75,9 @@ class AdminController extends Controller{
             $searchText = $_REQUEST['searchText'];
             $startLimit = $_REQUEST['startLimit'];
             $pageLength = $_REQUEST['pageLength'];
-            $segmentId = (int)$this->tinyObject->SegmentId;
-            $data = ServiceFactory::getSkiptaUserServiceInstance()->getUserProfile($filterValue,$searchText,$startLimit, $pageLength, $segmentId);
-            $totalUsers["totalCount"] = ServiceFactory::getSkiptaUserServiceInstance()->getUserProfileCount($filterValue,$searchText, $segmentId);
+            //$segmentId = (int)$this->tinyObject->SegmentId;
+            $data = ServiceFactory::getSkiptaUserServiceInstance()->getUserProfile($filterValue,$searchText,$startLimit, $pageLength);
+            $totalUsers["totalCount"] = ServiceFactory::getSkiptaUserServiceInstance()->getUserProfileCount($filterValue,$searchText);
             $userTypes=ServiceFactory::getSkiptaUserServiceInstance()->getRoles();
             $userIndentityType=$this->tinyObject->UserIdentityType;;
             // preparing the resultant array for rendering purpose...

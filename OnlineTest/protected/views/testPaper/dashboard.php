@@ -232,7 +232,6 @@
    $(".deledte").live('click', function() {
         var $this = $(this);
         TestPaperId = $this.attr("data-testpaperId");
-        alert("Te----"+TestPaperId);
         window.location.href = "/reports/index/" + TestPaperId;
             
     });

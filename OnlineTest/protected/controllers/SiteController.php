@@ -110,7 +110,7 @@ class SiteController extends Controller {
         }
     }
     function saveimage($userId,$testTakerForm){
- error_log("&&###########&&&&&&&&&&&".print_r($testTakerForm->Imagesrc,true));
+ 
    
  if(trim($testTakerForm->Imagesrc)!=""){
  $filteredData = explode(',', $testTakerForm->Imagesrc);
@@ -141,7 +141,7 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                 $takerPhoneexist =array();
             //    error_log("&&&&&&&&&&&&&".print_r($testTakerForm->Imagesrc,true));
    if (trim($testTakerForm->Imagesrc) != "") {
-                     error_log("@@@@@@@@@@@@@@22");
+                     
                 $filteredData = explode(',', $testTakerForm->Imagesrc);
                      $randomName = rand(10000, 10000000);
 
@@ -158,7 +158,7 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                 if ((count($takerexist) > 0) && (count($takerPhoneexist) > 0) ) {
                     //if ( (count($takerPhoneexist) > 0) ) {
                         $checkUserTesttaken = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId($takerPhoneexist->UserId);
-                        error_log(count($checkUserTesttaken)."----o---".$takerPhoneexist->UserId);
+                        
                         if(isset($checkUserTesttaken) && sizeof($checkUserTesttaken)>0){
                                 
                             if($checkUserTesttaken->Status==0){
@@ -174,7 +174,7 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                                      $destpath= '/images/users/noimage.png';
    
                                 }
-                                error_log("DESTSSSSSSSSSSSSSSs".$destpath);
+                                
                                 $testTakerForm->Imagesrc=$destpath;
                               $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerImagePath($testTakerForm,$userObj->UserId);
 
@@ -201,7 +201,7 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
             Yii::log("SiteController:actionLogin::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     } 
-     public function actionPrivacyPolicy() {error_log("---enter priv--");
+     public function actionPrivacyPolicy() {
        $PrivacyPolicyForm = new PrivacyPolicyForm();
      $this->render('privacyPolicy', array("PrivacyPolicyForm"=>$PrivacyPolicyForm));          
       }             

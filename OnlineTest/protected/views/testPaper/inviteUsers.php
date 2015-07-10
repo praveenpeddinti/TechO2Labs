@@ -319,7 +319,7 @@
             if(myArr<0){
                     //UserIdAlls = UserIdAlls+","+$(this).val();
                      UserIdAlls.push($(this).val());
-                         alert("email---"+$(this).attr('data-emailIds')); 
+                         
                 UserEmailIds.push($(this).attr('data-emailIds'))
                      
                 }
@@ -332,27 +332,24 @@
         }
         });
         $("#InviteUserForm_AllUsers").val(UserIdAlls);
-        alert(UserEmailIds+"----all----"+UserIdAlls);
+        
     });
     
     //submit button
     $("#submitInviteUsers").click(function() {
-        alert(UserEmailIds+"date===="+$("#InviteUserForm_Date").val());
         
-        /*if($("#InviteUserForm_AllUsers").val()==''){
+        if($("#InviteUserForm_AllUsers").val()==''){
             $("#errmsgForInviteUsers").css("display", "block");
             $("#errmsgForInviteUsers").html("Select the Test taker(s).").fadeOut(6000);
             return false;
         }else{
         //var ALLIDS=$("#InviteUserForm_AllUsers").val();
-        var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + $("#InviteUserForm_AllUsers").val();
-        alert("queryString-----"+queryString);exit();
+        
             //scrollPleaseWait('spinner_admin'); */       
         var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + $("#InviteUserForm_AllUsers").val()+ "&UserEmailIds=" + UserEmailIds+ "&Date=" + $("#InviteUserForm_Date").val()+ "&Time=" + $("#InviteUserForm_Time").val();
-        alert("queryString-----"+queryString);
         ajaxRequest("/testPaper/saveInviteUsersDetails", queryString, saveInviteUsersHandler); 
         $("#InviteUserForm_AllUsers").val('');
-    //}
+    }
     });
     
     function saveInviteUsersHandler(data){
