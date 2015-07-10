@@ -1109,6 +1109,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $getReportsDataArray = array();
             $TestTakenUsers = array();
             $testObject = TestPreparationCollection::model()->getTestDetails($testId);
+            
             $categories = $testObject->Category;
             /*$testTakenUsers = $testObject->TestTakenUsers;
             //$testTakenUsers = $TestTakenUsers;
@@ -1178,6 +1179,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $getReportsDataArray = array();
             $TestTakenUsers = array();
             $testObject = TestPreparationCollection::model()->getTestDetails($testId);
+            error_log("------count------".$testObject->NoofQuestions);
             $getTestUserObject = UserQuestionsCollection::model()->getTestUserDetails($testId, $startDate, $endDate, $startLimit, $pageLength);
            // error_log(print_r($getTestUserObject,1));
             $getTestTakenUsersCount = UserQuestionsCollection::model()->getTestTakenUsers($testId, $startDate, $endDate);
@@ -1188,7 +1190,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $categories = $testObject->Category;
             //$testTakenUsers = $testObject->TestTakenUsers;
             $testTakenUsers = $TestTakenUsers;
-            $noofQuestions = $testObject->NoofQuestions;
+            $totalQuestions = $testObject->NoofQuestions;
             $categoryLabels = array();
             $categoryScores = array();
             $spiltCateVa = array();
@@ -1226,6 +1228,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 $userObject = UserCollection::model()->getTinyUserCollection($user);
                 $userReportBean->userName = $userObject->uniqueHandle;
                 $userReportBean->userId = $userObject->UserId;
+                $userReportBean->totalQuestions = $totalQuestions;
                 $userCategoryScoreArray = array();
                 $totalMarks = 0;
                  $systemMarks = 0;
@@ -1278,7 +1281,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
 
             $returnValue = $getReportsDataArray;
 
-            return array("data" => $returnValue, "totalTakenUsers" => $getTestTakenUsersCount);
+            return array("data" => $returnValue, "totalTakenUsers" => $getTestTakenUsersCount,"totalQuestions" => $totalQuestions);
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
             error_log("Exception Occurred in ScheduleSurveyCollection->getScheduleSurveyDetailsObject==" . $ex->getMessage());

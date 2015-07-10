@@ -95,7 +95,8 @@ class User extends CActiveRecord {
 
             $user = User::model()->findByAttributes(array("Email" => $testTakerForm->Email));
             if (isset($user)) {
-                $user->IdentityProof = $testTakerForm->Pancard;
+                $user->IdType = $testTakerForm->IdentityProof;
+                $user->IdentityProof = $testTakerForm->CardNumber;
                 if ($user->update()) {
                     $return = "success";
                 }
@@ -138,13 +139,13 @@ class User extends CActiveRecord {
      */
 
     public function getUserProfile($filterValue, $searchText, $startLimit = 0, $pageLength = 10) {
-        try {error_log("----model----invite");
+        try {
             $searchText = trim($searchText);
             $role='';
             $criteria = new CDbCriteria();
             if (trim($filterValue) == "all") {
                 $criteria = $criteria;
-            } else if (trim($filterValue) == "inprogress") {
+            } else if (trim($filterValue) == "inactive") {
                 $criteria->addSearchCondition('Status', '0');
             } else if (trim($filterValue) == "active") {
                 $criteria->addSearchCondition('Status', '1');
@@ -195,23 +196,19 @@ class User extends CActiveRecord {
      * returns the total no. of users.
      */
 
-    public function getUserProfileCount($filterValue, $searchText, $segmentId=0) {
+    public function getUserProfileCount($filterValue, $searchText) {
         try {
             $criteria = new CDbCriteria();
             if (trim($filterValue) == "all") {
                 $criteria = $criteria;
-            } else if (trim($filterValue) == "inprogress") {
+            } else if (trim($filterValue) == "inactive") {
                 $criteria->addSearchCondition('Status', '0');
             } else if (trim($filterValue) == "active") {
                 $criteria->addSearchCondition('Status', '1');
             } else if (trim($filterValue) == "suspended") {
                 $criteria->addSearchCondition('Status', '2');
-            }else if (trim($filterValue) == "reject") {
+            }else {
                 $criteria->addSearchCondition('Status', '3');
-            }else if (trim($filterValue) == "countryChange") {
-                $criteria->addSearchCondition('CountryRequest', 1);
-            }else if (trim($filterValue) == "studentpending") {
-                $criteria->addSearchCondition('Status', '4');
             }
             if (!empty($searchText) && $searchText != "undefined" && $searchText != "null") {
                 
@@ -240,6 +237,7 @@ class User extends CActiveRecord {
             }
           
             $result = User::model()->count($criteria);
+           
         } catch (Exception $ex) {
             Yii::log("User:getUserProfileCount::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }

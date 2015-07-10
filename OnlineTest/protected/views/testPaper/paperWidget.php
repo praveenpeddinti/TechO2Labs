@@ -27,15 +27,16 @@
         <div class="divcol1"> <label class="divtablelabel">
             <?php echo $CategoryName;?> <span rel="tooltip" data-original-title="TotalQuestion(s)">(<?php echo $QuestionsCount;?>)</span> <span rel="tooltip" data-original-title="ReviewQuestion(s)">(<?php echo $OtherQuestions;?>)</span><span rel="tooltip" data-original-title="SuspendedQuestion(s)">(<?php echo $SuspendedQuestions;?>)</span></label></div>
         <div class="divcol2">
-           <?php echo $form->textField($TestPaperForm, 'NoofQuestions', array('id' => 'TestPaperForm_NoofQuestions_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)" ,'onkeyup' => "return QuestionsValid(event,'$WithoutSupQuestions')",'onblur' => "return ScoreDiv(this.value,'$widgetCount')")); ?>
+           <?php echo $form->textField($TestPaperForm, 'NoofQuestions', array('id' => 'TestPaperForm_NoofQuestions_'.$widgetCount, 'maxlength' => 3, 'class' => 'form-control','onkeypress' => "return isNumberKey(event)" ,'onkeyup' => "return QuestionsValid(event,'$WithoutSupQuestions')",'onblur' => "return ScoreDiv(this.value,'$widgetCount')")); ?>
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'NoofQuestions_'.$widgetCount); ?>
                         </div>
 
         </div>
         <div class="divcol3">
+            <div class="positionrelative">
             <?php //echo $form->textField($TestPaperForm, 'CategoryTime', array('id' => 'TestTakerForm_CategoryTime_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
-                        <select  name="TestPaperForm[CategoryTime]" class="" id="CategoryTime_<?php echo $widgetCount;?>" class="span8">
+                        <select  name="TestPaperForm[CategoryTime]" class="styled" id="CategoryTime_<?php echo $widgetCount;?>" style="width: 100%;margin-bottom:0">
                         <option value="">Time</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -45,11 +46,13 @@
                         <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'CategoryTime_'.$widgetCount); ?>
                         </div>
+            </div>
 
         </div>
-        <div class="divcol4">
+        <div class="divcol4 ">
+            <div class="positionrelative">
             <?php //echo $form->textField($TestPaperForm, 'NoofPoints', array('id' => 'TestTakerForm_NoofPoints_'.$widgetCount, 'maxlength' => 3, 'class' => 'span12','onkeypress' => "return isNumberKey(event)")); ?>
-                <select  name="TestPaperForm[NoofPoints]" class="" id="NoofPoints_<?php echo $widgetCount;?>" class="span8">
+                <select  name="TestPaperForm[NoofPoints]" class="styled" id="NoofPoints_<?php echo $widgetCount;?>" style="width: 100%;margin-bottom:0">
                         <option value="">Score</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
@@ -60,8 +63,9 @@
             <div class="control-group controlerror">
                             <?php echo $form->error($TestPaperForm, 'NoofPoints_'.$widgetCount); ?>
                         </div>
+                </div>
         </div>
-        <div class="divcol5">
+        <div class="divcol5" style="vertical-align: middle">
         <div class="reviewquestion" style="<?php if($OtherQuestions=='0'){echo "display:none";}else{echo "display:block";}?>">
             <input type="hidden" value="<?php if($OtherQuestions=='0'){echo "0";}else{echo "1";}?>" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
             <input type="checkbox"  <?php if(($Flag=='Edit') || ($Flag=='View')){ if($TestPaperForm->ReviewQuestion==1){?> checked="checked" <?php } }?>class="styled" data-qid="<?php echo $widgetCount; ?>" data-otherQ="<?php echo $OtherQuestions; ?>" />

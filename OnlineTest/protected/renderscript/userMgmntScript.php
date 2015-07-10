@@ -5,7 +5,7 @@
  
             <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
   	<tr >
-                    <td style=" text-align:left"> <div id="addNewAdminMessage"  onclick="newEmployersPopup()" > <img src="images/icons/add.png" width="31" height="31"></div></td>
+                    <td style=" text-align:left"> <div id="addNewAdminMessage" > <img class="tooltiplink cursor" rel="tooltip"  data-original-title="Add New User" src="images/icons/add.png" width="31" height="31" onclick="newEmployersPopup()"></div></td>
     	<td style="width:130px; text-align:left"> <div class="tabletopcorner">
                  <input type="text" placeholder="search"  class="textfield textfieldsearch " id="searchTextId" onkeypress="return searchAUser(event)" />
                              </div></td>
@@ -19,15 +19,18 @@
                     <option value="active">
                         Active
                     </option>
+                    <option value="inactive">
+                        InActive
+                    </option>
                     <!--<option value="inprogress">
                         Inprogress
-                    </option>-->
+                    </option>
                     <option value="suspended">
                         Suspended
                     </option> 
                   <option value="reject">
                         Rejected
-                    </option>
+                    </option>-->
                     
                 </select></div></td>
         <td style="width:80px; text-align:left"><div class="btn-group pagesize tabletopcorner tabletopcornerpaddingtop">
@@ -37,7 +40,7 @@
                     <li><a href="#" id="pagesize_10" onclick="setPageLength(10,'usermanagement')">10</a></li>
                     <li><a href="#" id="pagesize_15" onclick="setPageLength(15,'usermanagement')">15</a></li>                  
                 </ul></div></td>
-        <td style=" text-align:left;width:50px;"><div class="tabletopcorner tabletopcornerpaddingtop">
+        <td style=" text-align:left;width:50px;"><div rel="tooltip"  data-original-title="Total User(s)" class="tabletopcorner tabletopcornerpaddingtop tooltiplink cursor">
             <div class="label label-warning record_size">+
                 {{for data.total}}
                     {{>totalCount}}
@@ -53,7 +56,7 @@
             
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
 
-                    <thead><tr><th>Name</th><th class="data_t_hide">Email</th><th class="data_t_hide">Phone</th><th class="data_t_hide">Qualification</th><th class="data_t_hide">Registered Date</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>Name</th><th class="data_t_hide">Email</th><th class="data_t_hide">Phone</th><th class="data_t_hide">Status</th><th class="data_t_hide">Qualification</th><th class="data_t_hide">Registered Date</th><th>Actions</th></tr></thead>
                     <tbody>
                         <tr id="noRecordsTR" style="display: none">
                             <td colspan="8">
@@ -70,6 +73,9 @@
                             </td>
                            <td  class="data_t_hide">
                                 {{>Phone}}
+                            </td>
+                            <td  class="data_t_hide">
+                                {{if Status==1}}Active{{else}}InActive{{/if}}
                             </td>
                             <td  class="data_t_hide">
                                 {{>Qualification}}
@@ -168,4 +174,7 @@
      
      
            
+</script>
+<script type="text/javascript">
+$("[rel=tooltip]").tooltip();
 </script>

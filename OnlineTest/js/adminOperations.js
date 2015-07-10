@@ -72,6 +72,7 @@ function getMgmntHandler(data) {
     }
      
     Custom.init();
+    $("[rel=tooltip]").tooltip();
 }
 
 function searchAUser(event) {

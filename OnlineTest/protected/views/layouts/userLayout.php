@@ -31,7 +31,7 @@
 	
 		function bindFocusEventsforInputs(className){
 		
-		$(className).find("input[type=text],input[type=password] ").focusin(function(){
+		$(className).find("input[type=text],input[type=password],.customselectformdiv ").focusin(function(){
 			var $this = $(this);			
 			var value=$.trim($this.val());
 			var rightu = "0px";			

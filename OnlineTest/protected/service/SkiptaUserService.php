@@ -60,7 +60,7 @@ class SkiptaUserService{
  /* This Method is used for Save the user profile in both mysql and mongo 
       it accepts userprofileForm obj and customForm Obj
   *   */     
-    public function SaveUserCollection($userProfileform){error_log("----mongouser------2----");
+    public function SaveUserCollection($userProfileform){error_log($userProfileform->LastName."----mongouser------2----".$userProfileform['FirstName']);
      try {
          $userCollectionModel=new UserCollection();         
                  
@@ -68,7 +68,9 @@ class SkiptaUserService{
         if(isset($userId) && $userId!='error'){
             error_log("------------------------------1-----------------".$userId);
          $userCollectionModel->UserId=$userId;
-  
+         $uniqueHandle = $this->generateUniqueHandleForUser($userProfileform['FirstName'],$userProfileform['LastName']);
+         error_log($uniqueHandle."------------------------------1-----------------".$userId);
+         $userCollectionModel->uniqueHandle=$uniqueHandle;
        
          //$userCollectionModel->NetworkId=(int)1;
        
@@ -157,9 +159,9 @@ class SkiptaUserService{
      * GetUserProfileCount: which takes 2 arguments and 
      * returns the total no. of users.
      */
-    public function getUserProfileCount($filterValue, $searchText, $segmentId=0) {
+    public function getUserProfileCount($filterValue, $searchText) {
         try {// method calling...            
-            $userProfileCount = User::model()->getUserProfileCount($filterValue, $searchText, $segmentId);
+            $userProfileCount = User::model()->getUserProfileCount($filterValue, $searchText);
         } catch (Exception $ex) {
             Yii::log("SkiptaUserService:getUserProfileCount::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
@@ -1771,26 +1773,28 @@ class SkiptaUserService{
         }
     }
    function generateUniqueHandleForUser($firstName, $lastName) {
-       try{ 
+       try{ error_log("-- generateUniqueHandleForUse--1handkle-----".$handle);
        $handle = $firstName . "." . $lastName;
         $handle = str_replace(" ", "", $handle);
         while ($this->checkHandleExist($handle)) {
             $randomNumber = mt_rand(1, 99999);
             $handle = $handle.$randomNumber;
         }
+        error_log("-- generateUniqueHandleForUse-2-handkle-----".$handle);
         return $handle;
         } catch (Exception $ex) {
             Yii::log("SkiptaUserService:generateUniqueHandleForUser::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
     }
     public function checkHandleExist($handle){
-        try{  
+        try{  error_log("-- checkHandleExist--1---".$handle);
         $criteria = new EMongoCriteria();
           $criteria->addCond('uniqueHandle', '==', $handle);
           $result = UserCollection::model()->find($criteria);
-          if(is_object($result)){
+          error_log("-- checkHandleExist--1---".print_r($handle,1));
+          if(is_object($result)){error_log("---if----");
               return true;
-          }else{
+          }else{error_log("---else----");
               return false;
           }
           } catch (Exception $ex) {

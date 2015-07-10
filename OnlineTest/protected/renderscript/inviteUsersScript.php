@@ -4,7 +4,7 @@
         <div  class="block">
        <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
 
-                    <thead><tr><th class="customcheckthall"><input type="checkbox" name="userallcheck" class="styled" />All</th><th class="data_t_hide">Test Taker</th></tr></thead>
+                    <thead><tr><th class="customcheckthall"><input type="checkbox" name="userallcheck" class="styled" />All</th><th class="data_t_hide">Name</th><th class="data_t_hide">Email</th></tr></thead>
                     <tbody>
                         <tr id="noRecordsTR" style="display: none">
                             <td colspan="8">
@@ -20,7 +20,9 @@
                             <td  class="data_t_hide">
                                 {{>FirstName}} {{>LastName}} 
                             </td>
-                   
+                            <td  class="data_t_hide">
+                                {{>Email}} 
+                            </td>
 
                 </tr>
 

@@ -63,6 +63,8 @@
     </div>
     <?php $this->endWidget(); ?>
 </div>
+    
+    
     <?php
     $form1 = $this->beginWidget('CActiveForm', array(
         'id' => 'invites-form',
@@ -79,11 +81,29 @@
     <?php echo $form->hiddenField($inviteForm, 'TestId',array("value"=>$surveyId)); ?>
     <div class="alert alert-success" id="sucmsgForInviteUserTestSchedule" style='display: none'></div> 
     <div id="inviteuser_div">
+        <div class="row-fluid">
+            <div class="span4">
+                &nbsp;&nbsp;&nbsp;
+            </div>
+        <div class="span4">
+                <label>Date</label>
+                    <?php echo $form->textField($inviteForm, 'Date', array('maxlength' => '15', 'class' => 'form-control', "placeholder" => "Date","style"=>"width:150px")); ?>    
+                <div class="control-group controlerror"> 
+                    <?php echo $form->error($inviteForm, 'Date'); ?>
+                </div>
+            </div>
+        <div class="span4">
+                <label>Time</label>
+                    <?php echo $form->textField($inviteForm, 'Time', array('maxlength' => '15', 'class' => 'form-control', "placeholder" => "Time","style"=>"width:150px")); ?>    
+                <div class="control-group controlerror"> 
+                    <?php echo $form->error($inviteForm, 'Time'); ?>
+                </div>
+            </div>
+    </div>
         <div style="position: relative">
             <div  class="block">
-                
-                <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
-                    <thead><tr><th class="customcheckthall"><input type="checkbox" name="userallcheck" class="styled" />All</th><th class="data_t_hide">Test Taker</th></tr></thead>
+                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
+                    <thead><tr><th class="customcheckthall"><input type="checkbox" name="userallcheck" class="styled" />All</th><th class="data_t_hide">User</th><th class="data_t_hide">Email</th></tr></thead>
                     <tbody>
                         <tr id="noRecordsTR" style="display: none">
                             <td colspan="8">
@@ -93,10 +113,13 @@
                          <?php $i=1;foreach($data as $Details){?> 
                     <tr class="<?php if($i%2==0){echo "odd";}else{echo "even";} ?>" >
                         <td class="UserTd" id="UserId_<?php echo $Details['UserId']; ?>" >
-                            <input type="checkbox" name="usercheck" data-id="<?php echo $Details['UserId']; ?>" class="styled" value="<?php echo $Details['UserId']; ?>"/>
+                            <input type="checkbox" name="usercheck" data-id="<?php echo $Details['UserId']; ?>" data-emailIds="<?php echo $Details['Email']; ?>" class="styled" value="<?php echo $Details['UserId']; ?>"/>
                         </td>  
                         <td  class="data_t_hide">
                             <?php echo $Details['FirstName']." ".$Details['LastName'];?>
+                        </td>
+                        <td  class="data_t_hide">
+                            <?php echo $Details['Email'];?>
                         </td>
                     </tr>
                          <?php $i++;}?>
@@ -123,7 +146,9 @@
         Custom.init();
         loadEvents();
     });
-    var UserIdAlls = "";
+    //var UserIdAlls = "";
+    var UserIdAlls = new Array();
+    var UserEmailIds = new Array();
     var AllUserIds="";
     function loadEvents() {
         var nowTemp = new Date();
@@ -154,7 +179,7 @@
     
     $("#searchInviteUsers").click(function() {
         
-        UserIdAlls = "";
+        UserIdAlls = new Array();
         AllUserIds="";
         $("#InviteUserForm_AllUsers").val(AllUserIds);
         var startDate = $("#InviteUserForm_StartDate").val();
@@ -272,7 +297,8 @@
             if($(this).is(":checked")){
                 var myArr = UserIdAlls.indexOf($(this).attr('data-id'));
                 if(myArr<=0){
-                    UserIdAlls = UserIdAlls+","+$(this).val();
+                    //UserIdAlls = UserIdAlls+","+$(this).val();
+                     UserIdAlls.push($(this).val());
                 }
             }
         });
@@ -290,29 +316,43 @@
             if($(this).is(":checked")){
                 var myArr = UserIdAlls.indexOf($(this).attr('data-id'));
                 $("#UserId_"+$(this).attr('data-id')+" span").removeAttr("style").attr("style","background-position: 0px -50px;");
-            if(myArr<=0){
-                    UserIdAlls = UserIdAlls+","+$(this).val();
+            if(myArr<0){
+                    //UserIdAlls = UserIdAlls+","+$(this).val();
+                     UserIdAlls.push($(this).val());
+                         alert("email---"+$(this).attr('data-emailIds')); 
+                UserEmailIds.push($(this).attr('data-emailIds'))
+                     
                 }
             }else{
-               
-                $("#UserId_"+$(this).attr('data-id')+" span").removeAttr("style").attr("style","background-position: 0px 0px;");
-            }
+               UserIdAlls.remove($(this).val(), true);
+               UserEmailIds.remove($(this).attr('data-emailIds'), true);
+               $("#UserId_"+$(this).attr('data-id')+" span").removeAttr("style").attr("style","background-position: 0px 0px;");
+            
+        
+        }
         });
         $("#InviteUserForm_AllUsers").val(UserIdAlls);
+        alert(UserEmailIds+"----all----"+UserIdAlls);
     });
     
     //submit button
     $("#submitInviteUsers").click(function() {
-        if($("#InviteUserForm_AllUsers").val()==''){
+        alert(UserEmailIds+"date===="+$("#InviteUserForm_Date").val());
+        
+        /*if($("#InviteUserForm_AllUsers").val()==''){
             $("#errmsgForInviteUsers").css("display", "block");
             $("#errmsgForInviteUsers").html("Select the Test taker(s).").fadeOut(6000);
             return false;
         }else{
-        var ALLIDS=$("#InviteUserForm_AllUsers").val();
-        var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + ALLIDS.substring(1);
-        //scrollPleaseWait('spinner_admin');        
+        //var ALLIDS=$("#InviteUserForm_AllUsers").val();
+        var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + $("#InviteUserForm_AllUsers").val();
+        alert("queryString-----"+queryString);exit();
+            //scrollPleaseWait('spinner_admin'); */       
+        var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + $("#InviteUserForm_AllUsers").val()+ "&UserEmailIds=" + UserEmailIds+ "&Date=" + $("#InviteUserForm_Date").val()+ "&Time=" + $("#InviteUserForm_Time").val();
+        alert("queryString-----"+queryString);
         ajaxRequest("/testPaper/saveInviteUsersDetails", queryString, saveInviteUsersHandler); 
-        $("#InviteUserForm_AllUsers").val('');}
+        $("#InviteUserForm_AllUsers").val('');
+    //}
     });
     
     function saveInviteUsersHandler(data){
@@ -322,5 +362,15 @@
                 getInviteUsersWithFiltersDetails(0,"all",'');
             });
         }
+    }
+    
+    /*
+     * @Praveen remove element for an array using checkboxes senerio.
+     */
+    if (!Array.prototype.remove) {
+        Array.prototype.remove = function(val) {
+        var i = this.indexOf(val);
+        return i>-1 ? this.splice(i, 1) : [];
+        };
     }
     </script>

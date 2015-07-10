@@ -12,7 +12,8 @@ class UserRegistrationForm extends CFormModel
         public $LastName;
         public $Email;
        public $Phone;
-       public $Pancard;
+       public $IdentityProof;
+       public $CardNumber;
          public $Imagesrc;
 	/**
 	 * Declares the validation rules.
@@ -23,7 +24,7 @@ class UserRegistrationForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('FirstName,LastName,Email,Phone,Pancard', 'required' ),
+			array('FirstName,LastName,Email,Phone,CardNumber', 'required' ),
                         array(
                             'FirstName',
                             'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
@@ -36,15 +37,22 @@ class UserRegistrationForm extends CFormModel
                       ),
                     array('Email', 'email','checkMX'=>false),
 //                    array('Phone', 'match', 'pattern'=>'/^[0-9]/i'),
+                    //array('IdProof', 'required','message'=>'Select IdProof'),
+                    //array('IdentityProof','compare','compareAttribute'=>'Select IdProof', 'operator'=>'=','allowEmpty'=>false,'message'=>'hghfhfhfg'),
                     array(
-                            'Pancard',
+                            'CardNumber',
                             'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9]/',
                             'message'=>Yii::t('translation','attribute_Invalid_characters')
                       ),
-                        array('FirstName,LastName,Email,Phone,Pancard,Imagesrc', 'safe'),
+                    array('Phone','numerical','integerOnly'=>true,'min'=>1111111111,'tooSmall'=>'{attribute} is too short(minimum is 10 numbers)',),
+                    array('IdentityProof', 'required', 'message' => 'Please select IdentityProof'),
+                        array('FirstName,LastName,Email,Phone,IdentityProof,CardNumber,Imagesrc', 'safe'),
+
                       );
            
 	}
+        
+   
 
        
 }

@@ -3,7 +3,7 @@
         <td height="5" bgcolor="#210768" style="font-size: 5px; line-height: 5px;"> </td>
     </tr>
     <tr>
-        <td class="content-wrapper" width="100%" style="background:<?php echo YII::app()->params['ColorCode'] ?>;padding-top: 0px; padding-right: 30px; padding-bottom: 0px; padding-left: 30px;padding:10px " >
+        <td class="content-wrapper" width="100%" style="background:#f8e128;padding-top: 0px; padding-right: 30px; padding-bottom: 0px; padding-left: 30px;padding:10px " >
 
             <!-- Start Logo -->
             <img style="border:none" src="<?php echo YII::app()->params['ServerURL'] . YII::app()->params['Logo']; ?>" alt="logo">

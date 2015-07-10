@@ -1,7 +1,7 @@
 <?php return Array
 (
     "fb_api_key" => '1462829210646952',
-    "Logo" => '/images/system/logo.png',
+    "Logo" => '/images/inner_techo2logo.png',
     "ServerURL" => 'https://10.10.73.102:445',
     "Language" => 'en',
     "PrimaryUser" => 'Pharmacist',
@@ -10,7 +10,7 @@
     "TOS_TemplateFileName" => 'TOS.php',
     "Privacy Policy_TemplateFileName" => 'privacypolicy.php',
     "Header" => '<div class="text">Welcome </div>',
-    "COPYRIGHTS" => '<div class="pull-left ">&copy; 2009-2014 Pharmacist Society</div>',
+    "COPYRIGHTS" => '<div class="pull-left ">&copy; 2016 Techo2</div>',
     "RESTusername" => 'admin@restuser',
     "RESTpassword" => 'admin@Access',
     "ENCRYPTION_SALT" => '03405a75-117d-4912-9cf0-765c3e5aa798',
@@ -63,7 +63,7 @@
     "NodeRequestTimeToNewPost" => '25000',
     "NotificationTime" => '15000',
     "IsMobileAppexist"=>'ON',
-    "SendGridFromEmail"=>"info@skiptaneo.com",
+    "SendGridFromEmail"=>"seshasree.parnam@techo2.com",
     'SendGridFromName'=>'Skipta Admin',
     'UploadMaxFilSize'=>'31457280',
     'NetworkNameForJobs'=>'generationnp.skipta.com',

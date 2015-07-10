@@ -68,26 +68,28 @@
                 </div>
                   <?php echo $form->hiddenField($model,'Imagesrc'); ?>
                 
-                <!--<div class="form-group loginform">
-                <input type="hidden" name="UserRegistrationForm[IdentityProof]" id="UserRegistrationForm_IdentityProof" />
-                <select style="width: 100%;margin-bottom:0" name="IdentityProof" id="IdentityProof" class="styled" >
-                    <option value="">Select IdProof</option>
+                <div class="form-group loginform" id="idproofdiv" >
+                <label class="idproof" for="idproof" >Select Id Proof</label>
+                    <input type="hidden" name="UserRegistrationForm[IdentityProof]" id="UserRegistrationForm_IdentityProof" />
+                 <div class="customselectformdiv" style="position: relative">
+                    <select class="form-control styled" style="width: 100%;height:43px;margin-bottom:0" name="IdentityProof" id="IdentityProof"  >
+                    <option value=""> </option>
                     <option value="Pancard">Pancard</option>                                      
                     <option value="Passport">Passport</option>
                     <option value="Driving Licence">Driving Licence</option> 
                 </select>
+                 </div>
+                </div>
                 <div class="control-group controlerror">
                       <?php echo $form->error($model, 'IdentityProof'); ?>
                 </div>
-                </div>-->
-                
                 
                 <div class="form-group loginform" id="pancarddiv">
-                    <label class="pancardlbl" for="Pancard" >Pancard</label>
-                    <?php echo $form->textField($model,'Pancard',array('maxlength' => 40, 'class' => 'form-control email')); ?>
+                    <label class="pancardlbl" for="Pancard" >Card Number</label>
+                    <?php echo $form->textField($model,'CardNumber',array('maxlength' => 40, 'class' => 'form-control email')); ?>
                 </div>
                 <div class="control-group controlerror"> 
-                    <?php echo $form->error($model, 'Pancard'); ?>
+                    <?php echo $form->error($model, 'CardNumber'); ?>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 text-center">
@@ -123,6 +125,7 @@
 </section>
  
 <script type="text/javascript">
+    Custom.init();
    /*$("#loginId").bind("click",function(){
        var data = $("#login-form").serialize();
         $.ajax({
@@ -138,7 +141,11 @@
             });
    });*/
    
-   
+   $("#IdentityProof").change(function(){
+        var val = $(this).val();
+        $("#UserRegistrationForm_IdentityProof").val(val);
+        //alert("-----"+$("#UserRegistrationForm_IdentityProof").val());
+    });
     function testInviteLogincallback(data, txtstatus, xhr) {
         var data = eval(data);
         if (data.status == 'success') {
@@ -188,7 +195,7 @@
     
 
     function Captureimage(){
-        alert("**")
+        
      var canvas = document.getElementById("canvas"),
 				context = canvas.getContext("2d"),
 				video = document.getElementById("video"),

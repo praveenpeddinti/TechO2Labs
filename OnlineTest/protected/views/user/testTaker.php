@@ -4,12 +4,12 @@
         <div class="row-fluid">
             <div class="span6">
                  <div class="form-group">
-                    <label > <input style="position: relative;" type="radio" id="csvUpload" name="change" onclick="changeViewInPopu(this)" class=""/> Multiple users </label>
+                    <label class="radioaalignment"> <input class="styled" type="radio" id="csvUpload" name="change" onclick="changeViewInPopu(this)" class=""/> Multiple users </label>
                 </div>
             </div>
             <div class="span6">
                <div class="form-group">
-                    <label class=""><input style="position: relative;" type="radio" id="manually" name="change" onclick="changeViewInPopu(this)" class=""/> Single user</label>
+                    <label class="radioaalignment"><input class="styled" type="radio" id="manually" name="change" onclick="changeViewInPopu(this)" class=""/> Single user</label>
                 </div> 
             </div>
         </div>
@@ -145,6 +145,9 @@
 </div>  
 <script type="text/javascript">
     Custom.init();
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
     function changeViewInPopu(obj){ 
         $("#enrollmentResetId").click();         
         $("#csvResetId").click();
