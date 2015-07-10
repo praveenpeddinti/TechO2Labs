@@ -114,9 +114,9 @@ class UserQuestionsCollection extends EMongoDocument {
                 }
                 $inc++;
             }
-            error_log("==$categoryId===page-====$page=====sizeofquesitons===".sizeof($categoryQuestions[0]));
+//            error_log("==$categoryId===page-====$page=====sizeofquesitons===".sizeof($categoryQuestions[0]));
             $categoryPosition = $this->getIndexOfCategory($id,$categoryId);
-               error_log("^^^^^^^^^^66categoryPosition====#######==$categoryPosition");
+//               error_log("^^^^^^^^^^66categoryPosition====#######==$categoryPosition");
             if(isset($categoryId) && !empty($categoryId)){                
                 $page = 0;
             }
@@ -131,6 +131,7 @@ class UserQuestionsCollection extends EMongoDocument {
                   
             $catIdsArray = UserQuestionsCollection::model()->getNextCategoryId($id,$categoryId);
             $in = 0;
+            if(sizeof($catIdsArray)>0){
             foreach($catIdsArray as $rw){               
                 if((string)$rw == $categoryId){                    
                     $newcategoryId = isset($catIdsArray[($in+1)])?(string)$catIdsArray[($in+1)]:"";  
@@ -138,7 +139,7 @@ class UserQuestionsCollection extends EMongoDocument {
                 }
                 $in++;
             }
-            
+            }
             //error_log($newcategoryId."====$newcategoryId   ===!!!!!!!!!@@@@@@@@@@@@@@@=======page===$page==categquesitons size===".sizeof($categoryQuestions[0]));
           if($page == sizeof($categoryQuestions[0])){
               $categoryId = $newcategoryId;
@@ -154,14 +155,30 @@ class UserQuestionsCollection extends EMongoDocument {
               //error_log("===not--------------------".$nocategories);
           }
          
-            error_log($page."-----next dat----------------".$categoryId);
+//            error_log($page."-----next dat----------------".$categoryId);
              
         }
       }else{
           $categoryPosition = $this->getIndexOfCategory($id,$categoryId);
-        //error_log("^^^^^^^^^^66categoryPosition====#######==$categoryPosition");
+          $catIdsArray = UserQuestionsCollection::model()->getNextCategoryId($id,$categoryId);
+            $in = 0;
+            $newcategoryId = "";
+            if(sizeof($catIdsArray)>0){
+                foreach($catIdsArray as $rw){               
+                    if((string)$rw == $categoryId){                    
+                        $newcategoryId = isset($catIdsArray[($in+1)])?(string)$catIdsArray[($in+1)]:"";  
+                        break;
+                    }
+                    $in++;
+                }
+            }
+            if($in == sizeof($catIdsArray)-1){
+                 $nocategories = "true";
+             }
+            
+//        error_log("^^^^^^^^^^66categoryPosition====#######==$categoryPosition");
       }
-      $categoryPosition = $this->getIndexOfCategory($id,$categoryId);
+//      $categoryPosition = $this->getIndexOfCategory($id,$categoryId);
             //error_log("categoryAQuestions=-===".print_r($categoryQuestions[0][$page],1));
         $totalQuesitonArray['questionId'] = isset($categoryQuestions[0][$page])?$categoryQuestions[0][$page]:"";
         $totalQuesitonArray['categoryId'] = $categoryId;
@@ -174,7 +191,7 @@ class UserQuestionsCollection extends EMongoDocument {
         //error_log("======@@@@@@@@@@@@@@@====categoryPosition======$categoryPosition");
         $totalQuesitonArray['categoryPosition'] = $categoryPosition;
         $totalQuesitonArray['totalpages'] = isset($categoryQuestions[0])?sizeof(array_filter($categoryQuestions[0])):0;
-        //error_log("====sizeoftotalpages==@@@@@@@@@@@@@@@@@@@@@@@=======".$totalQuesitonArray['totalpages']);
+//        error_log("====sizeoftotalpages==@@@@@@@@@@@@@@@@@@@@@@@=======".$totalQuesitonArray['totalpages']);
         return $totalQuesitonArray;
         } catch (Exception $ex) {
             error_log("exceoitn---".$ex->getMessage())     ;
@@ -186,11 +203,13 @@ class UserQuestionsCollection extends EMongoDocument {
             $catIdsArray = UserQuestionsCollection::model()->getNextCategoryId($id,$catid);
             $in = 0;
             $catposition = "";
+            if(sizeof($catIdsArray)>0){
             foreach($catIdsArray as $rw){               
                 if((string)$rw == $catid){ 
                     break;
                 }
                 $in++;
+            }
             }
             error_log("===categoryId===$catid==%%%%%%%%%%%%%%=getIndexOfCategory==index==$in==");
             if($in == 0){
@@ -214,7 +233,7 @@ class UserQuestionsCollection extends EMongoDocument {
             if(sizeof($rw[0])>0)
                $categoryIds = $rw[0]['CategoryIds'];
         } 
-         error_log("get categorir---".print_r($categoryIds,1));
+//         error_log("get categorir---".print_r($categoryIds,1));
         } catch (Exception $ex) {
 
         }
@@ -230,7 +249,7 @@ class UserQuestionsCollection extends EMongoDocument {
     }
     public function getTestAvailable($UserId,$testId){
         try{
-            error_log("getTestAvailable---------".$UserId."---".$testId);
+//            error_log("getTestAvailable---------".$UserId."---".$testId);
             $returnValue = "failure";
             $preparecriteria = new EMongoCriteria;
             $preparecriteria->addCond('UserId', '==', (int)$UserId);
@@ -249,7 +268,7 @@ class UserQuestionsCollection extends EMongoDocument {
         try{
             $c = UserQuestionsCollection::model()->getCollection();
                $result = $c->aggregate(array('$match' => array('_id' =>new MongoId($id))), array('$unwind' => '$Questions'), array('$match' => array('Questions.CategoryId' => new MongoID($categoryId))),array('$group' => array("_id" => "_id", "CategoryQuestions" => array('$push' => '$Questions.CategoryQuestions')))); 
-
+            $categoryQuestions = array();
             foreach($result as $rw){
                 if(sizeof($rw[0])>0)
                    $categoryQuestions = $rw[0]['CategoryQuestions'];

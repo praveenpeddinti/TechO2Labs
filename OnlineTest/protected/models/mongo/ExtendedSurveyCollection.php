@@ -1101,12 +1101,20 @@ public function getQuestionOfSurvey($surveyId,$questionId){
         }
     }
 
-    public function getCategoryDetails($catname) {
+    public function getCategoryDetails($catname,$catquestions,$offset=0) {
         try {
-            $questioncriteria = new EMongoCriteria;
-            $questioncriteria->addCond('SurveyTitle', '==', $catname);
-            $questionsobj = ExtendedSurveyCollection::model()->find($questioncriteria);
-            return $questionsobj;
+//            $questioncriteria = new EMongoCriteria;
+//            $questioncriteria->addCond('SurveyTitle', '==', $catname);            
+//            $questionsobj = ExtendedSurveyCollection::model()->find($questioncriteria);
+            $pageLimit = $catquestions*4;
+            
+            $c = ExtendedSurveyCollection::model()->getCollection();
+            $result = $c->aggregate(array('$match' => array('SurveyTitle' => "$catname")),array('$unwind' =>'$Questions'),array('$skip' => $offset),array('$limit' => $pageLimit),array('$group' => array("_id" => '$_id',"Questions" => array('$push' => '$Questions'))));   
+            //error_log("=1111111111111=====getCategoryDetails==result=====".print_r($result,1));
+            $returnarray = array();
+            $returnarray['result'] = $result['result']; 
+            $returnarray['offset'] = $offset+$pageLimit;
+            return $returnarray;
         } catch (Exception $ex) {
             Yii::log(" ExtendedSurveyCollection:getCategoryDetails::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
             error_log("Exception Occurred in  ExtendedSurveyCollection->getCategoryDetails==" . $ex->getMessage());

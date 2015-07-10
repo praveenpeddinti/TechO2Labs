@@ -1588,11 +1588,16 @@ $("#pagenoforsurvey").html(pageStr).show();
          var fromNode=0; //this flag is used to stop doing logout in 2 cases 1.call from node 2.submit pressed
         var categoryId = '<?php echo $categoryId?>';
 
-   var nocategories = '<?php echo $nocategories?>';
+        var nocategories = '<?php echo $nocategories?>';
         openCategory=arr_diff(CategoryDivs,closedCategory);
 var questionActiveID="qno_"+CategoryIdArray.indexOf(categoryId)+"_"+'<?php echo $page;?>';
-$("#"+questionActiveID).css("background-color", "orange");
-        <?php if(($catPosition == "first") && $page == 1){  ?>
+$("#"+questionActiveID).css("background-color", "orange");       
+        <?php if($catPosition == "first" && $page == 1 && $totalpages == 1 && $nocategories == "true"){ ?>
+            $("#prevQuestion,#nextQuestion").hide();
+            $('#submitQuestion').show();
+            <?php }
+            else if(($catPosition == "first") && $page == 1){  ?>
+
              $("#prevQuestion").hide(); 
              $("#nextQuestion").show();
              $('#submitQuestion').hide();
@@ -1606,12 +1611,10 @@ $("#"+questionActiveID).css("background-color", "orange");
             $("#submitQuestion").hide();
         <?php } ?>
 
-stopandStartTimer(TotalTimerDivs[CategoryIdwithCategory[categoryId]]);  
-activeCategoryDiv(CategoryIdwithCategory[categoryId]);
-buttonhideing(categoryId)
+
 
          var userTempId = '<?php echo $UserTempId?>';
-          
+         
       var loginUserId = '<?php echo $this->tinyObject->UserId; ?>';
    
     var scheduleId = "<?php echo $scheduleId; ?>";
@@ -1679,7 +1682,9 @@ if(logoutSurveyPageTimeOut != null && logoutSurveyPageTimeOut != "undefined"){
            function unsetSpotFromNode(){
             socketSurvey.emit('unsetSpotforSchedule', sessionStorage.userId,sessionStorage.scheduleId );
         }
-       
+       stopandStartTimer(TotalTimerDivs[CategoryIdwithCategory[categoryId]]);  
+activeCategoryDiv(CategoryIdwithCategory[categoryId]);
+buttonhideing(categoryId)
     </script>
 
 
