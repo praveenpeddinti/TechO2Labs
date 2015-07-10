@@ -152,7 +152,7 @@ return array (
     "Invite_Action_Fail" => "Unable to send Invitation",
     "Survey_Submit_Fail" => "Unable to submit Quick Poll",
     'CurbsideConsult'=>'Curbside Consult',
-    'ProjectTitle'=>Yii::app()->params['NetworkName'],
+    'ProjectTitle'=>'Techo2 OnlineTest',
     'SubGroupName'=>'Name',
     'SubGroupDescription'=>'Description',
     'Sub_Group_Creation'=>'Add New Sub Group',

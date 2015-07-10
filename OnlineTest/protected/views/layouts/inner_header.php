@@ -3,7 +3,7 @@
     <div class="row-fluid">
             <div class="span12">
                 <div class="span3 iphonelogo ">
-                 <a class="navbar-brand" href="#"><img src="/images/inner_techo2logo.png" ></a>    
+                 <a class="navbar-brand" href="/users"><img src="/images/inner_techo2logo.png" ></a>    
                 </div>
                 <?php if(Yii::app()->session['IsAdmin'] ==1){?>
                 <div class="span9 positionrelative" id="headerSection">

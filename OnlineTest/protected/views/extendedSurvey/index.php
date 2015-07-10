@@ -765,7 +765,7 @@ bindToMandatory();
             $("#sucmsg").fadeOut(9000,function(){
                 $("#surveyFormButtonId").attr("disabled",false);
                 scrollPleaseWaitClose("extededsurvey_spinner");
-                window.location.href = "/marketresearchwall";
+                window.location.href = "/inventory";
             });
         }
     }

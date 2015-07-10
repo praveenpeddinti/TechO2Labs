@@ -1,6 +1,6 @@
 <ul class="headermainmenu">
-          <li class="<?php if($this->pageTitle =='SkiptaNeo - SurveyDashboard ExtendedSurvey') {echo "active";}?>" >
-          <a href="/marketresearchwall" class="headerdashboard" data-placement="bottom" data-toggle="tooltip" data-original-title="Tooltip on bottom">
+          <li class="<?php if($this->pageTitle =='Techo2 - SurveyDashboard ExtendedSurvey') {echo "active";}?>" >
+          <a href="/inventory" class="headerdashboard" data-placement="bottom" data-toggle="tooltip" data-original-title="Tooltip on bottom">
           Question Bank </a> </li>
           <li class="<?php if($this->pageTitle =='TestPaper') {echo "active";}?>">
           <a href="/testpaper" class="headermemberverification " data-placement="bottom" data-toggle="tooltip" data-original-title="Tooltip on bottom"> Test Papers</a></li>

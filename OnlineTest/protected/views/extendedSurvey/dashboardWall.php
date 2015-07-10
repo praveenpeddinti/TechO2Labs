@@ -40,7 +40,7 @@
 <!-- -->
 <div class="actions_area surveymenuicons" data-id="<?php echo $data->_id;?>">
 <ul>
-<li> <a href="#" class="view"><img src="images/spacer.png" ></a></li>
+<li> <!--<a href="#" class="view"><img src="images/spacer.png" ></a>--></li>
 <li> <a href="#" class="edit edit_icon" data-name="edit_survey"><img src="images/spacer.png" ></a></li>
 
 </ul>

@@ -23,7 +23,7 @@
                             </div>
                         </li>-->
 
-                        <li class="gamerightlist"><a href="/newmarketresearch" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Category" src="/images/system/spacer.png" /></a></li>
+                        <li class="gamerightlist"><a href="/newinventory" class="newgame"  ><img id="newgame" class=" tooltiplink cursor" rel="tooltip"  data-original-title="New Category" src="/images/system/spacer.png" /></a></li>
 
 
 
