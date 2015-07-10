@@ -59,8 +59,8 @@ return array(
                 '/' => array('/site/register', 'caseSensitive' => false),
                 'users' => array('admin/userManagement', 'caseSensitive' => false),               
                 
-                'newmarketresearch' => array('/extendedSurvey/index', 'caseSensitive' => false),
-                'marketresearchwall' => array('/extendedSurvey/surveyDashboard', 'caseSensitive' => false),
+                'newinventory' => array('/extendedSurvey/index', 'caseSensitive' => false),
+                'inventory' => array('/extendedSurvey/surveyDashboard', 'caseSensitive' => false),
                 'testpaper' => array('/testPaper/surveyDashboard', 'caseSensitive' => false),
                 'newtestpaper' => array('/testPaper/index', 'caseSensitive' => false),
                 'marketresearchview/[0-9]*/<var:[^\/]*>*' => array('/outside/index', 'caseSensitive' => false),
