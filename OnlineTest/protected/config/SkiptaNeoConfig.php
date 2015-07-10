@@ -39,7 +39,7 @@
     "ga_profile_id" => '85758946',
     "ga_Analytics_ip" => 'https://115.248.17.86',
     "ga_transaction_id" => 'UA-50760024-1',
-    "NetworkName" => 'Pharmacy Society',
+    "NetworkName" => 'OnlineTest',
     "Curator_Callback_Url" => 'https://staging.skiptaneo.skiptatrinity.com/admin/content',
     "Curator_Consumer_key" => 'skipta_soc|uKKto8PNT_lQjLSGS2qods6XAxyExOYJy22bQblBv5w',
     "Curator_Consumer_Secret" => 'vamLkofhCO3RvXdX2RxEwXmBVNZqUlcPWDewAPKQZwaXtbjtPj',

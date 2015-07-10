@@ -205,20 +205,6 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
        $PrivacyPolicyForm = new PrivacyPolicyForm();
      $this->render('privacyPolicy', array("PrivacyPolicyForm"=>$PrivacyPolicyForm));          
       }             
-          
-      public function actionThankyouPage(){
-        try{
-            Yii::app()->session->destroy();
-            $response = $_REQUEST['done'];
-            if($response == "done"){
-                $this->render('thankyou');
-            }else{
-                $this->render("index");
-            }
-            
-        } catch (Exception $ex) {
-
-        }
-    }
+      
 }
 ?>

@@ -17,3 +17,10 @@
         </div>
         
     </div>
+
+<script type="text/javascript">
+    setTimeout(function(){
+        
+       window.location = "/user/logout"; 
+    },4000);
+    </script>
