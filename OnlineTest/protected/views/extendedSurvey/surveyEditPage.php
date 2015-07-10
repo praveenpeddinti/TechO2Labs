@@ -36,11 +36,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <div class="surveyquestionsbox">
                  
                 <div class="surveyareaheader">
-                    <?php if($isAlreadySchedule != 1){ ?>
+                    <?php //if($isAlreadySchedule != 1){ ?>
                     <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
-                    <?php } ?>
+                    <?php //} ?>
                     
                     <?php include 'EditQuestionsWidget.php'; ?>
                     
@@ -213,11 +213,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                <div class="surveyquestionsbox">
                   
                 <div class="surveyareaheader">
-                    <?php if($isAlreadySchedule == 0){ ?>
+                    <?php //if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
-                    <?php } ?>
+                    <?php //} ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
@@ -388,11 +388,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                  <div class="surveyquestionsbox">
                  
                 <div class="surveyareaheader">
-                   <?php if($isAlreadySchedule == 0){ ?>
+                   <?php //if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
-                    <?php } ?>
+                    <?php //} ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
@@ -713,11 +713,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                   <div class="surveyquestionsbox">
                   
                 <div class="surveyareaheader">
-                    <?php if($isAlreadySchedule == 0){ ?>
+                    <?php //if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
-                    <?php } ?>
+                    <?php //} ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
@@ -930,7 +930,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                    <td><input value="<?php echo $question['Answers'][$mi]; ?>" type="hidden" name="ExtendedSurveyForm[MatrixAnswer][<?php echo $j . "_" . $k . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" />
                                                         <div class="positionrelative surveydeleteaction ">
                                                             
-                                                        <input type="text" class="textfield textfieldtable notallowed"  value="<?php echo $question['Answers'][$mi]; ?>"  maxlength ="2" onkeyup="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" onblur="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" id="ExtendedSurveyForm_MatrixAnswer_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" onkeydown="allowNumericsAndCheckFields(event)" data-qid = "<?php echo ($i+1); ?>"/>
+                                                        <input type="text" class="textfield textfieldtable notallowed"  value="<?php echo $question['Answers'][$j][$k]; ?>"  maxlength ="2" onkeyup="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" onblur="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" id="ExtendedSurveyForm_MatrixAnswer_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" onkeydown="allowNumericsAndCheckFields(event)" data-qid = "<?php echo ($i+1); ?>"/>
                                                         </div>
                                                    </td>                 
             <?php } } ?>
@@ -1023,11 +1023,11 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                 <div class="surveyquestionsbox">
                   
                 <div class="surveyareaheader">
-                    <?php if($isAlreadySchedule == 0){ ?>
+                    <?php //if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
-                    <?php } ?>
+                    <?php //} ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
@@ -1443,11 +1443,11 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                <div class="surveyquestionsbox">
                  
                 <div class="surveyareaheader">
-                    <?php if($isAlreadySchedule == 0){ ?>
+                    <?php //if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
-                    <?php } ?>
+                    <?php// } ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
@@ -1588,11 +1588,11 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                <div class="surveyquestionsbox">
                   
                 <div class="surveyareaheader">
-                    <?php if($isAlreadySchedule == 0){ ?>
+                    <?php //if($isAlreadySchedule == 0){ ?>
                     <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
-                    <?php } ?>
+                    <?php //} ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
@@ -1729,11 +1729,11 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                     <div class="surveyquestionsbox">
                   
                 <div class="surveyareaheader">
-                    <?php if($isAlreadySchedule != 1){ ?>
+                    <?php //if($isAlreadySchedule != 1){ ?>
                     <div class="subsectionremoveEdit" data-questionId="<?php echo ($i + 1); ?>">
                         <img src="/images/system/spacer.png" class="surveyaddbutton" data-placement="bottom" rel="tooltip"  data-original-title="Suspend question"/>
                     </div>
-                    <?php } ?>
+                    <?php //} ?>
                     <?php include 'EditQuestionsWidget.php'; ?>
                 </div>
 
