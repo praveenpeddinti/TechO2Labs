@@ -142,7 +142,7 @@ a.infolink, a:hover.infolink{text-decoration:none; padding-left:20px; font-size:
 .streamsection{position:relative}
 .sidebar-nav_right, .sidebar-nav{width: 130px; position: absolute;  border-top: none; border-left: none; margin: 0em;top:0;bottom:0;border-right: 1px solid #d3d3d3; }
 .sidebar-nav_right{width:306px;border-left: 0px solid #f4f4f4;background:#fff;right:0;border-right: 0px}
-.streamsectionarea{position: relative;min-height: 800px;background: #fff;margin-left: 131px;}
+.streamsectionarea{position: relative;min-height: 800px;background: #fff;}
 .streamsectionarearightpanel{margin-right:308px;}
 .streamsectionarearightpanelno{margin-right:0;}
 .pagetitle{font-size:25px;margin:0;padding:0 0 8px 0;line-height:25px;font-weight:normal}
