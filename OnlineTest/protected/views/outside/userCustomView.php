@@ -1112,7 +1112,7 @@ sessionStorage.sharedURL = "";
             var data = eval(data);  
            
             if (data.status == 'success') {
-               // alert(questionActiveID+"I am fuck")
+              
                 $("#"+questionActiveID).css("background-color", "green")
                // scrollPleaseWaitClose('surveyviewspinner');
                isValidated = true;

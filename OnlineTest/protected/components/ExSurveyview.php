@@ -259,7 +259,7 @@
          $(".questionnos").live("click",function(){   //question by number            
              var $this = $(this);
              $(".questionnos").removeClass("active");
-             $this.addClass("active");
+             //$this.addClass("active");
 //              var activetimerdiv = $this.data("activetimer");
 //              //alert(activetimerdiv);
 //              stopandStartTimer(activetimerdiv);
@@ -329,7 +329,7 @@
            if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]])>=0){
                $("#prevQuestion").show(); 
            }else{
-              $("#prevQuestion").hide(); 
+               $("#prevQuestion").hide(); 
            }
           
            
