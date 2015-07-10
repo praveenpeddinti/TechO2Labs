@@ -101,7 +101,7 @@
                         }',
                         'beforeSend' => 'function(){
                               
-                                                     alert($("#register-form").serialize());
+                                                     
 
                            
                             
