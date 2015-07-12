@@ -375,52 +375,7 @@ if (sessionStorage.old_key == undefined || sessionStorage.old_key == "") {
             var gType = "Group";
             var groupId = 0;
             var g_notificationId = 0;
-            if (typeof io !== "undefined") {
-                var socketForUpdate = io.connect('<?php echo Yii::app()->params['NodeURL']; ?>');
-
-                $('.dropdown-backdrop').css("postition", "fixed");
-                var notificationsInterval = 0;
-                var fromHeaderNotifications = 0;
-                
-                $(function() {
-
-                   
-
-                    $("#scrollDiv").click(function(event) {
-                        //        event.stopPropagation();
-                    });
-                    $(".headerpopfooter").bind("click", function(event) {
-                        event.stopPropagation();
-                        // Do something
-                    });
-                    $("#settings").bind("click", function(event) {
-                        event.stopPropagation();
-                        // Do something
-                    });
-                    $("#notification_settings,.headerpopfooter").on('click touchstart',function(e){                        
-                        e.stopPropagation();
-                    });
-                    //here find the device versions..
-                });
-
-
-
-                
-
-                function updateSocketConnect() {
-                    var userTypeId = '<?php echo Yii::app()->session['UserStaticData']->UserTypeId ?>';
-                    if (g_streamId != 0 && g_streamId != undefined && g_streamId != null && g_streamId != "") {
-                        scrollPleaseWait("stream_view_spinner_" + g_streamId);
-                        setTimeout(function() {
-                            socketForUpdate.emit("getUpdatedStreamPostRequest", loginUserId, g_streamId, userTypeId, g_pageType);
-                        }, 2000);
-                    }
-                }
-
-                
-                
-
-            }
+          
             $(document).ready(function() {
 
                 $('#aboutUs,#contactUs,#orId').hide();
@@ -473,46 +428,7 @@ if (sessionStorage.old_key == undefined || sessionStorage.old_key == "") {
             $('.modal').on('hidden', function() {
                 $('body').css('overflow', 'auto');
             });
-            if (sessionStorage.ISTracked == undefined || sessionStorage.ISTracked == null || sessionStorage.ISTracked == "" || sessionStorage.ISTracked == "undefined") {
-                sessionStorage.ISTracked = 0;
-            }
-            if (sessionStorage.ISTracked == 0) {
-                sessionStorage.ISTracked = 1;
-                trackBrowseDetails("http://localhost/", "0");
-            }
-            function getGameCollectionObject(gameId) {
-                var URL = "/game/getGameDetailsById?selectedGameId=" + gameId;
-                ajaxRequest(URL, "", function(data) {
-                    getGameCollectionObjectHandler(data)
-                }, "json");
-
-            }
-            function getGameCollectionObjectHandler(data) {
-                var scheduleId = data.data;
-                var gameName = data.GameName;
-                if (scheduleId == 0) {
-
-                } else {
-                    scheduleId = scheduleId.$id;
-                }
-                if (data.GameName != null && data.GameName != undefined && data.GameName != "")
-                    window.location = '/' + gameName + '/' + scheduleId + '/detail/game';
-                else {
-                    window.location = "/game/index"; // if postId not found
-                }
-            }
-            
-
-
-var phpSessionTimeOut;
-if(phpSessionTimeOut != null && phpSessionTimeOut != "undefined"){
-   clearTimeout(phpSessionTimeOut); 
-}
-// phpSessionTimeOut =  setInterval(function(){ 
-//  console.log("sessin tmie out occurs");
-//  ajaxRequest("/user/checkSession","","");
-//    
-// },<?php //echo (Yii::app()->session->timeout+5)*1000?>)
+           
 
         </script>
 

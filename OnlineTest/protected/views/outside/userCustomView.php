@@ -1623,7 +1623,7 @@ $("#"+questionActiveID).css("background-color", "orange");
         window.onbeforeunload = function (e) {
                  if(fromNode == 0){
                       logoutSurveyPage();
-                      unsetSpot(loginUserId,scheduleId);
+                   
                  }
            
       };
@@ -1639,52 +1639,17 @@ $("#"+questionActiveID).css("background-color", "orange");
      var data = {"Page":sureyQuestionPage-1,"ScheduleId":sessionStorage.scheduleId,"SurveyId" :surveyId,"UserId": loginUserId};
      ajaxRequest("/outside/loginSurveyPage",data,function(){});
  }
-var logoutSurveyPageTimeOut;
-if(logoutSurveyPageTimeOut != null && logoutSurveyPageTimeOut != "undefined"){
-   clearTimeout(logoutSurveyPageTimeOut); 
-}
 
- logoutSurveyPageTimeOut =  setTimeout(function(){ 
-  ajaxRequest("/user/checkSession","",function(){});
-     
- },<?php echo (Yii::app()->session->timeout+5)*1000?>)
  
  
- 
- 
- 
- 
- 
-     var socketSurvey = io.connect('<?php echo Yii::app()->params['NodeURL']; ?>');
-           pF1 = 1;
-          ObjectA = {PF1:pF1,PF2:pF2,sCountTime:nodeSurveyTime,uniquekey:sessionStorage.old_key,pageName:"survey"};
-           var jsonObject = JSON.stringify(ObjectA); 
-        socketSurvey.emit('connectToSurvey', loginUserId,scheduleId,jsonObject);
-         socketSurvey.on('connectToSurveyResponse', function(data) {
-               data = eval("(" + data + ")");
-                var userId = data.loginUserId;
-               sessionStorage.userId = userId;
-               sessionStorage.scheduleId = data.scheduleId;            
-               $("#spotCount").html(data.spotMessage);
-               $(".spotMessage").show();
-            });
-     
-      socketSurvey.on('SurveyPageLoadResponse', function(data) {
-         var scheduleId = data.scheduleId;
-          var userId = data.userId;
-          if(scheduleId == sessionStorage.scheduleId  && userId == loginUserId){
-              fromNode = 1;
-              window.location="/";
-          }
-          
-     })
-       
-           function unsetSpotFromNode(){
-            socketSurvey.emit('unsetSpotforSchedule', sessionStorage.userId,sessionStorage.scheduleId );
-        }
+     //  alert("**")
+                
        stopandStartTimer(TotalTimerDivs[CategoryIdwithCategory[categoryId]]);  
-activeCategoryDiv(CategoryIdwithCategory[categoryId]);
-buttonhideing(categoryId)
+    
+        activeCategoryDiv(CategoryIdwithCategory[categoryId]);
+      
+        buttonhideing(categoryId)
+     
     </script>
 
 

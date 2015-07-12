@@ -1,4 +1,5 @@
- <div><span id="hms_timer"></span><span style="display:none" id="hms_timer_hidden"></span><span style="display:none" id="hms_timer_stop"></span></div>
+
+<div><span id="hms_timer"></span><span style="display:none" id="hms_timer_hidden"></span><span style="display:none" id="hms_timer_stop"></span></div>
     
            <?php
            $Totaltime = 0;
@@ -38,9 +39,10 @@
      <script type="text/javascript">
          
      $(function(){
-
+         
+    
                                     $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
-                                        hours : 0,
+                                        hours : 1,
                                         minutes :<?php echo $row['CategoryTime']; ?>,
                                         //minutes:10,
                                         seconds : 0,
@@ -64,7 +66,30 @@
                                CategoryDivs.push("q_categories_<?php echo ($k+1); ?>");
                                CategoryIdArray.push("<?php echo $row['CategoryId']?>");
                                TotalTimerDivs["q_categories_<?php echo ($k+1); ?>"]="hms_timer<?php echo ($k+1); ?>_hidden";
+                           
                                CategoryIdwithCategory["<?php echo $row['CategoryId']?>"]="q_categories_<?php echo ($k+1); ?>";
+                               
                               // alert(TotalTimerDivs)
                                 </script>
  <?php $k++; } ?>
+
+                                <script type="text/javascript">
+                                    
+                                           $(function(){
+
+                                    $('#hms_timer').countdowntimer({
+                                        hours : 1,
+                                        minutes :1,//<?php //echo $row['CategoryTime']; ?>,
+                                        seconds : 0,
+                                        size : "lg",
+					pauseButton : "hms_timer_hidden",
+					stopButton : "hms_timer_stop",
+                                        timeUp : "timeisup"
+                                    });
+
+
+                                    
+                                    
+                                });
+
+                                    </script>
