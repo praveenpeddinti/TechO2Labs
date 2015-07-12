@@ -245,7 +245,7 @@ class OutsideController extends Controller {
             $questionArray = array();
             error_log($testId."$$$$$$2222*********$$$$$$".sizeof($questionObject->Category));
             foreach ($questionObject->Category as $cat) {               //for each category
-                error_log("%%%%%%%333333333".$cat['CategoryName']);
+             
                 $res = ExtendedSurveyCollection::model()->getCategoryDetails($cat['CategoryName'],$cat['NoofQuestions'],0);
                 $questionsobj = $res['result'];
                 $offSet = $res['offset'];
@@ -1191,8 +1191,14 @@ function get_values_for_keys($mapping, $keys) {
         try{
             $testId = $_REQUEST['TestId'];
             $UserId = $_REQUEST['UserId'];
-            $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
-            $getTestObj = TestPreparationCollection::model()->getTestDetailsById("Id",(string)$testquestionObj->Testid);
+             $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
+           $getTestObj = TestPreparationCollection::model()->getTestDetailsById("Id",(string)$_REQUEST['TestId']);
+
+            if($testquestionObj == "failure"){
+              $testquestionObj = $this->prepareTempQuestions($getTestObj,$UserId,$testId); // saving temp. test for a user and fetching saved obj...           
+              $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
+
+             }
             for($i=0;$i<sizeof($testquestionObj->Questions);$i++){
                 $testquestionObj->Questions[$i]['CategoryTime'] = $getTestObj->Category[$i]['CategoryTime'];
             }
