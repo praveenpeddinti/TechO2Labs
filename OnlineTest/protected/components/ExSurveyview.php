@@ -78,7 +78,7 @@ var TotalTimerDivs={};
         
         var closedCategory=new Array();
         var openCategory=new Array();
-        
+        var userTempId="";
          function expiryCategory(divid){
              if(divid=='timeisup'){
                  submitSurvey();
@@ -98,9 +98,9 @@ var TotalTimerDivs={};
              }else{
                  //alert('timeup')
 
-                  //$("#prevQuestion").hide();
+                   if(userTempId!="undefined" && userTempId!=undefined && userTempId!="" ){
                  submitSurvey();
-                
+                  }
 
              }
             
@@ -191,6 +191,7 @@ var TotalTimerDivs={};
          $(".questionnos").live("click",function(){   //question by number            
              var $this = $(this);
              $(".questionnos").removeClass("active");
+                previousValidation();
              //$this.addClass("active");
 //              var activetimerdiv = $this.data("activetimer");
 //              //alert(activetimerdiv);
@@ -224,7 +225,9 @@ var TotalTimerDivs={};
    
          $("#prevQuestion").live("click",function(){
              fromPagiNation=1;
-             gotoPreviousPage();            
+             previousValidation();
+             gotoPreviousPage();  
+             
          });
          
          function gotoPage(){
@@ -320,7 +323,9 @@ submitSurvey();
          }
          function gotoPreviousPage(){
              currentPage--;
+             previousValidation();
              scrollPleaseWait('surveyviewspinner','previous');
+              $("#qno_"+currentPage).addClass("completed");
              sureyQuestionPage = sureyQuestionPage-2;
               var scheduleId = $("#QuestionsSurveyForm_ScheduleId").attr("value");
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
