@@ -5,6 +5,9 @@ if(is_object($surveyObj)){ ?>
 <input type="hidden" name="QuestionsSurveyForm[SurveyId]" value="<?php echo $categoryId; ?>" id="QuestionsSurveyForm_SurveyId">
 <input type="hidden" name="QuestionsSurveyForm[Questions]" value="" id="QuestionsSurveyForm_Questions">
 <input type="hidden" name="QuestionsSurveyForm[QuestionTempId]" value="" id="QuestionsSurveyForm_QuestionTempId" data-tempid="">
+<input type="hidden" name="QuestionsSurveyForm[Time]" value="" id="QuestionsSurveyForm_Time" >
+
+
 <div class="padding8top">
    
      
@@ -15,7 +18,8 @@ if(is_object($surveyObj)){ ?>
          foreach($surveyObj->Questions as $question){
              $userAnswer = array();
              ?>
-            <input type="hidden" name="QuestionsSurveyForm[IsMadatory][<?php echo ($i); ?>]" value="<?php echo $question['IsMadatory']; ?>" id="QuestionsSurveyForm_IsMadatory_<?php echo $i; ?>">
+         <input type="hidden" name="QuestionsSurveyForm[IsCompleted]" value="<?php echo $question['IsCompleted']; ?>" id="QuestionsSurveyForm_IsCompleted" >
+            <input type="hidden" name="QuestionsSurveyForm[IsMadatory][IsMadatory]" value="<?php echo $question['IsMadatory']; ?>" id="QuestionsSurveyForm_IsMadatory_<?php echo $i; ?>">
             <?php if($question['QuestionType'] == 1){ ?>             
                     <?php
             $form = $this->beginWidget('CActiveForm', array(
@@ -1068,6 +1072,7 @@ sessionStorage.sharedURL = "";
         }
         
         function ValidateQuestions(qNo,qCnt){ 
+             $("#"+questionActiveID).css("background-color", ""); 
           //console.log("=ValidateQuestions=========fromAutoSave=="+fromAutoSave);
      
             
@@ -1112,7 +1117,8 @@ sessionStorage.sharedURL = "";
             var data = eval(data);  
            
             if (data.status == 'success') {
-              
+               $("#QuestionsSurveyForm_IsCompleted").val(1);   
+
                 $("#"+questionActiveID).css("background-color", "green")
                // scrollPleaseWaitClose('surveyviewspinner');
                isValidated = true;
@@ -1125,6 +1131,7 @@ sessionStorage.sharedURL = "";
                 
 
             } else {   
+                $("#QuestionsSurveyForm_IsCompleted").val(0); 
                 Garray = new Array();
                
                  scrollPleaseWaitClose('surveyviewspinner');
@@ -1185,7 +1192,14 @@ sessionStorage.sharedURL = "";
                      });
                  }
              }
-        
+                    function getCurrentTimeCategory(id){
+            var time=0;
+           
+                   time= parseInt(window['hours_HMS' + id])*3600;
+                    time=time+(parseInt(window['minutes_HMS' + id])*60);
+                      time=time+parseInt(window['seconds_HMS' + id]);
+                     return time;
+        }
         
         function saveAnswersForQuestions(){
             
@@ -1194,6 +1208,10 @@ sessionStorage.sharedURL = "";
                 $("#surveySavingRes").attr("style","margin-top:10px");
             }
            // alert(Garray)
+         //  alert(CategoryIdwithCategory.toSource())
+       var position=CategoryIdwithCategory[categoryId].split("_");
+  
+              $("#QuestionsSurveyForm_Time").val(parseInt(getCurrentTimeCategory("hms_timer"+position[2])));
             $("#QuestionsSurveyForm_Questions").val(JSON.stringify(Garray));
             $("#QuestionsSurveyForm_QuestionTempId").val('<?php echo $UserTempId?>');
             var data = $("#questionviewwidget").serialize();             
@@ -1222,6 +1240,7 @@ sessionStorage.sharedURL = "";
 //                                $("#surveyQuestionArea").html(data); 
                                 window.location.href = "/outside/thankyouPage?done=done";
                         }
+                 
                        // alert(categoryId+"(("+sureyQuestionPage)
                             var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};                        
                             ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
@@ -1373,7 +1392,7 @@ function updateTextRadiohiddenFields(obj,rno,qno,col,maxValue){
               $("#prevQuestion").show();
          }
          pageStr = "Page <b><?php echo $page; ?></b> of <b><?php echo $totalpages; ?></b>"
-         
+        alert('<?php echo $totalpages; ?>') 
          
 <?php if($totalpages > 1){?>
 $("#pagenoforsurvey").html(pageStr).show();
@@ -1591,8 +1610,10 @@ $("#pagenoforsurvey").html(pageStr).show();
         var nocategories = '<?php echo $nocategories?>';
         openCategory=arr_diff(CategoryDivs,closedCategory);
 var questionActiveID="qno_"+CategoryIdArray.indexOf(categoryId)+"_"+'<?php echo $page;?>';
-$("#"+questionActiveID).css("background-color", "orange");       
+$("#"+questionActiveID).css("background-color", "orange");     
+ 
         <?php if($catPosition == "first" && $page == 1 && $totalpages == 1 && $nocategories == "true"){ ?>
+          
             $("#prevQuestion,#nextQuestion").hide();
             $('#submitQuestion').show();
             <?php }
@@ -1613,7 +1634,7 @@ $("#"+questionActiveID).css("background-color", "orange");
 
 
 
-         var userTempId = '<?php echo $UserTempId?>';
+          userTempId = '<?php echo $UserTempId?>';
          
       var loginUserId = '<?php echo $this->tinyObject->UserId; ?>';
    
@@ -1640,7 +1661,126 @@ $("#"+questionActiveID).css("background-color", "orange");
      ajaxRequest("/outside/loginSurveyPage",data,function(){});
  }
 
- 
+ function previousValidation(){
+               $("#"+questionActiveID).css("background-color", "")
+             //alert("==submitsurvey===="+fromAutoSave)
+              
+                if(fromAutoSave == 0){
+                     scrollPleaseWait('surveyviewspinner');
+               
+               $(".errorMessage").hide();
+            $(".alert-error,.errorMessage").each(function(){
+                    $(this).hide();
+                    $(this).html("");
+                 });
+            }
+            //alert(qCount)
+            for(var i =1; i<=qCount;i++){
+                var isMandatory = $("#QuestionsSurveyForm_IsMadatory_"+i).val();
+                if(isMandatory != 1){
+                    notValidate++;
+                }
+            }
+            
+             for(var i =1; i<=1;i++){  
+                 gQcnt++;
+                var widtype = $("#QuestionsSurveyForm_WidgetType_"+i).val();
+        var isMandatory = $("#QuestionsSurveyForm_IsMadatory_"+i).val(); 
+             //   alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"=i=="+i)
+                if(isMandatory == 1){
+
+                     PreviousValidateQuestions(1, 1);
+                }else{
+//                    if(widtype == 3 || widtype == 4 ){                       
+//                       options = $("#QuestionsSurveyForm_OptionsSelected_"+i).val();
+//                       if(options != "" && options != 0){                           
+//                            ValidateQuestions(i, qCount);
+//                        }else{
+//                            Garray[i - 1] = $("#questionviewWidget_"+i).serialize();
+//                        }
+//                        if(isValidate <= qCount){
+//                            isValidate++;      
+//                        }
+//                    }
+ //ValidateQuestions(i, qCount);
+                       if($(".booleanwidget_"+i).is(":visible")){
+                           PreviousValidateQuestions(1, 1);
+                       }else if($.trim($("#QuestionsSurveyForm_OptionsSelected_"+i).val()) != "" && $("#QuestionsSurveyForm_OptionsSelected_"+i).val() ){
+                               PreviousValidateQuestions(i, qCount);                               
+                        } else{
+                            if(fromAutoSave == 0){
+                                Garray[i - 1] = $("#questionviewWidget_"+i).serialize(); 
+                            }else{
+                                 Garray[0] = $("#questionviewWidget_"+i).serialize();
+                            }
+                           
+                            if(isValidate <= qCount){
+                                isValidate++;      
+                            }                                                                                
+
+                             if(isValidate == qCount || fromAutoSave == 1){ 
+                                isValidated = true;
+                               // saveAnswersForQuestions();
+                            } 
+                        }
+
+                    }
+               
+                                    
+             }
+          }
+          function PreviousValidateQuestions(qNo,qCnt){ 
+             $("#"+questionActiveID).css("background-color", ""); 
+          //console.log("=ValidateQuestions=========fromAutoSave=="+fromAutoSave);
+     
+            
+            var serializeddata = $("#questionviewWidget_"+qNo).serialize();
+//            alert(data.toSource())
+           // Garray[qNo - 1] = data;   
+           // alert($("#QuestionsSurveyForm_OptionsSelected_"+qNo).val()+"===ValidateQuestions=========="+serializeddata.toSource())
+                $.ajax({
+                    type: 'POST',
+                    url: '/outside/validateQuestions?surveyTitle=' + $("#QuestionsSurveyForm_SurveyTitle").val() + '&SurveyDescription=' + $("#QuestionsSurveyForm_SurveyDescription").val() + '&questionsCount=' + qCnt+"&SurveyGroupName="+$("#QuestionsSurveyForm_SurveyRelatedGroupName").val()+"&SurveyLogo="+$("#QuestionsSurveyForm_SurveyLogo").val(),
+                    data: serializeddata,
+                    async: false,
+                    success: function(data) {
+                        var data = eval(data);                    
+
+                         if (data.status == 'success') {
+                              Garray[qNo - 1] = serializeddata; 
+                            //  alert("===")
+                             if(fromAutoSave == 0){
+                                  
+                             }else{
+                                 
+                                  Garray[0] = serializeddata;   
+                             }
+
+                                if(isValidate <= qCount){
+
+                                   isValidate++;  
+
+                               }
+                            }                
+
+                       previousValidateQuestionsHandler(data,qNo)
+
+                    },
+                    error: function(err) { 
+                    },
+                    dataType: 'json'
+                });
+            }
+           
+  function previousValidateQuestionsHandler(data,qNo){
+            var data = eval(data);  
+           $("#"+questionActiveID).css("background-color", "")
+            if (data.status == 'success') {
+               $("#QuestionsSurveyForm_IsCompleted").val(1);   
+
+                $("#"+questionActiveID).css("background-color", "green")
+            }
+        }
  
      //  alert("**")
                 
