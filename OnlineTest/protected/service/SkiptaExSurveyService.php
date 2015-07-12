@@ -200,6 +200,8 @@ class SkiptaExSurveyService {
    }
     public function getCustomSurveyDetailsById($columnName,$_id,$scheduleId,$page,$categoryId,$action="next"){
        try{
+        error_log($_id."###########################$page#########$action########".$categoryId);
+
           $questionsArray =  UserQuestionsCollection::model()->getQuestionFromCollectionForPagination($_id,$categoryId,$page,$action);
           $questionId = $questionsArray['questionId'];
           $categoryId = $questionsArray['categoryId'];
@@ -207,12 +209,15 @@ class SkiptaExSurveyService {
            $scheduleId = $questionsArray['scheduleId'];
            $cateogryIds = $questionsArray['catIdsArray'];
            $catPosition = $questionsArray['categoryPosition'];
-           error_log("no of cat--**-".$nocategories."======%%^^^%^^^^^^^^^^^==categorypos===$catPosition");
+        
           $page = $questionsArray['page'];
           $totalpages = $questionsArray['totalpages'];
+            error_log("############################################".$questionId);
           $result = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId);
            $resultArray = array("data"=>$result,"categoryId"=>$categoryId,"page"=>$page,"nocategories"=>$nocategories,"totalpages"=>$totalpages,"scheduleId"=>$scheduleId,"catIdsArray"=>$cateogryIds,"catPosition"=>$catPosition);
-            return $resultArray;
+        
+
+           return $resultArray;
            } catch (Exception $ex) {
                Yii::log("SkiptaExSurveyService:getCustomSurveyDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
            error_log("Exception Occurred in SkiptaExSurveyService->getCustomSurveyDetailsById### ".$ex->getMessage());
@@ -390,10 +395,7 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
                     $result = SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, 'Done', $fromAutoSave, $fromPage,$questionTempId);
 
                     $surveyDetails = ExtendedSurveyCollection::model()->getSurveyDetailsById('Id', $model->SurveyId);
-                    if (!is_string($surveyDetails) && $surveyDetails->ShowDerivative == 1) {
-                        $categoryId = CommonUtility::getIndexBySystemCategoryType('ExtendedSurvey');
-                        CommonUtility::prepareStreamObject($UserId, "ExtendedSurveyFinished", $model->SurveyId, $categoryId, '', '');
-                    }
+                 
                     return $result;
 
                     //return ScheduleSurveyCollection::model()->updateSurveyAnswer($model,$NetworkId,$UserId,"Done");
