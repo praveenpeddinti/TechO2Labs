@@ -93,73 +93,146 @@ class OutsideController extends Controller {
     
     public function PrepareQuestionObjectsByScore($questionsArray,$cat,$questionArray,$categoryId,$totalquestions,$totalMarks,$qn,$pushedQuestions,$remaingQuestions=array(),$offSet){
         try{            
-            foreach ($questionsArray as $qstn) {                          //for each question
-                    if($qstn['QuestionType'] == 1 || $qstn['QuestionType'] == 2 || $qstn['QuestionType'] == 5 || $qstn['QuestionType'] == 6 || $qstn['QuestionType'] == 7 || $qstn['QuestionType'] == 8){
+            foreach ($questionsArray as $qstn) {     
+                //for each question
+                 $qdensity = 0;
+                 $isExit = 0;
+                   if($qstn['QuestionType'] == 1 || $qstn['QuestionType'] == 2 || $qstn['QuestionType'] == 5 || $qstn['QuestionType'] == 6 || $qstn['QuestionType'] == 7 || $qstn['QuestionType'] == 8){
                         $qsCnt = 0;
-                        $qsCnt = (1+$totalMarks);
-                        if($totalquestions <= $cat['NoofQuestions'] && $qsCnt <= $cat['CategoryScore'] && $totalMarks <= $cat['CategoryScore']){ 
-                            $totalquestions++;
-                            $totalMarks++;
+                       
+                        $qsCnt = (1+$totalquestions);
+                        if($qsCnt <= $cat['NoofQuestions'] ){ 
+                            $qdensity = 1;
+                            $totalquestions = $qsCnt;
+                          
                         }else{
-                                    continue;
+                            $isExit = 1;
+                                    //continue;
                                 }
                     }else{
                         if($qstn['QuestionType'] == 3){
                             $qsCnt = 0;
-                            $qsCnt = ($qstn['NoofOptions']+$totalMarks);                            
-                            if($totalquestions <= $cat['NoofQuestions'] && $totalMarks <= $cat['CategoryScore'] && $qsCnt <= $cat['CategoryScore'] && $totalMarks <= $qstn['NoofOptions']){
-                                $totalquestions ++;
-                                $totalMarks += $qstn['NoofOptions'];
+                            $qsCnt = ($qstn['NoofOptions']+$totalquestions);
+                            $qdensity = $qstn['NoofOptions'];
+                            if($qsCnt <= $cat['NoofQuestions'] ){ 
+                                
+                                $totalquestions = $qsCnt;                                
                             }else{
-                                    continue;
+                                $isExit = 1;
+                                    //continue;
                                 }
                         }else if($qstn['QuestionType'] == 4){
                             $qsCnt = 0;                            
                             if($qstn['MatrixType'] == 2){
-                                $qsCnt = ($qstn['NoofOptions']+$totalMarks);
-                                if($totalquestions <= $cat['NoofQuestions'] && $qsCnt <= $cat['NoofQuestions'] && $totalMarks <= $cat['CategoryScore'] && $totalMarks <= $qsCnt){
-                                    $totalquestions ++;
-                                    $totalMarks += $qsCnt;
+                                $qdensity = $qstn['NoofOptions'];
+                                $qsCnt = ($qstn['NoofOptions']+$totalquestions);
+                                if($qsCnt <= $cat['NoofQuestions'] ){ 
+                                    $totalquestions = $qsCnt;
                                 }else{
-                                    continue;
+                                    $isExit = 1;
+                                    //continue;
                                 }
                             }else if($qstn['MatrixType'] == 3){
-                                $qsCnt = ($qstn['NoofOptions'] * $qstn['NoofRatings'])+$totalMarks;
-                                if($qsCnt <= $cat['CategoryScore'] && $totalquestions <= $cat['NoofQuestions'] && $totalMarks <= $cat['CategoryScore'] && $totalMarks <= $qsCnt){
-                                    $totalquestions ++;
-                                    $totalMarks += $qsCnt;
+                                $qsCnt = ($qstn['NoofOptions'] * $qstn['NoofRatings'])+$totalquestions;
+                                $qdensity = ($qstn['NoofOptions']* $qstn['NoofRatings']);
+                                if($qsCnt <= $cat['NoofQuestions'] ){ 
+                                    $totalquestions = $qsCnt;                                    
                                 }else{
-                                    continue;
+                                    $isExit = 1;
+                                   // continue;
                                 }
                             }
                         }
                     }
-                    //error_log("==!1111111111111111111====question type==".$qstn['QuestionType']."===questions count prepared=====2222222222222==$totalquestions===total questions===".$cat['NoofQuestions']."===peprared marks===$totalMarks====totalmarks==".$cat['CategoryScore']);
-                    if($totalquestions != 0 && $totalquestions <= $cat['NoofQuestions'] && $totalMarks <= $cat['CategoryScore']){
-                        array_push($qn['CategoryQuestions'], $qstn["QuestionId"]);                        
-                        array_push($pushedQuestions,(string)$qstn["QuestionId"]);
-                    }
-                }                
-                array_push($questionArray, $qn);
-                if($totalMarks < $cat['CategoryScore'] && $totalquestions < $cat['NoofQuestions']){  
-                    $quesitonsset = $cat['NoofQuestions'];
-                    if(sizeof($remaingQuestions) == 0){
-                        $questionsobj = ExtendedSurveyCollection::model()->getCategoryDetails($cat['CategoryName'],$cat['NoofQuestions'],$offSet);
-                        $categoryId = (string)$questionsobj[0]['_id'];
-                        $remaingQuestions = $questionsobj[0]['Questions'];
-                    }
-                    $questionsRandomKeys = array();
-                    
-                    if(sizeof($remaingQuestions) > 1){
-                        $questionsRandomKeys = array_rand($remaingQuestions, $quesitonsset);
+                    //error_log("=====$isExit===1111111111111111111====question type==".$qstn['QuestionType']."===questions count prepared=====2222222222222===prepared questions==$totalquestions===total questions===".$cat['NoofQuestions']."===peprared marks===$totalMarks====totalmarks==".$cat['CategoryScore']);
+                    if(($totalquestions != 0 && $totalquestions <= $cat['NoofQuestions'] && $isExit == 0) ){
+                        $pushedQuestions[(string)$qstn["QuestionId"]] = $qdensity;
+                       
+                        array_push($qn['CategoryQuestions'], (string)$qstn["QuestionId"]);                       
+                       
                     }else{
-                        $questionsRandomKeys = array_keys($remaingQuestions);
+                       
+                        if($qdensity>=$totalquestions)
+                        { 
+                            continue;}
+                        $removeddensity = ($qdensity+$totalquestions)-$cat['NoofQuestions']; 
+                       $key = array_search($removeddensity,$pushedQuestions); 
+                       if($key == ""){
+                           $totalarray = array_values($pushedQuestions);
+                           $sum = 0;
+                            $ourvalue = $removeddensity;
+                            $removedKeys = array();
+                            foreach($totalarray as $key=>$value){
+                                if($value < $ourvalue && $sum <= $ourvalue){
+                                    if($sum+$value <= $ourvalue){
+                                         $sum += $value;     
+                                         $totalquestions -= $value;
+                                         error_log("##removed keys");
+                                         array_push($removedKeys, $value);
+                                    }
+                                }
+                            }
+                            
+                            foreach($removedKeys as $k=>$v){            
+                         //      unset($qn['CategoryQuestions'][$v]);
+                                
+                                $mkey = array_search($v,$pushedQuestions);
+                               $lkey = array_search($mkey,$qn['CategoryQuestions']);
+
+                                 unset($qn['CategoryQuestions'][$lkey]);
+                                 unset($pushedQuestions[$mkey]);
+                             }
+                             $pushedQuestions[(string)$qstn["QuestionId"]] = $qdensity;
+                            $totalquestions+=$qdensity;
+                            array_push($qn['CategoryQuestions'], (string)$qstn["QuestionId"]);  
+                           
+                        }else{
+                               $mkey = array_search($key,$qn['CategoryQuestions']);
+                                unset($qn['CategoryQuestions'][$mkey]);
+                            $totalquestions+=$qdensity;
+                            $totalquestions-=$removeddensity;
+
+                            
+                            array_push($qn['CategoryQuestions'], (string)$qstn["QuestionId"]); 
+                        }
+                        error_log($totalquestions."=to=====".$cat['NoofQuestions']."========@@@@%55555555 55555 55 55 5 55 54444&&&&&7==sizeof===========".print_r($qn['CategoryQuestions'],1));
+                        break;
+                      //  if($totalquestions==)
+                        
                     }
-                    $remaingQuestions = $this->get_values_for_keys($remaingQuestions, $questionsRandomKeys);
-                    $this->PrepareQuestionObjectsByScore($remaingQuestions, $cat, $questionArray, $categoryId, $totalquestions, $totalMarks, $qn, $pushedQuestions,$remaingQuestions,$offSet);
+                }     
+               $qn['CategoryQuestions'] =array_values($qn['CategoryQuestions']);
+                foreach($qn['CategoryQuestions']  as $k1=>$v1){
+                    $qn['CategoryQuestions'][$k1]=new MongoId((String) $v1);
                     
-                   //error_log("=#########=@@@@@@@@@@@@@@@@@@-----------8888888888888888888====need to repeat....");
                 }
+                                     array_push($questionArray, $qn);
+   
+                if( $totalquestions < $cat['NoofQuestions']){  
+//                    $quesitonsset = $cat['NoofQuestions'];
+//                    if(sizeof($remaingQuestions) == 0){
+//                        $questionsobj = ExtendedSurveyCollection::model()->getCategoryDetails($cat['CategoryName'],$cat['NoofQuestions'],$offSet);
+//                        $categoryId = (string)$questionsobj[0]['_id'];
+//                        $remaingQuestions = $questionsobj[0]['Questions'];
+//                    }
+//                    $questionsRandomKeys = array();
+//                    
+//                    if(sizeof($remaingQuestions) > 1){
+//                        $questionsRandomKeys = array_rand($remaingQuestions, $quesitonsset);
+//                    }else{
+//                        $questionsRandomKeys = array_keys($remaingQuestions);
+//                    }
+//                    
+//                    $remaingQuestions = $this->get_values_for_keys($remaingQuestions, $questionsRandomKeys);
+//                   error_log("=2222222222===sizeof remaining quesitons=======".sizeof($remaingQuestions));
+//
+//                    $this->PrepareQuestionObjectsByScore($remaingQuestions, $cat, $questionArray, $categoryId, $totalquestions, $totalMarks, $qn, $pushedQuestions,$remaingQuestions,$offSet);
+//                    
+                   error_log("=#########=@@@@@@@@@@@@@@@@@@-----------8888888888888888888====need to repeat....");
+                }
+               // error_log("***111111***questionArray******".print_r($questionArray,1));
+                //                exit();
+                
                 return $questionArray;
         } catch (Exception $ex) {
 
@@ -170,7 +243,9 @@ class OutsideController extends Controller {
     public function prepareTempQuestions($questionObject=array(),$userId,$testId){
         try{            
             $questionArray = array();
+            error_log($testId."$$$$$$2222*********$$$$$$".sizeof($questionObject->Category));
             foreach ($questionObject->Category as $cat) {               //for each category
+                error_log("%%%%%%%333333333".$cat['CategoryName']);
                 $res = ExtendedSurveyCollection::model()->getCategoryDetails($cat['CategoryName'],$cat['NoofQuestions'],0);
                 $questionsobj = $res['result'];
                 $offSet = $res['offset'];
@@ -187,6 +262,7 @@ class OutsideController extends Controller {
                     $questionsRandomKeys = array_keys($questionsArray);
                 }
                 $questionsArray = $this->get_values_for_keys($questionsArray, $questionsRandomKeys);
+                error_log("===11111==questions array===size====".sizeof($questionsArray));
                 $totalquestions = 0;
                 $totalMarks = 0;
                 $qn = array();
@@ -202,13 +278,12 @@ class OutsideController extends Controller {
                     }
                 }
                 $questionArray = $this->PrepareQuestionObjectsByScore($questionsArray,$cat,$questionArray,$categoryId,$totalquestions,$totalMarks,$qn,$pushedQuestions,$tQuestionsArray,$offSet);
-                
+               // error_log("%%%%%%%%%%22222222288".print_r($questionsArray,1));
             }
-            
-            try{
+           try{
                 $userQuestionsCollection = new UserQuestionsCollection();
                 $userQuestionsCollection->UserId = (int)$userId;
-                $userQuestionsCollection->Testid = new MongoId($testId);
+                $userQuestionsCollection->Testid = new MongoId($testId);               
                 $userQuestionsCollection->Questions = $questionArray;
                 $userQuestionsCollection->CreatedOn = new MongoDate();
                 $resultantobj = ServiceFactory::getTO2TestPreparaService()->saveQuestionsToCollection($userQuestionsCollection);
@@ -238,7 +313,8 @@ class OutsideController extends Controller {
               $testquestionObj = $this->prepareTempQuestions($questionprepareObj,$UserId,$testId); // saving temp. test for a user and fetching saved obj...           
               $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
 
-              }
+             }
+             
             $pageno = 0;
             $surveyObjArray = ServiceFactory::getTO2TestPreparaService()->getQuestionFromCollection($testquestionObj->Questions,$pageno);
             $surveyObj = $surveyObjArray["data"];
@@ -266,7 +342,7 @@ class OutsideController extends Controller {
     }
 function get_values_for_keys($mapping, $keys) {
     try{
-        foreach ($keys as $key) {
+        foreach ($keys as $key) {            
             $output_arr[] = $mapping[$key];
         }
         return $output_arr;
@@ -332,13 +408,13 @@ function get_values_for_keys($mapping, $keys) {
              $categoryId = $_REQUEST['categoryId'];
              $action = $_REQUEST['action'];
              $UserId = isset($_REQUEST['UserId'])?$_REQUEST['UserId']:1; // userId... 
-             CommonUtility::trackSurvey($UserId,$scheduleId,$categoryId,$page,"");
+          //   CommonUtility::trackSurvey($UserId,$scheduleId,$categoryId,$page,"");
               error_log($scheduleId."***######gsr3###################****QuestionTemp id==***$userQuestionTempId");
                 $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$userQuestionTempId,$scheduleId,$page,$categoryId,$action);            
                        
             $bufferAnswers = array();
-            
-            
+         error_log("***######gsr3#####asdf##############****QuestionTemp id==***".print_r($surveyObjArray,true));
+
              $surveyObj = $surveyObjArray["data"];
              $categoryId = $surveyObjArray["categoryId"];
              $nocategories = $surveyObjArray['nocategories'];
@@ -349,7 +425,7 @@ function get_values_for_keys($mapping, $keys) {
              $catPosition = $surveyObjArray['catPosition'];
              $bufferAnswers =  SurveyUsersSessionCollection::model()->getAnswersForSurvey($UserId,$scheduleId);
             error_log($categoryId."***######gsr**bufferAnswers11111111111111*******");
-             $this->renderPartial('userCustomView',array("UserTempId"=>$userQuestionTempId,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$UserId,"sessionTime"=>"","spotMessage"=>$spotMessage,"flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"nocategories"=>$nocategories,"sno"=>($page+1),"catPosition"=>$catPosition));
+             $this->renderPartial('userCustomView',array("UserTempId"=>$userQuestionTempId,"surveyObj"=>$surveyObj,"categoryId"=>$categoryId,"QuestionsSurveyForm"=>$QuestionsSurveyForm,"scheduleId"=>$scheduleId,"userId"=>$UserId,"sessionTime"=>"","spotMessage"=>"","flag"=>$surveyObjArray["flag"],"iValue"=>$surveyObjArray["i"],"page"=>$page+1,"bufferAnswers"=>$bufferAnswers,"totalpages"=>$totalPages,"nocategories"=>$nocategories,"sno"=>($page+1),"catPosition"=>$catPosition));
              
         } catch (Exception $ex) {
             error_log("Exception Occurred in OutsideController->actionSureyQuestionPagination==".$ex->getMessage());
@@ -357,9 +433,9 @@ function get_values_for_keys($mapping, $keys) {
         } 
      }
     public function actionValidateSurveyAnswersQuestion(){
-        try{         
+        try{       
+              error_log("******SURESH**********I am match".$_REQUEST['QuestionTempId']);
 //            ini_set('memory_limit', '2048M');
-            error_log("=====validateSurveyAnswers=====");
             $QuestionsSurveyForm = new QuestionsSurveyForm();
             if(isset($_POST['QuestionsSurveyForm'])){
                    $QuestionsSurveyForm->attributes = $_POST['QuestionsSurveyForm'];  
@@ -373,8 +449,21 @@ function get_values_for_keys($mapping, $keys) {
                     }
                     $userQuestionObj = array();
                     if($questionTempId != 0){
+                          error_log("****************I am matc@@@@@@@@@@@@@@@@@h");
                         $userQuestionObj = UserQuestionsCollection::model()->getPreparedTest($questionTempId);
+                         
+                        $questionprepareObj = TestPreparationCollection::model()->getTestDetails($userQuestionObj->Testid);
+                        error_log("@@@@@@@");
+                        $eachQuestionScore=0;
+                        foreach ($questionprepareObj->Category as $row){
+                          if((String)$row['ScheduleId']==$QuestionsSurveyForm->ScheduleId)  {
+                              $eachQuestionScore=$row['CategoryScore']/$row['NoofQuestions'];
+                              break;
+                          }
+                        }
                     }
+                  error_log("**************************************I am match".$eachQuestionScore);
+
                     $questionArray = array();
                     $OptionsSelected = FALSE;
                     for($i=0;$i<sizeof($f);$i++){                           
@@ -393,7 +482,6 @@ function get_values_for_keys($mapping, $keys) {
                         foreach($searcharray["QuestionsSurveyForm"] as $key=>$value){
                             $optioncnt = 0;
                         if(is_array($value) && sizeof($value)){  
-                            error_log("==@@@@@@@@@@@@@========key======++++#$key");
                             if($key == "WidgetType"){
                                 if(sizeof($value)>0){
                                     foreach($value as $m){
@@ -458,7 +546,7 @@ function get_values_for_keys($mapping, $keys) {
                                                 $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget12->QuestionId);
                                                 $result = array_intersect($questionAns, $widget12->SelectedOption);
                                                 if(sizeof($widget12->SelectedOption) == sizeof($result)){
-                                                     $widget12->Score = (int)1;   
+                                                     $widget12->Score = (int)$eachQuestionScore;   
                                                 }
                                             }
                                     }
@@ -468,14 +556,20 @@ function get_values_for_keys($mapping, $keys) {
                                         }
                                         $optionsArray = explode(",",$m);                                        
                                         $widget34->Options = $optionsArray;
+                                        
+                               error_log("--------------------------------".print_r($m,true));
+ 
+                                        
                                         $optioncnt = sizeof($widget34->Options);       
                                         if($widget34->IsReviewed == 0){
                                             $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget34->QuestionId);
                                             $result = array_intersect($questionAns, $widget34->Options);
-                                            if(sizeof($widget34->Options) == sizeof($result)){
-                                                 $widget34->Score = (int)$optioncnt;
-                                            }
+                                            
+                                                 
+                                                 $widget34->Score = (int) sizeof($result)*$eachQuestionScore;
+                                           
                                         }
+                                        
                                             
                                     }
                                     $k++;
@@ -531,7 +625,7 @@ function get_values_for_keys($mapping, $keys) {
                                         $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget5->QuestionId);
                                         $result = array_intersect($questionAns, $widget5->DistributionValues);
                                         if(sizeof($result) == sizeof($widget5->DistributionValues)){
-                                             $widget5->Score = (int)1;
+                                             $widget5->Score = (int)$eachQuestionScore;
                                         }
                                     }
                                 }
@@ -552,7 +646,7 @@ function get_values_for_keys($mapping, $keys) {
                                      $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget7->QuestionId);
                                         $result = array_intersect($questionAns, $widget7->UsergeneratedRankingOptions);
                                         if(sizeof($result) == sizeof($widget7->UsergeneratedRankingOptions)){
-                                             $widget5->Score = (int)1;
+                                             $widget5->Score = (int)$eachQuestionScore;
                                         }
                                  }
                                 }
@@ -571,7 +665,7 @@ function get_values_for_keys($mapping, $keys) {
                                         $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget6->QuestionId);
                                         $result = array_intersect($questionAns, array($widget6->UserAnswer));
                                         if(sizeof($result) == sizeof(array($widget6->UserAnswer))){
-                                             $widget6->Score = (int)1;
+                                             $widget6->Score = (int)$eachQuestionScore;
                                         }
                                     }
                                 }
@@ -671,7 +765,17 @@ function get_values_for_keys($mapping, $keys) {
                                         }
                                         $k++;
 
+                                        
                                     }
+                                    if($widget34->IsReviewed == 0){
+                                            $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget34->QuestionId);
+                                            $result = $this->recursive_array_intersect_key($questionAns, $widget34->Options);
+                                         //   if(sizeof($widget34->Options) == sizeof($result)){
+                                            error_log($result."I(am sizsizeeeeeeeeeeeeeeeeeeeeeSISEEEEEEEEe matrix");
+                                      
+                                                 $widget34->Score = (int)$result*$eachQuestionScore;
+                                          //  }
+                                        }
                                     //$widget34->UserTextValue = $OptionOtherTextA;                                    
                                                                 
                                 }
@@ -790,7 +894,6 @@ function get_values_for_keys($mapping, $keys) {
                     // error_log("Iam form".print_r($QuestionsSurveyForm,true));
                      $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId);
 
-                     $reg = TestRegister::model()->updateTestByUserId($UserId,2);
 
                      
 
@@ -831,6 +934,15 @@ function get_values_for_keys($mapping, $keys) {
             Yii::log("OutsideController:actionValidateSurveyAnswersQuestion::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
     }
+    function recursive_array_intersect_key($array1=array(), $array2=array()) {
+
+    $matchedSize=0;
+    for($i=0;$i<sizeof($array1);$i++){
+         $matchedSize=$matchedSize+sizeof(array_intersect($array1[$i], $array2[$i]));
+    }
+    return $matchedSize;
+   
+}
     public function decode_array($input) { 
         try{
                         $from_json =  json_decode($input, true);  
@@ -1091,3 +1203,4 @@ function get_values_for_keys($mapping, $keys) {
     }
 
 }
+####

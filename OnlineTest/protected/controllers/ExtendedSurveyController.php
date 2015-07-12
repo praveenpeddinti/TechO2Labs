@@ -431,17 +431,61 @@ class ExtendedSurveyController extends Controller {
                                      }
                                      $ExSurveyBean->IsReviewed = 1;
                             }
-                            if ($key == "MatrixAnswer") {
+//                            if ($key == "MatrixAnswer") {
+//                                
+//                                 $k = 0;
+//                                 
+//                                foreach ($value as $m) {
+//                                    
+//                                    error_log("*******************MatrixAnswer**$m");
+//                                      $ExSurveyBean->Answers[$k++] =  trim($m);
+//                                     }
+//                                     
+//                            }
+                            
+                            if($key == "MatrixAnswer"){
                                 
-                                 $k = 0;
-                                 
-                                foreach ($value as $m) {
+                                if(sizeof($value)>0){ 
+                                    $OptionOtherTextA = array();                                    
+                                    $uKey = 0;
+                                    $vstr = "";
+                                    $mit = 0;
+                                    foreach($value as $ky=>$v){   
+                                       $kArr = explode("_",$ky); 
+                                       
+                                        if($uKey == 0 && $mit == 0){
+                                           $uKey = $kArr[0]; 
+                                        } 
+                                        if($uKey != $kArr[0]){
+                                            $uKey = $kArr[0];
+                                            array_push($OptionOtherTextA,$vstr);
+                                            $vstr = "";                                           
+                                        }
+                                        if($uKey == $kArr[0]){                                            
+                                            if($vstr == "")
+                                                $vstr = $v;
+                                            else{
+                                                $vstr = "$vstr,$v";
+                                            }
+                                            
+                                        }
+                                        $mit++;
+                                    }
                                     
-                                    error_log("*******************MatrixAnswer**$m");
-                                      $ExSurveyBean->Answers[$k++] =  trim($m);
-                                     }
-                                     
+                                    array_push($OptionOtherTextA,$vstr);     
+                                    error_log("===Optionssss==".print_r($OptionOtherTextA,1));
+                                    $OptionOtherTextB = array();
+                                    foreach($OptionOtherTextA as $optionx){
+                                        $innerarray = explode(",",$optionx);
+                                        array_push($OptionOtherTextB,$innerarray);
+                                    }
+                                    $ExSurveyBean->Answers = $OptionOtherTextB;
+                                   
+                                                                
+                                }
                             }
+                            
+                            
                             if ($key == "IsSuspend") {
                                  $k = 0;
                                 foreach ($value as $m) {
@@ -629,6 +673,23 @@ class ExtendedSurveyController extends Controller {
                                         $ExSurveyBean->IsReviewed = 1;
                                     }
                                 }
+                            }
+                            if($ExSurveyBean->QuestionType == 3){
+                                error_log("*#############1111111111".$ExSurveyBean->QuestionType);
+                                if ($key == "NoofOptions") {
+                                foreach ($value as $m) {
+                                    $ExSurveyBean->Qdensity = (int) $m;
+                                }
+                            }
+                            }else if($ExSurveyBean->QuestionType == 4){
+                                 error_log("*#############2222222222".$ExSurveyBean->QuestionType);
+                                if ($key == "NoofRatings") {
+                                foreach ($value as $m) {
+                                    $ExSurveyBean->Qdensity = (int) $m;
+                                }
+                            }
+                            }else{
+                                
                             }
 //                            if($key == 'QuestionAnswerTextSelected'){
 //                                
