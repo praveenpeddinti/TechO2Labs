@@ -267,6 +267,7 @@ class OutsideController extends Controller {
                 $totalMarks = 0;
                 $qn = array();
                 $qn['CategoryName'] = $cat['CategoryName'];
+                $qn['CategoryTime'] = $cat['CategoryTime']*60;
                 $qn['CategoryId'] = new MongoId($categoryId); // _id => CatId...
                 $qn['ScheduleId'] = ServiceFactory::getTO2TestPreparaService()->getScheduleIdByCatName($cat['CategoryName'],$testId);
                 $qn['CategoryQuestions'] = array();
@@ -298,6 +299,7 @@ class OutsideController extends Controller {
     
     public function actionRenderQuestionView(){
         try{
+              error_log("======Quegsrstion exception==@@@@@@@@@@@@@@@@@@@@===========");
             $surveyGroupName = $_REQUEST['GroupName'];
             $UserId = isset($_REQUEST['UserId'])?$_REQUEST['UserId']:1; // userId... 
             $surveyObj = "";
@@ -305,6 +307,7 @@ class OutsideController extends Controller {
             $scheduleId = "";
             $viewType = $_REQUEST['viewType'];
             $testId = $_REQUEST['TestId'];
+              error_log($testId."======Question exception==@@@@@@@@@@@@@@@@@@@@===========");
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
 //            //$questionprepareObj = TestPreparationCollection::model()->find($criteria);
             $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
@@ -441,7 +444,7 @@ function get_values_for_keys($mapping, $keys) {
                    $QuestionsSurveyForm->attributes = $_POST['QuestionsSurveyForm'];  
                    $UserId = $QuestionsSurveyForm->UserId;
                    $categoryId = $QuestionsSurveyForm->SurveyId;
-                   
+                    $time = $QuestionsSurveyForm->Time;
                    $f =  json_decode($QuestionsSurveyForm->Questions);
                    $questionTempId = 0;
                    if(isset($_REQUEST['QuestionTempId'])){
@@ -449,9 +452,8 @@ function get_values_for_keys($mapping, $keys) {
                     }
                     $userQuestionObj = array();
                     if($questionTempId != 0){
-                          error_log("****************I am matc@@@@@@@@@@@@@@@@@h");
                         $userQuestionObj = UserQuestionsCollection::model()->getPreparedTest($questionTempId);
-                         
+                        UserQuestionsCollection::model()->updateTimeStamp($categoryId,$questionTempId,$time);
                         $questionprepareObj = TestPreparationCollection::model()->getTestDetails($userQuestionObj->Testid);
                         error_log("@@@@@@@");
                         $eachQuestionScore=0;
@@ -462,8 +464,6 @@ function get_values_for_keys($mapping, $keys) {
                           }
                         }
                     }
-                  error_log("**************************************I am match".$eachQuestionScore);
-
                     $questionArray = array();
                     $OptionsSelected = FALSE;
                     for($i=0;$i<sizeof($f);$i++){                           
@@ -512,6 +512,13 @@ function get_values_for_keys($mapping, $keys) {
                                         }
                                     }
                                 }
+
+                                            $widget12->IsCompleted = (int)$QuestionsSurveyForm->IsCompleted;
+                                            $widget34->IsCompleted = (int)$QuestionsSurveyForm->IsCompleted;
+                                            $widget5->IsCompleted = (int)$QuestionsSurveyForm->IsCompleted;
+                                            $widget6->IsCompleted = (int)$QuestionsSurveyForm->IsCompleted;
+                                            $widget7->IsCompleted = (int)$QuestionsSurveyForm->IsCompleted;
+                                
                                 if($key == "QuestionId"){
                                     if(sizeof($value)>0){
                                         foreach($value as $m){                                        
@@ -1189,19 +1196,22 @@ function get_values_for_keys($mapping, $keys) {
     
     public function actionRenderCategories(){
         try{
+              error_log("############Exception occurred########");
             $testId = $_REQUEST['TestId'];
             $UserId = $_REQUEST['UserId'];
              $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
-           $getTestObj = TestPreparationCollection::model()->getTestDetailsById("Id",(string)$_REQUEST['TestId']);
+                error_log("############Exception occurred########".$testId);
+           $getTestObj = TestPreparationCollection::model()->getTestDetailsById("Id",(string)$testId);
+             error_log("############Exception occurred########".$testId);
 
             if($testquestionObj == "failure"){
               $testquestionObj = $this->prepareTempQuestions($getTestObj,$UserId,$testId); // saving temp. test for a user and fetching saved obj...           
               $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
 
              }
-            for($i=0;$i<sizeof($testquestionObj->Questions);$i++){
-                $testquestionObj->Questions[$i]['CategoryTime'] = $getTestObj->Category[$i]['CategoryTime'];
-            }
+//            for($i=0;$i<sizeof($testquestionObj->Questions);$i++){
+//                $testquestionObj->Questions[$i]['CategoryTime'] = $getTestObj->Category[$i]['CategoryTime'];
+//            }
             $this->renderPartial("quesitoncategories",array("CatName"=>$testquestionObj->Questions));
         } catch (Exception $ex) {
             error_log("############Exception occurred########".$ex->getMessage());
