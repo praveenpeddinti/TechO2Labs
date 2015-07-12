@@ -49,6 +49,8 @@ class QuestionsSurveyForm extends CFormModel {
     public $OptionTextValue;
     public $OptionValueOther;
     public $OtherJustification;
+    public $Time;
+    public $IsCompleted=0;
     //public $OtherTextValue;
     /**
      * Declares the validation rules.
@@ -69,7 +71,7 @@ class QuestionsSurveyForm extends CFormModel {
             array('OptionValueOther', 'validateOtherFields', 'fieldname' => 'OptionValueOther','message' => 'Please fill this question'),
             array('OtherJustification','validateOtherFields', 'fieldname' => 'OtherJustification' ,'message' => 'Other Value '),
             array('OptionTextValue', 'validateDynamicFields1', 'fieldname' => 'OptionTextValue','message' => 'Please fill this question'),
-            array('UserId,UsergeneratedRanking,DistValue,UserAnswers,ScheduleId,SurveyId,Question,SurveyTitle,SurveyDescription,SurveyLogo,SurveyRelatedGroupName,WidgetType,Questions,OtherValue,Status,QuestionId,UnitType,OptionsSelected,OptionCommnetValue,IsMadatory,AnyOtherComment,AnyOtherValue,TextOptionValues,OptionTextValue','safe'),
+            array('UserId,UsergeneratedRanking,DistValue,UserAnswers,ScheduleId,SurveyId,Question,SurveyTitle,SurveyDescription,SurveyLogo,SurveyRelatedGroupName,WidgetType,Questions,OtherValue,Status,QuestionId,UnitType,OptionsSelected,OptionCommnetValue,IsMadatory,AnyOtherComment,AnyOtherValue,TextOptionValues,OptionTextValue,Time,IsCompleted','safe'),
         );
     }
 

@@ -229,19 +229,27 @@ class UserQuestionsCollection extends EMongoDocument {
     }
     public function getAllCategoriesforTest($id){
         try{
+                $criteria = new EMongoCriteria;
+
+      
+       // $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($id),'Questions.CategoryTime'=>array('$gte' => 0))), array('$unwind' => '$Questions'), array('$group' => array("_id" => "_id", "CategoryIds" => array('$push' => '$Questions.CategoryId'),"CategoryTimes" => array('$push' => '$Questions.CategoryTime')))); 
             
-             $c = UserQuestionsCollection::model()->getCollection();
-        $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($id))), array('$unwind' => '$Questions'), array('$group' => array("_id" => "_id", "CategoryIds" => array('$push' => '$Questions.CategoryId')))); 
-        
-        foreach($result as $rw){
-//            error_log("======result=========".print_r($rw[0]['Questions'][0],1));
-            if(sizeof($rw[0])>0)
-               $categoryIds = $rw[0]['CategoryIds'];
+         $criteria->addCond('_id', '==', new MongoID($id));
+         
+         $result = UserQuestionsCollection::model()->findAll($criteria);
+         $categoryIds =array();
+       
+        foreach($result[0]->Questions as $rw){
+     
+            if($rw['CategoryTime']>0){
+                array_push($categoryIds,$rw['CategoryId'])  ;
+            }
+            
         } 
-//         error_log("get categorir---".print_r($categoryIds,1));
         } catch (Exception $ex) {
 
         }
+      
         return $categoryIds;
     }
         public function getNextCategoryId($id,$categoryId){
@@ -337,5 +345,22 @@ public function getTestUserDetails($testId,$sDate,$eDate,$startLimit,$pageLength
             error_log("Exception Occurred in UserQuestionsCollection->getTestTakenUsers==".$ex->getMessage());
         }
     }
+     public function updateTimeStamp($CategoryId,$id,$time=0){
+          try{
+              $criteria = new EMongoCriteria;
+              $criteria->addCond('_id', '==',new MongoId($id));
+              $criteria->addCond('Questions.CategoryId', '==', new MongoId($CategoryId));
+              $modifier = new EMongoModifier();
+              if($time<0){
+                  $time=0;
+              }
+              $modifier->addModifier('Questions.$.CategoryTime', 'set',(int)$time );
+              UserQuestionsCollection::model()->updateAll($modifier, $criteria); 
+            
+          } catch (Exception $ex) {
+              Yii::log("SurveyUsersSessionCollection:unsetSpotForUser::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+              error_log("Exception Occurred in SurveyUsersSessionCollection->unsetSpotForUser==".$ex->getMessage());
+          }
+      }
 
 }

@@ -58,7 +58,7 @@ class TestPreparationCollection extends EMongoDocument {
             $returnValue = 'failure';
             $criteria = new EMongoCriteria;
             if ($columnName == 'Id') {
-                
+                error_log($value."@@@@@@@@@@");
                 $criteria->addCond('_id', '==', new MongoId($value));
             }else if ($columnName == 'Title') {
                 $criteria->addCond('Title', '==', trim($value));

@@ -210,7 +210,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                        $modifier->addModifier('UserAnswers.$.OtherValue', 'set',$answers->OtherValue );
                        $modifier->addModifier('UserAnswers.$.Score', 'set',$answers->Score );
                        $modifier->addModifier('UserAnswers.$.IsReviewed', 'set',$answers->IsReviewed );
-                       
+                        $modifier->addModifier('UserAnswers.$.IsCompleted', 'set',$answers->IsCompleted );
                       //   $modifier1->addModifier('UserAnswers.$.OtherValue', 'set',$answers->OtherValue );
                          if($answers->QuestionType == 2 ){
                              $modifier->addModifier('UserAnswers.$.SelectAll', 'set',$answers->SelectAll );

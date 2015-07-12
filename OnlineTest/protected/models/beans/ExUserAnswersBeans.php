@@ -27,5 +27,6 @@ class ExUserAnswersBeans{
     public $DistValue = array();
     public $UserAnswer="";
     public $UsergeneratedRankingOptions = array();
+     public $IsCompleted=0;
             
 }

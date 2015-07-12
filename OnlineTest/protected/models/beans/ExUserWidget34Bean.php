@@ -16,5 +16,6 @@ class ExUserWidget34Bean{
     public $Score = "";
     public $IsReviewed = 0;
     public $UniqueId = "";
+     public $IsCompleted=0;
             
 }
