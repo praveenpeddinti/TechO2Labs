@@ -108,24 +108,9 @@ var TotalTimerDivs={};
          }
          $(document).ready(function() {
              //main timer code
-             $(function(){
-
-                                    $('#hms_timer').countdowntimer({
-                                        hours : 0,
-                                        minutes :Totaltime,//<?php echo $row['CategoryTime']; ?>,
-                                        seconds : 0,
-                                        size : "lg",
-					pauseButton : "hms_timer_hidden",
-					stopButton : "hms_timer_stop",
-                                        timeUp : "timeisup"
-                                    });
-
-
-                                    
-                                    
-                                });
+           
              //main timer end
-           doAjax();
+          
              var UserId = 0;
                  var Groupname = "";
                  var isOuter = false;
@@ -148,7 +133,8 @@ var TotalTimerDivs={};
                     // scrollPleaseWait('streamsectionarea_spinner');
                     //alert("UserId="+UserId+"&GroupName="+Groupname+"&viewType="+viewType+"&TestId="+testId)
                  ajaxRequest("/outside/renderQuestionView", "UserId="+UserId+"&GroupName="+Groupname+"&viewType="+viewType+"&TestId="+testId, function(data) {
-            renderSurveyView(data,UserId,testId)
+            $("#streamsectionarea").show();   
+                $("#questionviewarea").html(data);  
         }, "html");
              }
              function renderCategoriesView(html){
@@ -156,13 +142,13 @@ var TotalTimerDivs={};
                  //alert(html)
                  
              }
-             
-             function renderSurveyView(html,UserId,testId){  
+             renderSurveyView('<?php echo $userId; ?>','<?php echo $TestId; ?>')
+             function renderSurveyView(UserId,testId){  
                  ajaxRequest("/outside/renderCategories", "UserId="+UserId+"&TestId="+testId, function(data) {
                     renderCategoriesView(data)
+                     doAjax();
                 }, "html");
-                $("#streamsectionarea").show();   
-                $("#questionviewarea").html(html);               
+                             
                 
         }
             <?php if(isset($this->tinyObject)){ ?>
@@ -259,41 +245,42 @@ var TotalTimerDivs={};
     }
     
        function buttonhideing(categoryId){
-       //alert(CategoryIdArray.indexOf(categoryId))
-         CategoryIdArray.indexOf(categoryId);
-         if(CategoryIdArray.indexOf(categoryId)==0){
-              $("#prevQuestion").hide(); 
-         }
-          if(CategoryIdArray.indexOf(categoryId)==CategoryIdArray.length){
-              $("#nextQuestion").hide(); 
-         }
-           
-          if(CategoryIdArray.indexOf(categoryId)>0){
-          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
-               openCategory=arr_diff(CategoryDivs,closedCategory);
-          // alert(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]]));
-           if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]])>=0){
-               $("#prevQuestion").show(); 
-           }else{
-               $("#prevQuestion").hide(); 
-           }
-          
-           
-           
-          }
-             if(CategoryIdArray.indexOf(categoryId)>0){
-          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
-               openCategory=arr_diff(CategoryDivs,closedCategory);
-          // alert(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]]));
-           if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)+1]])>=0){
-               $("#nextQuestion").show(); 
-           }else{
-                $("#nextQuestion").hide(); 
-           }
-          
-           
-           
-          }
+//           alert(categoryId)
+//       //alert(CategoryIdArray.indexOf(categoryId))
+//         CategoryIdArray.indexOf(categoryId);
+//         if(CategoryIdArray.indexOf(categoryId)==0){
+//              $("#prevQuestion").hide(); 
+//         }
+//          if(CategoryIdArray.indexOf(categoryId)==CategoryIdArray.length){
+//              $("#nextQuestion").hide(); 
+//         }
+//           
+//          if(CategoryIdArray.indexOf(categoryId)>0){
+//          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
+//               openCategory=arr_diff(CategoryDivs,closedCategory);
+//          // alert(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]]));
+//           if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]])>=0){
+//               $("#prevQuestion").show(); 
+//           }else{
+//               $("#prevQuestion").hide(); 
+//           }
+//          
+//           
+//           
+//          }
+//             if(CategoryIdArray.indexOf(categoryId)>0){
+//          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
+//               openCategory=arr_diff(CategoryDivs,closedCategory);
+//          // alert(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]]));
+//           if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)+1]])>=0){
+//               $("#nextQuestion").show(); 
+//           }else{
+//                $("#nextQuestion").hide(); 
+//           }
+//          
+//           
+//           
+//          }
           
          
     
