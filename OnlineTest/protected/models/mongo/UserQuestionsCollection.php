@@ -99,6 +99,7 @@ class UserQuestionsCollection extends EMongoDocument {
        
           $categoryQuestions = $this->getQuestionsByCategoryId($id,$categoryId);
      
+          error_log($page."%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%".print_r($categoryQuestions,true));
         $totalQuesitonArray = array();
         
        // error_log($page."--------------------".sizeof($categoryQuestions[0]));
@@ -128,7 +129,8 @@ class UserQuestionsCollection extends EMongoDocument {
         
         
           else if($page == sizeof($categoryQuestions[0]) || $page == sizeof($categoryQuestions[0])-1){            
-                  
+                     
+  
             $catIdsArray = UserQuestionsCollection::model()->getNextCategoryId($id,$categoryId);
             $in = 0;
             if(sizeof($catIdsArray)>0){
@@ -140,6 +142,7 @@ class UserQuestionsCollection extends EMongoDocument {
                 $in++;
             }
             }
+             error_log($newcategoryId."%%%%%%%%%%%%%%%%%%%%%%%%%$$$$$$$$$$$$$$$%%%%%%%%%");
             //error_log($newcategoryId."====$newcategoryId   ===!!!!!!!!!@@@@@@@@@@@@@@@=======page===$page==categquesitons size===".sizeof($categoryQuestions[0]));
           if($page == sizeof($categoryQuestions[0])){
               $categoryId = $newcategoryId;
@@ -147,6 +150,8 @@ class UserQuestionsCollection extends EMongoDocument {
                     $page = 0;
                 }
              $categoryQuestions = $this->getQuestionsByCategoryId($id,$categoryId);
+            error_log("%%%%%%%%%%%%%%%%%%%%%%%%%$$$$$$$$$$$$$$$%%%%%%%%%".print_r($categoryQuestions,1));
+
              if($in == sizeof($catIdsArray)-1){
                  $nocategories = "true";
              }

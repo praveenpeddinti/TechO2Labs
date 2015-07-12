@@ -50,6 +50,8 @@ class SurveyUsersSessionCollection extends EMongoDocument {
     }
     public function manageSurveyUserSession($surveyId,$userId,$obj) {
     try{
+                error_log("Exception Occurred in SurveyUsersSessionCollection->manageSurveyUserSession==");
+
         $returnValue = 'false';
             $criteria = new EMongoCriteria;
             $criteria->addCond('UserId', '==',(int)$userId);
