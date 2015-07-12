@@ -7,7 +7,7 @@
      
      ?>
    <div class="q_catogories_progress position_R" id="q_categories_<?php echo ($k+1); ?>" data-val="<?php echo ($k+1); ?>" >
-       <div class="headerbg_cat">
+       <div class="headerbg_cat" data-timerid='#hms_timer<?php echo ($k+1); ?>' id="CategoryId_<?php echo $row['CategoryId']; ?>">
    	<h3 class="pull-left" data-info="<?php echo ($k+1); ?>"><?php echo $row['CategoryName']; ?></h3> 
         <div class="subject_timer" id="subject_timer_<?php echo ($k+1); ?>">
             <div class="timer"><span id="hms_timer<?php echo ($k+1); ?>"></span><span style="display:none" id="hms_timer<?php echo ($k+1); ?>_hidden"></span><span style="display:none" id="hms_timer<?php echo ($k+1); ?>_stop"></span>
@@ -37,15 +37,14 @@
     
    </div>
      <script type="text/javascript">
-         
+        
      $(function(){
          
-    
                                     $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
-                                        hours : 1,
-                                        minutes :<?php echo $row['CategoryTime']; ?>,
+                                        hours : <?php echo gmdate("H",  $row['CategoryTime']); ?>,
+                                        minutes :<?php echo gmdate("i",  $row['CategoryTime']); ?>,
                                         //minutes:10,
-                                        seconds : 0,
+                                        seconds : <?php echo gmdate("s",  $row['CategoryTime']); ?>,
                                         size : "lg",
 					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
 					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
