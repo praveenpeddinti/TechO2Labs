@@ -288,8 +288,8 @@ class TestPaperController extends Controller {
             $startLimit = 0;
             $pageLength = 10;
             $surveyId = $_REQUEST['surveyId'];
-            $getAllUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfile($startDate,$endDate,$searchText,$startLimit, $pageLength);
-            $totalUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfileCount($startDate,$endDate,$searchText);
+            $getAllUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfile($surveyId,$startDate,$endDate,$searchText,$startLimit, $pageLength);
+            $totalUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfileCount($surveyId,$startDate,$endDate,$searchText);
             $inviteForm = new InviteUserForm();
             $this->renderPartial('inviteUsers', array("data" => $getAllUsers, "total" => $totalUsers["totalCount"],'inviteForm' => $inviteForm,"surveyId" => $surveyId));
         } catch (Exception $ex) {
@@ -306,9 +306,11 @@ class TestPaperController extends Controller {
             $searchText = $_REQUEST['searchText'];
             $startLimit = $_REQUEST['startLimit'];
             $pageLength = $_REQUEST['pageLength'];
+            $TestId = $_REQUEST['TestId'];
+            error_log("----TestId==serch---".$TestId);
             //$MyUserIds = $_REQUEST['MyUserIds'];
-            $data = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfile($startDate,$endDate,$searchText,$startLimit, $pageLength);
-            $totalUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfileCount($startDate,$endDate,$searchText);
+            $data = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfile($TestId,$startDate,$endDate,$searchText,$startLimit, $pageLength);
+            $totalUsers = ServiceFactory::getSkiptaUserServiceInstance()->getInviteUserProfileCount($TestId,$startDate,$endDate,$searchText);
             $inviteForm1 = new InviteUserForm();
             $result = array("inviteForm1" => $inviteForm,"data" => $data, "total" => $totalUsers["totalCount"], "status" => 'success');    
             echo json_encode($result);

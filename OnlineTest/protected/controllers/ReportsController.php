@@ -55,7 +55,7 @@ class ReportsController extends Controller {
     }
 
     public function actionRenderReports(){
-        try{
+        try{error_log("-----enter reports---");
            $urlArray = explode("/", Yii::app()->request->url);
            $testPaperId = $_POST["testPaperId"];
            $startDate = $_POST["startDate"];
@@ -64,7 +64,9 @@ class ReportsController extends Controller {
            $startLimit = $_POST["startLimit"];
            $pageLength = $_POST["pageLength"];
            $userReport = TestRegister::model()->getReportinfo($testPaperId);
+           error_log("---1--enter reports---");
            $getTestReports = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTestReports('TestId', $testPaperId,$startDate,$endDate,$searchCategoryScore,$startLimit,$pageLength);
+           error_log("--2---enter reports---".print_r($getTestReports,1));
            $this->renderPartial("report",array("testPaperId"=>$testPaperId,"reportData"=>$getTestReports['data'],"total" => $getTestReports['totalTakenUsers'], "totalQuestions" => $getTestReports['totalQuestions'] ));
         } catch (Exception $ex) {
             error_log("Exception Occurred in ReportsController->actionRenderReports==" . $ex->getMessage());

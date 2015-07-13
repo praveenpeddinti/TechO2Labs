@@ -80,8 +80,7 @@
     ?><?php echo $form->hiddenField($inviteForm, 'AllUsers',array("value"=>"")); ?>
     <?php echo $form->hiddenField($inviteForm, 'TestId',array("value"=>$surveyId)); ?>
     <div class="alert alert-success" id="sucmsgForInviteUserTestSchedule" style='display: none'></div> 
-    <div id="inviteuser_div">
-        <div class="row-fluid">
+    <div id="CreatedDateDiv" class="row-fluid">
             <div class="span4">
                 &nbsp;&nbsp;&nbsp;
             </div>
@@ -100,6 +99,8 @@
                 </div>
             </div>
     </div>
+    <div id="inviteuser_div">
+        
         <div style="position: relative">
             <div  class="block">
                  <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
@@ -150,6 +151,7 @@
     var UserIdAlls = new Array();
     var UserEmailIds = new Array();
     var AllUserIds="";
+    var TId =$("#InviteUserForm_TestId").val();
     function loadEvents() {
         var nowTemp = new Date();
         var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
@@ -182,15 +184,18 @@
         UserIdAlls = new Array();
         AllUserIds="";
         $("#InviteUserForm_AllUsers").val(AllUserIds);
+        
         var startDate = $("#InviteUserForm_StartDate").val();
         var endDate = $("#InviteUserForm_EndDate").val();
         var searchText=$("#InviteUserForm_Name").val();
-        getInviteUsersWithFiltersDetails(0,startDate,endDate,searchText);    
+        //var TestIds = $("#InviteUserForm_TestId").val();
+        
+        getInviteUsersWithFiltersDetails(TId,0,startDate,endDate,searchText);    
         $("#inviteuser_div").show();
         isDuringAjax = true;
     });
     
-    function getInviteUsersWithFiltersDetails(startLimit, startDate,endDate, searchText) {
+    function getInviteUsersWithFiltersDetails(TId,startLimit, startDate,endDate, searchText) {
         if (startDate == "" || startDate == undefined) {
             startdate = "";
         }
@@ -207,7 +212,8 @@
         if (searchText == 'search') {
             searchText = "";
         }
-        var queryString = "startDate="+g_startdate+"&endDate=" + g_enddate + "&searchText=" + searchText + "&startLimit=" + startLimit + "&pageLength=" + g_pageLength;
+        var queryString = "startDate="+g_startdate+"&endDate=" + g_enddate + "&searchText=" + searchText + "&startLimit=" + startLimit + "&pageLength=" + g_pageLength + "&TestId=" + TId;
+        
         //scrollPleaseWait('spinner_admin');
         ajaxRequest("/testPaper/getInviteUsersDetails", queryString, getInviteUsersWithFiltersHandler)        
     }
@@ -243,6 +249,7 @@
             $("#pagination").hide();
             $("#noRecordsTR").show();
         }
+        
         $("#pagination").pagination({
             currentPage: g_page,
             items: data.total,
@@ -251,7 +258,7 @@
             onPageClick: function(pageNumber, event) {
                 g_pageNumber = pageNumber;
                 var startLimit = ((parseInt(pageNumber) - 1) * parseInt(g_pageLength));
-                getInviteUsersWithFiltersDetails(startLimit, g_startdate, g_enddate, g_searchText);
+                getInviteUsersWithFiltersDetails(TId,startLimit, g_startdate, g_enddate, g_searchText);
             }
 
         });
@@ -337,17 +344,25 @@
     
     //submit button
     $("#submitInviteUsers").click(function() {
-        
         if($("#InviteUserForm_AllUsers").val()==''){
             $("#errmsgForInviteUsers").css("display", "block");
             $("#errmsgForInviteUsers").html("Select the Test taker(s).").fadeOut(6000);
+            return false;
+        }else if($("#InviteUserForm_Date").val()==''){
+            $("#InviteUserForm_Date_em_").css("display", "block");
+            $("#InviteUserForm_Date_em_").html("Please enter Date.").fadeOut(6000);
+            return false;
+        }else if($("#InviteUserForm_Time").val()==''){
+            $("#InviteUserForm_Time_em_").css("display", "block");
+            $("#InviteUserForm_Time_em_").html("Please enter Time.").fadeOut(6000);
             return false;
         }else{
         //var ALLIDS=$("#InviteUserForm_AllUsers").val();
         
             //scrollPleaseWait('spinner_admin'); */       
         var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + $("#InviteUserForm_AllUsers").val()+ "&UserEmailIds=" + UserEmailIds+ "&Date=" + $("#InviteUserForm_Date").val()+ "&Time=" + $("#InviteUserForm_Time").val();
-        ajaxRequest("/testPaper/saveInviteUsersDetails", queryString, saveInviteUsersHandler); 
+        
+            ajaxRequest("/testPaper/saveInviteUsersDetails", queryString, saveInviteUsersHandler); 
         $("#InviteUserForm_AllUsers").val('');
     }
     });
@@ -356,7 +371,7 @@
         if(data.status=='success'){
             $("#sucmsgForInviteUsers").css("display", "block");
             $("#sucmsgForInviteUsers").html("Invite Users added Successfully.").fadeOut(6000,"linear",function(){
-                getInviteUsersWithFiltersDetails(0,"all",'');
+                getInviteUsersWithFiltersDetails(TestId,0,"all",'');
             });
         }
     }

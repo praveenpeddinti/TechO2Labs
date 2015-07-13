@@ -610,3 +610,11 @@ input[type="color"],
 .customselectformdiv .select{display: inline-block;font-weight: 700; max-width: 100%;color: #555555;font-size: 13px;}
 .radioaalignment{padding-left:30px;position: relative}
 .radioaalignment .radio{position: absolute;left:0;top:-3px}
+.icon-place-edit:before { content: url(../images/edit_16x16.png) ;}
+.icon-place-view:before { content: url(../images/view_16x16.png) ;}
+@media (min-width: 1200px) {
+  .row {
+    margin-left: -15px;
+    *zoom: 1;
+  }
+}

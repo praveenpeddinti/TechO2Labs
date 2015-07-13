@@ -111,8 +111,40 @@ class AdminController extends Controller{
     }
     
     
-  
+  /*
+     * @Praveen edit user functionality start Here
+     */
+    public function actionEditUserDetailsById() {
+        try {
+            $userId = $_REQUEST['userId'];
+            $takerForm = new TestTakerForm();
+            $data = ServiceFactory::getSkiptaUserServiceInstance()->getUserProfileByUserId($userId);
+            
+            $this->renderPartial('editUser', array('takerForm' => $takerForm,'data'=>$data));
+        } catch (Exception $ex) {
+            error_log("Exception Occurred in AdminController->actionEditUserDetailsById==". $ex->getMessage());
+            Yii::log("AdminController:actionEditUserDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
 
     
+    public function actionEditUserForId() {
+        $testTakerForm = new TestTakerForm();
+        if (isset($_POST['TestTakerForm'])) {
+            $testTakerForm->attributes = $_POST['TestTakerForm'];
+            $errors = CActiveForm::validate($testTakerForm);
+            if ($errors != '[]') {
+                $obj = array('status' => 'error', 'data' => '', 'error' => $errors, "emailError" => $common);
+            } else {
+                $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->editUserDetailsForUserMgmnt($_REQUEST['eId'],$testTakerForm);
+                $obj = array('status' => $updatedDetails, 'data' => '', 'error' => ""); 
+                    //$Save_userInUserCollection = ServiceFactory::getSkiptaUserServiceInstance()->UpdateUserCollection($UserSettingsForm,$oldUserObj);
+                
+            }
+            echo CJSON::encode($obj);
+        }
+    }
+    //
 
 }

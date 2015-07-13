@@ -4622,9 +4622,9 @@ public function getAllHdsUsers() {
     /*
      * Invite Users Functionality start
      */
-    public function getInviteUserProfile($filterValue, $searchText, $startLimit, $pageLength) {
+    public function getInviteUserProfile($TestId,$startDate,$endDate, $searchText, $startLimit, $pageLength) {
         try {// method calling...                 
-            $userProfileCollectionJSONObject = TestRegister::model()->getInviteUserProfile($filterValue, $searchText, $startLimit, $pageLength);
+            $userProfileCollectionJSONObject = TestRegister::model()->getInviteUserProfile($TestId,$startDate,$endDate, $searchText, $startLimit, $pageLength);
         } catch (Exception $ex) {
             Yii::log("SkiptaUserService:getUserProfile::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
@@ -4632,9 +4632,9 @@ public function getAllHdsUsers() {
     }
 
     
-    public function getInviteUserProfileCount($filterValue, $searchText, $segmentId=0) {
+    public function getInviteUserProfileCount($TestId,$startDate,$endDate, $searchText) {
         try {// method calling...            
-            $userProfileCount = TestRegister::model()->getInviteUserProfileCount($filterValue, $searchText, $segmentId);
+            $userProfileCount = TestRegister::model()->getInviteUserProfileCount($TestId,$startDate,$endDate, $searchText);
         } catch (Exception $ex) {
             Yii::log("SkiptaUserService:getUserProfileCount::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
@@ -4665,6 +4665,16 @@ public function getAllHdsUsers() {
     /*
      * Invite Users Functionality end
      */
+  
+  public function editUserDetailsForUserMgmnt($userId,$testTakerForm) {
+         try {
+              $result = User::model()->editUserDetailsForUserMgmnt($userId,$testTakerForm);
+        return $result;
+         } catch (Exception $ex) {
+             Yii::log("SkiptaUserService:checkUserExist::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+         }
+        
+    }
 }
 
 

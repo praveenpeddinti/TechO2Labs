@@ -88,7 +88,8 @@
                             
 
                     <td>                         
-                        <a rel="tooltip" style="cursor: pointer;"  onclick="viewAUserDetailsById('{{>UserId}}')" role="button"  data-toggle="tooltip" title="View" > <i class="icon-place-view"></i></a> 
+                        <a rel="tooltip" style="cursor: pointer;"  onclick="viewAUserDetailsById('{{>UserId}}')" role="button"  data-toggle="tooltip" title="View" > <i class="icon-place-view"></i></a>
+                        <a rel="tooltip" style="cursor: pointer;"  onclick="editUserDetailsById('{{>UserId}}')" role="button"  data-toggle="tooltip" title="Edit" > <i class="icon-place-edit"></i></a> 
                         <span class="adminDropDownParent" rel="tooltip" style="cursor: pointer;" title="Change Role">
                             <i data-placement="right" data-toggle="dropdown" class="icon-place-changerole"></i>
                             <div id="ChangeRoleDropDown" class="dropdown-menu adminDropDown adminDropDownAlign" role="menu">

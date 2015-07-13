@@ -1181,10 +1181,12 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $testObject = TestPreparationCollection::model()->getTestDetails($testId);
             error_log("------count------".$testObject->NoofQuestions);
             $getTestUserObject = UserQuestionsCollection::model()->getTestUserDetails($testId, $startDate, $endDate, $startLimit, $pageLength);
-           // error_log(print_r($getTestUserObject,1));
+            error_log("date---".print_r($getTestUserObject,1));
             $getTestTakenUsersCount = UserQuestionsCollection::model()->getTestTakenUsers($testId, $startDate, $endDate);
-            error_log("count000---".$getTestTakenUsersCount);
+            //error_log("count000---".$getTestTakenUsersCount);
             foreach ($getTestUserObject as $u) {
+                //CommonUtility::styleDateTime($u['CreatedOn']);
+                
                 array_push($TestTakenUsers, $u['UserId']);
             }
             $categories = $testObject->Category;

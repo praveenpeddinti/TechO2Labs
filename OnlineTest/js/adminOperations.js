@@ -2502,3 +2502,27 @@ function createBroadCastNotificationsHandler(data){
      */
     
     
+    /*
+     * @Edit Users in usemanagement tab
+     */
+    function editUserDetailsById(userid) {
+        scrollPleaseWait('spinner_admin');
+        var queryString = "userId=" + userid;
+        ajaxRequest("/admin/editUserDetailsById", queryString, function(data) {
+            editUserDetailsByIdHandler(data)
+        }, "html");
+    }
+    
+    function editUserDetailsByIdHandler(html) {
+  
+        $(".modal-dialog").width("500px");
+        scrollPleaseWaitClose('spinner_admin');
+        $("#newModal .modal-dialog").removeClass('info_modal');
+        $("#newModal .modal-dialog").removeClass('alert_modal');
+        $("#newModal .modal-dialog").removeClass('error_modal');
+        $("#newModalLabel").html("Edit User");
+        $("#newModal_footer").hide();
+        $("#newModal_body").html(html);
+        $("#newModal").modal('show');
+    }
+    

@@ -318,7 +318,6 @@ li[class^="icon-"].icon-large:before, li[class*=" icon-"].icon-large:before {
 .icon-place-changestatus:before     { content: url(../images/icons/places_change_status.png) ;}
 .icon-place-changeuserIdentity:before     { content: url(../images/icons/userIdentity.png) ;}
 
-.icon-place-view:before     { content: url(../images/icons/places_view.png) ;}
 
 .icon-place-csvUpload:before     { content: url(../images/icons/csvupload.png) ;}
 .icon-place-errorBucket:before     { content: url(../images/icons/errorbucket.png) ;}

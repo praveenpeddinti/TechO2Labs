@@ -549,7 +549,45 @@ class User extends CActiveRecord {
         }
     }
     
-    
+    /*
+     * @praveen EditUser in usermanagement screen when clcik the edit icon.
+     */
+
+    public function editUserDetailsForUserMgmnt($userId,$model) {
+        try {
+            $return = "failed";
+            $query = "select U.UserId, U.FirstName, U.LastName, U.Email, U.Phone from User1 U where U.UserId not in (select S.UserId from User1 S where S.UserId=$userId) AND Email ='$model->Email' OR Phone = $model->Phone Order by U.UserId DESC";
+            $users = Yii::app()->db->createCommand($query)->queryAll();
+            if (count($users) > 0) {
+                $return = "failed";
+            }else{
+                $user = User::model()->findByAttributes(array("UserId" => $userId));
+                $user->Email = $model->Email;
+                $user->Phone = $model->Phone;
+                if ($user->update()) {
+                    $return = "success";
+                } 
+            }
+            /*if($checkEmailuser->Email==$model->Email || $checkPhoneuser->Phone==$model->Phone){
+               $return = "failed"; error_log("--if---444----".$checkEmailuser->Email);
+            }else{error_log("-----444-else---".$model->Email);
+                $return = "success";
+            }
+            $user = User::model()->findByAttributes(array("UserId" => $userId));
+            if (isset($user)) {
+                $user->Email = $model->Email;
+                $user->Phone = $model->Phone;
+                if ($user->update()) {
+                    $return = "success";
+                }
+            }*/
+            $return;
+            
+        } catch (Exception $ex) {
+            Yii::log("User:updateUserStatus::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+        return $return;
+    }
     
     
     
