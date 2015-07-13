@@ -361,7 +361,7 @@ class ExtendedSurveyController extends Controller {
                                  $k = 0;
                                 foreach ($value as $m) {
                                     error_log("************AnswerSelected555*****$m");
-                                    $ExSurveyBean->Answers =  explode(",",trim($m));
+                                    $ExSurveyBean->Answers =  explode(",",$m);
                                     
                                 }
                                

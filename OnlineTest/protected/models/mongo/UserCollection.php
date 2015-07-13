@@ -96,7 +96,7 @@ class UserCollection extends EMongoDocument {
             $returnValue = 'false';
             $userCollection = new UserCollection();
             $userCollection->UserId=(int)$userModel->UserId;
-            $userCollection->uniqueHandle =$userCollectionModel->uniqueHandle;
+            $userCollection->uniqueHandle =$userModel->uniqueHandle;
             $userCollection->ProfilePicture = Yii::app()->params['ServerURL'] . "/upload/profile/".$userModel->ProfilePicture;
          
        

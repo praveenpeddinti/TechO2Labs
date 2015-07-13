@@ -182,7 +182,9 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                                 $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
                                 Yii::app()->session['TinyUserCollectionObj'] = $tinyUserCollectionObj;
                                 Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
-                                $obj = array('status' => 'success', 'data' => '', 'error' => ""); 
+                                
+                                error_log("***********testInfo*".print_r($testInfo,1));
+                                $obj = array('status' => 'success', 'testInfo' => $testInfo, 'error' => ""); 
                             }else {
                                 $obj = array('status' => 'error', 'error' => 'Test taker already taken Test.');  
                             }
@@ -202,8 +204,10 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
         }
     } 
      public function actionPrivacyPolicy() {
+         $testRegObj = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId(Yii::app()->session['TinyUserCollectionObj']->UserId);
+         $testInfo = TestPreparationCollection::model()->getTestDetails($testRegObj->TestId);
        $PrivacyPolicyForm = new PrivacyPolicyForm();
-     $this->render('privacyPolicy', array("PrivacyPolicyForm"=>$PrivacyPolicyForm));          
+     $this->render('privacyPolicy', array("PrivacyPolicyForm"=>$PrivacyPolicyForm,"TestInfo"=>$testInfo));          
       }             
       
 }

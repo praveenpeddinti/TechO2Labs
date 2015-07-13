@@ -455,7 +455,7 @@ function get_values_for_keys($mapping, $keys) {
                         $userQuestionObj = UserQuestionsCollection::model()->getPreparedTest($questionTempId);
                         UserQuestionsCollection::model()->updateTimeStamp($categoryId,$questionTempId,$time);
                         $questionprepareObj = TestPreparationCollection::model()->getTestDetails($userQuestionObj->Testid);
-                        error_log("@@@@@@@");
+                        error_log("@@@@@@@1234");
                         $eachQuestionScore=0;
                         foreach ($questionprepareObj->Category as $row){
                           if((String)$row['ScheduleId']==$QuestionsSurveyForm->ScheduleId)  {
@@ -537,7 +537,7 @@ function get_values_for_keys($mapping, $keys) {
                                         }
                                     }
                                 }
-                           //error_log("==122222222222222222222========questiontype======++++#$questionType");
+                           error_log("==122222222222222222222========questiontype======++++#$questionType");
                             
                             if($key == "OptionsSelected"){
                                 $k=0;
@@ -898,7 +898,7 @@ function get_values_for_keys($mapping, $keys) {
                     }
                      $fromPage = $_REQUEST["Page"];
                      $NetworkId=1;
-                    // error_log("Iam form".print_r($QuestionsSurveyForm,true));
+                    error_log("Iam form".print_r($QuestionsSurveyForm,true));
                      $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId);
 
 

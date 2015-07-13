@@ -24,7 +24,6 @@
                             </th>
                         </tr></thead>
                     <tbody>
-                        
                         <?php $i=1;foreach($reportData as $Details){?> 
                         <tr class="<?php if($i%2==0){echo "odd";}else{echo "even";} ?>" >
                             <td class="data_t_hide">

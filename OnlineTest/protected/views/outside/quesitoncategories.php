@@ -77,8 +77,8 @@
                                            $(function(){
 
                                     $('#hms_timer').countdowntimer({
-                                        hours : 1,
-                                        minutes :1,//<?php //echo $row['CategoryTime']; ?>,
+                                        hours : 0,
+                                        minutes :Totaltime,//<?php //echo $row['CategoryTime']; ?>,
                                         seconds : 0,
                                         size : "lg",
 					pauseButton : "hms_timer_hidden",

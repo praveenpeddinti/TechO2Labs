@@ -190,6 +190,12 @@ var TotalTimerDivs={};
           var currentPage=0;   
          $(".questionnos").live("click",function(){   //question by number            
              var $this = $(this);
+             //$("#"+questionActiveID).css("background-color", "");
+//             if ($("#"+questionActiveID).css('background-color') == 'green') {
+//              $("#"+questionActiveID).css("background-color", "green");   
+//             }else{
+//                $("#"+questionActiveID).css("background-color", ""); 
+//             }
              $(".questionnos").removeClass("active");
                 previousValidation();
              //$this.addClass("active");

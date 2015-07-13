@@ -1221,14 +1221,22 @@ class ScheduleSurveyCollection extends EMongoDocument {
                     array_push($categoryLabels, $category['CategoryName']);
                 }
             }
+                 error_log("@@@@@@@@@@@asdfasdf@@@@@@@@@@@@@@@@");
 
             $userReportObject = array();
             foreach ($testTakenUsers as $user) {
                 $userReportBean = new UserReportBean();
                 $userObject = UserCollection::model()->getTinyUserCollection($user);
+                $user=User::model()->getUserByType("UserId",$userObject->UserId);
+                $tregisterobject=TestRegister::model()->getUserTestObjectByUserIdTestId($userObject->UserId,$testId);
+                 $userReportBean->testDate = $tregisterobject->RegistredDate;
+                 error_log($userReportBean->testDate ."@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 $userReportBean->userName = $userObject->uniqueHandle;
                 $userReportBean->userId = $userObject->UserId;
-                $userReportBean->totalQuestions = $totalQuestions;
+                $userReportBean->profilepic = $userObject->ProfilePicture;
+                $userReportBean->Phone = $userObject->Phone;
+                 $userReportBean->PhoneNumber = $user->PhoneNumber;
+                $userReportBean->Qualification = $user->Qualification;;
                 $userCategoryScoreArray = array();
                 $totalMarks = 0;
                  $systemMarks = 0;

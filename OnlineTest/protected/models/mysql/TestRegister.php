@@ -195,7 +195,7 @@ TestRegister T on U.UserId not in (T.UserId)";*/
     public function updateTestByUserId($userId,$val){
         try{
             $result = "failure";
-            $query="update TestRegister set Status = $val where UserId = $userId";
+            $query="update TestRegister set Status = $val,LoginDate = now() where UserId = $userId";
             error_log("******updateRegister111111+++$query");
             if(Yii::app()->db->createCommand($query)->execute()){
                 $result = "success";
@@ -214,6 +214,18 @@ TestRegister T on U.UserId not in (T.UserId)";*/
         } catch (Exception $ex) {
             error_log("TestRegister:getUserTestObjectByUserIdTestId::".$ex->getMessage());
         }
+    }
+    
+    public function getReportinfo($testId){
+        try{ error_log("************userObject##$testId");
+             $query="select r.RegistredDate,u.Phone,u.Qualification from TestRegister r join User1 u on r.UserId = u.UserId  where r.TestId = '".$testId."'";
+             error_log("****************Query".$query);
+             $result = Yii::app()->db->createCommand($query)->queryAll();
+             error_log("*******111111111111*****userObject##$testId".print_r($result,1));
+        } catch (Exception $ex) {
+            Yii::log("User:getReportinfo::".$ex->getMessage(), 'error', 'application');
+        }
+        
     }
     
 }

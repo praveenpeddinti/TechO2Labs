@@ -266,7 +266,7 @@ if(is_object($surveyObj)){ ?>
                         <td><?php if($optionsSize == $k && $question['AnyOther'] == 1){  ?>
                             <input type="hidden" name="QuestionsSurveyForm[OptionTextValue][<?php echo ($k."_".$i); ?>]"   id="QuestionsSurveyForm_OptionTextValue_<?php echo ($k."_".$i); ?>" class="OptionTextValueclass_<?php echo $i; ?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                             <div  class="positionrelative surveydeleteaction"   data-hidname="QuestionsSurveyForm_OptionOtherValue_<?php echo $k."_".$i;?>">
-                                <input maxlength="200" placeholder="<?php echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
+                                <input maxlength="200" placeholder="<?php //echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                                 <div class="control-group controlerror">
                                 <div style="display:none"  id="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i; ?>_em_" class="errorMessage"></div>
                             </div>
@@ -445,7 +445,7 @@ if(is_object($surveyObj)){ ?>
                             <td><?php if($optionsSize == $k && $question['AnyOther'] == 1){  ?>
                                 <input type="hidden" name="QuestionsSurveyForm[OptionTextValue][<?php echo ($k."_".$i); ?>]"   id="QuestionsSurveyForm_OptionTextValue_<?php echo ($k."_".$i); ?>" class="OptionTextValueclass_<?php echo $i; ?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                             <div  class="positionrelative surveydeleteaction"   data-hidname="QuestionsSurveyForm_OptionOtherValue_<?php echo $k."_".$i;?>">
-                                <input maxlength="200" placeholder="<?php echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
+                                <input maxlength="200" placeholder="<?php //echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                                 <div class="control-group controlerror">
                                 <div style="display:none"  id="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i; ?>_em_" class="errorMessage"></div>
                             </div>
@@ -997,8 +997,14 @@ sessionStorage.sharedURL = "";
            submitSurvey();
           
         });
+         
           function submitSurvey(){
-               $("#"+questionActiveID).css("background-color", "")
+//              if ($("#"+questionActiveID).css('background-color') == 'green') {
+//              $("#"+questionActiveID).css("background-color", "green");   
+//             }else{
+//                $("#"+questionActiveID).css("background-color", ""); 
+//             }
+               $("#"+questionActiveID).css("background-color", "");
              //alert("==submitsurvey===="+fromAutoSave)
               
                 if(fromAutoSave == 0){
@@ -1392,7 +1398,7 @@ function updateTextRadiohiddenFields(obj,rno,qno,col,maxValue){
               $("#prevQuestion").show();
          }
          pageStr = "Page <b><?php echo $page; ?></b> of <b><?php echo $totalpages; ?></b>"
-     
+
          
 <?php if($totalpages > 1){?>
 $("#pagenoforsurvey").html(pageStr).show();

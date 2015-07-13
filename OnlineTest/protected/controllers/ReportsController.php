@@ -63,6 +63,7 @@ class ReportsController extends Controller {
            $searchCategoryScore = $_POST["searchText"];
            $startLimit = $_POST["startLimit"];
            $pageLength = $_POST["pageLength"];
+           $userReport = TestRegister::model()->getReportinfo($testPaperId);
            $getTestReports = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTestReports('TestId', $testPaperId,$startDate,$endDate,$searchCategoryScore,$startLimit,$pageLength);
            $this->renderPartial("report",array("testPaperId"=>$testPaperId,"reportData"=>$getTestReports['data'],"total" => $getTestReports['totalTakenUsers'], "totalQuestions" => $getTestReports['totalQuestions'] ));
         } catch (Exception $ex) {
