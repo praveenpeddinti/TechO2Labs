@@ -1392,7 +1392,7 @@ function updateTextRadiohiddenFields(obj,rno,qno,col,maxValue){
               $("#prevQuestion").show();
          }
          pageStr = "Page <b><?php echo $page; ?></b> of <b><?php echo $totalpages; ?></b>"
-        alert('<?php echo $totalpages; ?>') 
+     
          
 <?php if($totalpages > 1){?>
 $("#pagenoforsurvey").html(pageStr).show();
