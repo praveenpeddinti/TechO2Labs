@@ -1181,7 +1181,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $testObject = TestPreparationCollection::model()->getTestDetails($testId);
             error_log("------count------".$testObject->NoofQuestions);
             $getTestUserObject = UserQuestionsCollection::model()->getTestUserDetails($testId, $startDate, $endDate, $startLimit, $pageLength);
-            error_log("date---".print_r($getTestUserObject,1));
+            //error_log("date---".print_r($getTestUserObject,1));
             $getTestTakenUsersCount = UserQuestionsCollection::model()->getTestTakenUsers($testId, $startDate, $endDate);
             //error_log("count000---".$getTestTakenUsersCount);
             foreach ($getTestUserObject as $u) {
@@ -1231,13 +1231,13 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 $userObject = UserCollection::model()->getTinyUserCollection($user);
                 $user=User::model()->getUserByType("UserId",$userObject->UserId);
                 $tregisterobject=TestRegister::model()->getUserTestObjectByUserIdTestId($userObject->UserId,$testId);
-                 $userReportBean->testDate = $tregisterobject->RegistredDate;
-                 error_log($userReportBean->testDate ."@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                 $userReportBean->testDate = $tregisterobject->LoginDate;
+                 error_log($userReportBean->testDate ."@@@@@@@@@@@@@@@@@@@@@@@@@@@".$userObject->UserId);
                 $userReportBean->userName = $userObject->uniqueHandle;
                 $userReportBean->userId = $userObject->UserId;
                 $userReportBean->profilepic = $userObject->ProfilePicture;
-                $userReportBean->Phone = $userObject->Phone;
-                 $userReportBean->PhoneNumber = $user->PhoneNumber;
+                //$userReportBean->Phone = $userObject->Phone;
+                 $userReportBean->PhoneNumber = $user->Phone;
                 $userReportBean->Qualification = $user->Qualification;;
                 $userCategoryScoreArray = array();
                 $totalMarks = 0;
