@@ -187,6 +187,7 @@
             $("#sucmsg").html("New Test taker added Successfully.").fadeOut(6000,"linear",function(){
                 getUsermanagementDetails(0, '', '');
             });
+        $("#employeeId_enrollment").hide();
         }else{
             var lengthvalue = data.error.length;            
             var error = [];

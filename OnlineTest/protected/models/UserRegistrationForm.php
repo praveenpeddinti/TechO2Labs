@@ -24,7 +24,7 @@ class UserRegistrationForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('FirstName,LastName,Email,Phone,CardNumber', 'required' ),
+			array('FirstName,LastName,Email,Phone', 'required' ),
                         array(
                             'FirstName',
                             'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
@@ -46,7 +46,16 @@ class UserRegistrationForm extends CFormModel
                       ),
                     array('Phone','numerical','integerOnly'=>true,'min'=>1111111111,'tooSmall'=>'{attribute} is too short(minimum is 10 numbers)',),
                     array('IdentityProof', 'required', 'message' => 'Please select IdentityProof'),
-                        array('FirstName,LastName,Email,Phone,IdentityProof,CardNumber,Imagesrc', 'safe'),
+                    array('IdentityProof', 'ext.YiiConditionalValidator.YiiConditionalValidator',
+                       'if' => array(
+                           array('IdentityProof', 'in', 'range'=>array('Pancard','Passport','Driving Licence'), 'allowEmpty'=>false)
+                           //array('IdentityProof', 'compare', 'compareAttribute'=>'IdentityProof', 'allowEmpty'=>true),
+                       ),
+                       'then' => array(
+                           array('CardNumber', 'required','message'=>'Please enter a value for Id Number'),
+                       ),),
+                    
+                    array('FirstName,LastName,Email,Phone,IdentityProof,CardNumber,Imagesrc', 'safe'),
 
                       );
            

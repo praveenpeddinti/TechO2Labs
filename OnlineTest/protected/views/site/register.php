@@ -84,7 +84,7 @@
                       <?php echo $form->error($model, 'IdentityProof'); ?>
                 </div>
                 
-                <div class="form-group loginform" id="pancarddiv">
+                <div class="form-group loginform" id="pancarddiv" style="display:none">
                     <label class="pancardlbl" for="Pancard" >Card Number</label>
                     <?php echo $form->textField($model,'CardNumber',array('maxlength' => 40, 'class' => 'form-control email')); ?>
                 </div>
@@ -142,6 +142,7 @@
    });*/
    
    $("#IdentityProof").change(function(){
+       $("#pancarddiv").show();
         var val = $(this).val();
         $("#UserRegistrationForm_IdentityProof").val(val);
         //alert("-----"+$("#UserRegistrationForm_IdentityProof").val());

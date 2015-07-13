@@ -57,9 +57,7 @@
                             <?php if($Details->reviewPendingCount>0){?>
                                  
                                  <input  class="btn" type="button" value="Review Now" >
-                                <?
-                                
-                            }else{ ?>
+                            <?php }else{ ?>
                                   <input  class="btn btn_gray" type="button" value="View Review" >
                                 
                            <?php  }

@@ -1290,7 +1290,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             }
 
             $returnValue = $getReportsDataArray;
-
+            error_log("------final----".print_r($getReportsDataArray,1));
             return array("data" => $returnValue, "totalTakenUsers" => $getTestTakenUsersCount,"totalQuestions" => $totalQuestions);
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');

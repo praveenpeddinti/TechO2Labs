@@ -372,7 +372,9 @@
             $("#sucmsgForInviteUsers").css("display", "block");
             $("#sucmsgForInviteUsers").html("Invite Users added Successfully.").fadeOut(6000,"linear",function(){
                 getInviteUsersWithFiltersDetails(TestId,0,"all",'');
+                //getCollectionData('/testPaper/LoadSurveyWall', 'ExtendedSurveyBean', 'surveyDashboardWall', 'No data found', 'No more data');
             });
+            //$("#newModal").modal('hide');
         }
     }
     
