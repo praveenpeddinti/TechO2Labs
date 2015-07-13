@@ -13,6 +13,11 @@ class UserReportBean{
     public $reviewMarks;
     public $totalReviewQ;
     public $reviewPendingCount;
+     public $profilepic;
+     public $PhoneNumber;
+     public $Qualification;
+     
+     
     
             
 }
