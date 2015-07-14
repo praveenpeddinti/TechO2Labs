@@ -10,17 +10,20 @@
     </div>
   
     <div class="upload_profile  ">
-<div class="generalprofileicon skiptaiconwidth190x190">
+<div class="generalprofileicon skiptaiconwidth190x190 ">
+    
+    <div class="skiptaiconinner"> 
+    <img id="default_img" src="images/users/noimage.png">
 <video id="video" autoplay></video>    
 
    
 	<canvas id="canvas" width="200" height="200"></canvas>
-    
+    </div>
 </div>
-         <button onclick="Captureimage()"  id="new">New</button>
+         <a onclick="Captureimage()"  id="new"><img src="images/icons/takeaPick.png"></a>
      <button id="snap">Capture</button>
     <button id="upload" style="display:none;">Upload</button>
-<p>Upload your Picture</p>
+
  </div>
     <div class="row">
         <div class="col-xs-12 ">
@@ -37,7 +40,7 @@
                     ),
                 ));
                 ?>
-                <div id="error" class="errorMessage" style="display: none;"></div>
+              
                 <div class="form-group loginform" id="fnamediv">
                     <label class="usernamelbl" for="FirstName" >First Name</label>
                     <?php echo $form->textField($model,'FirstName',array('maxlength' => 40, 'class' => 'form-control email')); ?>
@@ -91,6 +94,7 @@
                 <div class="control-group controlerror"> 
                     <?php echo $form->error($model, 'CardNumber'); ?>
                 </div>
+                  <div id="error" class="errorMessage" style="display: none;"></div>
                 <div class="row">
                     <div class="col-xs-12 text-center">
                     <?php
@@ -161,19 +165,19 @@
                 if (data.error == "Test taker doesnot exist."){ 
                     $("#error").text(data.error);
                     $("#error").show();
-                    $("#error").fadeOut(5000);
+                    $("#error").fadeOut(10000);
                     $("#error").parent().addClass('error');
                 }
                 if (data.error == "Test taker already taken Test."){ 
                     $("#error").text(data.error);
                     $("#error").show();
-                    $("#error").fadeOut(5000);
+                    $("#error").fadeOut(10000);
                     $("#error").parent().addClass('error');
                 }
                 if (data.error == "Test taker not allowed."){ 
                     $("#error").text(data.error);
                     $("#error").show();
-                    $("#error").fadeOut(5000);
+                    $("#error").fadeOut(10000);
                     $("#error").parent().addClass('error');
                 }
             } else {
@@ -187,7 +191,7 @@
                     if ($("#" + key + "_em_")) {
                         $("#" + key + "_em_").text(val);
                         $("#" + key + "_em_").show();
-                        $("#" + key + "_em_").fadeOut(5000);
+                        $("#" + key + "_em_").fadeOut(8000);
                         $("#" + key).parent().addClass('error');
                     }
 
@@ -196,9 +200,10 @@
         }
     }
     
-
+$('#snap').hide();
     function Captureimage(){
-        
+      $("#default_img").hide();
+      $('#snap').show();
      var canvas = document.getElementById("canvas"),
 				context = canvas.getContext("2d"),
 				video = document.getElementById("video"),

@@ -40,15 +40,12 @@
         
      $(function(){
          
-         if('<?php echo ($k+1); ?>'==1){
-     m=0        
-    }else{ m=7;
-    }
+   
                                     $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
                                         hours : <?php echo gmdate("H",  $row['CategoryTime']); ?>,
-                                        //minutes :0,
-                                        minutes:2,
-                                        seconds : 00,
+                                        minutes :20,
+                                        //minutes:<?php //echo gmdate("i",  $row['CategoryTime']); ?>,
+                                        seconds : 10,
                                         size : "lg",
 					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
 					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
@@ -82,8 +79,8 @@
 
                                     $('#hms_timer').countdowntimer({
                                         hours : <?php echo gmdate("H",  $Totaltime); ?>,
-                                        minutes :3,
-                                        seconds :10,
+                                        minutes :10,
+                                        seconds :<?php echo gmdate("s",  $Totaltime); ?>,
                                         size : "lg",
 					pauseButton : "hms_timer_hidden",
 					stopButton : "hms_timer_stop",

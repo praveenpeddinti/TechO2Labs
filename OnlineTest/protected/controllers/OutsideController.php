@@ -943,7 +943,7 @@ function get_values_for_keys($mapping, $keys) {
 
     $matchedSize=0;
     for($i=0;$i<sizeof($array1);$i++){
-        if(isset($array1[$i]) && isset($array2[$i])){
+        if(isset($array1[$i])  && isset($array2[$i] ) && (is_array($array1[$i])  && is_array($array2[$i]))){
          $matchedSize=$matchedSize+sizeof(array_intersect($array1[$i], $array2[$i]));
         }
     }

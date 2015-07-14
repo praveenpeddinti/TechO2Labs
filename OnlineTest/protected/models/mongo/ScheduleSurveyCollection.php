@@ -1187,6 +1187,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 
                 array_push($TestTakenUsers, $u['UserId']);
             }
+            $TestTakenUsers=array_values(array_unique($TestTakenUsers));
             $categories = $testObject->Category;
             //$testTakenUsers = $testObject->TestTakenUsers;
             $testTakenUsers = $TestTakenUsers;

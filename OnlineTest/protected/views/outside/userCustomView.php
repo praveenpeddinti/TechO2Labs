@@ -228,7 +228,8 @@ if(is_object($surveyObj)){ ?>
          <input type="hidden" name="QuestionsSurveyForm[OptionsSelected][<?php if($question['MatrixType'] == 3)echo ($sno) ;else echo ($i) ?>]"   id="QuestionsSurveyForm_OptionsSelected_<?php echo ($i); ?>" value="<?php if(isset($userAnswer) && sizeof($userAnswer) > 0){ echo implode(",", $userAnswer);} ?>"/>
                        <div class="surveyquestionsbox"  data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
                           
-                           <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_OptionsSelected_<?php if($question['MatrixType'] == 3)echo ($sno) ;else echo ($i)  ?>_em_" class="errorMessage"></div>
+                           
+                           <div class="alert alert-error" style="display:none"  id="QuestionSurveyForm_OptionsSelected_fill_1" class="errorMessage"></div>
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
@@ -398,7 +399,7 @@ if(is_object($surveyObj)){ ?>
                 <div class="surveyquestionsbox"  data-questionId="<?php echo $question['QuestionId']; ?>" data-questionno="<?php echo $i; ?>">
                      
                     <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_OptionsSelected_<?php if($question['MatrixType'] == 3)echo ($sno) ;else echo ($i) ?>_em_" class="errorMessage"></div>                        
-                    
+                    <div class="alert alert-error" style="display:none"  id="QuestionSurveyForm_OptionsSelected_fill_1" class="errorMessage"></div>
                     <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
                            <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
@@ -1050,6 +1051,8 @@ sessionStorage.sharedURL = "";
                        }else if($.trim($("#QuestionsSurveyForm_OptionsSelected_"+i).val()) != "" && $("#QuestionsSurveyForm_OptionsSelected_"+i).val() ){
                                ValidateQuestions(i, qCount);                               
                         } else{
+                          
+                            ValidateQuestions(i, qCount);  
                             if(fromAutoSave == 0){
                                 Garray[i - 1] = $("#questionviewWidget_"+i).serialize(); 
                             }else{
@@ -1109,6 +1112,8 @@ sessionStorage.sharedURL = "";
                                    isValidate++;  
 
                                }
+                            }else{
+                                Garray[qNo - 1] = serializeddata; 
                             }                
 
                        ValidateQuestionsHandler(data,qNo)
@@ -1120,13 +1125,11 @@ sessionStorage.sharedURL = "";
                 });
             }
         function ValidateQuestionsHandler(data,qNo){
-            var data = eval(data);  
-           
-            if (data.status == 'success') {
+            var data = eval(data);
+            if (data.status == 'success' || $("#QuestionsSurveyForm_WidgetType_"+qNo).val() == 5 || $("#QuestionsSurveyForm_WidgetType_"+qNo).val() == 6) {
                $("#QuestionsSurveyForm_IsCompleted").val(1);   
-
-                $("#"+questionActiveID).css("background-color", "green")
-               // scrollPleaseWaitClose('surveyviewspinner');
+               if(data.status == 'success')
+                $("#"+questionActiveID).css("background-color", "green");
                isValidated = true;
                saveAnswersForQuestions();
                  if(isValidate == qCount || fromAutoSave == 1){ 
@@ -1138,7 +1141,7 @@ sessionStorage.sharedURL = "";
 
             } else {   
                 $("#QuestionsSurveyForm_IsCompleted").val(0); 
-                Garray = new Array();
+                
                
                  scrollPleaseWaitClose('surveyviewspinner');
                  
@@ -1154,21 +1157,13 @@ sessionStorage.sharedURL = "";
                 } else {
                     var error = eval(data.error);
                 }
-                $.each(error, function(key, val) {                       
+                $.each(error, function(key, val) {                        
                         var strArr = key.split("_");  
-                            if($.trim(strArr[1]) == "OptionValue"){                            
-                            $("#QuestionsSurveyForm_OptionsSelected_"+strArr[3]+"_em_").text("Please fill all the fields");
-                            $("#QuestionsSurveyForm_OptionsSelected_"+strArr[3]+"_em_").show();
-                           // $("#QuestionsSurveyForm_OptionsSelected_"+strArr[3]+"_em_").fadeOut(9000);
-                            $("#QuestionsSurveyForm_OptionsSelected_"+strArr[3]+"_em_").addClass('error');
+                        if($("#QuestionsSurveyForm_WidgetType_"+qNo).val() == 3 || $("#QuestionsSurveyForm_WidgetType_"+qNo).val() == 4){
+                            saveAnswersForQuestions()
                             
-                        }else if($.trim(strArr[1]) == "TextOptionValues"){                            
-                            $("#QuestionsSurveyForm_OptionsSelected_"+strArr[4]+"_em_").text("Please fill all the fields");
-                            $("#QuestionsSurveyForm_OptionsSelected_"+strArr[4]+"_em_").show();
-                           // $("#QuestionsSurveyForm_OptionsSelected_"+strArr[3]+"_em_").fadeOut(9000);
-                            $("#QuestionsSurveyForm_OptionsSelected_"+strArr[4]+"_em_").addClass('error');
-                            
-                        }else if ($("#" + key + "_em_")) {                            
+                        }
+                        else if ($("#" + key + "_em_")) {                            
                             $("#" + key + "_em_").text(val);
                             $("#" + key + "_em_").show();
                           //  $("#" + key + "_em_").fadeOut(9000);
@@ -1178,6 +1173,7 @@ sessionStorage.sharedURL = "";
 
 
                 });
+                
                 
             }
              //console.log("count fo garray---"+Garray.length+"---"+isValidate);
@@ -1208,7 +1204,7 @@ sessionStorage.sharedURL = "";
         }
         
         function saveAnswersForQuestions(){
-            
+           
            if($("#surveySavingRes").length>0 && fromAutoSave == 0){
                 $("#surveySavingRes").show();  
                 $("#surveySavingRes").attr("style","margin-top:10px");
@@ -1219,11 +1215,9 @@ sessionStorage.sharedURL = "";
   
               $("#QuestionsSurveyForm_Time").val(parseInt(getCurrentTimeCategory("hms_timer"+position[2])));
             $("#QuestionsSurveyForm_Questions").val(JSON.stringify(Garray));
-            alert( $("#QuestionsSurveyForm_Questions").val())
             $("#QuestionsSurveyForm_QuestionTempId").val('<?php echo $UserTempId?>');
             var data = $("#questionviewwidget").serialize();             
-           alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"===="+data.toSource())
-            if(isValidated == true){
+//            if(isValidated == true){
                 //alert("kin");
                 isValidate = 0;
                 isValidated = false;
@@ -1233,7 +1227,7 @@ sessionStorage.sharedURL = "";
                     data: data,
                     success: function(data) {
                       $("#surveySavingRes").hide();
-                       
+                       Garray = new Array();
                            if(fromAutoSave == 0){
                         if(data != "error"){
                            //alert(lastPage);
@@ -1272,14 +1266,14 @@ sessionStorage.sharedURL = "";
                     },
                     dataType: 'html'
                 });
-            }else {
-                isValidate = 0;
-                $("#userviewErrMessage").text("Please choose at least one survey");
-                $("#userviewErrMessage").show();
-                $("#userviewErrMessage").fadeOut(100000,function(){
-                    $("#userviewErrMessage").hide();
-                });                        
-            }
+//            }else {
+//                isValidate = 0;
+//                $("#userviewErrMessage").text("Please choose at least one survey");
+//                $("#userviewErrMessage").show();
+//                $("#userviewErrMessage").fadeOut(100000,function(){
+//                    $("#userviewErrMessage").hide();
+//                });                        
+//            }
         }
         function callSetIntervalForSurvey(){
             if(autoSaveInterval != null && autoSaveInterval != "undefined"){
@@ -1694,44 +1688,7 @@ $("#"+questionActiveID).css("background-color", "orange");
                 var widtype = $("#QuestionsSurveyForm_WidgetType_"+i).val();
         var isMandatory = $("#QuestionsSurveyForm_IsMadatory_"+i).val(); 
              //   alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"=i=="+i)
-                if(isMandatory == 1){
-
-                     PreviousValidateQuestions(1, 1);
-                }else{
-//                    if(widtype == 3 || widtype == 4 ){                       
-//                       options = $("#QuestionsSurveyForm_OptionsSelected_"+i).val();
-//                       if(options != "" && options != 0){                           
-//                            ValidateQuestions(i, qCount);
-//                        }else{
-//                            Garray[i - 1] = $("#questionviewWidget_"+i).serialize();
-//                        }
-//                        if(isValidate <= qCount){
-//                            isValidate++;      
-//                        }
-//                    }
- //ValidateQuestions(i, qCount);
-                       if($(".booleanwidget_"+i).is(":visible")){
-                           PreviousValidateQuestions(1, 1);
-                       }else if($.trim($("#QuestionsSurveyForm_OptionsSelected_"+i).val()) != "" && $("#QuestionsSurveyForm_OptionsSelected_"+i).val() ){
-                               PreviousValidateQuestions(i, qCount);                               
-                        } else{
-                            if(fromAutoSave == 0){
-                                Garray[i - 1] = $("#questionviewWidget_"+i).serialize(); 
-                            }else{
-                                 Garray[0] = $("#questionviewWidget_"+i).serialize();
-                            }
-                           
-                            if(isValidate <= qCount){
-                                isValidate++;      
-                            }                                                                                
-
-                             if(isValidate == qCount || fromAutoSave == 1){ 
-                                isValidated = true;
-                               // saveAnswersForQuestions();
-                            } 
-                        }
-
-                    }
+                 PreviousValidateQuestions(i, qCount);  
                
                                     
              }
@@ -1783,9 +1740,9 @@ $("#"+questionActiveID).css("background-color", "orange");
   function previousValidateQuestionsHandler(data,qNo){
             var data = eval(data);  
            $("#"+questionActiveID).css("background-color", "")
-            if (data.status == 'success') {
+           if (data.status == 'success' || $("#QuestionsSurveyForm_WidgetType_"+qNo).val() == 5) {
                $("#QuestionsSurveyForm_IsCompleted").val(1);   
-
+               if(data.status == 'success')
                 $("#"+questionActiveID).css("background-color", "green")
             }
         }
@@ -1798,12 +1755,9 @@ $("#"+questionActiveID).css("background-color", "orange");
       
    
           function buttonhideing(categoryId){
-          //  alert(categoryId)
-         //   alert(CategoryIdwithCategory.toSource())
-           //          if(CategoryIdArray.indexOf(categoryId)>0){
-          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
+
                openCategory=arr_diff(CategoryDivs,closedCategory);
-             //  alert(CategoryIdArray.indexOf(categoryId))
+       
                if(CategoryIdArray.indexOf(categoryId)==0 && sureyQuestionPage==1){
                     $("#prevQuestion").hide(); 
                }
@@ -1829,15 +1783,8 @@ $("#"+questionActiveID).css("background-color", "orange");
 //       }
        }
         function submitPreSurvey(){
-     alert("II m Time out particular category"+questionActiveID)
             $("#"+questionActiveID).css("background-color", "");
-//              $("#"+questionActiveID).css("background-color", "green");   
-//             }else{
-//                $("#"+questionActiveID).css("background-color", ""); 
-//             }
-            
-             //alert("==submitsurvey===="+fromAutoSave)
-              
+
         
             
              for(var i =1; i<=1;i++){
