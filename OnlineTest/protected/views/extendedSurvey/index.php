@@ -771,7 +771,7 @@ bindToMandatory();
     }
     function insertText(id) {
         //IsAlphaNumeric(id);
-        alert(pId + id)
+      
         var pId = $("#" + id).attr("data-hiddenname");  
         
         $("#" + pId).val($("#" + id).val());
