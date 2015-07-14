@@ -771,7 +771,9 @@ bindToMandatory();
     }
     function insertText(id) {
         //IsAlphaNumeric(id);
+        alert(pId + id)
         var pId = $("#" + id).attr("data-hiddenname");  
+        
         $("#" + pId).val($("#" + id).val());
     }
 
@@ -2209,7 +2211,7 @@ $(".snoofcols").live("change",function(){
         var questionId = $this.closest("div.answersection1").attr("data-questionId");         
         $("#ExtendedSurveyForm_StylingOption_hid_"+questionId).val(value);
     });
-<?php// } ?>
+
 function BrandPreviewImage(id, fileName, responseJSON, type)
     {
         var data = eval(responseJSON);
