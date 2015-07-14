@@ -51,7 +51,6 @@
         <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-switch.min.js"></script>
                 <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/ajaxfileupload.js"></script>
                 
-                <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/customwidgets.js"></script>
 
             <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.slicknav.js"></script>
             <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.countdownTimer.min.js"></script>
