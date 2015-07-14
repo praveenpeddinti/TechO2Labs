@@ -130,7 +130,7 @@
  
 <script type="text/javascript">
     Custom.init();
-    window.open("/index",'','_self'); 
+    
    /*$("#loginId").bind("click",function(){
        var data = $("#login-form").serialize();
         $.ajax({
@@ -156,7 +156,8 @@
     function testInviteLogincallback(data, txtstatus, xhr) {
         var data = eval(data);
         if (data.status == 'success') {
-                    window.location = '/site/privacyPolicy';
+                 //   window.location = '/site/privacyPolicy';
+                    window.open("/site/privacyPolicy",'','_self'); 
         }else {
             var lengthvalue = data.error.length;
             var msg = data.data;
