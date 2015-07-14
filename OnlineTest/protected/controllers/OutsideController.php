@@ -57,18 +57,16 @@ class OutsideController extends Controller {
     
     public function actionIndex() {
         try {
-            $userId = isset(Yii::app()->session['TinyUserCollectionObj']->UserId)?Yii::app()->session['TinyUserCollectionObj']->UserId:0;
-            error_log("====UserId==$userId=");
+            $userId = Yii::app()->session['TinyUserCollectionObj']->UserId;            
             $vType = "1";
             $testId = "";
             $testRegObj = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId($userId);
             if(isset($testRegObj) && sizeof($testRegObj)>0){
-                $testId = $testRegObj->TestId;
-            }            
+                $testId = $testRegObj[0]->TestId;
+            }     
+            echo $testId;
             $this->layout = 'adminLayout';
 
-            //$reg = TestRegister::model()->updateTestByUserId($userId,1);
-            error_log("******Registerduser***$userId*$reg");
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
             //error_log("=UserId==$userId====TestId=$testId==questionPrepObj===".print_r($questionprepareObj,1));
 //            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");   
@@ -299,7 +297,7 @@ class OutsideController extends Controller {
     
     public function actionRenderQuestionView(){
         try{
-              error_log("======Quegsrstion exception==@@@@@@@@@@@@@@@@@@@@===========");
+              error_log("======Quegsrstion ==@@@@@@@@@@@@@@@@@@@@===========");
             $surveyGroupName = $_REQUEST['GroupName'];
             $UserId = isset($_REQUEST['UserId'])?$_REQUEST['UserId']:1; // userId... 
             $surveyObj = "";
@@ -307,7 +305,7 @@ class OutsideController extends Controller {
             $scheduleId = "";
             $viewType = $_REQUEST['viewType'];
             $testId = $_REQUEST['TestId'];
-              error_log($testId."======Question exception==@@@@@@@@@@@@@@@@@@@@===========");
+              error_log($testId."======Question ==@@@@@@@@@@@@@@@@@@@@===========");
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
 //            //$questionprepareObj = TestPreparationCollection::model()->find($criteria);
             $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
@@ -776,7 +774,7 @@ function get_values_for_keys($mapping, $keys) {
                                     }
                                     if($widget34->IsReviewed == 0){
                                             $questionAns = CommonUtility::getAnswersByQuestionId($categoryId,$widget34->QuestionId);
-                                            $result = $this->recursive_array_intersect_key($questionAns, $widget34->Options);
+                                            $result = $this->recursive_array_intersect_key($questionAns, is_array($widget34->Options)?$widget34->Options:array());
                                          //   if(sizeof($widget34->Options) == sizeof($result)){
                                             error_log($result."I(am sizsizeeeeeeeeeeeeeeeeeeeeeSISEEEEEEEEe matrix");
                                       
@@ -945,7 +943,9 @@ function get_values_for_keys($mapping, $keys) {
 
     $matchedSize=0;
     for($i=0;$i<sizeof($array1);$i++){
+        if(isset($array1[$i]) && isset($array2[$i])){
          $matchedSize=$matchedSize+sizeof(array_intersect($array1[$i], $array2[$i]));
+        }
     }
     return $matchedSize;
    
@@ -1196,13 +1196,13 @@ function get_values_for_keys($mapping, $keys) {
     
     public function actionRenderCategories(){
         try{
-              error_log("############Exception occurred########");
+              //error_log("############Exception occurred########");
             $testId = $_REQUEST['TestId'];
             $UserId = $_REQUEST['UserId'];
              $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
-                error_log("############Exception occurred########".$testId);
+                //error_log("############Exception occurred########".$testId);
            $getTestObj = TestPreparationCollection::model()->getTestDetailsById("Id",(string)$testId);
-             error_log("############Exception occurred########".$testId);
+             //error_log("############Exception occurred########".$testId);
 
             if($testquestionObj == "failure"){
               $testquestionObj = $this->prepareTempQuestions($getTestObj,$UserId,$testId); // saving temp. test for a user and fetching saved obj...           

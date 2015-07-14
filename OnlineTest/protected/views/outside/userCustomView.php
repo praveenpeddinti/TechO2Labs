@@ -266,7 +266,7 @@ if(is_object($surveyObj)){ ?>
                         <td><?php if($optionsSize == $k && $question['AnyOther'] == 1){  ?>
                             <input type="hidden" name="QuestionsSurveyForm[OptionTextValue][<?php echo ($k."_".$i); ?>]"   id="QuestionsSurveyForm_OptionTextValue_<?php echo ($k."_".$i); ?>" class="OptionTextValueclass_<?php echo $i; ?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                             <div  class="positionrelative surveydeleteaction"   data-hidname="QuestionsSurveyForm_OptionOtherValue_<?php echo $k."_".$i;?>">
-                                <input maxlength="200" placeholder="<?php //echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
+                                <input maxlength="200" placeholder="<?php echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                                 <div class="control-group controlerror">
                                 <div style="display:none"  id="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i; ?>_em_" class="errorMessage"></div>
                             </div>
@@ -445,7 +445,7 @@ if(is_object($surveyObj)){ ?>
                             <td><?php if($optionsSize == $k && $question['AnyOther'] == 1){  ?>
                                 <input type="hidden" name="QuestionsSurveyForm[OptionTextValue][<?php echo ($k."_".$i); ?>]"   id="QuestionsSurveyForm_OptionTextValue_<?php echo ($k."_".$i); ?>" class="OptionTextValueclass_<?php echo $i; ?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                             <div  class="positionrelative surveydeleteaction"   data-hidname="QuestionsSurveyForm_OptionOtherValue_<?php echo $k."_".$i;?>">
-                                <input maxlength="200" placeholder="<?php //echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
+                                <input maxlength="200" placeholder="<?php echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                                 <div class="control-group controlerror">
                                 <div style="display:none"  id="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i; ?>_em_" class="errorMessage"></div>
                             </div>
@@ -1027,7 +1027,7 @@ sessionStorage.sharedURL = "";
              for(var i =1; i<=1;i++){  
                  gQcnt++;
                 var widtype = $("#QuestionsSurveyForm_WidgetType_"+i).val();
-        var isMandatory = $("#QuestionsSurveyForm_IsMadatory_"+i).val(); 
+                var isMandatory = $("#QuestionsSurveyForm_IsMadatory_"+i).val(); 
              //   alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"=i=="+i)
                 if(isMandatory == 1){
 
@@ -1219,9 +1219,10 @@ sessionStorage.sharedURL = "";
   
               $("#QuestionsSurveyForm_Time").val(parseInt(getCurrentTimeCategory("hms_timer"+position[2])));
             $("#QuestionsSurveyForm_Questions").val(JSON.stringify(Garray));
+            alert( $("#QuestionsSurveyForm_Questions").val())
             $("#QuestionsSurveyForm_QuestionTempId").val('<?php echo $UserTempId?>');
             var data = $("#questionviewwidget").serialize();             
-            //alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"===="+data.toSource())
+           alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"===="+data.toSource())
             if(isValidated == true){
                 //alert("kin");
                 isValidate = 0;
@@ -1741,6 +1742,7 @@ $("#"+questionActiveID).css("background-color", "orange");
      
             
             var serializeddata = $("#questionviewWidget_"+qNo).serialize();
+            
 //            alert(data.toSource())
            // Garray[qNo - 1] = data;   
            // alert($("#QuestionsSurveyForm_OptionsSelected_"+qNo).val()+"===ValidateQuestions=========="+serializeddata.toSource())
@@ -1794,10 +1796,134 @@ $("#"+questionActiveID).css("background-color", "orange");
     
         activeCategoryDiv(CategoryIdwithCategory[categoryId]);
       
-        buttonhideing(categoryId)
-     
+   
+          function buttonhideing(categoryId){
+          //  alert(categoryId)
+         //   alert(CategoryIdwithCategory.toSource())
+           //          if(CategoryIdArray.indexOf(categoryId)>0){
+          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
+               openCategory=arr_diff(CategoryDivs,closedCategory);
+             //  alert(CategoryIdArray.indexOf(categoryId))
+               if(CategoryIdArray.indexOf(categoryId)==0 && sureyQuestionPage==1){
+                    $("#prevQuestion").hide(); 
+               }
+              else if(CategoryIdArray.indexOf(categoryId)>0 && sureyQuestionPage==1 ){
+              //    alert("asdfasdf")
+              //   alert(closedCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]])) 
+                 if(closedCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]])>=0){
+               //      alert("**")
+                    $("#prevQuestion").hide();   
+                 }
+        }
+//              alert(CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
+////               alert(openCategory)
+////               alert(CategoryDivs)
+////               alert(openCategory.length+"**"+CategoryDivs.length)
+//               if(closedCategory.indexOf(categoryId) && sureyQuestionPage==1){
+//          // alert(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]]));
+//           if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]])>=0){
+//               $("#prevQuestion").show(); 
+//           }else{
+//               $("#prevQuestion").hide(); 
+//           }
+//       }
+       }
+        function submitPreSurvey(){
+     alert("II m Time out particular category"+questionActiveID)
+            $("#"+questionActiveID).css("background-color", "");
+//              $("#"+questionActiveID).css("background-color", "green");   
+//             }else{
+//                $("#"+questionActiveID).css("background-color", ""); 
+//             }
+            
+             //alert("==submitsurvey===="+fromAutoSave)
+              
+        
+            
+             for(var i =1; i<=1;i++){
+            
+                isValidated = true;
+                savePresAnswersForQuestions();
+
+                
+               
+                                    
+             }
+ }
+ 
+  function savePresAnswersForQuestions(fromAutoSave,fromPagiNation){
+    
+           var serializeddata = $("#questionviewWidget_1").serialize();
+             Garray[0] = serializeddata;   
+   
+            var position=CategoryIdwithCategory[categoryId].split("_");
+  
+              $("#QuestionsSurveyForm_Time").val(parseInt(getCurrentTimeCategory("hms_timer"+position[2])));
+            $("#QuestionsSurveyForm_Questions").val(JSON.stringify(Garray));
+            $("#QuestionsSurveyForm_QuestionTempId").val('<?php echo $UserTempId?>');
+            var data = $("#questionviewwidget").serialize();   
+            
+    
+            isValidated = true;
+            //alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"===="+data.toSource())
+            if(isValidated == true){
+          
+                //alert("kin");
+                isValidate = 0;
+                isValidated = false;
+               
+               
+               
+                $.ajax({
+                    type: 'POST',
+                    url: '/outside/validateSurveyAnswersQuestion?fromPagination='+fromPagiNation+'&fromAutoSave='+fromAutoSave+'&Page='+sureyQuestionPage+'&QuestionTempId=<?php echo $UserTempId?>',
+                    data: data,
+                    success: function(data) {
+                      $("#surveySavingRes").hide();
+                       
+                           if(fromAutoSave == 0){
+                        if(data != "error"){
+                      {
+                            scrollPleaseWaitClose('surveyviewspinner');
+                             $("#surveysubmitbuttons").hide(); 
+//                                $("#surveyQuestionArea").html(data); 
+                                window.location.href = "/outside/thankyouPage?done=done";
+                        }
+                       
+
+                         }else{
+                            scrollPleaseWaitClose('surveyviewspinner');
+                            $("#userviewErrMessage").text("Please choose at least one survey");
+                            $("#userviewErrMessage").show();
+                            $("#userviewErrMessage").fadeOut(100000,function(){
+                                $("#userviewErrMessage").hide();
+                            });                        
+    //                        $('body, html').animate({scrollTop : 0}, 800,function(){});
+                        }
+                       
+                  
+                           }else{
+                               scrollPleaseWaitClose('surveyviewspinner');
+                           }
+                    },
+                    error: function(data) { // if error occured
+                        //alert(data.toSource())
+                    },
+                    dataType: 'html'
+                });
+            }else {
+                isValidate = 0;
+                $("#userviewErrMessage").text("Please choose at least one survey");
+                $("#userviewErrMessage").show();
+                $("#userviewErrMessage").fadeOut(100000,function(){
+                    $("#userviewErrMessage").hide();
+                });                        
+            }
+        }
+       buttonhideing(categoryId)
     </script>
 
 
   <?php       }else{echo $errMessage; }
 ?>
+

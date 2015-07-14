@@ -40,11 +40,15 @@
         
      $(function(){
          
+         if('<?php echo ($k+1); ?>'==1){
+     m=0        
+    }else{ m=7;
+    }
                                     $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
                                         hours : <?php echo gmdate("H",  $row['CategoryTime']); ?>,
-                                        minutes :<?php echo gmdate("i",  $row['CategoryTime']); ?>,
-                                        //minutes:10,
-                                        seconds : <?php echo gmdate("s",  $row['CategoryTime']); ?>,
+                                        //minutes :0,
+                                        minutes:2,
+                                        seconds : 00,
                                         size : "lg",
 					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
 					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
@@ -60,7 +64,7 @@
                                 });
                                TimerDivs=TimerDivs+","+"#hms_timer<?php echo ($k+1); ?>_hidden";
                                CategoryDivsID=CategoryDivsID+","+"#q_categories_<?php echo ($k+1); ?>";
-                               Totaltime = <?php echo $Totaltime = $Totaltime+$row['CategoryTime']; ?>;
+                               <?php $Totaltime = $Totaltime+$row['CategoryTime']; ?>;
                               
                                CategoryDivs.push("q_categories_<?php echo ($k+1); ?>");
                                CategoryIdArray.push("<?php echo $row['CategoryId']?>");
@@ -77,9 +81,9 @@
                                            $(function(){
 
                                     $('#hms_timer').countdowntimer({
-                                        hours : 0,
-                                        minutes :Totaltime,//<?php //echo $row['CategoryTime']; ?>,
-                                        seconds : 0,
+                                        hours : <?php echo gmdate("H",  $Totaltime); ?>,
+                                        minutes :10,<?php //echo gmdate("i",  $Totaltime); ?>//Totaltime,//<?php //echo $row['CategoryTime']; ?>,
+                                        seconds :0,<?php //echo gmdate("s",  $Totaltime); ?>
                                         size : "lg",
 					pauseButton : "hms_timer_hidden",
 					stopButton : "hms_timer_stop",

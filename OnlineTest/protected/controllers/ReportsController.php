@@ -63,7 +63,8 @@ class ReportsController extends Controller {
            $searchCategoryScore = $_POST["searchText"];
            $startLimit = $_POST["startLimit"];
            $pageLength = $_POST["pageLength"];
-           $userReport = TestRegister::model()->getReportinfo($testPaperId);
+           //$userReport = TestRegister::model()->getReportinfo($testPaperId);
+          // error_log("***************userRepor*".print_r($userReport,1));
            error_log("---1--enter reports---");
            $getTestReports = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTestReports('TestId', $testPaperId,$startDate,$endDate,$searchCategoryScore,$startLimit,$pageLength);
            error_log("--2---enter reports---".print_r($getTestReports,1));
