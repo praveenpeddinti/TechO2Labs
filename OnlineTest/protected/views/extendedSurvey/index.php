@@ -368,7 +368,7 @@ bindToMandatory();
         }
 
     }
-    <?php if(empty($surveyId) || $isAlreadySchedule == 0){?>
+    <?php //if(empty($surveyId) || $isAlreadySchedule == 0){?>
     $(".surveyradio,.surveycheckbox,.surveyratingranking,.surveypercent,.surveyQandA,.surveyuserranking,.surveybooleanfollowup").live('click', function() {
         var $this = $(this);
        
@@ -415,7 +415,7 @@ bindToMandatory();
         
               
             
-   <?php }?>
+   <?php //}?>
        <?php //if($isAlreadySchedule == 0){ ?>
     $("#newQuestion").click(function() {
                 questionsCount++;        
@@ -1546,12 +1546,22 @@ bindToMandatory();
        var radiovalue = "";
         var qId = $this.closest('div.answersection1').attr("data-questionId");
         var qtype = $this.closest('div.answersection1').attr("data-qtype");
-        //alert(qtype)
+       //alert(qtype)
         if(qtype == 3 ){
               var noptions = $("#ExtendedSurveyForm_NoofOptions_"+qId).val();
               var norows =$("#ExtendedSurveyForm_NoofRows_"+qId).val();
             var i = $this.attr("data-info");
-            
+           if($("#anyothervaluediv_"+qId+" span").attr("style") =="background-position: 0px -50px;"){
+              noptions++;
+              norows++;
+              
+          }
+          if($("#anyothersarea_"+qId+" span").attr("style") =="background-position: 0px -50px;"){
+              noptions++;
+              norows++;
+              
+          }
+             //alert(noptions+"**"+norows)
             //radiovalue=$("input[name='radio_"+i+"_"+qId+"']:checked").val();
             var count=0;
             $(".radiotype_"+qId).each(function(){
@@ -1610,7 +1620,7 @@ bindToMandatory();
     });
         
         
-        <?php if(empty($surveyId) || $isAlreadySchedule == 0){ ?>
+        <?php //if(empty($surveyId) || $isAlreadySchedule == 0){ ?>
         // boolean widget functions...
     $(".surveyradiofollowup").die().live("click",function(){ 
         var $this = $(this);        
@@ -2199,7 +2209,7 @@ $(".snoofcols").live("change",function(){
         var questionId = $this.closest("div.answersection1").attr("data-questionId");         
         $("#ExtendedSurveyForm_StylingOption_hid_"+questionId).val(value);
     });
-<?php } ?>
+<?php// } ?>
 function BrandPreviewImage(id, fileName, responseJSON, type)
     {
         var data = eval(responseJSON);

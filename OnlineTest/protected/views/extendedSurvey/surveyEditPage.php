@@ -1989,6 +1989,17 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                            }
                            
                         }); 
+                        if($("#anyothersarea_"+qId+" span").attr("style") =="background-position: 0px -50px;"){
+              noptions++;
+              norows++;
+              
+          }
+          if($("#anyothervaluediv_"+qId+" span").attr("style") =="background-position: 0px -50px;"){
+              noptions++;
+              norows++;
+              
+          }
+           
             
            //alert(radiovalue) 
            if(noptions == count || norows == count)
@@ -2000,7 +2011,7 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
             //radiovalue=$("input[name='radioinput']:checked").val();
             radiovalue=$this.find("input[name='radioinput']").val();
             $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
-           alert(radiovalue) 
+           //alert(radiovalue) 
         }
         //$("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
       $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
