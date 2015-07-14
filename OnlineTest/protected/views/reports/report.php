@@ -15,12 +15,12 @@
                              <th class="data_t_hide">System Marks</th>
                               <th class="data_t_hide">Review Marks</th>
                             <th class="data_t_hide">Review Pending / Total</th>
-                            <th class="data_t_hide">Action<?php echo $totalQuestions;?>
-                                <div rel="tooltip" title="TotalQuestion(s)" class="tabletopcorner tabletopcornerpaddingtop" style="float: right;cursor: pointer;">
+                            <th class="data_t_hide">Action
+                                <!--<div rel="tooltip" title="TotalQuestion(s)" class="tabletopcorner tabletopcornerpaddingtop" style="float: right;cursor: pointer;">
                                     <div class="label label-warning record_size">
-                                        <?php echo $totalQuestions;?> 
+                                        <?php //echo $totalQuestions;?> 
                                     </div>
-                                </div>
+                                </div>-->
                             </th>
                         </tr></thead>
                     <tbody>

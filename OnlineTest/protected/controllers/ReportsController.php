@@ -41,7 +41,8 @@ class ReportsController extends Controller {
                     $getTestReports = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTestReportsForIndex('TestId', $TestPaperId);
                     $inviteForm = new InviteUserForm();
                     //$TestPaperForm->Title = "test;;;;";
-                    $this->render('index',array("inviteForm" => $inviteForm,"testPaperId"=>$TestPaperId,"reportDataIndex"=>$getTestReports));
+                    $this->render('index',array("inviteForm" => $inviteForm,"testPaperId"=>$TestPaperId,"reportDataIndex"=>$getTestReports['categories'],"Title"=>$getTestReports['title'],"Questions"=>$getTestReports['CountQuestions']));
+                    //$this->render('index',array("inviteForm" => $inviteForm,"testPaperId"=>$TestPaperId,"reportDataIndex"=>$getTestReports));
                 } else {
                     $this->redirect('/');
                 }
@@ -55,7 +56,7 @@ class ReportsController extends Controller {
     }
 
     public function actionRenderReports(){
-        try{error_log("-----enter reports---");
+        try{
            $urlArray = explode("/", Yii::app()->request->url);
            $testPaperId = $_POST["testPaperId"];
            $startDate = $_POST["startDate"];
@@ -64,10 +65,7 @@ class ReportsController extends Controller {
            $startLimit = $_POST["startLimit"];
            $pageLength = $_POST["pageLength"];
            //$userReport = TestRegister::model()->getReportinfo($testPaperId);
-          // error_log("***************userRepor*".print_r($userReport,1));
-           error_log("---1--enter reports---");
            $getTestReports = ServiceFactory::getSkiptaExSurveyServiceInstance()->getTestReports('TestId', $testPaperId,$startDate,$endDate,$searchCategoryScore,$startLimit,$pageLength);
-           error_log("--2---enter reports---".print_r($getTestReports,1));
            $this->renderPartial("report",array("testPaperId"=>$testPaperId,"reportData"=>$getTestReports['data'],"total" => $getTestReports['totalTakenUsers'], "totalQuestions" => $getTestReports['totalQuestions'] ));
         } catch (Exception $ex) {
             error_log("Exception Occurred in ReportsController->actionRenderReports==" . $ex->getMessage());
@@ -94,7 +92,6 @@ class ReportsController extends Controller {
             $reviewQuestions = json_decode($_POST["data"], true);
            $reviewUserId = $_POST["reviewUserId"];
             foreach ($reviewQuestions as $key=>$reviewQuestion){
-               // error_log(print_r($reviewQuestion,1));
                 $testPaperId = $reviewQuestion["testPaperId"];
                 //$userId = $this->tinyObject->UserId;
                 $questionId = $reviewQuestion["questionId"];
@@ -108,7 +105,7 @@ class ReportsController extends Controller {
              $renderScript = $this->rendering($obj);
              echo $renderScript;
         } catch (Exception $ex) {
- error_log("Exception Occurred in ReportsController->actionRenderReports==" . $ex->getMessage());
+            error_log("Exception Occurred in ReportsController->actionRenderReports==" . $ex->getMessage());
             Yii::log("ReportsController:actionSaveReviewQuestions::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }

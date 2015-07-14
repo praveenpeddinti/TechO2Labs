@@ -126,6 +126,7 @@
  
 <script type="text/javascript">
     Custom.init();
+    window.open("/index",'','_self'); 
    /*$("#loginId").bind("click",function(){
        var data = $("#login-form").serialize();
         $.ajax({
@@ -146,11 +147,10 @@
         var val = $(this).val();
         if(val==''){$("#pancarddiv").hide()}else{$("#pancarddiv").show();};
         $("#UserRegistrationForm_IdentityProof").val(val);
-        //alert("-----"+$("#UserRegistrationForm_IdentityProof").val());
+        
     });
     function testInviteLogincallback(data, txtstatus, xhr) {
         var data = eval(data);
-        alert(data.toSource())
         if (data.status == 'success') {
                     window.location = '/site/privacyPolicy';
         }else {

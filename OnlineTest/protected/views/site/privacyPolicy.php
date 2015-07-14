@@ -43,20 +43,28 @@
                                 if(isset($TestInfo) && sizeof($TestInfo)>0){
                             ?>
                             
-                            <p><b>Test Title: </b><?php echo $TestInfo->Title ;?></p>
-                            <p><b>Test Description: <?php echo $TestInfo->Description; ?></p>
-                       <p><b>Total No. of Questions: <?php echo $TestInfo->NoofQuestions; ?></p>
+                            <p><b>Test Name: </b><?php echo $TestInfo->Title ;?></p>
+                            <p><b> Description: <?php echo $TestInfo->Description; ?></p>
+                       <p><b>Total Questions: <?php echo $TestInfo->NoofQuestions; ?></p>
                        <?php foreach($TestInfo->Category as $row) {
                            $totaltme +=$row['CategoryTime'];
                        } ?>
                        <p><b>Total Time: <?php echo $totaltme ?></p>
-                      <?php $i=1;  foreach ($TestInfo->Category as $row) { ?>
-                           <p><b>Section<?php echo $i ?>:<?php echo $row['CategoryName']; ?></p>
-                           <p><b>Number of Questions in Section<?php echo $i ?> :<?php echo $row['NoofQuestions']; ?></p>
-                           <p><b>Time for Section<?php echo $i ?>:<?php echo $row['CategoryTime']; ?></p>
-                                <?php  $i++;} }
+                       <table><tr><th>Category Name</th><th>No of Questions</th><th>Time</th></tr>
+                           <?php $i=1;  foreach ($TestInfo->Category as $row) { ?>
+                           <tr>
+                               <Td><?php echo $row['CategoryName']; ?></Td>
+                               <Td><?php echo $row['NoofQuestions']; ?></Td>
+                               <Td><?php echo $row['CategoryTime']; ?></Td>
+                           </tr>
+                           <!--<p><b>Section<?php //echo $i ?>:<?php //echo $row['CategoryName']; ?></p>
+                           <p><b>Number of Questions in Section<?php //echo $i ?> :<?php //echo $row['NoofQuestions']; ?></p>
+                           <p><b>Time for Section<?php //echo $i ?>:<?php //echo $row['CategoryTime']; ?></p>-->
+                                <?php  //$i++;} 
+                                
+                                }}
 ?>
-                       
+                       </table>
       
                        <div class="text-center">
  <?php echo CHtml::Button('Submit', array('onclick' => 'savePrepareTest();', 'class' => 'btn btn-primary btn-raised btn-custom', 'id' => 'surveyFormButtonId')); ?>
@@ -75,7 +83,8 @@
 <script type="text/javascript">
     
 function savePrepareTest() {
-     window.location.href = "/outside/index";
+    window.open('/outside/index','','toolbar=no');
+     //window.location.href = "/outside/index";
     
 //    ajaxRequest("/question/QuestionPrepare", 'UserId=' + $("#PrivacyPolicyForm_UserId").val() + '&TestId=' + $("#PrivacyPolicyForm_TestPaperId").val(), function(data) {
 //                    renderOptionswidgetHandler(data)
@@ -94,7 +103,7 @@ function savePrepareTest() {
 //                dataType: 'json'
 //        });
     }
-    function renderOptionswidgetHandler(data){ alert('kkkkkk=='+data.toSource());
+    function renderOptionswidgetHandler(data){ 
          window.location.href = "question/questionpaperview";
     }
         function privacyHandler(data){

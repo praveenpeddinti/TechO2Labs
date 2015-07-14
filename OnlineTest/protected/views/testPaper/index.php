@@ -162,14 +162,14 @@ $(document).ready(function(){
      //   addCategorydd('surveyGroupName',$('#surveyGroupName').val());
     //});
     //var foo = []; 
-//$('#surveyGroupName :selected').each(function(i, selected){ alert("-----");
+//$('#surveyGroupName :selected').each(function(i, selected){ 
 //  foo[i] = $(selected).text(); 
 //});
 
         //var allCategories=$('#surveyGroupName').val();
         //var Categories=allCategories.split(",");
         
-        //alert("==="+$('#surveyGroupName').val());
+        
         //addCategory('surveyGroupName',$(this).val());
         
     //});
@@ -199,9 +199,9 @@ $(document).ready(function(){
          
         
     // $("#TestPaperForm_SurveyRelatedGroupName").val('<?php //echo $surveyObj->SurveyRelatedGroupName; ?>');
-   /*$("#surveyGroupName").change(function(){alert("-ffff----");
+   /*$("#surveyGroupName").change(function(){
         var val = $(this).val();
-        alert("val--"+val);
+        
         $("#TestPaperForm_SurveyRelatedGroupName").val(val); }  */
     var questionsCount = 0; 
     var CategoryName ='';
@@ -227,7 +227,6 @@ $(document).ready(function(){
     $("#surveyGroupName").die().live("change",function(){
         
         
-        //alert("==="+$('#surveyGroupName').val());
         addCategory('surveyGroupName',$(this).val(),'','New');
         
     });
@@ -244,7 +243,7 @@ $(document).ready(function(){
             selectVal = selectVal+","+$("#surveyGroupName").val();
         }
         $("#TestPaperForm_SurveyRelatedGroupName").val(selectVal);
-           //alert("----selec----"+selectVal);  
+           
                 //$("#category option:selected").attr('disabled','disabled');
          if (selectVal == "ALL"){
                 // cannot disable all the options in select box
@@ -268,9 +267,6 @@ $(document).ready(function(){
     
     $(".subsectionremove").live('click', function() {
         var cqNo = $(this).parents('div.QuestionWidget').attr("data-questionId"); 
-            //alert("---1-ddddd----"+cqNo); 
-            
-            //alert(cqNo+"---2---"+$("#TestPaperForm_CategoryName_"+cqNo).val());
             
             //var cc=$("#TestPaperForm_CategoryName_"+cqNo).val();
 //            $("select option[value='B']").removeAttr("disabled");
@@ -278,13 +274,13 @@ $(document).ready(function(){
         //$("div .testPaperDiv #category option[value='2']").attr('disabled','');
             questionsCount--;
             if(questionsCount==0){$("#categoryHeaderDiv").hide();};
-        if (questionsCount >= 0) {//alert(questionsCount+"----");questionsCount--;
+        if (questionsCount >= 0) {
             $(this).parents('div.QuestionWidget').remove();
-            //alert("fffffssss--3-"+$("#"+cqNo+" option:selected").text());
+            
             if (questionsCount < TotalQuestions) {
                 $("#newQuestion").show();
             }
-        } else {//alert("rrcase ques1-----"+questionsCount);
+        } else {
             questionsCount = 1;
         }
         //updateDivs();
@@ -500,8 +496,7 @@ $(document).ready(function(){
                 data: data,
                 success: surveyFinalHandler,
                 error: function(data) { // if error occured
-                    // alert("Error occured.please try again==="+data.toSource());
-                    // alert(data.toSource());
+                    
                 },
                 dataType: 'json'
             });

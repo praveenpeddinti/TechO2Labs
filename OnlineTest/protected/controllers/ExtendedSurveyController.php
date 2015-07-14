@@ -16,7 +16,7 @@ class ExtendedSurveyController extends Controller {
         try{
 
             $this->layout = "adminLayout";
-
+             $this->pageTitle="QuestionBank";
         if (isset(Yii::app()->session['TinyUserCollectionObj']) && !empty(Yii::app()->session['TinyUserCollectionObj'])) {
             parent::init();
             $this->tinyObject = Yii::app()->session['TinyUserCollectionObj'];

@@ -3,8 +3,13 @@
 <div class="padding10ltb">
     <div class="row-fluid groupseperator headermarginzero" id="dashboardtop">
     <div class="span12 paddingtop10 border-bottom">
-        <div class="span12"><h2 class="pagetitle" id="pagetitle">Score Board</h2></div>
-      
+        <?php $t=0;foreach($reportDataIndex as $value){?>
+                            <?php $t=$t+$value['CategoryScore'];?>
+                            <?php }?>
+        <div class="span3"><h2 class="pagetitle" id="pagetitle">Score Board </h2></div>
+        <div class="span3"> <b>Test Name:</b> <?php echo $Title;?></div>
+        <div class="span3"> <b>Total Question(s):</b><?php echo $Questions ;?></div>
+        <div class="span3"> <b>Total Mark(s):</b><?php echo$t;?></div>
     </div>
   
 </div>    
@@ -102,7 +107,6 @@
             }//}
         });
         
-        //alert("cat-----"+searchText);
         getInviteUsersWithFiltersDetails(0,testPaperId,startDate,endDate,searchText);
         //var data= {"testPaperId":testPaperId,
         //           "startDate":startDate,             
@@ -211,12 +215,10 @@ $("#reviewNow").live("click",function(){
     var testPaperId = $(this).attr("data-testid");
     var userId = $(this).attr("data-userid");
      var data= {"testPaperId":testPaperId,"userId":userId};
-   // alert(data.toSource());
    sessionStorage.reviewUserId = userId;
    ajaxRequest("/reports/getReviewQuestions",data ,reviewQuestionsHandler, "html");
 });
 function reviewQuestionsHandler(html){
-    //alert(html);
     try{
           $("#newModal .modal-dialog").removeClass('info_modal');
         $("#newModal .modal-dialog").removeClass('alert_modal');
@@ -247,14 +249,10 @@ function getInviteUsersWithFiltersDetails(startLimit, testPaperId,startDate,endD
         if (startLimit == 0) {
             g_pageNumber = 1;
         }
-        //alert("ssss--2-"+g_pageLength);
         //if (searchText == 'search') {
           g_searchText = searchText;
         //}
         var queryString = "testPaperId="+testPaperId+"&startDate="+g_startdate+"&endDate=" + g_enddate + "&searchText=" + g_searchText + "&startLimit=" + startLimit + "&pageLength=" +g_pageLength;
-        //alert("querystring====="+queryString);
-        //scrollPleaseWait('spinner_admin');
-        //ajaxRequest("/reports/renderReports",data ,renderReportsHandler, "html");
         ajaxRequest("/reports/renderReports", queryString, renderReportsHandler,"html")        
     }
 
@@ -267,7 +265,6 @@ $("#submitReviewAnswers").live("click",function(){
     
     $("[name=reviewQuestions]").each(function( index ) {
          var result = new Object();
-      //alert( $( this ).attr("data-qid") + ": " + $( this ).attr("data-categoryId") + ": " + $( this ).attr("data-testId") + ": " +$( this ).val() );
      var testPaperId = $( this ).attr("data-testId");
      var questionId = $( this ).attr("data-qid");
      var categoryId = $( this ).attr("data-categoryId");
