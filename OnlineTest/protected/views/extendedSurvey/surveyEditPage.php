@@ -927,7 +927,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                    </td> 
                                                     <?php } ?>
             <?php }else if($question['TextOptions'] ==2){  for ($k = 0; $k < sizeof($question['LabelName']); $k++,$mi++) {       ?> 
-                                   <td><input value="<?php echo $question['Answers'][$mi]; ?>" type="hidden" name="ExtendedSurveyForm[MatrixAnswer][<?php echo $j . "_" . $k . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" />
+                                   <td><input value="<?php echo $question['Answers'][$j][$k]; ?>" type="hidden" name="ExtendedSurveyForm[MatrixAnswer][<?php echo $j . "_" . $k . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" />
                                                         <div class="positionrelative surveydeleteaction ">
                                                             
                                                         <input type="text" class="textfield textfieldtable notallowed"  value="<?php echo $question['Answers'][$j][$k]; ?>"  maxlength ="2" onkeyup="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" onblur="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" id="ExtendedSurveyForm_MatrixAnswer_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" onkeydown="allowNumericsAndCheckFields(event)" data-qid = "<?php echo ($i+1); ?>"/>
