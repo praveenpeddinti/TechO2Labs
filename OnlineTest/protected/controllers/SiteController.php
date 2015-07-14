@@ -158,7 +158,6 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                 if ((count($takerexist) > 0) && (count($takerPhoneexist) > 0) ) {
                     //if ( (count($takerPhoneexist) > 0) ) {
                         $checkUserTesttaken = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId($takerPhoneexist->UserId);
-                        
                         if(isset($checkUserTesttaken) && sizeof($checkUserTesttaken)>0){
                                 
                             if($checkUserTesttaken->Status==0){
@@ -182,9 +181,10 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                                 $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
                                 Yii::app()->session['TinyUserCollectionObj'] = $tinyUserCollectionObj;
                                 Yii::app()->session['IsAdmin'] = $userObj->IsAdmin;
-      
+    
                           
                                 $obj = array('status' => 'success', 'testInfo' => '', 'error' => ""); 
+
                             }else {
                                 $obj = array('status' => 'error', 'error' => 'Test taker already taken Test.');  
                             }

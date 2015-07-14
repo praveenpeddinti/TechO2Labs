@@ -30,8 +30,20 @@
 		
 	
 		function bindFocusEventsforInputs(className){
-		
-		$(className).find("input[type=text],input[type=password],.customselectformdiv ").focusin(function(){
+                
+                $(className).find(".customselectformdiv").live("click",function(){
+                    var $this = $(this);
+                    $(className).find(".idproof").attr("style","left:0px;color:#075067;font-size:13px;top:5px");
+                });
+        
+                $(className).find("label").live("click",function(){
+                    var $this = $(this);	
+                    $this.siblings().attr("class");
+                    $this.attr("style","left:0px;color:#075067;font-size:13px;top:5px");
+                    
+                 });
+                
+		$(className).find("input[type=text],input[type=password],").focusin(function(){
 			var $this = $(this);			
 			var value=$.trim($this.val());
 			var rightu = "0px";			

@@ -161,7 +161,6 @@ class TestPaperController extends Controller {
                         parse_str($f[$i], $searcharray);
                         $TestPreparationBean = new TestPreparationBean();
                         $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName', $categories[$i]);
-                        
                         $scheduleSurveyForm= new ScheduleSurveyForm();
                         $scheduleSurveyForm->StartDate = date("Y-m-d");
                         $scheduleSurveyForm->EndDate = date("Y-m-d");

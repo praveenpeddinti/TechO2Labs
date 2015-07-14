@@ -52,7 +52,12 @@ class UserRegistrationForm extends CFormModel
                            //array('IdentityProof', 'compare', 'compareAttribute'=>'IdentityProof', 'allowEmpty'=>true),
                        ),
                        'then' => array(
-                           array('CardNumber', 'required','message'=>'Please enter a value for Id Number'),
+                           array('CardNumber', 'required','message'=>'Please enter a value for Card Number'),
+                           array(
+                            'CardNumber',
+                            'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9]/',
+                            'message'=>Yii::t('translation','attribute_Invalid_characters')
+                      ),
                        ),),
                     
                     array('FirstName,LastName,Email,Phone,IdentityProof,CardNumber,Imagesrc', 'safe'),

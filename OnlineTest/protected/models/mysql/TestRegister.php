@@ -90,15 +90,15 @@ class TestRegister extends CActiveRecord {
                    
             }
             if((trim($startDate) != "") && (empty($searchText))){
-            $query="select UserId, FirstName, LastName, Email, Phone from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND $condition1 Order by UserId DESC limit $startLimit,$pageLength";
+            $query="select UserId, FirstName, LastName, Email, Phone from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND ($condition1) Order by UserId DESC limit $startLimit,$pageLength";
             //$query=  "select distinct(U.UserId),U.FirstName,U.LastName,U.Email,U.Phone,T.Status from User1 U right join 
 //TestRegister T on U.UserId not in (T.UserId) where $condition Order by U.UserId DESC limit $startLimit,$pageLength";
         }else if((trim($startDate) == "") && (!empty($searchText) && $searchText != "undefined" && $searchText != "null")){error_log("-----cond2----");
-            $query="select UserId, FirstName, LastName, Email, Phone from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND $condition Order by UserId DESC limit $startLimit,$pageLength";
+            $query="select UserId, FirstName, LastName, Email, Phone from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND ($condition) Order by UserId DESC limit $startLimit,$pageLength";
             //$query=  "select distinct(U.UserId),U.FirstName,U.LastName,U.Email,U.Phone,T.Status from User1 U right join 
 //TestRegister T on U.UserId not in (T.UserId) where $condition Order by U.UserId DESC limit $startLimit,$pageLength";
         }else if((trim($startDate) != "") && (!empty($searchText) && $searchText != "undefined" && $searchText != "null")){error_log("-----cond3----");
-            $query="select UserId, FirstName, LastName, Email, Phone from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND  $condition Order by UserId DESC limit $startLimit,$pageLength";
+            $query="select UserId, FirstName, LastName, Email, Phone from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND  ($condition) Order by UserId DESC limit $startLimit,$pageLength";
             //$query=  "select distinct(U.UserId),U.FirstName,U.LastName,U.Email,U.Phone,T.Status from User1 U right join 
 //TestRegister T on U.UserId not in (T.UserId) where $condition Order by U.UserId DESC limit $startLimit,$pageLength";
         }else{
@@ -107,7 +107,7 @@ class TestRegister extends CActiveRecord {
 //TestRegister T on U.UserId not in (T.UserId) Order by U.UserId DESC limit $startLimit,$pageLength";
             
         }
-        error_log("-----query----".$query);
+        error_log("-----queryinvite----".$query);
         $result = Yii::app()->db->createCommand($query)->queryAll(); 
         } catch (Exception $ex) {
             Yii::log("User:getUserProfile::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
@@ -154,17 +154,17 @@ class TestRegister extends CActiveRecord {
                    
             }
         if((trim($startDate) != "") && (empty($searchText))){
-        $query="select count(UserId) as totalCount from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND $condition1";
+        $query="select count(UserId) as totalCount from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND ($condition1)";
             
             /*$query=  "select count(distinct(U.UserId)) as totalCount from User1 U right join 
 TestRegister T on U.UserId not in (T.UserId) where $condition";*/
         }else if((trim($startDate) == "") && (!empty($searchText) && $searchText != "undefined" && $searchText != "null")){error_log("--count---cond2----");
-        $query="select count(UserId) as totalCount from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND $condition";
+        $query="select count(UserId) as totalCount from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND ($condition)";
             
             /*$query=  "select count(distinct(U.UserId)) as totalCount from User1 U right join 
 TestRegister T on U.UserId not in (T.UserId) where $condition";*/
         }else if((trim($startDate) != "") && (!empty($searchText) && $searchText != "undefined" && $searchText != "null")){error_log("--count---cond3----");
-        $query="select count(UserId) as totalCount from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND $condition";
+        $query="select count(UserId) as totalCount from User1 where UserId not in (select UserId from TestRegister where TestId ='$TestId') AND IsAdmin=0 AND ($condition)";
             
             /*$query=  "select count(distinct(U.UserId)) as totalCount from User1 U right join 
 TestRegister T on U.UserId not in (T.UserId) where $condition";*/
@@ -173,7 +173,7 @@ TestRegister T on U.UserId not in (T.UserId) where $condition";*/
             /*$query=  "select count(distinct(U.UserId)) as totalCount from User1 U right join 
 TestRegister T on U.UserId not in (T.UserId)";*/
         }
-      
+      error_log("-----queryinvite-count---".$query);
         $result = Yii::app()->db->createCommand($query)->queryRow(); 
         } catch (Exception $ex) {
             Yii::log("User:getUserProfileCount::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

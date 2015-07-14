@@ -1,6 +1,5 @@
 <?php include 'inviteUsersScript.php'; ?>
-<div class="alert alert-error" id="errmsgForInviteUsers" style='display: none'></div>
-<div class="alert alert-success" id="sucmsgForInviteUsers" style='display: none'></div> 
+
 
 <div class="padding10">    
     <?php
@@ -62,6 +61,7 @@
         </div>
     </div>
     <?php $this->endWidget(); ?>
+        
 </div>
     
     
@@ -79,7 +79,7 @@
     ));
     ?><?php echo $form->hiddenField($inviteForm, 'AllUsers',array("value"=>"")); ?>
     <?php echo $form->hiddenField($inviteForm, 'TestId',array("value"=>$surveyId)); ?>
-    <div class="alert alert-success" id="sucmsgForInviteUserTestSchedule" style='display: none'></div> 
+     
     <div id="CreatedDateDiv" class="row-fluid">
             <div class="span4">
                 &nbsp;&nbsp;&nbsp;
@@ -99,6 +99,7 @@
                 </div>
             </div>
     </div>
+    <div id="inviteUser_spinner" style="position: relative"></div>
     <div id="inviteuser_div">
         
         <div style="position: relative">
@@ -140,6 +141,9 @@
         </div>
     </div>
     <?php $this->endWidget(); ?>
+    <div class="alert alert-success" id="sucmsgForInviteUserTestSchedule" style='display: none'></div>
+    <div class="alert alert-error" id="errmsgForInviteUsers" style='display: none'></div>
+<div class="alert alert-success" id="sucmsgForInviteUsers" style='display: none'></div> 
 </div>
 
 <script type="text/javascript">
@@ -361,20 +365,22 @@
         
             //scrollPleaseWait('spinner_admin'); */       
         var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + $("#InviteUserForm_AllUsers").val()+ "&UserEmailIds=" + UserEmailIds+ "&Date=" + $("#InviteUserForm_Date").val()+ "&Time=" + $("#InviteUserForm_Time").val();
-        
+        scrollPleaseWait('inviteUser_spinner');
             ajaxRequest("/testPaper/saveInviteUsersDetails", queryString, saveInviteUsersHandler); 
         $("#InviteUserForm_AllUsers").val('');
     }
     });
     
     function saveInviteUsersHandler(data){
+        
         if(data.status=='success'){
+           scrollPleaseWaitClose('inviteUser_spinner'); 
             $("#sucmsgForInviteUsers").css("display", "block");
             $("#sucmsgForInviteUsers").html("Invite Users added Successfully.").fadeOut(6000,"linear",function(){
-                getInviteUsersWithFiltersDetails(TestId,0,"all",'');
-                //getCollectionData('/testPaper/LoadSurveyWall', 'ExtendedSurveyBean', 'surveyDashboardWall', 'No data found', 'No more data');
+                $("#newModal").modal('hide');
+                window.location.href = "/testpaper";
+                //getInviteUsersWithFiltersDetails(TestId,0,"all",'');
             });
-            //$("#newModal").modal('hide');
         }
     }
     

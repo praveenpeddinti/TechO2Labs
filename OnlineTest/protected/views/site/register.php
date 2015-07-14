@@ -142,8 +142,9 @@
    });*/
    
    $("#IdentityProof").change(function(){
-       $("#pancarddiv").show();
+       
         var val = $(this).val();
+        if(val==''){$("#pancarddiv").hide()}else{$("#pancarddiv").show();};
         $("#UserRegistrationForm_IdentityProof").val(val);
         //alert("-----"+$("#UserRegistrationForm_IdentityProof").val());
     });
