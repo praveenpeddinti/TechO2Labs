@@ -239,7 +239,7 @@ bindToMandatory();
     <?php if(!empty($surveyId)){  ?>
         questionsCount = '<?php echo $surveyObj->QuestionsCount;?>';
         <?php if($isAlreadySchedule == 1){ ?>
-        $("#newQuestion").hide();  
+        //$("#newQuestion").hide();  
         <?php } ?>
         $("#ExtendedSurveyForm_SurveyRelatedGroupName").val('<?php echo $surveyObj->SurveyRelatedGroupName; ?>');
         
@@ -416,7 +416,7 @@ bindToMandatory();
               
             
    <?php }?>
-       <?php if($isAlreadySchedule == 0){ ?>
+       <?php //if($isAlreadySchedule == 0){ ?>
     $("#newQuestion").click(function() {
                 questionsCount++;        
                 if (questionsCount >= TotalQuestions) {
@@ -465,7 +465,7 @@ bindToMandatory();
             $(this).parent(".suspendcontentdiv").remove();
             $("#suspenddiv_"+qId).remove();
           }); 
-   <?php } ?>
+   <?php //} ?>
 
     $(".questionlabel").live('click', function() {
         var $this = $(this);
@@ -1420,7 +1420,7 @@ bindToMandatory();
         $('#surveyGroupName').append("<option value='other'>Other</option>");
     }
     function CancelSurveyForm(){
-        window.location.href = "/marketresearchwall";
+        window.location.href = "/inventory";
     }
 
         var specialKeys = new Array();
