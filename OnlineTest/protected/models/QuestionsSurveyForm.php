@@ -87,7 +87,11 @@ class QuestionsSurveyForm extends CFormModel {
                     $message=$params['fieldname'];
                 }                
                     if($this->Other[$key] != 1){
-                        $this->addError($params['fieldname'] . '_' . $key, "Please answer the question $key");
+                        error_log("=====".$params['fieldname']);
+//                        if($params['fieldname'] == "OptionValue")
+//                            $this->addError($params['fieldname'] . '_' . $key, "Please answer the question $key");
+//                        else
+                            $this->addError($key, "Please answer the question $key");
                     }else {
                         $this->addError($params['fieldname'] . '_' . $key, $message);
                     }
