@@ -1180,7 +1180,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $getReportsDataArray = array();
             $TestTakenUsers = array();
             $testObject = TestPreparationCollection::model()->getTestDetails($testId);
-            error_log("------count------".$testObject->NoofQuestions);
+           // error_log("------count------".$testObject->NoofQuestions);
             $getTestUserObject = UserQuestionsCollection::model()->getTestUserDetails($testId, $startDate, $endDate, $startLimit, $pageLength);
             //error_log("date---".print_r($getTestUserObject,1));
             $getTestTakenUsersCount = UserQuestionsCollection::model()->getTestTakenUsers($testId, $startDate, $endDate);
@@ -1198,11 +1198,16 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $categoryScores = array();
             $spiltCateVa = array();
             $spiltCate = split(",", $searchCategoryScore);
-            error_log("count---".  sizeof($spiltCate));
+           // error_log("count---".  sizeof($spiltCate));
+            $avoidFlag = 0;
             foreach ($spiltCate as $value) {
                 $a = split("~", $value);
+                
                 $spiltCateVa[$a[0]] = $a[1];
             }
+            $filterNonZero = array_filter($spiltCateVa);
+            error_log("count-----".count($filterNonZero));
+            $$filterNonZeroCount = count($filterNonZero);
               $reviewCountScores =array();
               $scoresByType = array();
             foreach ($categories as $category) {
@@ -1225,7 +1230,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                     array_push($categoryLabels, $category['CategoryName']);
                 }
             }
-                 error_log("@@@@@@@@@@@asdfasdf@@@@@@@@@@@@@@@@");
+                // error_log("@@@@@@@@@@@asdfasdf@@@@@@@@@@@@@@@@");
 
             $userReportObject = array();
             error_log(print_r($testTakenUsers,1));
@@ -1264,13 +1269,18 @@ class ScheduleSurveyCollection extends EMongoDocument {
                        
                         array_push($userCategoryScoreArray, array("categoryName" => $label, "score" => $score));
                     } else {
-                       
-                        $dicardUser = 1;
+                       if($$filterNonZeroCount >0){
+                          $dicardUser = 1; 
+                       }else{
+                           array_push($userCategoryScoreArray, array("categoryName" => $label, "score" => 0));
+                       }
+                        
                     }
                 }
+                error_log("score b type------".print_r($scoresByType,1));
                  foreach ($scoresByType as $sc) {
                              $scoreByTypeArray = $sc[$userObject->UserId];
-                             // error_log("system marls---".$scoreByTypeArray["systemMarks"]."---".$scoreByTypeArray["reviewMarks"]);
+                              error_log($userObject->UserId."----system marls---".$scoreByTypeArray["systemMarks"]."---".$scoreByTypeArray["reviewMarks"]);
                             $systemMarks = $systemMarks + $scoreByTypeArray["systemMarks"];
                            $reviewMarks = $reviewMarks + $scoreByTypeArray["reviewMarks"];
                            $reviewPendingCount = $reviewPendingCount + $scoreByTypeArray["reviewPendingCount"];
@@ -1290,13 +1300,13 @@ class ScheduleSurveyCollection extends EMongoDocument {
                     }
                     array_push($getReportsDataArray, $userReportBean);
                 }else{
-                     error_log("esleeeeeeeeeeee");
+                     //error_log("esleeeeeeeeeeee");
                     $getTestTakenUsersCount--;
                 }
             }
 
             $returnValue = $getReportsDataArray;
-            error_log("------final----".print_r($getReportsDataArray,1));
+           // error_log("------final----".print_r($getReportsDataArray,1));
             return array("data" => $returnValue, "totalTakenUsers" => $getTestTakenUsersCount,"totalQuestions" => $totalQuestions);
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
