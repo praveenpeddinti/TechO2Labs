@@ -205,8 +205,8 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
     } 
      public function actionPrivacyPolicy() {
          $testRegObj = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId(Yii::app()->session['TinyUserCollectionObj']->UserId);
-         error_log("*********************88".print_r($testRegObj[0],1));
-         echo $testRegObj[0]['TestId'];
+         
+         
          $testInfo = TestPreparationCollection::model()->getTestDetails($testRegObj[0]->TestId);
        $PrivacyPolicyForm = new PrivacyPolicyForm();
      $this->render('privacyPolicy', array("PrivacyPolicyForm"=>$PrivacyPolicyForm,"TestInfo"=>$testInfo));          

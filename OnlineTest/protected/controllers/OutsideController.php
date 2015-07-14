@@ -64,7 +64,7 @@ class OutsideController extends Controller {
             if(isset($testRegObj) && sizeof($testRegObj)>0){
                 $testId = $testRegObj[0]->TestId;
             }     
-            echo $testId;
+
             $this->layout = 'adminLayout';
 
             $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);

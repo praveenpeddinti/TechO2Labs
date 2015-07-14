@@ -1175,6 +1175,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
     
     public function getTestReports($columnName, $testId, $startDate, $endDate, $searchCategoryScore, $startLimit, $pageLength) {
         try {
+            error_log("1-------------".print_r($searchCategoryScore,1));
             $returnValue = 'failure';
             $getReportsDataArray = array();
             $TestTakenUsers = array();
@@ -1197,6 +1198,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $categoryScores = array();
             $spiltCateVa = array();
             $spiltCate = split(",", $searchCategoryScore);
+            error_log("count---".  sizeof($spiltCate));
             foreach ($spiltCate as $value) {
                 $a = split("~", $value);
                 $spiltCateVa[$a[0]] = $a[1];
@@ -1226,13 +1228,15 @@ class ScheduleSurveyCollection extends EMongoDocument {
                  error_log("@@@@@@@@@@@asdfasdf@@@@@@@@@@@@@@@@");
 
             $userReportObject = array();
+            error_log(print_r($testTakenUsers,1));
             foreach ($testTakenUsers as $user) {
+                error_log("useid--------------------".$user);
                 $userReportBean = new UserReportBean();
                 $userObject = UserCollection::model()->getTinyUserCollection($user);
                 $user=User::model()->getUserByType("UserId",$userObject->UserId);
                 $tregisterobject=TestRegister::model()->getUserTestObjectByUserIdTestId($userObject->UserId,$testId);
                  $userReportBean->testDate = $tregisterobject->LoginDate;
-                 error_log($userReportBean->testDate ."@@@@@@@@@@@@@@@@@@@@@@@@@@@".$userObject->UserId);
+                // error_log($userReportBean->testDate ."@@@@@@@@@@@@@@@@@@@@@@@@@@@".$userObject->UserId);
                 $userReportBean->userName = $userObject->uniqueHandle;
                 $userReportBean->userId = $userObject->UserId;
                 $userReportBean->profilepic = $userObject->ProfilePicture;
@@ -1248,8 +1252,8 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 $dicardUser = 0;
                 foreach ($categoryScores as $key => $categoryScore) {
                     $label = $categoryLabels[$key];
-                   // error_log($userObject->UserId."---".print_r(array_keys($categoryScore),1));
-                    if ($dicardUser == 0 && in_array($userObject->UserId, array_keys($categoryScore))) {
+                    error_log($userObject->UserId."--**-".print_r(array_keys($categoryScore),1));
+                    if ($dicardUser == 0 && in_array($userObject->UserId, array_keys($categoryScore)) ) {
                         $dicardUser = 0;
                         $score = $categoryScore[$userObject->UserId];
                        
@@ -1266,7 +1270,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 }
                  foreach ($scoresByType as $sc) {
                              $scoreByTypeArray = $sc[$userObject->UserId];
-                              error_log("system marls---".$scoreByTypeArray["systemMarks"]."---".$scoreByTypeArray["reviewMarks"]);
+                             // error_log("system marls---".$scoreByTypeArray["systemMarks"]."---".$scoreByTypeArray["reviewMarks"]);
                             $systemMarks = $systemMarks + $scoreByTypeArray["systemMarks"];
                            $reviewMarks = $reviewMarks + $scoreByTypeArray["reviewMarks"];
                            $reviewPendingCount = $reviewPendingCount + $scoreByTypeArray["reviewPendingCount"];
@@ -1281,7 +1285,9 @@ class ScheduleSurveyCollection extends EMongoDocument {
                     foreach ($reviewCountScores as $key=>$c) {
                      $totalReviewQ=$totalReviewQ+$c[$user];
                     $userReportBean->totalReviewQ = $totalReviewQ;
-                    error_log($userObject->UserId."------count---".$userReportBean->totalReviewQ);}
+                   // error_log($userObject->UserId."------count---".$userReportBean->totalReviewQ);
+                    
+                    }
                     array_push($getReportsDataArray, $userReportBean);
                 }else{
                      error_log("esleeeeeeeeeeee");
@@ -1348,7 +1354,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
               foreach($result as $value){
                   //error_log("--333-".print_r(array_count_values($value["IsReviewed"]),1));
                   
-                  error_log("useId----".$value["_id"]."---score--".$value["count"]);
+                 // error_log("useId----".$value["_id"]."---score--".$value["count"]);
                    $finalArray[$value["_id"]]=$value["count"];
                    //$finalArray[$value["_id"].'_IsReview']=$value["IsReviewed"];
                    

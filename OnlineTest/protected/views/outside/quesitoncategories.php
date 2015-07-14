@@ -82,8 +82,8 @@
 
                                     $('#hms_timer').countdowntimer({
                                         hours : <?php echo gmdate("H",  $Totaltime); ?>,
-                                        minutes :10,<?php //echo gmdate("i",  $Totaltime); ?>//Totaltime,//<?php //echo $row['CategoryTime']; ?>,
-                                        seconds :0,<?php //echo gmdate("s",  $Totaltime); ?>
+                                        minutes :3,
+                                        seconds :10,
                                         size : "lg",
 					pauseButton : "hms_timer_hidden",
 					stopButton : "hms_timer_stop",
