@@ -80,25 +80,25 @@
     ?><?php echo $form->hiddenField($inviteForm, 'AllUsers',array("value"=>"")); ?>
     <?php echo $form->hiddenField($inviteForm, 'TestId',array("value"=>$surveyId)); ?>
      
-    <div id="CreatedDateDiv" class="row-fluid">
+    <!--<div id="CreatedDateDiv" class="row-fluid">
             <div class="span4">
                 &nbsp;&nbsp;&nbsp;
             </div>
         <div class="span4">
                 <label>Date</label>
-                    <?php echo $form->textField($inviteForm, 'Date', array('maxlength' => '15', 'class' => 'form-control', "placeholder" => "Date","style"=>"width:150px")); ?>    
+                    <?php //echo $form->textField($inviteForm, 'Date', array('maxlength' => '15', 'class' => 'form-control', "placeholder" => "Date","style"=>"width:150px")); ?>    
                 <div class="control-group controlerror"> 
-                    <?php echo $form->error($inviteForm, 'Date'); ?>
+                    <?php //echo $form->error($inviteForm, 'Date'); ?>
                 </div>
             </div>
         <div class="span4">
                 <label>Time</label>
-                    <?php echo $form->textField($inviteForm, 'Time', array('maxlength' => '15', 'class' => 'form-control', "placeholder" => "Time","style"=>"width:150px")); ?>    
+                    <?php //echo $form->textField($inviteForm, 'Time', array('maxlength' => '15', 'class' => 'form-control', "placeholder" => "Time","style"=>"width:150px")); ?>    
                 <div class="control-group controlerror"> 
-                    <?php echo $form->error($inviteForm, 'Time'); ?>
+                    <?php //echo $form->error($inviteForm, 'Time'); ?>
                 </div>
             </div>
-    </div>
+    </div>-->
     <div id="inviteUser_spinner" style="position: relative"></div>
     <div id="inviteuser_div">
         
@@ -352,7 +352,7 @@
             $("#errmsgForInviteUsers").css("display", "block");
             $("#errmsgForInviteUsers").html("Select the Test taker(s).").fadeOut(6000);
             return false;
-        }else if($("#InviteUserForm_Date").val()==''){
+        }/*else if($("#InviteUserForm_Date").val()==''){
             $("#InviteUserForm_Date_em_").css("display", "block");
             $("#InviteUserForm_Date_em_").html("Please enter Date.").fadeOut(6000);
             return false;
@@ -360,11 +360,11 @@
             $("#InviteUserForm_Time_em_").css("display", "block");
             $("#InviteUserForm_Time_em_").html("Please enter Time.").fadeOut(6000);
             return false;
-        }else{
+        }*/else{
         //var ALLIDS=$("#InviteUserForm_AllUsers").val();
         
             //scrollPleaseWait('spinner_admin'); */       
-        var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + $("#InviteUserForm_AllUsers").val()+ "&UserEmailIds=" + UserEmailIds+ "&Date=" + $("#InviteUserForm_Date").val()+ "&Time=" + $("#InviteUserForm_Time").val();
+        var queryString = "TestId=" + $("#InviteUserForm_TestId").val() + "&UserIds=" + $("#InviteUserForm_AllUsers").val()+ "&UserEmailIds=" + UserEmailIds;
         scrollPleaseWait('inviteUser_spinner');
             ajaxRequest("/testPaper/saveInviteUsersDetails", queryString, saveInviteUsersHandler); 
         $("#InviteUserForm_AllUsers").val('');

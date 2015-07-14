@@ -324,8 +324,6 @@ class TestPaperController extends Controller {
         try{
             $result = array();
             $UserEmailIds = $_REQUEST['UserEmailIds'];
-            $date=$_REQUEST['Date'];
-            $time=$_REQUEST['Time'];
             $TestId = $_REQUEST['TestId'];
             $UserIds = $_REQUEST['UserIds'];
             $AllUserIds = split(',', $UserIds);
@@ -333,13 +331,13 @@ class TestPaperController extends Controller {
             for($i=0;$i<sizeof($AllUserIds);$i++){
                 
                 $data = ServiceFactory::getSkiptaUserServiceInstance()->saveInviteUserForTest($TestId,$AllUserIds[$i]);
-                $to = $AllEmailIds[$i];
-                $subject = "Congratulations! Welcome to Techo2";
+                //$to = $AllEmailIds[$i];
+                //$subject = "Congratulations! Welcome to Techo2";
                 //$fromAddress = "info@skipta.com"; 
-                $messageview="UserAccountInfoMail";                 
-                $params = array('date' => $date ." ".$time, 'email'=>$to);
-                $sendMailToUser = new CommonUtility;
-                $mailSentStatus = $sendMailToUser->actionSendmail($messageview,$params, $subject, $to);
+                //$messageview="UserAccountInfoMail";                 
+                //$params = array('date' => $date ." ".$time, 'email'=>$to);
+                //$sendMailToUser = new CommonUtility;
+                //$mailSentStatus = $sendMailToUser->actionSendmail($messageview,$params, $subject, $to);
             
             }//$saveInviteUserDetails = ServiceFactory::getSkiptaUserServiceInstance()->SaveInviteUserDetails($TestId,$af);
             $result=array("status" => 'success');   

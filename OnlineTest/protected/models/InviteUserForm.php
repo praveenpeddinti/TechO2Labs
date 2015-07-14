@@ -12,7 +12,7 @@ class InviteUserForm extends CFormModel {
    public function rules() {
         return array(
             
-            array('StartDate,EndDate,Date,Time', 'required'),           
+            array('StartDate,EndDate', 'required'),           
             array('Name,StartDate,EndDate,AllUsers,TestId', 'safe'),
             
         );

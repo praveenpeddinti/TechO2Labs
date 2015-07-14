@@ -1212,6 +1212,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                   array_push($reviewCountScores, $reviewCountObj);
                   $systemAnswerCountObj = ScheduleSurveyCollection::model()->getSystemAnswerCount($testId,$category['CategoryId'],$category['ScheduleId']);
                  //$scoresByType[$systemAnswerCountObj[]] = 
+                  //error_log("-----prrr---".print_r($systemAnswerCountObj,1));
                   array_push($scoresByType, $systemAnswerCountObj);
                   //error_log("scrop by tyupe--".print_r($scoresByType,1));
                 if ($searchCategoryScore != '') {
@@ -1291,7 +1292,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                     foreach ($reviewCountScores as $key=>$c) {
                      $totalReviewQ=$totalReviewQ+$c[$user];
                     $userReportBean->totalReviewQ = $totalReviewQ;
-                   // error_log($userObject->UserId."------count---".$userReportBean->totalReviewQ);
+                    //error_log($userObject->UserId."------count---".$userReportBean->totalReviewQ);
                     
                     }
                     array_push($getReportsDataArray, $userReportBean);
@@ -1302,7 +1303,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             }
 
             $returnValue = $getReportsDataArray;
-           // error_log("------final----".print_r($getReportsDataArray,1));
+            //error_log("------final----".print_r($getReportsDataArray,1));
             return array("data" => $returnValue, "totalTakenUsers" => $getTestTakenUsersCount,"totalQuestions" => $totalQuestions);
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
@@ -1364,7 +1365,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
               }
               
             }
-           // error_log("finsl---".print_r($finalArray,1));
+            //error_log("finsl---".print_r($finalArray,1));
             return $finalArray;
             //error_log("useIds---".print_r($userIds,1));
             

@@ -35,19 +35,19 @@
                             <!--<td  class="data_t_hide">
                                 <?php //echo $Details->totalQuestions;?>
                             </td>-->
-                            <td  class="data_t_hide">
+                            <td  class="data_t_hide center" style="text-align:center">
                                 <?php echo $Details->totalMarks;?>
                             </td>
                             <?php foreach($Details->categoryScoreArray as $value){?>
-                            <td class="data_t_hide"><?php echo $value['score'];?></td>
+                            <td class="data_t_hide" style="text-align:center"><?php echo $value['score'];?></td>
                             <?php }?>
-                             <td  class="data_t_hide">
+                             <td  class="data_t_hide" style="text-align:center">
                                 <?php echo $Details->systemMarks;?>
                             </td>
-                             <td  class="data_t_hide">
+                             <td  class="data_t_hide" style="text-align:center">
                                 <?php echo $Details->reviewMarks;?>
                             </td>
-                            <td  class="data_t_hide">
+                            <td  class="data_t_hide" style="text-align:center">
                                 <?php echo $Details->reviewPendingCount." / ".$Details->totalReviewQ;?>
                             </td>
                              
