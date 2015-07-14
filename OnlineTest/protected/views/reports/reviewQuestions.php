@@ -96,9 +96,10 @@ if(is_object($surveyObj)){
                         } ?>
                        
                         
-                    </div> 
+                    </div>  
+                         
                               <div style="float:right">
-                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" onkeypress="return isNumberKey(event)" data-uniqueId="<?php echo $uniqueId ?>" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
+                               <label>Total Marks:</label><input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" onkeypress="return isNumberKey(event)" data-uniqueId="<?php echo $uniqueId ?>" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                      </div>
                     </div>
@@ -353,7 +354,7 @@ if(is_object($surveyObj)){
                         
                     </div> 
                              <div style="float:right">
-                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
+                               <b>Total Marks</b><input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                         </div>
                      </div>
@@ -520,7 +521,7 @@ if(is_object($surveyObj)){
                         
                     </div>
                           <div style="float:right">
-                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
+                               <b>Total Marks</b><input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                         </div>
                    
@@ -628,7 +629,7 @@ if(is_object($surveyObj)){
                         
                     </div>  
                               <div style="float:right">
-                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
+                               <b>Total Marks</b><input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                     </div>
                     </div>
@@ -707,7 +708,7 @@ if(is_object($surveyObj)){
                         
                     </div>  
                            <div style="float:right">
-                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
+                               <b>Total Marks</b><input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                         </div>
                         </div>
@@ -781,9 +782,9 @@ if(is_object($surveyObj)){
                         } ?>
                        
                         
-                    </div>  
+                    </div> 
                            <div style="float:right">
-                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
+                               <span class="tooltiplink cursor" rel="tooltip"  data-original-title="Marks"><label>Total Marks</label></span><input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                         </div>
                         </div>
@@ -880,7 +881,7 @@ if(is_object($surveyObj)){
                         
                     </div> 
                             <div style="float:right">
-                               <input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
+                               <b>8Total Marks</b><input type="text" style="width: 20px" name="reviewQuestions" data-qid="<?php echo $question['QuestionId']; ?>" data-categoryId="<?php echo $categoryId ?>" data-testId="<?php echo $testId ?>" data-uniqueId="<?php echo $uniqueId ?>" onkeypress = "return isNumberKey(event)" value="<?php echo $userAnswerObj["Score"]?>" <?php if($userAnswerObj["IsReviewed"]=="2") echo "readonly"?>/>
                          </div>
                      </div>
                     </div>
@@ -897,7 +898,7 @@ var qCount = '<?php echo sizeof($surveyObj->Questions); ?>';
 $("input.textfield").prop('readonly', true);
 $("input:radio").attr('disabled',true);
 $("input:checkbox").attr('disabled',true);
-Custom.init();
+Custom.init();$("[rel=tooltip]").tooltip();
 </script>
 
   <?php  }
