@@ -31,6 +31,7 @@ class TestTakerForm extends CFormModel {
                 'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
                 'message'=>Yii::t('translation','attribute_Invalid_characters'),
             ),
+            array('Phone','numerical','integerOnly'=>true,'min'=>1111111111,'tooSmall'=>'{attribute} is too short(minimum is 10 numbers)',),
             array('Phone', 'match', 'pattern'=>'/[0-9]/'),
             array('Email','email','checkMX'=>false),
             /*array('Qualification', 'ext.YiiConditionalValidator.YiiConditionalValidator',

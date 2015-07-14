@@ -184,7 +184,7 @@
         $("#enrollmentButtonId").val("Save");
         if(data.status=='success'){
             $("#sucmsg").css("display", "block");
-            $("#sucmsg").html("New Test taker added Successfully.").fadeOut(6000,"linear",function(){
+            $("#sucmsg").html("New Test taker added Successfully.").fadeOut(8000,"linear",function(){
                 getUsermanagementDetails(0, '', '');
             });
         $("#employeeId_enrollment").hide();
@@ -200,7 +200,7 @@
                     if ($("#" + key + "_em_")) {
                         $("#" + key + "_em_").text(val);
                         $("#" + key + "_em_").show();
-                        $("#" + key + "_em_").fadeOut(6000);
+                        $("#" + key + "_em_").fadeOut(10000);
                         $("#" + key).parent().addClass('error');
                     }
             });
@@ -256,6 +256,7 @@
         else {
             msg = "Invalid file format. Only CSV is allowed";     
             setErrorMsg(id,errId,msg); 
+            $("#csv_error").fadeOut(5000,'');
             $("#csvResetId").click();
             $("#csvButtonId").val("Import");
             $("#uploadedfilename").html("").hide();
@@ -289,7 +290,7 @@
                         $("#uploadedfilename").html("").hide();
                         //getEnrollments(0);
                         $("#sucmsg").css("display", "block");
-                        $("#sucmsg").html("New Test taker added Successfully.").fadeOut(6000,"linear",function(){
+                        $("#sucmsg").html("New Test taker added Successfully.").fadeOut(10000,"linear",function(){
                         getUsermanagementDetails(0, '', '');
                         });
             
@@ -312,6 +313,7 @@
                             $("#csv_error").append(val+'<br/><br/>');
                             $("#csv_error").show();                        
                             $("#csv_error").parent().addClass('error');
+                            $("#csv_error").fadeOut(5000,'');
 
                         }); 
                         // error section..
@@ -328,6 +330,7 @@
             $("#csv_error").html("Please choose .csv file");
             $("#csv_error").show();                        
             $("#csv_error").parent().addClass('error');
+            $("#csv_error").fadeOut(5000,'');
             $("#csvButtonId").val("Import");
         }
         
