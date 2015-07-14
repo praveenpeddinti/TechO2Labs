@@ -81,7 +81,15 @@ var TotalTimerDivs={};
         var userTempId="";
          function expiryCategory(divid){
              if(divid=='timeisup'){
-                 submitSurvey();
+                 Garray = new Array();
+             isValidate = 0;
+             fromAutoSave = 0;
+             fromNode = 1;
+             fromPagiNation = 0;
+             gQcnt = 0;
+             notValidate = 0;
+            
+            savePresAnswersForQuestions(0,0)
              }else{
              closedCategory.push(divid)
            //  alert("I am done----"+divid)
@@ -94,15 +102,16 @@ var TotalTimerDivs={};
           
                activeCategoryDiv(openCategory[0])
                 stopandStartTimer(TotalTimerDivs[openCategory[0]]); 
+                savePresAnswersForQuestions(1,1)
                 getOpenCategoryQuestion(openCategory[0]);
+                
              }else{
-                 //alert('timeup')
-
-                   if(userTempId!="undefined" && userTempId!=undefined && userTempId!="" ){
-                 submitSurvey();
-                  }
+                  savePresAnswersForQuestions(0)
+                 
 
              }
+             
+              
             
         }   
          }
@@ -253,47 +262,7 @@ var TotalTimerDivs={};
         $('#'+div).addClass("q_catogories_progress_active"); 
     }
     
-       function buttonhideing(categoryId){
-//           alert(categoryId)
-//       //alert(CategoryIdArray.indexOf(categoryId))
-//         CategoryIdArray.indexOf(categoryId);
-//         if(CategoryIdArray.indexOf(categoryId)==0){
-//              $("#prevQuestion").hide(); 
-//         }
-//          if(CategoryIdArray.indexOf(categoryId)==CategoryIdArray.length){
-//              $("#nextQuestion").hide(); 
-//         }
-//           
-//          if(CategoryIdArray.indexOf(categoryId)>0){
-//          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
-//               openCategory=arr_diff(CategoryDivs,closedCategory);
-//          // alert(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]]));
-//           if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]])>=0){
-//               $("#prevQuestion").show(); 
-//           }else{
-//               $("#prevQuestion").hide(); 
-//           }
-//          
-//           
-//           
-//          }
-//             if(CategoryIdArray.indexOf(categoryId)>0){
-//          //    alert("sasdfasdfdf"+CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
-//               openCategory=arr_diff(CategoryDivs,closedCategory);
-//          // alert(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1]]));
-//           if(openCategory.indexOf(CategoryIdwithCategory[CategoryIdArray[CategoryIdArray.indexOf(categoryId)+1]])>=0){
-//               $("#nextQuestion").show(); 
-//           }else{
-//                $("#nextQuestion").hide(); 
-//           }
-//          
-//           
-//           
-//          }
-          
-         
-    
-    }
+  
    
     function arr_diff(a1, a2)
 {

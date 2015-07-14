@@ -149,6 +149,7 @@
     });
     function testInviteLogincallback(data, txtstatus, xhr) {
         var data = eval(data);
+        alert(data.toSource())
         if (data.status == 'success') {
                     window.location = '/site/privacyPolicy';
         }else {
