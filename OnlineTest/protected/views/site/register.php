@@ -156,8 +156,8 @@
     function testInviteLogincallback(data, txtstatus, xhr) {
         var data = eval(data);
         if (data.status == 'success') {
-                 //   window.location = '/site/privacyPolicy';
-                    window.open("/site/privacyPolicy",'','_self'); 
+                    window.location = '/site/privacyPolicy';
+                  
         }else {
             var lengthvalue = data.error.length;
             var msg = data.data;
