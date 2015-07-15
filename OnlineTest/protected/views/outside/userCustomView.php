@@ -985,6 +985,7 @@ sessionStorage.sharedURL = "";
             var errorInterval = 0;
              $("#submitQuestion").die("click"); 
         $("#submitQuestion").live("click",function(){ 
+          
              Garray = new Array();
              isValidate = 0;
              fromAutoSave = 0;
@@ -1782,8 +1783,24 @@ $("#"+questionActiveID).css("background-color", "orange");
                }
               
                
-               
-       
+             //  alert(CategoryIdArray.toSource()+CategoryIdArray[CategoryIdArray.indexOf(categoryId)]+CategoryIdArray.indexOf(categoryId))
+               var ar2 = CategoryIdArray.slice(CategoryIdArray.indexOf(categoryId)+1,CategoryIdArray.length );
+             //  alert(ar2.toSource())
+                 var arr3 = new Array();
+               for(var i=0; i<ar2.length;i++){
+                   
+                   arr3.push(CategoryIdwithCategory[ar2[i]])
+               }
+          
+               var intersetarray= $.arrayIntersect(arr3, closedCategory);
+              
+              // alert(intersetarray.toSource())
+               //  alert(intersetarray.toSource())
+               if(intersetarray.length==arr3.length && sureyQuestionPage==sureyTotalPage){
+                  $("#nextQuestion").hide();
+                    $("#submitQuestion").show(); 
+               }
+      
         
 //              alert(CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
 ////               alert(openCategory)
@@ -1798,6 +1815,16 @@ $("#"+questionActiveID).css("background-color", "orange");
 //           }
 //       }
        }
+$.arrayIntersect = function(a, b)
+{
+    return $.grep(a, function(i)
+    {
+        return $.inArray(i, b) > -1;
+    });
+};
+
+
+ 
         function submitPreSurvey(){
             $("#"+questionActiveID).css("background-color", "");
 
