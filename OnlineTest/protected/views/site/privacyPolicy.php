@@ -85,6 +85,7 @@
 function savePrepareTest() {
    // window.open('/outside/index','','toolbar=no');
      window.location.href = "/outside/index";
+   
     
 //    ajaxRequest("/question/QuestionPrepare", 'UserId=' + $("#PrivacyPolicyForm_UserId").val() + '&TestId=' + $("#PrivacyPolicyForm_TestPaperId").val(), function(data) {
 //                    renderOptionswidgetHandler(data)

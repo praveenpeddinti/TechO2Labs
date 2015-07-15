@@ -232,6 +232,7 @@ class ExtendedSurveyForm extends CFormModel {
             foreach ($this->$params['fieldname'] as $key => $order) {
                 error_log(";;;--".$this->IsAnswerFilled[$key]."*******Validate Answer111*5555666***".$key);
                      if ($this->IsAnswerFilled[$key] == "") {
+                         error_log(";;;--".$this->IsAnswerFilled[$key]."****4i44444***Validate Answer111*5555666***".$key);
                         $message = "Please Fill Correct answers field ";
                         $this->addError('IsAnswerFilled_' . $key, $message);
                     }                

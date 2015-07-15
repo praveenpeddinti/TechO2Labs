@@ -8,7 +8,7 @@
     <div class="tab_1" style="margin-top: 10px;">
         
         
-        <div class="answersection1" id="answersection1_<?php echo $widgetCount; ?>" data-questionId="<?php echo $widgetCount; ?>" data-optionType="radio">
+        <div class="answersection1" id="answersection1_<?php echo $widgetCount; ?>" data-questionId="<?php echo $widgetCount; ?>" data-optionType="radio" data-qtype="8">
             <input class="selectiontype_hidden" type="hidden" name="ExtendedSurveyForm[SelectionType][<?php echo $widgetCount; ?>]" id="ExtendedSurveyForm_SelectionType_hid_<?php echo $widgetCount; ?>" value="1" />
             <div class="dropdownsectionarea dropdownmedium">
         <div class="row-fluid">

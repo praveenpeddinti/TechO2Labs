@@ -317,6 +317,8 @@ submitSurvey();
         $('#hms_timer_hidden1').val("resume").trigger('click');
         // $('#timer1').timer('resume');
          
+        
+         
  });
          
 </script>

@@ -618,6 +618,7 @@ bindToMandatory();
 //        if($("#ExtendedSurveyForm_NoofRatings_hid_"+no).length > 0){
 //            noofratings = $("#ExtendedSurveyForm_NoofRatings_hid_"+no).val();
 //        }
+
         $.ajax({
             type: 'POST',
             url: '/extendedSurvey/validateSurveyQuestion?surveyTitle=' + $("#ExtendedSurveyForm_SurveyTitle").val() + '&SurveyDescription=' + $("#ExtendedSurveyForm_SurveyDescription").val()+"&SurveyGroupName="+$("#ExtendedSurveyForm_SurveyRelatedGroupName").val()+"&SurveyOtherValue="+$("#ExtendedSurveyForm_SurveyOtherValue").val()+"&SurveyLogo="+$("#ExtendedSurveyForm_SurveyLogo").val()+"&IsBranded="+$("#ExtendedSurveyForm_IsBranded").val()+"&BrandName="+$("#ExtendedSurveyForm_BrandName").val()+"&BrandLogo="+$("#ExtendedSurveyForm_BrandLogo").val()+"&isEditable=<?php echo $isEditable; ?>",
@@ -771,10 +772,8 @@ bindToMandatory();
     }
     function insertText(id) {
         //IsAlphaNumeric(id);
-      
-        var pId = $("#" + id).attr("data-hiddenname");  
-        
-        $("#" + pId).val($("#" + id).val());
+      var pId = $("#" + id).attr("data-hiddenname"); 
+       $("#" + pId).val($("#" + id).val());
     }
 
     <?php if(empty($surveyId)){?>
@@ -1579,7 +1578,7 @@ bindToMandatory();
                             }
                            
                         }); 
-           //alert("hai"+norows) 
+           
           //alert(radiovalue)
           if(noptions == count || norows == count)
         $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
@@ -1591,8 +1590,10 @@ bindToMandatory();
             radiovalue=$this.find("input[name='radioinput']").val();
             $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
             //alert(radiovalue)
+            if(qtype==8){
+              $("#ExtendedSurveyForm_answerSelectedEdit_"+qId).val(radiovalue); 
+           }
         }
-        //alert('hai')
         
       $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
     });

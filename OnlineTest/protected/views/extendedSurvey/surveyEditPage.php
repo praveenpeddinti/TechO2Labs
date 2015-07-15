@@ -730,7 +730,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                     <input type="hidden" name="ExtendedSurveyForm[Other][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_NA_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['Other']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[AnyOther][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_AnyOther_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['AnyOther']; ?>"/>
                     <input type="hidden" name="ExtendedSurveyForm[StylingOption][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_StylingOption_hid_<?php echo ($i + 1); ?>" value="<?php echo $question['StylingOption']; ?>"/>
-                    <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $a = implode(',', $question['Answers']); ?>"/>
+                    <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php $res = ''; foreach($question['Answers'] as $mat){ $res .= implode(',',$mat).','; } echo  substr($res,0, -1); ?>"/>
                     <div style="display: none;" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>_em_" class="alert alert-error " data-questionno="<?php echo ($i + 1); ?>" >
                         
                         </div>
@@ -930,7 +930,7 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                    <td><input value="<?php echo $question['Answers'][$j][$k]; ?>" type="hidden" name="ExtendedSurveyForm[MatrixAnswer][<?php echo $j . "_" . $k . "_" . ($i + 1); ?>]" id="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" />
                                                         <div class="positionrelative surveydeleteaction ">
                                                             
-                                                        <input type="text" class="textfield textfieldtable notallowed"  value="<?php echo $question['Answers'][$j][$k]; ?>"  maxlength ="2" onkeyup="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" onblur="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" id="ExtendedSurveyForm_MatrixAnswer_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" onkeydown="allowNumericsAndCheckFields(event)" data-qid = "<?php echo ($i+1); ?>"/>
+                                                        <input type="text" class="textfield textfieldtable notallowed"  value="<?php echo $question['Answers'][$j][$k]; ?>"  maxlength ="2" onkeyup="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" onblur="checkvalid(this.value,this.id,<?php echo ($i+1); ?>),insertText(this.id)" id="ExtendedSurveyForm_MatrixAnswer_<?php echo $j . "_" . $k . "_" . ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_MatrixAnswer_hid_<?php echo $j . "_" . $k . "_" .($i + 1); ?>" onkeydown="allowNumericsAndCheckFields(event)" data-qid = "<?php echo ($i+1); ?>"/>
                                                         </div>
                                                    </td>                 
             <?php } } ?>
@@ -1775,7 +1775,7 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                                     </div>
                                 </div>
                              </div>
-                            <div class="answersection1" id="answersection1_<?php echo ($i + 1); ?>" data-questionId="<?php echo ($i + 1); ?>" data-optionType="radio"> 
+                            <div class="answersection1" id="answersection1_<?php echo ($i + 1); ?>" data-questionId="<?php echo ($i + 1); ?>" data-optionType="radio" data-qtype="8"> 
                                 <div id="section_<?php echo ($i + 1); ?>"  class="boolean_section"> 
                                 <input type="hidden" name="ExtendedSurveyForm[BooleanValues][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_Boolean_hid_<?php echo ($i + 1); ?>" class="booleanhidden" value="<?php echo implode(",",$question['Justification']); ?>"/>
                                 <?php $j = 0;   $mt = 0;                             
@@ -2011,7 +2011,9 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
             //radiovalue=$("input[name='radioinput']:checked").val();
             radiovalue=$this.find("input[name='radioinput']").val();
             $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
-           //alert(radiovalue) 
+           if(qtype==8){
+              $("#ExtendedSurveyForm_answerSelectedEdit_"+qId).val(radiovalue); 
+           } 
         }
         //$("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
       $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);

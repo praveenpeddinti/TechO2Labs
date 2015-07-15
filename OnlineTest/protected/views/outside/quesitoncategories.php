@@ -43,9 +43,9 @@
    
                                     $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
                                         hours : <?php echo gmdate("H",  $row['CategoryTime']); ?>,
-                                        minutes :20,
+                                        minutes :<?php echo gmdate("i",  $row['CategoryTime']); ?>,
                                         //minutes:<?php //echo gmdate("i",  $row['CategoryTime']); ?>,
-                                        seconds : 10,
+                                        seconds : <?php echo gmdate("s",  $row['CategoryTime']); ?>,
                                         size : "lg",
 					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
 					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
@@ -79,7 +79,7 @@
 
                                     $('#hms_timer').countdowntimer({
                                         hours : <?php echo gmdate("H",  $Totaltime); ?>,
-                                        minutes :10,
+                                        minutes :<?php echo gmdate("i",  $Totaltime); ?>,
                                         seconds :<?php echo gmdate("s",  $Totaltime); ?>,
                                         size : "lg",
 					pauseButton : "hms_timer_hidden",
