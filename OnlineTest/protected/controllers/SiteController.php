@@ -17,7 +17,9 @@ class SiteController extends Controller {
     $cs = Yii::app()->getClientScript();
     $cs->registerCoreScript('jquery');
       
-        if (isset(Yii::app()->session['TinyUserCollectionObj']) && isset(Yii::app()->session['IsAdmin']) && Yii::app()->session['IsAdmin']==0  ){
+  
+    
+        if (isset(Yii::app()->session['TinyUserCollectionObj']) && isset(Yii::app()->session['IsAdmin']) && Yii::app()->session['IsAdmin']==0 && Yii::app()->request->url!="/site/privacyPolicy"  ){
 
             $this->redirect('/outside/index');
         } 
