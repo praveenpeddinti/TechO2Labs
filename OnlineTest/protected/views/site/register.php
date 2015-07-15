@@ -14,10 +14,8 @@
     
     <div class="skiptaiconinner"> 
     <img id="default_img" src="images/users/noimage.png">
-<video id="video" autoplay></video>    
-
-   
-	<canvas id="canvas" width="200" height="200"></canvas>
+        <video id="video" autoplay ></video>  
+        <canvas id="canvas" width="200" height="200" style="display:none"></canvas>
     </div>
 </div>
          <a onclick="Captureimage()"  id="new"><img src="images/icons/takeaPick.png"></a>
