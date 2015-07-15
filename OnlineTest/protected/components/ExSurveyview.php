@@ -23,19 +23,20 @@ var TotalTimerDivs={};
         </div>
     <div  id="questionviewarea">
          
-    </div>  
+    </div> <div class=" alignright" id="surveyviewspinner" style="position:relative;"></div> 
         <div id="pagenoforsurvey" style="display: none;text-align: right;padding-right:5px" class="pagination pagination-mini"></div>
         <div class="row-fluid surveybuttonarea">
             <div class="span8">
+                
                 <div id="userviewErrMessage" class="alert alert-error errorMessage" style="display: none;"></div>                
             </div>
             <div class="span4">
-                <div id="surveyviewspinner" style="position:relative;"></div>
+                
                 <div class=" alignright" id="surveysubmitbuttons" style="display:none">
                     
                       <input type="button" value="Previous" name="previous" class="btn" id="prevQuestion" style="display: none"> 
                      <input type="button" value="Next" name="next" class="btn" id="nextQuestion" style="display: none"> 
-                      <input type="button" value="Done" name="commit" class="btn" id="submitQuestion" style="display: none"> 
+                      <input type="button" value="Completed Test" name="commit" class="btn" id="submitQuestion" style="display: none"> 
 
                 </div>
                 <div id="surveySavingRes" class="surveySavingRes alert alert-success" style="display:none;margin-top:10px"><?php echo Yii::t("translation","Survey_Save_Response"); ?></div>

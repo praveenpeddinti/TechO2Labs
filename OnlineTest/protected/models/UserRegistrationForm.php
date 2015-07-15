@@ -44,8 +44,8 @@ class UserRegistrationForm extends CFormModel
                             'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9]/',
                             'message'=>Yii::t('translation','attribute_Invalid_characters')
                       ),
-                    array('Phone','numerical','integerOnly'=>true,'min'=>1111111111,'tooSmall'=>'{attribute} is too short(minimum is 10 numbers)',),
-                    array('IdentityProof', 'required', 'message' => 'Please select IdentityProof'),
+                    array('Phone','numerical','integerOnly'=>true,'min'=>1111111111,'tooSmall'=>'{attribute} is too short(minimum 10 numbers)',),
+                    array('IdentityProof', 'required', 'message' => 'Please select Id Proof'),
                     array('IdentityProof', 'ext.YiiConditionalValidator.YiiConditionalValidator',
                        'if' => array(
                            array('IdentityProof', 'in', 'range'=>array('Pancard','Passport','Driving Licence'), 'allowEmpty'=>false)

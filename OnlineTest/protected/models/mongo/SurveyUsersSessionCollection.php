@@ -256,11 +256,11 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                   }
             
             }
-                    if($flag == "Done"){                        
+                    if($flag == "Done"){    error_log("-------Done 1----");                    
                         $criteria = new EMongoCriteria;
                         $criteria->addCond("_id","==",new MongoId($qTempId));
                         $userQuestionObj = UserQuestionsCollection::model()->find($criteria);
-                        if(isset($userQuestionObj)){
+                        if(isset($userQuestionObj)){error_log("-------Done 2----");   
                             $criteria = new EMongoCriteria;
                             $criteria->addCond("_id","==", new MongoId($userQuestionObj->Testid));
                             $testPrepareObj = TestPreparationCollection::model()->find($criteria);

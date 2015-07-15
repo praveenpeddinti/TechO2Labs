@@ -163,7 +163,7 @@
             if (msg != "") {
                 if (data.error == "Test taker doesnot exist."){ 
                     //$("#error").text(data.error);
-                    $("#error").text("User is already registered.");
+                    $("#error").text("User cannot be verified.");
                     $("#error").show();
                     $("#error").fadeOut(10000);
                     $("#error").parent().addClass('error');
