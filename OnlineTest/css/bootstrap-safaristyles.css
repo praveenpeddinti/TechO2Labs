@@ -1,5 +1,6 @@
 /*safaristyles */
-.headermenuarea > li > .headerprofileicon, .generalprofileicon {border-width: 4px;border-style: solid;}
+.headermenuarea > li > .headerprofileicon, .generalprofileicon {border-width: 10px;border-style: solid;}
+.generalprofileicon .skiptaiconinner{width:170px;height:170px}
 .generalprofileiconborder3 {border-width: 3px;border-style: solid;}
 .generalprofileiconborder5 {border-width: 5px;border-style: solid;}
 .headermenuarea > li > .headerprofileicon, .generalprofileicon {text-align: center;border-radius:50%; overflow:hidden;-webkit-border-radius:50%;-moz-border-radius:50%;-o-border-radius:50%;-ms-border-radius:50%;}
