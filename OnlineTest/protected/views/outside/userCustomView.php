@@ -1378,7 +1378,7 @@ function updateTextRadiohiddenFields(obj,rno,qno,col,maxValue){
    var lastPage = "false";
    var pageStr = "";  
    sureyQuestionPage = "<?php echo $page; ?>";
-   
+     var  sureyTotalPage = "<?php echo $totalpages; ?>";
   
    
 
@@ -1769,6 +1769,22 @@ $("#"+questionActiveID).css("background-color", "orange");
                     $("#prevQuestion").hide();   
                  }
         }
+        
+               if(CategoryIdArray.indexOf(categoryId)==CategoryIdArray.length-1 && sureyQuestionPage==sureyTotalPage){
+                  
+                    $("#nextQuestion").hide();
+                   $("#submitQuestion").show();
+               }
+                if(sureyQuestionPage!=sureyTotalPage){
+                  
+                    $("#nextQuestion").show();
+                   $("#submitQuestion").hide();
+               }
+              
+               
+               
+       
+        
 //              alert(CategoryIdArray[CategoryIdArray.indexOf(categoryId)-1])
 ////               alert(openCategory)
 ////               alert(CategoryDivs)
