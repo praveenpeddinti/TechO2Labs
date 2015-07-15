@@ -39,13 +39,17 @@
      <script type="text/javascript">
         
      $(function(){
-         
+          var minutes=<?php echo gmdate("i",  $row['CategoryTime']); ?>;
+         var seconds=<?php echo gmdate("s",  $row['CategoryTime']); ?>;
+         if(<?php echo gmdate("i",  $row['CategoryTime']) ?>==0 && <?php echo gmdate("s",  $row['CategoryTime'])?>==0 ){
+             seconds=4;
+    }
    
                                     $('#hms_timer<?php echo ($k+1); ?>').countdowntimer({
                                         hours : <?php echo gmdate("H",  $row['CategoryTime']); ?>,
-                                        minutes :<?php echo gmdate("i",  $row['CategoryTime']); ?>,
+                                        minutes :minutes,
                                         //minutes:<?php //echo gmdate("i",  $row['CategoryTime']); ?>,
-                                        seconds : <?php echo gmdate("s",  $row['CategoryTime']); ?>,
+                                        seconds : seconds,
                                         size : "lg",
 					pauseButton : "hms_timer<?php echo ($k+1); ?>_hidden",
 					stopButton : "hms_timer<?php echo ($k+1); ?>_stop",
