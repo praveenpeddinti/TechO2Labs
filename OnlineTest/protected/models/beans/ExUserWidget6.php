@@ -8,5 +8,6 @@ class ExUserWidget6{
     public $Score = "";
     public $IsReviewed = 0;
     public $UniqueId = "";
-     public $IsCompleted=0;
+    public $IsCompleted=0;
+    public $ActualScore = "";
 }

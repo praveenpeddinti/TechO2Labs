@@ -50,8 +50,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
     }
     public function manageSurveyUserSession($surveyId,$userId,$obj) {
     try{
-                error_log("Exception Occurred in SurveyUsersSessionCollection->manageSurveyUserSession==");
-
+        
         $returnValue = 'false';
             $criteria = new EMongoCriteria;
             $criteria->addCond('UserId', '==',(int)$userId);
@@ -158,7 +157,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
           }
       }
        
-    public function updateSurveyAnswer2($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage,$qTempId){
+    public function updateSurveyAnswer2($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage,$qTempId,$eachquestionscore){
         try{        
           
             $returnValue = "failed";
@@ -166,11 +165,9 @@ class SurveyUsersSessionCollection extends EMongoDocument {
             $scheduleObj->UserAnswers = $model->UserAnswers;     
             if($fromAutoSave == 0){
                  $criteria = new EMongoCriteria();
-               error_log("===@@@@@@@@@@@@@@@=======scheduleId====$model->ScheduleId===Userid=$UserId");
                 $criteria->addCond('ScheduleId', '==', new MongoId($model->ScheduleId)); 
                 $criteria->addCond('UserId', '==', (int)$UserId);
                 $obj = SurveyUsersSessionCollection::model()->find($criteria);
-                error_log("=1111111111111!!!!!!11=obj page==$obj->Page==from page=====$fromPage======");
                 if(isset($obj)){
                    if($obj->Page < $fromPage){
                         $modifier = new EMongoModifier();
@@ -180,10 +177,9 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                 }
                 
             }
-            //error_log("=1111111111111!!!!!!11=obj page==$obj->Page==from page=====$fromPage======");
             foreach ($scheduleObj->UserAnswers as $answers) {
-                error_log("@@@@@@@@@@@@@@@@@@@@111@@@@@asdfasdfasdf@@@@sdf");
                 $answers->UniqueId = new MongoId();
+                $answers->ActualScore = (int) $eachquestionscore;
                 $criteria = new EMongoCriteria();
                
                 $criteria->addCond('ScheduleId', '==', new MongoId($model->ScheduleId)); 
@@ -193,10 +189,8 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                 
                 $c = SurveyUsersSessionCollection::model()->getCollection();
                 $result = $c->aggregate(array('$match' => array('ScheduleId' =>new MongoId($model->ScheduleId))), array('$unwind' => '$UserAnswers'), array('$match' => array('UserId' => (int)$UserId)), array('$match' => array('UserAnswers.QuestionId' => new MongoID($answers->QuestionId))), array('$group' => array("_id" => "_id", "QuestionIds" => array('$push' => '$UserAnswers.QuestionId')))); 
-                //error_log("=========result=====2222222222222222===".print_r($result,1));
                 
                   if(sizeof($result['result'])>0){
-                   error_log("====@@@@@@@@@@@@@========collection object exist=========@@@@@@@@@@@@@@@@@===questionid===$answers->QuestionId");
                       $criteria = new EMongoCriteria();
                       $modifier = new EMongoModifier();
                      
@@ -288,7 +282,6 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                                 $criteria->addCond('ScheduleId', '==', new MongoId($sscheduleId)); 
                                 $criteria->addCond('UserId', '==', (int)$UserId);
                                 $obj = SurveyUsersSessionCollection::model()->find($criteria);
-                                error_log("data----".print_r($obj->UserAnswers,1));
                                 $criteria = new EMongoCriteria();
                                 $modifier = new EMongoModifier();
                                 $criteria->addCond('_id', '==', new MongoId($sscheduleId));
@@ -316,12 +309,12 @@ class SurveyUsersSessionCollection extends EMongoDocument {
    
     public function getAnswersForSurvey($userId,$scheduleId){
         try{
-            error_log("===UserId===$userId===scheduleId-===$scheduleId=");
+            
          $criteria = new EMongoCriteria();
           $criteria->addCond('ScheduleId', '==', new MongoId($scheduleId)); 
            $criteria->addCond('UserId', '==', (int)$userId); 
          $obj = SurveyUsersSessionCollection::model()->find($criteria);
-          //error_log("===UserId===$userId===scheduleId-===$scheduleId=");
+          
          if(is_object($obj)){
            
              return  $obj->UserAnswers;

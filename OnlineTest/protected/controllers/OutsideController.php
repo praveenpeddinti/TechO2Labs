@@ -897,7 +897,7 @@ function get_values_for_keys($mapping, $keys) {
                      $fromPage = $_REQUEST["Page"];
                      $NetworkId=1;
                     error_log("Iam form".print_r($QuestionsSurveyForm,true));
-                     $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId);
+                     $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId,$eachQuestionScore);
 
 
                      

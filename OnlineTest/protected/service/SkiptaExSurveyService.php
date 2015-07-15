@@ -8,7 +8,7 @@ class SkiptaExSurveyService {
             $FormModel->SurveyLogo = $this->savePublicationArtifacts($FormModel->SurveyLogo,'/upload/ExSurvey/');
 //            $FormModel->QuestionImage = $this->savePublicationArtifacts($FormModel->QuestionImage,'/upload/ExSurvey/');
             if($FormModel->IsBranded == 1)
-                error_log("********************brandlogo");
+           
                 $FormModel->BrandLogo = $this->savePublicationArtifacts($FormModel->BrandLogo,'/upload/ExSurvey/Branded/');
             if(!empty($FormModel->SurveyId)){
                 $return = $this->updateSurveyObject($FormModel);
@@ -200,7 +200,7 @@ class SkiptaExSurveyService {
    }
     public function getCustomSurveyDetailsById($columnName,$_id,$scheduleId,$page,$categoryId,$action="next"){
        try{
-        error_log($_id."###########################$page#########$action########".$categoryId);
+  
 
           $questionsArray =  UserQuestionsCollection::model()->getQuestionFromCollectionForPagination($_id,$categoryId,$page,$action);
           $questionId = $questionsArray['questionId'];
@@ -212,7 +212,7 @@ class SkiptaExSurveyService {
         
           $page = $questionsArray['page'];
           $totalpages = $questionsArray['totalpages'];
-            error_log("############################################".$questionId);
+          
           $result = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId);
            $resultArray = array("data"=>$result,"categoryId"=>$categoryId,"page"=>$page,"nocategories"=>$nocategories,"totalpages"=>$totalpages,"scheduleId"=>$scheduleId,"catIdsArray"=>$cateogryIds,"catPosition"=>$catPosition);
         
@@ -377,22 +377,22 @@ class SkiptaExSurveyService {
         }
     }
     
-    public function saveSurveyAnswer($model, $NetworkId, $UserId, $fromPagination, $fromAutoSave, $fromPage,$questionTempId=0) {
+    public function saveSurveyAnswer($model, $NetworkId, $UserId, $fromPagination, $fromAutoSave, $fromPage,$questionTempId=0,$eachquestionscore=0) {
         try {
-error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave===$fromAutoSave");
+
             if ($fromPagination == 1 || $fromAutoSave == 1) {
 
-                error_log("@@@@@@@@@@MMMMMMMMMMMMMMMMMMM@@2gsr2");                
-                return SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, "", $fromAutoSave, $fromPage,$questionTempId);
+                               
+                return SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, "", $fromAutoSave, $fromPage,$questionTempId,$eachquestionscore);
                 // return ScheduleSurveyCollection::model()->updateSurveyAnswer($model,$NetworkId,$UserId,"");
             } else {
- error_log("@@@@@@@@@@@@@Iam done@@@@@@@@2gsr2");
+ 
                 //check spots
                
                     $fromPage = $fromPage > 1 ? $fromPage - 1 : 1;
                     SurveyInteractionCollection::model()->trackSurveyLogout("", $UserId, $model->ScheduleId, $model->SurveyId, $fromPage, "notRefresh");
 
-                    $result = SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, 'Done', $fromAutoSave, $fromPage,$questionTempId);
+                    $result = SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, 'Done', $fromAutoSave, $fromPage,$questionTempId,$eachquestionscore);
 
                     $surveyDetails = ExtendedSurveyCollection::model()->getSurveyDetailsById('Id', $model->SurveyId);
                  
@@ -653,7 +653,7 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
     
     public function saveScheduleSurveydump($scheduleSurveyForm,$userId) {
 
-        try {error_log("----service enter");
+        try {
             $returnValue='failure';
             
             $result = ScheduleSurveyCollection::model()->saveScheduleSurveydump($scheduleSurveyForm, "",$userId,$createdDate);
@@ -673,7 +673,7 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
     /*
      * @praveen get Total questions for category start
     */
-    public function getTotalQuestionsForCategory($value){error_log("----serveice----".$value);
+    public function getTotalQuestionsForCategory($value){
         try{
             return ExtendedSurveyCollection::model()->getTotalQuestions($value);
              
@@ -724,7 +724,6 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
            if($resultValue != "failure" ){
                 foreach($resultValue as $value){
                  // error_log("---".print_r($value,1));
-                  error_log("categoryId----".$value["_id"]);
                   $categoryId = $value["_id"];
                   $categoryNames = $value["CategoryNames"];
                   $reviewQuestionIds = $value["ReviewQuestionIds"];
@@ -732,7 +731,6 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
                    $reviewQuestionAnswers = $value["ReviewQuestionAnswers"];
                  
                   foreach ($reviewQuestionIds as $key=>$questionId) {
-                      error_log("question id----------------".$questionId);
                      $questionObj = ExtendedSurveyCollection::model()->getQuestionById($categoryId,$questionId); 
                      $answer = $reviewQuestionAnswers[$key];
                      $uniqueId = $reviewQuestionUniqueIds[$key];
@@ -746,7 +744,7 @@ error_log("^^^^^^^^^^^^^^^^^66=====fromPagination=$fromPagination===fromAutoSave
                    
               }
          }  
-         error_log("leiggt------------".count($questionObjArray));
+         
            return $questionObjArray;
            } catch (Exception $ex) {
                Yii::log("SkiptaExSurveyService:getTestDetailsById::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

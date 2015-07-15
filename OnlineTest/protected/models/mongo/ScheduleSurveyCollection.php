@@ -1281,6 +1281,8 @@ class ScheduleSurveyCollection extends EMongoDocument {
                             $systemMarks = $systemMarks + $scoreByTypeArray["systemMarks"];
                            $reviewMarks = $reviewMarks + $scoreByTypeArray["reviewMarks"];
                            $reviewPendingCount = $reviewPendingCount + $scoreByTypeArray["reviewPendingCount"];
+                           //$totalReviewQ = $scoreByTypeArray["tt"];
+                           
                         }
                 if ($dicardUser == 0) {
                     $userReportBean->categoryScoreArray = $userCategoryScoreArray;
@@ -1288,9 +1290,9 @@ class ScheduleSurveyCollection extends EMongoDocument {
                      $userReportBean->systemMarks = $systemMarks;
                         $userReportBean->reviewMarks = $reviewMarks;
                           $userReportBean->reviewPendingCount = $reviewPendingCount;
-                        
+                           
                     foreach ($reviewCountScores as $key=>$c) {
-                     $totalReviewQ=$totalReviewQ+$c[$user];
+                     $totalReviewQ=$totalReviewQ+$c[$userObject->UserId];
                     $userReportBean->totalReviewQ = $totalReviewQ;
                     //error_log($userObject->UserId."------count---".$userReportBean->totalReviewQ);
                     
@@ -1357,7 +1359,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
               foreach($result as $value){
                   //error_log("--333-".print_r(array_count_values($value["IsReviewed"]),1));
                   
-                 // error_log("useId----".$value["_id"]."---score--".$value["count"]);
+
                    $finalArray[$value["_id"]]=$value["count"];
                    //$finalArray[$value["_id"].'_IsReview']=$value["IsReviewed"];
                    
@@ -1399,8 +1401,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                   $scores = $value["Scores"];
                   $isReviewed = $value["isReviewed"];
                  // error_log("scores---".print_r($scores,1));
-                 //  error_log("isReviewed---".print_r($isReviewed,1));
-                  
+                   
                    //$finalArray[$value["_id"].'_IsReview']=$value["IsReviewed"];
                    foreach ($isReviewed as $key=>$v) {
                        if($v == 0){
@@ -1417,9 +1418,8 @@ class ScheduleSurveyCollection extends EMongoDocument {
               }
               
             }
-            //error_log("systemfinal---".print_r($finalArray,1));
            
-              
+           
             return $finalArray;
             //error_log("useIds---".print_r($userIds,1));
             
@@ -1477,7 +1477,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
 //  ),
 //  array('$set'=> array("UserAnswers.$.Score"=> (int)$score))
 //);
-error_log("ened--------------------------");
+
      } catch (Exception $ex) {
          error_log("excepitno------------".$ex->getMessage());
  Yii::log("ScheduleSurveyCollection:getReviewQuestions::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

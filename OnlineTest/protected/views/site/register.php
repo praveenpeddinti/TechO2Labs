@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group loginform" id="emaildiv">
                     <label class="emailbl" for="Email" >Email</label>
-                    <?php echo $form->textField($model,'Email',array('maxlength' => 40, 'class' => 'form-control email')); ?>
+                    <?php echo $form->textField($model,'Email',array('maxlength' => 100, 'class' => 'form-control email')); ?>
                 </div>
                 <div class="control-group controlerror"> 
                     <?php echo $form->error($model, 'Email'); ?>
@@ -74,7 +74,7 @@
                     <input type="hidden" name="UserRegistrationForm[IdentityProof]" id="UserRegistrationForm_IdentityProof" />
                  <div class="customselectformdiv" style="position: relative">
                     <select class="form-control styled" style="width: 100%;height:43px;margin-bottom:0" name="IdentityProof" id="IdentityProof"  >
-                    <option value=""> </option>
+                    <option value="">Select</option>
                     <option value="Pancard">Pancard</option>                                      
                     <option value="Passport">Passport</option>
                     <option value="Driving Licence">Driving Licence</option> 
@@ -162,19 +162,21 @@
             var error = [];
             if (msg != "") {
                 if (data.error == "Test taker doesnot exist."){ 
-                    $("#error").text(data.error);
+                    //$("#error").text(data.error);
+                    $("#error").text("User is already registered.");
                     $("#error").show();
                     $("#error").fadeOut(10000);
                     $("#error").parent().addClass('error');
                 }
                 if (data.error == "Test taker already taken Test."){ 
-                    $("#error").text(data.error);
+                    $("#error").text("You have already attempted the test.");
                     $("#error").show();
                     $("#error").fadeOut(10000);
                     $("#error").parent().addClass('error');
                 }
                 if (data.error == "Test taker not allowed."){ 
-                    $("#error").text(data.error);
+                    //$("#error").text(data.error);
+                    $("#error").text("Please enter valid Email.");
                     $("#error").show();
                     $("#error").fadeOut(10000);
                     $("#error").parent().addClass('error');

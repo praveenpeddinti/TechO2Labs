@@ -291,5 +291,14 @@ function saveReviewQuestionsHandler(data){
     renderReport();
     }
 
+function validAnswer(evt,value,Score){
+    var id = evt.target.id;    
+    if(Number(value)>Number(Score)){
+       $("#"+id).val('');
+      
+    }
+    
+}
+
 </script>
 

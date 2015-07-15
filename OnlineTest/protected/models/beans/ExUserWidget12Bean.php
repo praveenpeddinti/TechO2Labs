@@ -12,5 +12,6 @@ class ExUserWidget12Bean{
     public $IsReviewed = 0;
     public $UniqueId = "";
     public $IsCompleted=0;
+    public $ActualScore = "";
             
 }
