@@ -17,11 +17,14 @@ class SiteController extends Controller {
     $cs = Yii::app()->getClientScript();
     $cs->registerCoreScript('jquery');
       
-//        if (isset(Yii::app()->session['TinyUserCollectionObj'])){
-//
-//            $this->redirect('/users');
-//        } 
-         
+        if (isset(Yii::app()->session['TinyUserCollectionObj']) && isset(Yii::app()->session['IsAdmin']) && Yii::app()->session['IsAdmin']==0  ){
+
+            $this->redirect('/outside/index');
+        } 
+          if (isset(Yii::app()->session['TinyUserCollectionObj']) && isset(Yii::app()->session['IsAdmin']) && Yii::app()->session['IsAdmin']==1  ){
+
+            $this->redirect('/users');
+        } 
         
       
         } catch (Exception $ex) {
