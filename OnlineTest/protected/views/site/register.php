@@ -14,8 +14,6 @@
     
     <div class="skiptaiconinner"> 
     <img id="default_img" src="images/users/noimage.png">
-    <a href="#" class="skiptaiconinner "><img src="images/users/noimage.png"> </a>
-
 <video id="video" autoplay></video>    
 
    
@@ -158,10 +156,8 @@
     function testInviteLogincallback(data, txtstatus, xhr) {
         var data = eval(data);
         if (data.status == 'success') {
+                    window.location = '/site/privacyPolicy';
                     
-                      window.open("/site/privacyPolicy",'','toolbar=no')
-                    
-                  
         }else {
             var lengthvalue = data.error.length;
             var msg = data.data;
