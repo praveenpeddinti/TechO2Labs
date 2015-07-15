@@ -1,5 +1,5 @@
 
-<div><span id="hms_timer"></span><span style="display:none" id="hms_timer_hidden"></span><span style="display:none" id="hms_timer_stop"></span></div>
+<div style="text-align:center;"><span id="hms_timer"></span><span style="display:none" id="hms_timer_hidden"></span><span style="display:none" id="hms_timer_stop"></span></div>
     
            <?php
            $Totaltime = 0;

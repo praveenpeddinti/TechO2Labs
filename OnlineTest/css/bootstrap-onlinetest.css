@@ -601,6 +601,7 @@ input[type="color"],
 .q_catogories_progress_active h3 { color:#545454; font-size: 16px; font-weight:normal;}
 .subject_timer{ position:absolute; background:#8a8a88;right:10px; top:10px; padding:3px 6px 3px 6px; line-height:12px; text-align:center; color:#fff; font-size:11px;}
 .questions_area_left_inner { border-top:2px solid #f4c81d}
+#hms_timer{font-size: 30px;}
 
 
 .customLoginform .customLoginbg .customselectformdiv .select{background: #f7f7f7 url("/images/system/dropdownarrow.png") no-repeat scroll right center;border-radius:0;border:3px solid #d7d5d5;-webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075); box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075);padding-left:0;padding-right:0;margin-top:0px;border-radius:5px;height:43px;padding:7px 10px 0;}

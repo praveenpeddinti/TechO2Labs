@@ -81,7 +81,7 @@ class ExtendedSurveyForm extends CFormModel {
             //array('MatrixType','validateQuestionsType', 'fieldname' => 'MatrixType' ,'message' => ' '),
             array('BooleanRadioOption', 'validateDynamicFields', 'fieldname' => 'BooleanRadioOption', 'message' => 'Option Name'),
             array('IsBranded', 'validateSOFields', 'fieldname' => 'IsBranded', 'message' => 'Brand'),
-            array('MatrixAnswer', 'validateMatrixFields', 'fieldname' => 'MatrixAnswer', 'message' => 'Answer fields can not be blank'),
+            array('MatrixAnswer', 'validateMatrixFields', 'fieldname' => 'MatrixAnswer', 'message' => 'Please Fill All Answer Fields'),
             
             array('IsAnswerFilled', 'validateAnswersFields', 'fieldname' => 'IsAnswerFilled', 'message' => 'Brand'),
             array('MatrixAnswer,PercentageAnswer,QuestionAnswerTextSelected,QuestionAnswerSelected,PercentageAnswer,IsAnswerFilled,IsBannerVisible,SurveyId,Question,SurveyTitle,SurveyDescription,SurveyLogo,SurveyRelatedGroupName,WidgetType,Questions,OtherValue,Status,QuestionId,UnitType,TextOptions,TextMaxlength,IsMadatory,IsAnalyticsShown,AnyOther,BooleanRadioOption,BooleanValues,IsAcceptUserInfo,IsEnableNotification,ShowDerivative,BrandLogo,IsBranded,BrandName', 'safe'),

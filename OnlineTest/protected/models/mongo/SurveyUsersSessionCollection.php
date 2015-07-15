@@ -256,7 +256,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                   }
             
             }
-                    if($flag == "Done"){
+                    if($flag == "Done"){                        
                         $criteria = new EMongoCriteria;
                         $criteria->addCond("_id","==",new MongoId($qTempId));
                         $userQuestionObj = UserQuestionsCollection::model()->find($criteria);
