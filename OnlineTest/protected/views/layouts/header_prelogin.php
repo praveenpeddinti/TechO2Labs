@@ -29,16 +29,33 @@
                 <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/common.js"></script>
                 <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/custom-form-elements.js"></script>
                 <script language="JavaScript" type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-switch.min.js"></script>
-                <script type="text/javascript">
-         if(navigator.userAgent.indexOf("Safari") != -1 ) 
-            {
-                var fileref=document.createElement("link")
-                fileref.setAttribute("rel", "stylesheet")
-                fileref.setAttribute("type", "text/css")
-                fileref.setAttribute("href", "<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-safaristyles.css")
-                if (typeof fileref!="undefined")
-                document.getElementsByTagName("head")[0].appendChild(fileref)
-            }
+                <script type="text/javascript">                    
+                    $(document).ready(function(){
+                            /* Get browser */
+                            $.browser.chrome = /chrome/.test(navigator.userAgent.toLowerCase());
+
+                            /* Detect Chrome */
+                            if($.browser.chrome){
+
+                            /* Do something for Chrome at this point */
+                            /* Finally, if it is Chrome then jQuery thinks it's
+                            Safari so we have to tell it isn't */
+                            $.browser.safari = false;
+                            } 
+
+                            /* Detect Safari */
+                            if($.browser.safari){
+                            /* Do something for Safari */
+                                var fileref=document.createElement("link")
+                                fileref.setAttribute("rel", "stylesheet")
+                                fileref.setAttribute("type", "text/css")
+                                fileref.setAttribute("href", "<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-safaristyles.css")
+                                if (typeof fileref!="undefined")
+                                document.getElementsByTagName("head")[0].appendChild(fileref)
+                            }
+
+                        });
+         
         </script>
                 <!-- -->
 </head>
