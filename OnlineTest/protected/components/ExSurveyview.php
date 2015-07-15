@@ -207,6 +207,7 @@ var TotalTimerDivs={};
 //             }
              $(".questionnos").removeClass("active");
                 previousValidation();
+                savePresAnswersForQuestions(1,1);
              //$this.addClass("active");
 //              var activetimerdiv = $this.data("activetimer");
 //              //alert(activetimerdiv);
@@ -241,6 +242,7 @@ var TotalTimerDivs={};
          $("#prevQuestion").live("click",function(){
              fromPagiNation=1;
              previousValidation();
+              savePresAnswersForQuestions(1,1)
              gotoPreviousPage();  
              
          });
