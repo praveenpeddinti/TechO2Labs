@@ -67,7 +67,7 @@
         </div>
         <div class="divcol5" style="vertical-align: middle">
         <div class="reviewquestion" style="<?php if($OtherQuestions=='0'){echo "display:none";}else{echo "display:block";}?>">
-            <input type="hidden" value="<?php if($OtherQuestions=='0'){echo "0";}else{echo "1";}?>" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
+            <input type="hidden" value="0" name="TestPaperForm[ReviewQuestion]" id="ReviewQuestion_<?php echo $widgetCount;?>" />
             <input type="checkbox"  <?php if(($Flag=='Edit') || ($Flag=='View')){ if($TestPaperForm->ReviewQuestion==1){?> checked="checked" <?php } }?>class="styled" data-qid="<?php echo $widgetCount; ?>" data-otherQ="<?php echo $OtherQuestions; ?>" />
             <div class="" style="line-height:25px;disable:none" id="reQues_<?php echo $widgetCount;?>"></div>
         </div>
