@@ -186,8 +186,10 @@
             $("#sucmsg").css("display", "block");
             $("#sucmsg").html("New Test taker added Successfully.").fadeOut(8000,"linear",function(){
                 getUsermanagementDetails(0, '', '');
+                $("#newModal").modal('hide');
             });
-        $("#employeeId_enrollment").hide();
+        //$("#employeeId_enrollment").hide();
+        
         }else{
             var lengthvalue = data.error.length;            
             var error = [];
