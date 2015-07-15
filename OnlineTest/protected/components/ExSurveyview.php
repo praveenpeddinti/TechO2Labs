@@ -102,11 +102,11 @@ var TotalTimerDivs={};
           
                activeCategoryDiv(openCategory[0])
                 stopandStartTimer(TotalTimerDivs[openCategory[0]]); 
-                savePresAnswersForQuestions(1,1)
+                savePresAnswersForQuestions(1,1);
                 getOpenCategoryQuestion(openCategory[0]);
                 
              }else{
-                  savePresAnswersForQuestions(0)
+                  savePresAnswersForQuestions(0);
                  
 
              }
@@ -323,4 +323,8 @@ submitSurvey();
          
  });
          
+         
+         $(window).unload(function(){
+     savePresAnswersForQuestions(1,1);
+}); 
 </script>
