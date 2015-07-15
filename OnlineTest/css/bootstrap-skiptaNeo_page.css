@@ -222,9 +222,9 @@ header .container .nav > li .notificationresults .read .padding10 .notificationd
 .surveypostdiv{padding:5px;border:1px solid #ccc}
 .surveyquestion{padding:5px 0;}
 .qq-uploader .qq-upload-button{background: url(/images/system/social_icons.png) no-repeat left -424px;width:0px;height:13px;padding-left:28px}
-.preview{background:#f4f4f4;padding:5px;border-bottom:1px solid #e8e8e8}
+.preview{/*background:#f4f4f4;*/padding:5px;/*border-bottom:1px solid #e8e8e8*/}
 .preview ul{margin:0;padding:0;list-style:none}
-.preview ul li{float:left;position:relative;max-width:100px;background:#fff;border:1px solid #ccc;margin:0 0 0 8px;padding:0;border-radius:0}
+.preview ul li{float:left;position:relative;max-width:100px;/*background:#fff;border:1px solid #ccc;*/margin:0 0 0 8px;padding:0;border-radius:0}
 .preview ul li:first-child{margin-left:0}
 .preview ul li .postimgclose{display:none}
 .preview ul li:hover .postimgclose{position:absolute;left:0;right:0;top:0;bottom:0;background:url(/images/system/popupbg.png);display:block}

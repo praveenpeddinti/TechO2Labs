@@ -805,8 +805,7 @@ bindToMandatory();
 
     }
     function displayErrorForBannerAndQuestion(message, type) {
-        
-        $('#' + type + '_error').html(message);
+       $('#' + type + '_error').html(message);
         // $('#'+type+'_error').css("padding-top:20px;");
         $('#' + type + '_error').show();
         $('#' + type + '_error').fadeOut(6000);
