@@ -145,7 +145,7 @@
    });*/
    
    $("#IdentityProof").change(function(){
-       
+       $("#UserRegistrationForm_CardNumber").val('');
         var val = $(this).val();
         if(val==''){$("#pancarddiv").hide()}else{$("#pancarddiv").show();};
         $("#UserRegistrationForm_IdentityProof").val(val);
@@ -176,7 +176,7 @@
                 }
                 if (data.error == "Test taker not allowed."){ 
                     //$("#error").text(data.error);
-                    $("#error").text("Please enter valid Email.");
+                    $("#error").text("You are not allowed to take the test.");
                     $("#error").show();
                     $("#error").fadeOut(10000);
                     $("#error").parent().addClass('error');
