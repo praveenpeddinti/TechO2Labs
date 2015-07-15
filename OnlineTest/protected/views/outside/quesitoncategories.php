@@ -33,9 +33,9 @@
      
     </table>
         </div>
-    
-    
+      
    </div>
+
      <script type="text/javascript">
         
      $(function(){
@@ -72,7 +72,7 @@
                               // alert(TotalTimerDivs)
                                 </script>
  <?php $k++; } ?>
-
+<input type="button" value="Done" name="commit" class="btn" id="submitQuestion" >
                                 <script type="text/javascript">
                                     
                                            $(function(){

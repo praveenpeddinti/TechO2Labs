@@ -985,7 +985,8 @@ sessionStorage.sharedURL = "";
             var errorInterval = 0;
              $("#submitQuestion").die("click"); 
         $("#submitQuestion").live("click",function(){ 
-          
+          var conf = confirm('Are you sure to Done your Test?');
+          if(conf){
              Garray = new Array();
              isValidate = 0;
              fromAutoSave = 0;
@@ -997,7 +998,7 @@ sessionStorage.sharedURL = "";
                      clearInterval(autoSaveInterval);
                 }
            submitSurvey();
-          
+       }
         });
          
           function submitSurvey(){
