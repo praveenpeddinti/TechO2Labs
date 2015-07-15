@@ -70,7 +70,7 @@ if(is_object($surveyObj)){ ?>
                             <div data-questionid="<?php echo ($i); ?>" class="surveyradiobutton  otherradio_first" data-optionvalue="<?php echo ($j); ?>"> <input type="radio" class="styled" name="radio_<?php echo $i;?>" <?php if(isset($userAnswer) && in_array($j,$userAnswer)) echo "checked"; else echo ""?>></div>
                              <div class="row-fluid">
                             <div class="span12">
-                                <input  type="text" class="textfield span4" placeHolder="<?php //echo $question['OtherValue'];?>"  id="othervalue_<?php echo ($i); ?>" data-hiddenname="QuestionsSurveyForm_OtherValue_<?php echo $i; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)" value="<?php echo $userAnswerObj["OtherValue"]?>"/>
+                                <input  type="text" class="textfield span4" placeHolder="<?php echo $question['OtherValue'];?>"  id="othervalue_<?php echo ($i); ?>" data-hiddenname="QuestionsSurveyForm_OtherValue_<?php echo $i; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)" value="<?php echo $userAnswerObj["OtherValue"]?>"/>
                                 <div class="control-group controlerror">
                                 <div style="display:none"  id="QuestionsSurveyForm_OtherValue_<?php echo $i; ?>_em_" class="errorMessage"></div>
                             </div>
@@ -162,7 +162,7 @@ if(is_object($surveyObj)){ ?>
                         
                          <div class="row-fluid" style="<?php if(isset($userAnswer) && in_array("other",$userAnswer)) { echo "";}else{ echo "display:none";}?>" id="othertextfield_<?php echo ($i); ?>">
                             <div class="span12">
-                                <input  type="text" value="<?php echo $userAnswerObj["OtherValue"]?>" class="textfield span4" placeHolder="<?php //echo $question['OtherValue'];?>"  id="othervalue_<?php echo ($i); ?>" data-hiddenname="QuestionsSurveyForm_OtherValue_<?php echo $i; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)"/>
+                                <input  type="text" value="<?php echo $userAnswerObj["OtherValue"]?>" class="textfield span4" placeHolder="<?php echo $question['OtherValue'];?>"  id="othervalue_<?php echo ($i); ?>" data-hiddenname="QuestionsSurveyForm_OtherValue_<?php echo $i; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)"/>
                                 <div class="control-group controlerror">
                                 <div style="display:none"  id="QuestionsSurveyForm_OtherValue_<?php echo $i; ?>_em_" class="errorMessage"></div>
                             </div>
@@ -267,7 +267,7 @@ if(is_object($surveyObj)){ ?>
                         <td><?php if($optionsSize == $k && $question['AnyOther'] == 1){  ?>
                             <input type="hidden" name="QuestionsSurveyForm[OptionTextValue][<?php echo ($k."_".$i); ?>]"   id="QuestionsSurveyForm_OptionTextValue_<?php echo ($k."_".$i); ?>" class="OptionTextValueclass_<?php echo $i; ?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                             <div  class="positionrelative surveydeleteaction"   data-hidname="QuestionsSurveyForm_OptionOtherValue_<?php echo $k."_".$i;?>">
-                                <input maxlength="200" placeholder="<?php //echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
+                                <input maxlength="200" placeholder="<?php echo $rw; ?>" type="text" class="textfield textfieldtable" onblur="insertText(this.id)"  onkeyup="insertText(this.id)" name="OptionOtherValue_<?php echo $k; ?>" id="OptionOtherValue_<?php echo $i; ?>"  data-name="<?php echo $j ?>" data-col="<?php echo $j ?>" data-hiddenname="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i;?>" value="<?php echo $userAnswerObj["OptionOtherTextValue"]?>"/>
                                 <div class="control-group controlerror">
                                 <div style="display:none"  id="QuestionsSurveyForm_OptionTextValue_<?php echo $k."_".$i; ?>_em_" class="errorMessage"></div>
                             </div>
@@ -594,7 +594,7 @@ if(is_object($surveyObj)){ ?>
                              <div class="row-fluid">
                             <div class="span6">
                                 <div class="surveyradiobutton top3"><?php echo $k; ?>)</div>
-                                <div class="answerview"><input  type="text" class="textfield span4" placeHolder="<?php //echo $question['OtherValue'];?>"  id="othervalue_<?php echo ($i); ?>" data-hiddenname="QuestionsSurveyForm_OtherValue_<?php echo $i; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)" value='<?php echo $userAnswerObj["OtherValue"]?>'/></div>
+                                <div class="answerview"><input  type="text" class="textfield span4" placeHolder="<?php echo $question['OtherValue'];?>"  id="othervalue_<?php echo ($i); ?>" data-hiddenname="QuestionsSurveyForm_OtherValue_<?php echo $i; ?>"  onkeyup="insertText(this.id)" onblur="insertText(this.id)" value='<?php echo $userAnswerObj["OtherValue"]?>'/></div>
                                 <div class="control-group controlerror">
                                 <div style="display:none"  id="QuestionsSurveyForm_OtherValue_<?php echo $i; ?>_em_" class="errorMessage"></div>
                             </div>
@@ -1215,13 +1215,9 @@ sessionStorage.sharedURL = "";
   
               $("#QuestionsSurveyForm_Time").val(parseInt(getCurrentTimeCategory("hms_timer"+position[2])));
             $("#QuestionsSurveyForm_Questions").val(JSON.stringify(Garray));
-
             $("#QuestionsSurveyForm_QuestionTempId").val('<?php echo $UserTempId?>');
             var data = $("#questionviewwidget").serialize();             
-
-           //alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"===="+data.toSource())
-            if(isValidated == true){
-
+//            if(isValidated == true){
                 //alert("kin");
                 isValidate = 0;
                 isValidated = false;
