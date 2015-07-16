@@ -32,7 +32,9 @@
                         </div>
                         <div class="span11">
                             <div class="control-group controlerror"> 
-                            <input type="text" placeholder="Enter Question <?php echo $widgetCount; ?> here..." name="ExtendedSurveyForm[Question][<?php echo $widgetCount; ?>]" class="span12 textfield questionname notallowed" maxlength="1000" id="ExtendedSurveyForm_Question_<?php echo $widgetCount; ?>" onkeyup="insertText(this.id)" onblur="insertText(this.id)"/>
+                                <div contenteditable="true" placeholder="Enter Question <?php echo $widgetCount; ?> here..." name="ExtendedSurveyForm[Question][<?php echo $widgetCount; ?>]" class="span12 textfield questionname notallowed divstyle" maxlength="20000" id="ExtendedSurveyForm_div_Question_<?php echo $widgetCount; ?>" onkeyup="copyquestion(this.id)" onblur="copyquestion(this.id)" data-hiddenname="ExtendedSurveyForm_Question_<?php echo ($widgetCount); ?>" ></div>
+                                <input type="hidden"  value="<?php echo htmlspecialchars(addslashes($question['Question'])); ?>" type="text" name="ExtendedSurveyForm[Question][<?php echo ($i + 1); ?>]" class="span12 textfield notallowed" id="ExtendedSurveyForm_Question_<?php echo $widgetCount; ?>"/>
+<!--                            <input type="text" placeholder="Enter Question <?php //echo $widgetCount; ?> here..." name="ExtendedSurveyForm[Question][<?php //echo $widgetCount; ?>]" class="span12 textfield questionname notallowed" maxlength="1000" id="ExtendedSurveyForm_Question_<?php //echo $widgetCount; ?>" onkeyup="insertText(this.id)" onblur="insertText(this.id)"/>-->
                         <div style="display:none" id="ExtendedSurveyForm_Question_<?php echo "$widgetCount"; ?>_em_" class="errorMessage questionserror" data-questionno="<?php echo "$widgetCount"; ?>" >
                         
                         </div>
