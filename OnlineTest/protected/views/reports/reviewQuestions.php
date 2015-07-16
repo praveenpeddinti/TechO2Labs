@@ -66,7 +66,7 @@ if(is_object($surveyObj)){
                             
                      <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
-                        <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
+                        <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo stripslashes(stripslashes($question['Question'])); ?></div>
                         <div style="float:right"><?php echo $categoryName?></div>
                         <div class="answersection">
                       <?php $j = 1;foreach($question['Options'] as $rw){ ?>   
@@ -137,7 +137,7 @@ if(is_object($surveyObj)){
                             
                 <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
-                        <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
+                        <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo stripslashes(stripslashes($question['Question'])); ?></div>
                          <div style="float:right"><?php echo $categoryName?></div>
                      <div class="answersection">
                           <?php if($question['DisplayType'] == 1){ //Checkbox ?>
@@ -248,7 +248,7 @@ if(is_object($surveyObj)){
                            <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_OptionsSelected_<?php if($question['MatrixType'] == 3)echo ($i) ;else echo ($i)  ?>_em_" class="errorMessage"></div>
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
-                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
+                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo stripslashes(stripslashes($question['Question'])); ?></div>
                         <div style="float:right"><?php echo $categoryName?></div>
                            <div class="answersection">
                        <div class="paddingtop12">
@@ -399,7 +399,7 @@ if(is_object($surveyObj)){
                     
                     <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
-                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
+                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo stripslashes(stripslashes($question['Question'])); ?></div>
                          <div style="float:right"><?php echo $categoryName?></div>
                            <div class="answersection">
                        <div class="paddingtop12">
@@ -572,7 +572,7 @@ if(is_object($surveyObj)){
 
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
-                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
+                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo stripslashes(stripslashes($question['Question'])); ?></div>
  <div style="float:right"><?php echo $categoryName?></div>                          
  <?php $k = 1; foreach($question['OptionName'] as $rw){ ?>
                            <input type="hidden" name="QuestionsSurveyForm[DistValue][<?php echo ($k."_".$i); ?>]" id="QuestionsSurveyForm_DistValue_hid_<?php echo ($k."_".$i); ?>" value="<?php echo $userAnswer[$k-1]?>"/>
@@ -673,7 +673,7 @@ if(is_object($surveyObj)){
                          <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_UserAnswer_<?php echo $i; ?>_em_" class="errorMessage"></div>    
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
-                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
+                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo stripslashes(stripslashes($question['Question'])); ?></div>
                          <div style="float:right"><?php echo $categoryName?></div>
                            <div class="answersection">
                          <div class="normalsection paddingleftzero ">
@@ -752,7 +752,7 @@ if(is_object($surveyObj)){
                     <div class="alert alert-error" style="display:none"  id="QuestionsSurveyForm_OptionsSelected_<?php echo $i; ?>_em_" class="errorMessage"></div>    
                         <div class="surveyanswerarea surveyanswerviewarea">
                         <div class="paddingtblr30">
-                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
+                           <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo stripslashes(stripslashes($question['Question'])); ?></div>
                          <div style="float:right"><?php echo $categoryName?></div>
                            <div class="answersection">
                             <?php for($j=1; $j<=$question['NoofOptions']; $j++){?>
@@ -840,7 +840,7 @@ if(is_object($surveyObj)){
                             
                      <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
-                        <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
+                        <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo stripslashes(stripslashes($question['Question'])); ?></div>
                     <div style="float:right"><?php echo $categoryName?></div>
                         <div class="answersection">
                             
