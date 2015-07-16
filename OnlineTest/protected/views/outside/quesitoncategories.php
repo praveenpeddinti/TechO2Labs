@@ -76,7 +76,7 @@
                               // alert(TotalTimerDivs)
                                 </script>
  <?php $k++; } ?>
-<input type="button" value="I'a done" name="commit" class="btn" id="submitQuestion" >
+<input type="button" value="I'm done" name="commit" class="btn" id="submitQuestion" >
                                 <script type="text/javascript">
                                     
                                            $(function(){
