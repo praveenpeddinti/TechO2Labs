@@ -1711,53 +1711,7 @@ $(function(){
         });
     };
 
-$("#editable").bind('paste', function (event) {
- var $this = $(this); //save reference to element for use laster
- setTimeout(function(){ //break the callstack to let the event finish
-   //  var strippedText = strip_tags($this.html(),'<p><pre><span><i><b><li></li><ul></ul>');
-   var posttype=$this.attr('data-type');
-   var snippethtml=$this.html()+" &nbsp;";
-   snippethtml=snippethtml.replace(/<br>/g, "&nbsp;");
-if ($this.attr('name') == 'curbsideEditablediv') {
-    var strippedText = strip_tags(snippethtml, '<p><pre><span><i><b><li></li><ul></ul><u></u><strike></strike><ol></ol>');
-} else {
-    var strippedText = strip_tags($this.html(), '<p><pre><span><i><b><br><br/>');
-}
- var urlPattern = /\b((?:(http|https)|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[&nbsp;{};:'".,<>?«»“”‘’]|\]|\?))/ig
 
-    var text = strippedText;
-    var results = text.match(new RegExp(urlPattern));
- if(results!=null){
-    if($this.attr('isWebPreview')!=1){
-    
-     
-var separators = ['&nbsp;',' ','</br>','<br>'];
-var Weburl = results[0].split(new RegExp(separators.join('|'), 'g'));
-       var weburl=$.trim( Weburl[0] );
-       var queryString = {data:weburl,Type:"post"}; 
-          // var queryString = {data:Weburl[0],Type:"post"}; 
-          var div="";
-       
-          if(posttype=='group'){
-               div='Groupsnippet_main';
-          }else{
-              div='snippet_main';
-          }
-          
-        ajaxRequest("/post/SnippetpriviewPage", queryString, function(data){rendersnipetdetailsHandler(data,div);});
-    } }
-   
-    
- strippedText=strippedText.replace(/\s+/g, ' ');
- $this.html(strippedText) ;
- $this.find('*').removeAttr('style');
-// $this.find('*').removeAttr('class');
- var result = $('#editable');
-    result.focus();
-    placeCaretAtEnd( document.getElementById("editable") );
-
-},0); 
-    });
  
 });
 
@@ -2010,23 +1964,9 @@ $('.scroll').jScrollPane(
 $(document).ready(function() {
     /**
      * funtion to strip the script tags in a text field throughout the application on cut copy paste
-     */
-    $('input').bind("cut copy paste", function(e) {
-     
-            var $this = $(this); //save reference to element for use laster
-            setTimeout(function() { //break the callstack to let the event finish
-            var strippedText = strip_tags($this.val(), '');
-            $this.val($.trim(strippedText));
-            $this.focus();
-            placeCaretAtEnd($this.get(0));
-
-        }, 10); 
-       });
+    */
     $('input').keypress(function(e) {
-        var className = $(this).attr("class");          
-        if ((e.which == 3 || e.which == 22 || (className != "span12 textfield groupnamerelatedfield" && e.which == 60) || (className != "span12 textfield groupnamerelatedfield" && e.which == 62))) {
-            return false;
-        }
+        
     });
 
     $("#myModal").on("hidden", function() {
@@ -2063,40 +2003,7 @@ $(document).ready(function() {
 });
 
 function CommentEditableText(commentId) {
-    $("#commentTextArea_" + commentId).unbind('paste');
-    $("#commentTextArea_" + commentId).bind('paste', function(event) {
-        var self = $(this);
-        var orig = self.html();//existing text in textarea
-
-        var $this = $(this); //save reference to element for use laster
-        setTimeout(function() { //break the callstack to let the event finish
-            //  var strippedText = strip_tags($this.html(),'<p><pre><span><i><b><li></li><ul></ul>');
-
-            var strippedText = strip_tags($this.html(), '<p><pre><span><i><b><br><br/>');
-            strippedText=strippedText.replace(/\s+/g, ' ');
-            $this.html(strippedText);
-            $this.find('*').removeAttr('style');
-            var result = $("#commentTextArea_" + commentId);
-            result.focus();
-            //applyLayoutContent();
-            
-            var urlPattern = "(((https?)\:\/\/)|(www\.))[A-Za-z0-9][A-Za-z0-9.-]+(:\d+)?(\/[^ ]*)?";
-    var text = strippedText;
-    var results = text.match(new RegExp(urlPattern));
-    if(results!=null){
-      if($this.attr('isWebPreview')!=1){
-         var Weburl = results[0].split("&nbsp");
-         var weburl=$.trim( Weburl[0] );
-        var queryString = 'data=' + weburl+'&CommentId=' + commentId+"&Type=comment";
-          //var queryString = {data:Weburl[0],Type:"comment"}; 
-        ajaxRequest("/post/SnippetpriviewPage", queryString, function(data){rendersnipetForCommentsHandler(data,commentId);});
-    }
-   }  
-            
-            
-            placeCaretAtEnd(document.getElementById("commentTextArea_" + commentId));
-        }, 0); 
-    });
+   
 }
 function rendersnipetForCommentsHandler(data,commentId) {
  
@@ -2717,61 +2624,6 @@ function checksessioncallback(data){
 
 
 
-function getActionUsersHandler(html,streamId,actionType){
-    scrollPleaseWaitClose('userFollow_spinner');
-  if(auPage == 0){
-   var jscroll = $('#userFollowersFollowings_body').jScrollPane({});
-        var api = jscroll.data('jsp');
-        api.destroy();
-    isDuringAjax=true;
-    $(".NPF,.ndm").remove();
-    $("#userFollowersFollowingsLabel").addClass("stream_title paddingt5lr10");
-    var label = "";
-    if(actionType == "Followers"){
-       var label =  "People Who Followed This";
-    } else if(actionType == "EventAttend"){
-       var label =  "People Who Attend This Event";
-    } 
-    else{
-      var label =  "People Who Loved This";  
-    }
-    $("#userFollowersFollowingsLabel").html(label);
-    $("#userFollowersFollowings_footer").hide();
-    $(".modal-content").attr({'style':'max-height:400px'});
-    $("#userFollowersFollowings").modal('show');
-
-    if(html != 0){
-        $("#userFollowersFollowings_body").addClass("scroll").html(html).attr({'style':'max-height:230px;'});   
-  
-    }
-    if($('#userFollowUnfollowid div.span4').length >= 14){
-     $("#userFollowersFollowings_body").jScrollPane({autoReinitialise: true, autoReinitialiseDelay: 200, stickToBottom: true});
-
-        $("#userFollowersFollowings_body").bind('jsp-scroll-y', function(event, scrollPositionY, isAtTop, isAtBottom)
-        {
-            if (isAtBottom && auPopupAjax == false) {      
-                auPage++;
-                auPopupAjax=true;
-               getActionUsers(streamId,actionType);
-            }
-
-
-        }
-        );
-    }   
-  }else{
-      scrollPleaseWaitClose('userFollow_spinner');
-    isDuringAjax=true;
-        if(html==0){  
-           auPopupAjax =true;
-        }else{
-         $(".jspPane").append(html); 
-         auPopupAjax =false;
-        } 
-  }
-     
-}
-
 
 function changeSegmentOverley(){
     ajaxRequest("/user/changeSegmentPageLoad", "", changeSegmentOverleyHandler);   
@@ -2852,94 +2704,6 @@ function createCookie(name,value,days) {
   document.cookie = name+"="+value+expires+"; path=/";
 }
 
-function loadUserAchievementProgress(){
-    ajaxRequest("/post/GetPictocvImages","",function(data){
-        if($.trim(data)!=""){
-           if($("#userAchievementProgress").length<=0){
-                $("#streamMainDiv").prepend(data);
-           }else{
-               $("#userAchievementProgress").replaceWith(data);
-           }
-       }
-    },"html");
-}
-function loadUserAchievementProgressByOppertunityType(oppertunityType, partialViewPath){
-    var obj = {oppertunityType:oppertunityType,partialViewPath:partialViewPath};
-    ajaxRequest("/common/GetPictocvImagesByOppertunityType",obj,function(data){
-        userAchievementDisplayHandler(oppertunityType, data);
-    },"html");
-}
-
-
-
-
-/*Joyride load from stream pages start*/
-
-
-function invokeJoyrideByOpportunityId(opportunityType,pageNavigation)
-{
-   
-    // alert(opportunityType+","+pageNavigation);
-     var queryString ={opportunityType:opportunityType,pageNavigation:pageNavigation};
-     if(pageNavigation=='yes')
-       ajaxRequest("/post/invokeJoyrideByOpportunityId",queryString,invokeJoyrideByOpportunityIdHandler);
-     else 
-        ajaxRequest("/post/invokeJoyrideByOpportunityId",queryString,invokeJoyrideByOpportunityIdHandler,'html');
-}
-
-function invokeJoyrideByOpportunityIdHandler(data)
-{
-  // alert(data);
-     $("#newUserJoyRideTipContent").html("");
-      $(".joyride-tip-guide").remove();
-      $("#minTourGuideDiv").hide();
-   
-    if(data.pageNavigation=='yes')
-    {
-         getNewUserJoyrideDetailsNextHandler(data);
-      
-    }
-    else
-    {
-         getNewUserJoyrideDetailsHandler(data);
-    }
-  }
-    
-    
-    
-
-
-
-
-
-/*Joyride load from stream pages end*/
-
-function userAchievementDisplayHandler(oppertunityType, data){
-    if($.trim(data)!=""){
-        if(oppertunityType=="News"){
-            if($("#userAchievementProgress").length<=0){
-                 $("#ProfileInteractionDivContent").prepend(data);
-            }else{
-                $("#userAchievementProgress").replaceWith(data);
-            }
-            applyLayoutContent();
-        }else if(oppertunityType=="Career"){
-            if($("#userAchievementProgress").length<=0){
-                 $("#jobsListIndex").prepend(data);
-            }else{
-                $("#userAchievementProgress").replaceWith(data);
-            }
-            applyLayout();
-        }else if(oppertunityType=="Profile"){
-            if($("#userAchievementProgress").length<=0){
-                 $("#ProfileInteractionDiv").prepend(data);
-            }else{
-                $("#userAchievementProgress").replaceWith(data);
-            }
-        }
-    }
-}
-
 
 
 
@@ -2990,3 +2754,31 @@ function isNumberKey(evt)
         return false;
     return true;
 }
+   function copyquestion(id){        
+        
+        var snippethtml = $("#"+id).html();
+        //var strippedText = strip_tags(snippethtml, '<p><pre><span><i><b><li></li><ul></ul><u></u><strike></strike><ol></ol><br></br><br/>');
+//        var $this = $("#"+id);
+//        var strippedText = snippethtml;
+       // strippedText=strippedText.replace(/\s+/g, ' ');
+//        $this.html(strippedText) ;
+        //$this.find('*').removeAttr('style');
+       // $("#"+id).find('*').removeAttr("style");
+        var snippethtml = $("#"+id).html();
+        $("#"+$("#"+id).attr("data-hiddenname")).val(snippethtml);
+    }
+
+    $(".divcontentwidget").live('paste', function (event) {
+        var $this = $(this);
+        var id = $this.attr("id");
+        var snippethtml = $("#"+id).html();
+        //var strippedText = strip_tags(snippethtml, '<p><pre><span><i><b><li></li><ul></ul><u></u><strike></strike><ol></ol><br></br><br/>');
+        
+//        var strippedText = snippethtml;
+        //strippedText=strippedText.replace(/\s+/g, ' ');
+       // $this.html(strippedText) ;
+       //alert($this.find('*').html())
+        //$this.find('*').removeAttr("style");
+        
+        $("#"+$this.attr("data-hiddenname")).val($this.html());
+    });
