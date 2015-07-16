@@ -242,7 +242,7 @@ class TestPaperController extends Controller {
                     //$condition = array(
                     //    'IsDeleted' => array('!=' => 1),
                     //);
-                    $_GET['ExtendedSurveyCollection_page'] = $_GET['ExtendedSurveyBean_page'];
+                    $_GET['TestPreparationCollection_page'] = $_GET['ExtendedSurveyBean_page'];
                     $provider = new EMongoDocumentDataProvider('TestPreparationCollection', array(
                         'pagination' => array('pageSize' => $pageSize),
                         'criteria' => array(
