@@ -6,9 +6,11 @@
             </div>
 
             <div class="span11">
+
                 
                 <div contenteditable="true" onkeyup="copyquestion(this.id)" onblur="copyquestion(this.id)" type="text"  class="span12 textfield divstyle divcontentwidget" maxlength="5000" id="ExtendedSurveyForm_div_Question_<?php echo ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_Question_<?php echo ($i + 1); ?>"><?php echo $question['Question']; ?></div>
                 <input type="hidden"  value="<?php echo htmlspecialchars(addslashes($question['Question'])); ?>" type="text" name="ExtendedSurveyForm[Question][<?php echo ($i + 1); ?>]" class="span12 textfield notallowed" id="ExtendedSurveyForm_Question_<?php echo ($i + 1); ?>"/>
+
             </div>
             <div class="questionlabel positionabsolutediv q_minimize" style=" "><i class="icon-minus-sign" style="font-size:18px;" data-placement="bottom" rel="tooltip"  data-original-title="minimize"></i> </div>
             <div style="display:none" id="ExtendedSurveyForm_Question_<?php echo ($i + 1); ?>_em_" class="errorMessage questionserror" data-questionno="<?php echo ($i + 1); ?>" ></div>

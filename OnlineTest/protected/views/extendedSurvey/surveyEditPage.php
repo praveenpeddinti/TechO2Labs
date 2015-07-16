@@ -1093,11 +1093,15 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
                                                         </div>     
                                                     </div>
                                                     <div class="span2 positionrelative labelpercent">
-                                                        <input value="<?php echo $question['Answers'][$j]  ?>" type="text" onblur="maxCheck(this,<?php echo ($i + 1); ?>)" onkeydown="allowNumericsAndCheckFields(event)" size="8" maxlength="4" class="textfield span10 distvalue_<?php echo ($i + 1);?>" name = "ExtendedSurveyForm[PercentageAnswer][<?php echo $j . "_" . ($i + 1); ?>]"/> <label class="percentlbl perUnitType_<?php echo ($i + 1); ?>" > <?php if ($question['MatrixType'] == 1) {
-                echo "%";
-            } else {
-                echo "$";
-            } ?></label>
+                                                         <div class="control-group controlerror">
+                                                        <input value="<?php echo $question['Answers'][$j]  ?>" type="text" onblur="maxCheck(this,<?php echo ($i + 1); ?>)" onkeydown="allowNumericsAndCheckFields(event)" size="8" maxlength="4" class="textfield span10 distvalue_<?php echo ($i + 1);?>" name = "ExtendedSurveyForm[PercentageAnswer][<?php echo $j . "_" . ($i + 1); ?>]"/> 
+                                                        <div style="display:none"  id="ExtendedSurveyForm_PercentageAnswer_<?php echo $j."_".($i + 1); ?>_em_" class="errorMessage PercentageAnswererr"></div>
+                                                         </div>
+                                                        <label class="percentlbl perUnitType_<?php echo ($i + 1); ?>" > <?php if ($question['MatrixType'] == 1) {
+                                                            echo "%";                               
+                                                        } else {
+                                                            echo "$";
+                                                        } ?></label>
 
                                                     </div>
                                                 </div>

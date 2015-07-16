@@ -57,9 +57,7 @@
        
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/jwplayer/jwplayer.js"></script>
         <script type="text/javascript">jwplayer.key = "N5rHDC1elorgiqDb/VdbUadp/aRvTnNwLEQFlQ=="</script>
-
-         
-        <script type="text/javascript">
+    
      <script type="text/javascript">                    
                     $(document).ready(function(){
                             /* Get browser */
