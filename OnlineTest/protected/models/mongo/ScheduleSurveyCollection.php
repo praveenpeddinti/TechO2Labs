@@ -1232,18 +1232,21 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $userReportObject = array();
             
             foreach ($testTakenUsers as $user) {
-                
                 $userReportBean = new UserReportBean();
                 $userObject = UserCollection::model()->getTinyUserCollection($user);
-                $user=User::model()->getUserByType("UserId",$userObject->UserId);
+                //$user=User::model()->getUserByType("UserId",$userObject->UserId);
                 $tregisterobject=TestRegister::model()->getUserTestObjectByUserIdTestId($userObject->UserId,$testId);
-                 $userReportBean->testDate = $tregisterobject->LoginDate;
+                 $userDetailsInDB=User::model()->getUserDetailsObjectByUserIdTestId($userObject->UserId);
+                
+                $userReportBean->testDate = $tregisterobject->LoginDate;
                 // error_log($userReportBean->testDate ."@@@@@@@@@@@@@@@@@@@@@@@@@@@".$userObject->UserId);
-                $userReportBean->userName = $userObject->uniqueHandle;
+                $userReportBean->userName = $userDetailsInDB->FirstName." ".$userDetailsInDB->LastName;
+                $userReportBean->EmailId = $userDetailsInDB->Email;
+                $userReportBean->PhoneNumber = $userDetailsInDB->Phone;
                 $userReportBean->userId = $userObject->UserId;
                 $userReportBean->profilepic = $userObject->ProfilePicture;
                 //$userReportBean->Phone = $userObject->Phone;
-                 $userReportBean->PhoneNumber = $user->Phone;
+                 
                 $userReportBean->Qualification = $user->Qualification;;
                 $userCategoryScoreArray = array();
                 $totalMarks = 0;

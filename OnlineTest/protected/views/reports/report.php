@@ -5,6 +5,8 @@
                  <?php if($total>0){?>
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
                     <thead><tr><th class="data_t_hide">Name</th>
+                            <th class="data_t_hide">Email</th>
+                            <th class="data_t_hide">Phone</th>
                             <th class="data_t_hide">Date</th>
                             <th class="data_t_hide">Total Marks</th>
                             <!--<th class="data_t_hide">Total Questions</th>-->
@@ -28,7 +30,13 @@
                         <tr class="<?php if($i%2==0){echo "odd";}else{echo "even";} ?>" >
                             <td class="data_t_hide">
                                 <?php echo $Details->userName;?>
-                            </td>  
+                            </td> 
+                            <td class="data_t_hide">
+                                <?php echo $Details->EmailId;?>
+                            </td>
+                            <td class="data_t_hide center">
+                                <?php echo $Details->PhoneNumber;?>
+                            </td>
                             <td  class="data_t_hide">
                                 <?php echo $Details->testDate;?>
                             </td>

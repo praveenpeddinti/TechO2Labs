@@ -589,6 +589,15 @@ class User extends CActiveRecord {
         return $return;
     }
     
+    public function getUserDetailsObjectByUserIdTestId($userId){
+        try{
+            return User::model()->findByAttributes(array("UserId"=>$userId));
+        } catch (Exception $ex) {
+            error_log("User:getUserDetailsObjectByUserIdTestId::".$ex->getMessage());
+        }
+    }
+    
+    
     
     
 }

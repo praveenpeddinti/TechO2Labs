@@ -16,6 +16,7 @@ class UserReportBean{
      public $profilepic;
      public $PhoneNumber;
      public $Qualification;
+     public $EmailId;
      
      
     
