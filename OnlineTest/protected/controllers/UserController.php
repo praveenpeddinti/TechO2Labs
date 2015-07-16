@@ -349,7 +349,10 @@ class UserController extends Controller {
                                 $errors[$i] = "Empty csv or delimiter mismatch! ";
                                 $obj = array("status" => "error", "error" => $errors);
                             } else {
-                                if ($var[0] != "" &&  $var[2] != "" && $var[3] != "" ) {
+                                $var[0]=trim($var[0]);
+                                 $var[2]=trim($var[2]);
+                                  $var[3]=trim($var[3]);
+                                if (trim($var[0]) != "" &&  trim($var[2]) != "" && trim($var[3]) != "" ) {
                                     if(strlen(trim($var[3]))!=10){
                                         $errors[$i] = "Phone number is Invaild... record skipped. --" . $line;
                                     $status = "error";
