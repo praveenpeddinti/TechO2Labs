@@ -2033,4 +2033,6 @@ $("#ExtendedSurveyForm_TotalValue_<?php echo ($i + 1); ?>").keydown(function (e)
                     // $(this).parents('div#QuestionWidget_'+qId).append("<div class='suspendcontentdiv' data-qid='"+qId+"'><div class='btn'>Click here to Resume</div></div><div class='suspenddiv' id='suspenddiv_"+qId+"'></div>")
                     $("#ExtendedSurveyForm_IsSuspend_"+qId).val(1);
                      });
+                     
+                     
         </script>
