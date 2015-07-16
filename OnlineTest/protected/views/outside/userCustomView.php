@@ -56,7 +56,7 @@ if(is_object($surveyObj)){ ?>
                             
                      <div class="surveyanswerarea surveyanswerviewarea">
                      <div class="paddingtblr30">
-                        <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo $question['Question']; ?></div>
+                         <div class="questionview"><div class="questionview_numbers"><?php echo $sno; ?>)</div> <?php echo stripslashes($question['Question']); ?></div>
                       <?php  include 'artifactdisplay.php'; ?>
                         <div class="answersection">
                       <?php $j = 1;foreach($question['Options'] as $rw){ ?>   
