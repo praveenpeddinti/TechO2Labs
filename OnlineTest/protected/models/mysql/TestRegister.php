@@ -183,7 +183,7 @@ TestRegister T on U.UserId not in (T.UserId)";*/
     
     public function getTestIdByUserId($userId){
         try{
-            return TestRegister::model()->findAllByAttributes(array("UserId"=>$userId,"Status"=>0));           
+            return TestRegister::model()->findAllByAttributes(array("UserId"=>$userId,"Status"=>array(0,1)));           
             
             //return $result;
         } catch (Exception $ex) {
