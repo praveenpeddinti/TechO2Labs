@@ -613,6 +613,9 @@ input[type="color"],
 .radioaalignment .radio{position: absolute;left:0;top:-3px}
 .icon-place-edit:before { content: url(../images/edit_16x16.png) ;}
 .icon-place-view:before { content: url(../images/view_16x16.png) ;}
+.questionview h2{font-size:18px;margin-top:2px;line-height: 23px;font-weight: normal;font-family: "exo_2.0medium"}
+.questionview p{font-size:14px;line-height: 16px;font-weight: normal;font-family: "exo_2.0medium"}
+.divstyle{border: 1px solid #ccc; background-color: #fff;}
 @media (min-width: 1200px) {
   .row {
     margin-left: -15px;
