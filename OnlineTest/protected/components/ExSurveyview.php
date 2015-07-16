@@ -36,7 +36,7 @@ var TotalTimerDivs={};
                     
                       <input type="button" value="Previous" name="previous" class="btn" id="prevQuestion" style="display: none"> 
                      <input type="button" value="Next" name="next" class="btn" id="nextQuestion" style="display: none"> 
-                      <input type="button" value="I'a done" name="commit" class="btn" id="submitQuestion" style="display: none"> 
+                      <input type="button" value="I'm done" name="commit" class="btn" id="submitQuestion" style="display: none"> 
 
                 </div>
                 <div id="surveySavingRes" class="surveySavingRes alert alert-success" style="display:none;margin-top:10px"><?php echo Yii::t("translation","Survey_Save_Response"); ?></div>
@@ -94,7 +94,7 @@ var TotalTimerDivs={};
              }else{
              closedCategory.push(divid)
            //  alert("I am done----"+divid)
-             $('#'+divid).css('opacity',0.2);
+             $('#'+divid+" .categorydivpadding" ).css('opacity',0.2);
              $('#'+divid).append("<div class='suspendcontentdiv'></div><div class='suspenddiv'></div>");
              
              openCategory=arr_diff(CategoryDivs,closedCategory);
