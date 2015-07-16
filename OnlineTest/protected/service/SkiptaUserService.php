@@ -68,7 +68,9 @@ class SkiptaUserService{
         if(isset($userId) && $userId!='error'){
             error_log("------------------------------1-----------------".$userId);
          $userCollectionModel->UserId=$userId;
-         $uniqueHandle = $this->generateUniqueHandleForUser($userProfileform['FirstName'],$userProfileform['LastName']);
+         //$uniqueHandle = $this->generateUniqueHandleForUser($userProfileform['FirstName'],$userProfileform['LastName']);
+         $uniqueHandle = $userProfileform['FirstName']." ".$userProfileform['LastName'];
+         
          error_log($uniqueHandle."------------------------------1-----------------".$userId);
          $userCollectionModel->uniqueHandle=$uniqueHandle;
        

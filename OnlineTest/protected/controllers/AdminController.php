@@ -15,6 +15,7 @@ class AdminController extends Controller{
                 $this->tinyObject = Yii::app()->session['TinyUserCollectionObj'];
                 if (Yii::app()->session['IsAdmin'] == '1') {
                     $this->layout="adminLayout";
+                    $this->pageTitle="UserManagement";
                     //$this->redirect('/');
                 } else {
                     $this->redirect('/site');

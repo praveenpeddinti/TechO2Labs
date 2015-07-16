@@ -10,13 +10,13 @@
                     </div>
 <div class="upload_profile  ">
 <div class="generalprofileicon skiptaiconwidth190x190">
-<a href="#" class="skiptaiconinner "><img src="<?php echo Yii::app()->session['TinyUserCollectionObj']->ProfilePicture?>"> </a><span class="helpicon"><a href="#"><img src="/images/helpicon_w.png"></a></span>
+<a href="#" class="skiptaiconinner "><img src="<?php echo Yii::app()->session['TinyUserCollectionObj']->ProfilePicture?>"> </a>
 
 </div>
 
  </div>
 <div class="section_pagetitle_padding padgetitle paddingbottom8">
-                        <h4 class="padding-left12">WELCOME TO TECHO2 ONLINE TEST </h4>
+                        <h4 class="padding-left12">WELCOME TO TECHO2!</h4>
                         
                     </div>
 <div class="row " >
@@ -38,24 +38,25 @@
     ?>
    
     
-    <?php //echo $form->hiddenField($PrivacyPolicyForm, 'TestPaperId',array("value"=>"558961abf298fd35048b4573")); ?>
-                            <?php //echo "<pre>",print_r($TestInfo),"</pre>";
-                                if(isset($TestInfo) && sizeof($TestInfo)>0){
-                            ?>
-                            
-                            <p><b>Test Name: </b><?php echo $TestInfo->Title ;?></p>
-                            <p><b> Description: </b><?php echo $TestInfo->Description; ?>
-                       <!--<p><b>Total Questions: <?php //echo $TestInfo->NoofQuestions; ?></p>-->
-                       <?php foreach($TestInfo->Category as $row) {
-                           $totaltme +=$row['CategoryTime'];
+    <?php if(isset($TestInfo) && sizeof($TestInfo)>0){ ?>
+                            <?php foreach($TestInfo->Category as $row) {
+                           $totalTime +=$row['CategoryTime'];
+                                        $totalMarks +=$row['CategoryScore'];
                        } ?>
-                       <p><b>Total Time: </b><?php echo $totaltme ?></p>
-                       <table><tr><th>Category Name</th><th>Marks</th><th>Time</th></tr>
+                            
+                            <p>You are ready to take the <b><?php echo $TestInfo->Title ;?></b> now!</p>
+                            <p><b>Test anatomy</b></br>
+                                This test is for total of <?php echo $totalMarks;?> points and you’ll have a total of <?php echo $totalTime;?> minutes for the entire test. The test is organized under one or more categories. The test make up is as follows:</p>
+
+                       
+                       
+                       <table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr><th style="width:30%">Category Name</th><th>Marks</th><th>Time</th></tr>
                            <?php $i=1;  foreach ($TestInfo->Category as $row) { ?>
                            <tr>
-                               <Td><?php echo $row['CategoryName']; ?></Td>
-                               <Td><?php echo $row['CategoryScore']; ?></Td>
-                               <Td><?php echo $row['CategoryTime']." (mins)"; ?></Td>
+                               <td><?php echo $row['CategoryName']; ?></td>
+                               <td><?php echo $row['CategoryScore']; ?></td>
+                               <td><?php echo $row['CategoryTime']." (mins)"; ?></td>
                            </tr>
                            <!--<p><b>Section<?php //echo $i ?>:<?php //echo $row['CategoryName']; ?></p>
                            <p><b>Number of Questions in Section<?php //echo $i ?> :<?php //echo $row['NoofQuestions']; ?></p>
@@ -65,21 +66,16 @@
                                 }}
 ?>
                        </table>
-                       <div>
-                           <p>When you click the submit the button. The test will start, it is a <b><?php echo $totaltme;?></b> mins long test.
-                               Category wise questions and time.</p>
-
-<p><b>Step 1</b> Do Not Use the "Back" Button on Your Browser During the Test once you have begun taking the test. Instead, use the right buttons to go the next question or click the next button or previos button.
-Don't close the window of the test for any reason.
-
-If something goes wrong, contact to your instructor.</p>
-
-<p><b>Step 2</b> Review All of Your Answers Before Submitting the Test.</p> 
-
-<p><b>Step 3</b> When you are satisfied with the result make sure you finish by clicking the Completed Test button at the bottom of the screen. Click the Completed Test Button ONLY ONCE!</p>
-
-<p><b>Keep In Mind:</b> It is important that you click the Completed Test button your test is completed.</p>
-                       </div> 
+<p><b>How does the system work?</b></br>
+                                        Each category has a set of questions with specific duration. You will have to answer all the questions in a category within the duration allocated for that category. However, you can switch between categories and the questions don’t have to be answered sequentially. Each category of questions have timers associated with them on the right hand side for your convenience to learn how much time is left for each category.  When you switch between categories, the relevant timers fire off and the system will only count down time in the active category. You will not be able to revisit the questions in a category if you have used up all the allocated time for that category.</p>                                     
+                                        <p>When you click the "Submit" button below, your test will start immediately.</p>
+                                        <p><b>Navigation</b></br>
+                                        Use the Next button below each question to move to the next question in sequence. If you want to go to a question out of sequence, use the category widgets on the right hand side to a question directly.</p>
+                                        <p><b>Test Completion</b></br>
+                                        When you are done with your test (either after finishing all the questions, or if you think you had enough for the day), ensure that you click "I'm done" button on the right hand side. This submits your test answers and is mandatory to complete your test.</p>
+                                        <p><b>Don’t do this!</b></br>
+                                        Do not use browser buttons to navigate between pages, and only use the navigation options described above. Do not use browser refresh option. Do not close out the browser for any reason. If you see something wrong, contact the support staff for assistance.</p>
+                                        <p>Good luck!</p>
                        <div class="text-center">
  <?php echo CHtml::Button('Submit', array('onclick' => 'savePrepareTest();', 'class' => 'btn btn-primary btn-raised btn-custom', 'id' => 'surveyFormButtonId')); ?>
                            </div>
