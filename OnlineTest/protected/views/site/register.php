@@ -74,10 +74,12 @@
                     <input type="hidden" name="UserRegistrationForm[IdentityProof]" id="UserRegistrationForm_IdentityProof" />
                  <div class="customselectformdiv" style="position: relative">
                     <select class="form-control styled" style="width: 100%;height:43px;margin-bottom:0" name="IdentityProof" id="IdentityProof"  >
-                    <option value="">Select</option>
+                    <option value="">Select Id Proof</option>
                     <option value="Pancard">Pancard</option>                                      
                     <option value="Passport">Passport</option>
                     <option value="Driving Licence">Driving Licence</option> 
+                    <option value="Aadhar">Aadhar Card</option> 
+                     <option value="Voter">voter card</option> 
                 </select>
                  </div>
                 </div>
