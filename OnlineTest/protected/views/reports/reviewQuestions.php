@@ -843,6 +843,7 @@ if(is_object($surveyObj)){
                         <div class="questionview"><div class="questionview_numbers"><?php echo $i; ?>)</div> <?php echo $question['Question']; ?></div>
                     <div style="float:right"><?php echo $categoryName?></div>
                         <div class="answersection">
+                            
                       <?php $j = 1;foreach($question['Options'] as $ky=>$rw){ ?>   
                          <div class="normalsection ">
                              <div data-justificationapplied="<?php echo $question['JustificationAppliedToAll']; ?>" data-justvalue="<?php  if(isset($question['Justification'][0]) && sizeof($question['Justification']) > 0){ echo implode(",",$question['Justification']); }  ?>" class="surveyradiobutton surveybooleanoptionsdiv confirmation_<?php echo ($i); ?>" data-sno="<?php echo ($i); ?>" data-questionid="<?php echo ($i); ?>" data-stype="<?php echo $question['SelectionType']; ?>" data-optionid="<?php echo ($j."_".$i); ?>" data-value="<?php echo ($j); ?>"> 
@@ -850,11 +851,9 @@ if(is_object($surveyObj)){
                                  <input <?php if(is_array($userAnswer) && $j==$userAnswer[0]) {echo "checked";} else "";?> value="<?php echo ($j); ?>" type="radio" class="styled " name="radio_<?php echo $i;?>" id="optionradio_<?php echo $j."_".$i;?>">
                                  <?php }else{  ?>
                                  
-                                 <input <?php if(is_array($userAnswer) && $j==$userAnswer[$ky]) {echo "checked";} else "";?> value="<?php echo ($j); ?>" type="checkbox" class="styled " name="checkbox_<?php echo ($i);?>" id="optioncheckbox_<?php echo $j."_".$i;?>">
+                                 <input <?php if(is_array($userAnswer) && $j==$userAnswer[$ky]) {echo "checked";} else "";?> value="<?php echo ($j); ?>" type="checkbox" class="" name="checkbox_<?php echo ($i);?>" id="optioncheckbox_<?php echo $j."_".$i;?>">
                                  <?php } ?>
-                                 
-                                 
-                             </div>
+                                 </div>
                          <div class="answerview"><?php echo $rw; ?></div>
                         </div>
                       <?php $j++; } ?>
