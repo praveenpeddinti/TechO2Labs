@@ -985,7 +985,7 @@ sessionStorage.sharedURL = "";
             var errorInterval = 0;
              $("#submitQuestion").die("click"); 
         $("#submitQuestion").live("click",function(){ 
-          var conf = confirm('Are you sure you want exist the test?');
+          var conf = confirm('Are you sure you want exit the test?');
           if(conf){
              Garray = new Array();
              isValidate = 0;
