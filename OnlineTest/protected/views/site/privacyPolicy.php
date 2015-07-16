@@ -68,7 +68,7 @@
                        </table>
 <p><b>How does the system work?</b></br>
                                         Each category has a set of questions with specific duration. You will have to answer all the questions in a category within the duration allocated for that category. However, you can switch between categories and the questions don’t have to be answered sequentially. Each category of questions have timers associated with them on the right hand side for your convenience to learn how much time is left for each category.  When you switch between categories, the relevant timers fire off and the system will only count down time in the active category. You will not be able to revisit the questions in a category if you have used up all the allocated time for that category.</p>                                     
-                                        <p>When you click the "Submit" button below, your test will start immediately.</p>
+                                        <p>When you click the "I got this" button below, your test will start immediately.</p>
                                         <p><b>Navigation</b></br>
                                         Use the Next button below each question to move to the next question in sequence. If you want to go to a question out of sequence, use the category widgets on the right hand side to a question directly.</p>
                                         <p><b>Test Completion</b></br>
@@ -77,7 +77,7 @@
                                         Do not use browser buttons to navigate between pages, and only use the navigation options described above. Do not use browser refresh option. Do not close out the browser for any reason. If you see something wrong, contact the support staff for assistance.</p>
                                         <p>Good luck!</p>
                        <div class="text-center">
- <?php echo CHtml::Button('Submit', array('onclick' => 'savePrepareTest();', 'class' => 'btn btn-primary btn-raised btn-custom', 'id' => 'surveyFormButtonId')); ?>
+ <?php echo CHtml::Button('I got this', array('onclick' => 'savePrepareTest();', 'class' => 'btn btn-primary btn-raised btn-custom', 'id' => 'surveyFormButtonId')); ?>
                            </div>
                         <?php $this->endWidget(); ?>
                            
