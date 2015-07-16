@@ -60,18 +60,18 @@ class SkiptaUserService{
  /* This Method is used for Save the user profile in both mysql and mongo 
       it accepts userprofileForm obj and customForm Obj
   *   */     
-    public function SaveUserCollection($userProfileform){error_log($userProfileform->LastName."----mongouser------2----".$userProfileform['FirstName']);
+    public function SaveUserCollection($userProfileform){
      try {
          $userCollectionModel=new UserCollection();         
                  
          $userId=User::model()->saveUser($userProfileform);  
         if(isset($userId) && $userId!='error'){
-            error_log("------------------------------1-----------------".$userId);
+            
          $userCollectionModel->UserId=$userId;
          //$uniqueHandle = $this->generateUniqueHandleForUser($userProfileform['FirstName'],$userProfileform['LastName']);
-         $uniqueHandle = $userProfileform['FirstName']." ".$userProfileform['LastName'];
+         $uniqueHandle = $userProfileform->FirstName." ".$userProfileform->LastName;
          
-         error_log($uniqueHandle."------------------------------1-----------------".$userId);
+         
          $userCollectionModel->uniqueHandle=$uniqueHandle;
        
          //$userCollectionModel->NetworkId=(int)1;
