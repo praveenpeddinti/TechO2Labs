@@ -98,7 +98,7 @@
     
 </div>
 
-<script>
+<script type="text/javascript">
     Custom.init();
 $(document).ready(function(){
     $(".TestpaperEditModeDiv").hide();
@@ -355,7 +355,7 @@ $(document).ready(function(){
             dataType: 'json'
         });
     }
-    function surveyHandler(data,totalQuestions,no) {   
+    function surveyHandler(data,totalQuestions,no) {  
         var data = eval(data);
         if (data.status == 'success') {           
               if(isValidate == totalQuestions){                    
@@ -372,7 +372,6 @@ $(document).ready(function(){
             var msg = data.data;
             var error = [];
             if (typeof (data.error) == 'string') {
-
                 var error = eval("(" + data.error.toString() + ")");
 
             } else {
@@ -522,7 +521,9 @@ $(document).ready(function(){
             $("#errmsgForCheckTestPaper").css("display", "block");
             $("#errmsgForCheckTestPaper").html("TestPaper already exists");
             $("body,html").animate({scrollTop:0}, 1000,function(){})
-            $("#errmsgForCheckTestPaper").fadeOut(9000)
+            $("#errmsgForCheckTestPaper").fadeOut(9000);
+            $("#surveyFormButtonId").attr("disabled",false);  
+            scrollPleaseWaitClose("extededsurvey_spinner");
         }
     }
     
