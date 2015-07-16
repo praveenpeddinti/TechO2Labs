@@ -598,7 +598,7 @@ input[type="color"],
 .categorydivpadding{padding:10px}
 .q_catogories .position_R:last-child{margin-bottom:0}
 .q_catogories_progress h3 { color:#303030; font-size: 16px; font-weight:normal;}
-.q_catogories_progress_active h3 { color:#545454; font-size: 16px; font-weight:normal;}
+.q_catogories_progress_active h3 { color:#545454; font-size: 16px; font-weight:normal; width: 188px; white-space: nowrap;overflow: hidden; text-overflow: ellipsis;}
 .subject_timer{ position:absolute; background:#8a8a88;right:10px; top:10px; padding:3px 6px 3px 6px; line-height:12px; text-align:center; color:#fff; font-size:11px;}
 .questions_area_left_inner { border-top:2px solid #f4c81d}
 #hms_timer{font-size: 30px;}
