@@ -17,7 +17,7 @@ class UserReportBean{
      public $PhoneNumber;
      public $Qualification;
      public $EmailId;
-     
+     public $categoryScoreArray1;
      
     
             

@@ -11,9 +11,14 @@
                             <th class="data_t_hide">Total Marks</th>
                             <!--<th class="data_t_hide">Total Questions</th>-->
                             <?php $j=1;foreach($reportData as $Details){ if($j==sizeof($reportData)){?> 
-                            <?php foreach($Details->categoryScoreArray as $value){?>
-                            <th><?php echo $value['categoryName'];?></th>
-                            <?php }} $j++;}?>
+                            <?php $k=0;
+                            foreach($Details->categoryScoreArray as $value){
+                               
+                                        
+                                
+                                ?>
+                            <th><?php echo $value['categoryName']."(".$Details->categoryScoreArray1[$k].")";?></th>
+                            <?php $k++;}} $j++;}?>
                              <th class="data_t_hide">System Marks</th>
                               <th class="data_t_hide">Review Marks</th>
                             <th class="data_t_hide">Review Pending / Total</th>

@@ -1112,6 +1112,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $title = $testObject->Title;
             $CountQuestions = $testObject->NoofQuestions;
             $categories = $testObject->Category;
+            
             /*$testTakenUsers = $testObject->TestTakenUsers;
             //$testTakenUsers = $TestTakenUsers;
             $noofQuestions = $testObject->NoofQuestions;
@@ -1180,6 +1181,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $getReportsDataArray = array();
             $TestTakenUsers = array();
             $testObject = TestPreparationCollection::model()->getTestDetails($testId);
+            
             $getTestUserObject = UserQuestionsCollection::model()->getTestUserDetails($testId, $startDate, $endDate, $startLimit, $pageLength);
             $getTestTakenUsersCount = UserQuestionsCollection::model()->getTestTakenUsers($testId, $startDate, $endDate);
             foreach ($getTestUserObject as $u) {
@@ -1189,6 +1191,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             }
             $TestTakenUsers=array_values(array_unique($TestTakenUsers));
             $categories = $testObject->Category;
+           
             //$testTakenUsers = $testObject->TestTakenUsers;
             $testTakenUsers = $TestTakenUsers;
             $totalQuestions = $testObject->NoofQuestions;
@@ -1206,8 +1209,10 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $$filterNonZeroCount = count($filterNonZero);
               $reviewCountScores =array();
               $scoresByType = array();
+              $catTotalScore = array();
             foreach ($categories as $category) {
-                
+                array_push($catTotalScore, $category['CategoryScore']);
+               
                   $reviewCountObj = ScheduleSurveyCollection::model()->getReviewCount($testId,$category['CategoryId'],$category['ScheduleId']);
                   array_push($reviewCountScores, $reviewCountObj);
                   $systemAnswerCountObj = ScheduleSurveyCollection::model()->getSystemAnswerCount($testId,$category['CategoryId'],$category['ScheduleId']);
@@ -1220,6 +1225,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                         $categoryObj = ScheduleSurveyCollection::model()->prepareCategoryReport($testId, $category['CategoryId'], $category['ScheduleId'], $spiltCateVa[$category['CategoryName']]);
                         array_push($categoryScores, $categoryObj);
                         array_push($categoryLabels, $category['CategoryName']);
+                        
                     }
                 } else {
                     $categoryObj = ScheduleSurveyCollection::model()->prepareCategoryReport($testId, $category['CategoryId'], $category['ScheduleId'], '');
@@ -1293,7 +1299,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
                      $userReportBean->systemMarks = $systemMarks;
                         $userReportBean->reviewMarks = $reviewMarks;
                           $userReportBean->reviewPendingCount = $reviewPendingCount;
-                           
+                           $userReportBean->categoryScoreArray1 = $catTotalScore;
                     foreach ($reviewCountScores as $key=>$c) {
                      $totalReviewQ=$totalReviewQ+$c[$userObject->UserId];
                     $userReportBean->totalReviewQ = $totalReviewQ;
