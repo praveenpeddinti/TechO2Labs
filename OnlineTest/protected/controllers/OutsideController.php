@@ -95,6 +95,7 @@ class OutsideController extends Controller {
                 //for each question
                  $qdensity = 0;
                  $isExit = 0;
+                 if($qstn['IsSuspended']!=1){
                    if($qstn['QuestionType'] == 1 || $qstn['QuestionType'] == 2 || $qstn['QuestionType'] == 5 || $qstn['QuestionType'] == 6 || $qstn['QuestionType'] == 7 || $qstn['QuestionType'] == 8){
                         $qsCnt = 0;
                        
@@ -198,6 +199,7 @@ class OutsideController extends Controller {
                       //  if($totalquestions==)
                         
                     }
+                 }
                 }     
                $qn['CategoryQuestions'] =array_values($qn['CategoryQuestions']);
                 foreach($qn['CategoryQuestions']  as $k1=>$v1){
@@ -562,7 +564,6 @@ function get_values_for_keys($mapping, $keys) {
                                         $optionsArray = explode(",",$m);                                        
                                         $widget34->Options = $optionsArray;
                                         
-                               error_log("--------------------------------".print_r($m,true));
  
                                         
                                         $optioncnt = sizeof($widget34->Options);       
@@ -903,7 +904,6 @@ function get_values_for_keys($mapping, $keys) {
                      
 
                      if($fromAutoSave==0){
-                         error_log("from pagination==$fromPagination********fromAutoSave".$fromAutoSave);
                      $exsurveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('Id',$surveyObject->SurveyId);  
                      $obj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getScheduleSurveyById("Id",$QuestionsSurveyForm->ScheduleId);                     
                      if ($fromPagination == 1 || $fromAutoSave == 1) {
