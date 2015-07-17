@@ -8,7 +8,7 @@
             <div class="span11">
 
                 
-                <div contenteditable="true" onkeyup="copyquestion(this.id)" onblur="copyquestion(this.id)" type="text"  class="span12 textfield divstyle divcontentwidget" maxlength="5000" id="ExtendedSurveyForm_div_Question_<?php echo ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_Question_<?php echo ($i + 1); ?>"><?php echo $question['Question']; ?></div>
+                <div contenteditable="true" onkeyup="copyquestion(this.id)" onblur="copyquestion(this.id)" type="text"  class="span12 textfield divstyle divcontentwidget" maxlength="5000" id="ExtendedSurveyForm_div_Question_<?php echo ($i + 1); ?>" data-hiddenname="ExtendedSurveyForm_Question_<?php echo ($i + 1); ?>"><?php echo stripslashes(stripslashes($question['Question'])); ?></div>
                 <input type="hidden"  value="<?php echo htmlspecialchars(addslashes($question['Question'])); ?>" type="text" name="ExtendedSurveyForm[Question][<?php echo ($i + 1); ?>]" class="span12 textfield notallowed" id="ExtendedSurveyForm_Question_<?php echo ($i + 1); ?>"/>
 
             </div>
