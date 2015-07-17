@@ -556,7 +556,8 @@ class User extends CActiveRecord {
     public function editUserDetailsForUserMgmnt($userId,$model) {
         try {
             $return = "failed";
-            $query = "select U.UserId, U.FirstName, U.LastName, U.Email, U.Phone from User1 U where U.UserId not in (select S.UserId from User1 S where S.UserId=$userId) AND Email ='$model->Email' OR Phone = $model->Phone Order by U.UserId DESC";
+             $query = "select U.UserId, U.FirstName, U.LastName, U.Email, U.Phone from User1 U where  (Email ='$model->Email' OR Phone = '$model->Phone') and UserId not in ($userId) Order by U.UserId DESC";
+            //$query = "select U.UserId, U.FirstName, U.LastName, U.Email, U.Phone from User1 U where  (Email ='$model->Email' OR Phone = $model->Phone) and UserId not in $userId Order by U.UserId DESC";
             $users = Yii::app()->db->createCommand($query)->queryAll();
             if (count($users) > 0) {
                 $return = "failed";
