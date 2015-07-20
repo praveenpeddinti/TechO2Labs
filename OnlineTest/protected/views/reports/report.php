@@ -32,7 +32,7 @@
                                         
                                 
                                 ?>
-                            <th><div class="truncatetable" rel="tooltip" data-original-title="<?php echo $value['categoryName'];?>"><?php echo $value['categoryName']." (".$Details->categoryScoreArray1[$k].")";?></div></th>
+                            <th><div class="truncatetable" rel="tooltip" data-original-title="<?php echo $value['categoryName']."(".$Details->categoryScoreArray1[$k].")";?>"><?php echo $value['categoryName']." (".$Details->categoryScoreArray1[$k].")";?></div></th>
                             <?php $k++;}} $j++;}?>
                              <th class="data_t_hide">System Marks</th>
                               <th class="data_t_hide">Review Marks</th>
