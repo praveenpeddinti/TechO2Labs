@@ -726,9 +726,7 @@ class SkiptaExSurveyService {
                  // error_log("---".print_r($value,1));
                   $categoryId = $value["_id"];
                   $categoryNames = $value["CategoryNames"];
-                  error_log(print_r($categoryNames));
                   $reviewQuestionIds = $value["ReviewQuestionIds"];
-                  error_log(print_r($reviewQuestionIds));
                    $reviewQuestionUniqueIds = $value["ReviewQuestionUniqueIds"];
                    $reviewQuestionAnswers = $value["ReviewQuestionAnswers"];
                  
