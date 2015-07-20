@@ -1548,7 +1548,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
            $returnValue = "failure";
        
       $c = ScheduleSurveyCollection::model()->getCollection();
-     $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>array('$in'=>array(0,1,2)),'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionUniqueIds" => array('$push' => '$UserAnswers.UniqueId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'),"CategoryNames" => array('$push' => '$SurveyRelatedGroupName'))));          
+     $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>array('$in'=>array(1,2)),'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionUniqueIds" => array('$push' => '$UserAnswers.UniqueId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'),"CategoryNames" => array('$push' => '$SurveyRelatedGroupName'))));          
       $result = $result['result'];
        if(is_array($result) && sizeof($result) > 0 ){
           $returnValue =  $result; 
