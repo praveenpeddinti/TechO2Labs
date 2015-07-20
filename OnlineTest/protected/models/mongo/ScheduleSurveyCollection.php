@@ -1214,9 +1214,9 @@ class ScheduleSurveyCollection extends EMongoDocument {
               $bx=array();
               $catUsers=array();
               $catUsersScore=array();
-
+              $catTotalScore =array();
             foreach ($categories as $category) {
-               
+               array_push($catTotalScore,$category['CategoryScore']);
                   $reviewCountObj = ScheduleSurveyCollection::model()->getReviewCount($testId,$category['CategoryId'],$category['ScheduleId']);
                   array_push($reviewCountScores, $reviewCountObj);
                   $systemAnswerCountObj = ScheduleSurveyCollection::model()->getSystemAnswerCount($testId,$category['CategoryId'],$category['ScheduleId']);
@@ -1446,8 +1446,9 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 }
 
             }else{
-                error_log("*************************");
-            }
+                error_log($categoryId."***********$scheduleId**************".$testId);
+            }error_log($categoryId."***********$scheduleId**************".$testId);
+             error_log("*************************".print_r($finalArray,true));
             //error_log("pre----".print_r($finalArray,1));
             return $finalArray;
         } catch (Exception $ex) {
@@ -1547,7 +1548,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
            $returnValue = "failure";
        
       $c = ScheduleSurveyCollection::model()->getCollection();
-     $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>array('$in'=>array(1,2)),'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionUniqueIds" => array('$push' => '$UserAnswers.UniqueId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'),"CategoryNames" => array('$push' => '$SurveyRelatedGroupName'))));          
+     $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>array('$in'=>array(0,1,2)),'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionUniqueIds" => array('$push' => '$UserAnswers.UniqueId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'),"CategoryNames" => array('$push' => '$SurveyRelatedGroupName'))));          
       $result = $result['result'];
        if(is_array($result) && sizeof($result) > 0 ){
           $returnValue =  $result; 
@@ -1593,6 +1594,154 @@ class ScheduleSurveyCollection extends EMongoDocument {
  Yii::log("ScheduleSurveyCollection:getReviewQuestions::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
        }
    }
+   
+  public function getTestReportsCount($columnName, $testId, $startDate, $endDate, $searchCategoryScore) {
+        try {
+            $returnValue = 'failure';
+            $getReportsDataArray = array();
+            $TestTakenUsers = array();
+            error_log("--2-dddddd-dddd-ddd-");
+            $testObject = TestPreparationCollection::model()->getTestDetails($testId);
+            
+            $getTestUserObject = UserQuestionsCollection::model()->getTestUserDetailscount($testId, $startDate, $endDate);
+            error_log("-1-2-dddddd-dddd-ddd-");
+            $getTestTakenUsersCount = UserQuestionsCollection::model()->getTestTakenUsers($testId, $startDate, $endDate);
+            error_log("-1-2-dddddd-dddd-ddd-");
+            foreach ($getTestUserObject as $u) {
+                //CommonUtility::styleDateTime($u['CreatedOn']);
+                
+                array_push($TestTakenUsers, $u['UserId']);
+            }error_log("-3--dddddd-dddd-ddd-");
+            $TestTakenUsers=array_values(array_unique($TestTakenUsers));
+            $categories = $testObject->Category;
+            //$testTakenUsers = $testObject->TestTakenUsers;
+            $testTakenUsers = $TestTakenUsers;
+            $totalQuestions = $testObject->NoofQuestions;
+            $categoryLabels = array();
+            $categoryScores = array();
+            $spiltCateVa = array();
+            $spiltCate = split(",", $searchCategoryScore);
+            $avoidFlag = 0;
+            foreach ($spiltCate as $value) {
+                $a = split("~", $value);
+                
+                $spiltCateVa[$a[0]] = $a[1];
+            }
+            $filterNonZero = array_filter($spiltCateVa);
+            $$filterNonZeroCount = count($filterNonZero);
+              $reviewCountScores =array();
+              $scoresByType = array();
+            foreach ($categories as $category) {
+                
+                  $reviewCountObj = ScheduleSurveyCollection::model()->getReviewCount($testId,$category['CategoryId'],$category['ScheduleId']);
+                  array_push($reviewCountScores, $reviewCountObj);
+                  $systemAnswerCountObj = ScheduleSurveyCollection::model()->getSystemAnswerCount($testId,$category['CategoryId'],$category['ScheduleId']);
+                 //$scoresByType[$systemAnswerCountObj[]] = 
+                  //error_log("-----prrr---".print_r($systemAnswerCountObj,1));
+                  array_push($scoresByType, $systemAnswerCountObj);
+                  //error_log("scrop by tyupe--".print_r($scoresByType,1));
+                if ($searchCategoryScore != '') {
+                    if (array_key_exists($category['CategoryName'], $spiltCateVa)) {
+                        $categoryObj = ScheduleSurveyCollection::model()->prepareCategoryReport($testId, $category['CategoryId'], $category['ScheduleId'], $spiltCateVa[$category['CategoryName']]);
+                        array_push($categoryScores, $categoryObj);
+                        array_push($categoryLabels, $category['CategoryName']);
+                    }
+                } else {
+                    $categoryObj = ScheduleSurveyCollection::model()->prepareCategoryReport($testId, $category['CategoryId'], $category['ScheduleId'], '');
+                    array_push($categoryScores, $categoryObj);
+                    array_push($categoryLabels, $category['CategoryName']);
+                }
+            }
+                // error_log("@@@@@@@@@@@asdfasdf@@@@@@@@@@@@@@@@");
+
+            $userReportObject = array();
+            
+            foreach ($testTakenUsers as $user) {
+                $userReportBean = new UserReportBean();
+                $userObject = UserCollection::model()->getTinyUserCollection($user);
+                //$user=User::model()->getUserByType("UserId",$userObject->UserId);
+                $tregisterobject=TestRegister::model()->getUserTestObjectByUserIdTestId($userObject->UserId,$testId);
+                 $userDetailsInDB=User::model()->getUserDetailsObjectByUserIdTestId($userObject->UserId);
+                
+                $userReportBean->testDate = $tregisterobject->LoginDate;
+                // error_log($userReportBean->testDate ."@@@@@@@@@@@@@@@@@@@@@@@@@@@".$userObject->UserId);
+                $userReportBean->userName = $userDetailsInDB->FirstName." ".$userDetailsInDB->LastName;
+                $userReportBean->EmailId = $userDetailsInDB->Email;
+                $userReportBean->PhoneNumber = $userDetailsInDB->Phone;
+                $userReportBean->userId = $userObject->UserId;
+                $userReportBean->profilepic = $userObject->ProfilePicture;
+                //$userReportBean->Phone = $userObject->Phone;
+                 
+                $userReportBean->Qualification = $user->Qualification;;
+                $userCategoryScoreArray = array();
+                $totalMarks = 0;
+                 $systemMarks = 0;
+                 $reviewMarks = 0;
+                 $reviewPendingCount = 0;
+                $totalReviewQ = 0;
+                $dicardUser = 0;
+                foreach ($categoryScores as $key => $categoryScore) {
+                    $label = $categoryLabels[$key];
+                    
+                    if ($dicardUser == 0 && in_array($userObject->UserId, array_keys($categoryScore)) ) {
+                        $dicardUser = 0;
+                        $score = $categoryScore[$userObject->UserId];
+                       
+                         
+                       // $IsReview = $categoryScore[$userObject->UserId . '_IsReview'];
+                       // $totalReviewQ = $totalReviewQ + $IsReview;
+                        $totalMarks = $totalMarks + $score;
+                       
+                        array_push($userCategoryScoreArray, array("categoryName" => $label, "score" => $score));
+                    } else {
+                       if($$filterNonZeroCount >0){
+                          $dicardUser = 1; 
+                       }else{
+                           array_push($userCategoryScoreArray, array("categoryName" => $label, "score" => 0));
+                       }
+                        
+                    }
+                }
+                
+                 foreach ($scoresByType as $sc) {
+                            $scoreByTypeArray = $sc[$userObject->UserId];
+                            //error_log($userObject->UserId."----system marls---".$scoreByTypeArray["systemMarks"]."---".$scoreByTypeArray["reviewMarks"]);
+                            $systemMarks = $systemMarks + $scoreByTypeArray["systemMarks"];
+                           $reviewMarks = $reviewMarks + $scoreByTypeArray["reviewMarks"];
+                           $reviewPendingCount = $reviewPendingCount + $scoreByTypeArray["reviewPendingCount"];
+                           //$totalReviewQ = $scoreByTypeArray["tt"];
+                           
+                        }
+                if ($dicardUser == 0) {
+                    $userReportBean->categoryScoreArray = $userCategoryScoreArray;
+                    $userReportBean->totalMarks = $totalMarks;
+                     $userReportBean->systemMarks = $systemMarks;
+                        $userReportBean->reviewMarks = $reviewMarks;
+                          $userReportBean->reviewPendingCount = $reviewPendingCount;
+                           
+                    foreach ($reviewCountScores as $key=>$c) {
+                     $totalReviewQ=$totalReviewQ+$c[$userObject->UserId];
+                    $userReportBean->totalReviewQ = $totalReviewQ;
+                    //error_log($userObject->UserId."------count---".$userReportBean->totalReviewQ);
+                    
+                    }
+                    array_push($getReportsDataArray, $userReportBean);
+                }else{
+                     //error_log("esleeeeeeeeeeee");
+                    $getTestTakenUsersCount--;
+                }
+            }
+
+            $returnValue = $getReportsDataArray;
+            error_log("-----count-final----".print_r($getReportsDataArray,1));
+            return array("data" => $returnValue, "totalTakenUsersa" => $getTestTakenUsersCount);
+        } catch (Exception $ex) {
+            Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+            error_log("Exception Occurred in ScheduleSurveyCollection->getScheduleSurveyDetailsObject==" . $ex->getMessage());
+            return $returnValue;
+        }
+    } 
+   
 
 }
 
