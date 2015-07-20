@@ -622,3 +622,10 @@ input[type="color"],
     *zoom: 1;
   }
 }
+.truncatetable {
+  width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.emaildiv{width:80px;word-wrap:break-word}

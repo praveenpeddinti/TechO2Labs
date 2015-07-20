@@ -1,7 +1,7 @@
    
 
 <div style="position: relative" id="reporsttopdiv" data-total="<?php echo $total; ?>">
-            <div  class="block" style="overflow-x:auto">
+            <div  class="block" >
                  <?php //if($total>0){?> <?php if(sizeof($reportData)>0){?>
                 
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
@@ -9,6 +9,8 @@
                     <td style=" text-align:left"> </td>
     	<td style="width:130px; text-align:left"> </td>
         <td style="width:80px; text-align:left"></td>
+        <td style="width:80px; text-align:left"></td>
+        
         <td style=" text-align:left;width:50px;" class="tooltiplink cursor" rel="tooltip"  data-original-title="Add New User"><a id="exportExcel" class="tooltiplink cursor" rel="tooltip"  data-testId="<?php echo $testPaperId;?>" style="cursor: pointer;"  role="button"  data-placement="bottom"  data-original-title="Export Users" > <i class="icon-place-exportXls"></i></a> </td>
             
     </tr>
@@ -17,7 +19,7 @@
                 
                 
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
-                    <thead><tr><th class="data_t_hide">Name</th>
+                    <thead><tr><th class="data_t_hide" >Name</th>
                             <th class="data_t_hide">Email</th>
                             <th class="data_t_hide">Phone</th>
                             <th class="data_t_hide">Date</th>
@@ -30,7 +32,7 @@
                                         
                                 
                                 ?>
-                            <th><?php echo $value['categoryName']."(".$Details->categoryScoreArray1[$k].")";?></th>
+                            <th><div class="truncatetable" rel="tooltip" data-original-title="<?php echo $value['categoryName'];?>"><?php echo $value['categoryName']." (".$Details->categoryScoreArray1[$k].")";?></div></th>
                             <?php $k++;}} $j++;}?>
                              <th class="data_t_hide">System Marks</th>
                               <th class="data_t_hide">Review Marks</th>
@@ -48,10 +50,13 @@
                         <?php $i=1;foreach($reportData as $Details){?> 
                         <tr class="<?php if($i%2==0){echo "odd";}else{echo "even";} ?>" >
                             <td class="data_t_hide">
+                                <div class="emaildiv">
                                 <?php echo $Details->userName;?>
+                                </div>
                             </td> 
-                            <td class="data_t_hide">
+                            <td class="data_t_hide"><div class="emaildiv">
                                 <?php echo $Details->EmailId;?>
+                                </div>
                             </td>
                             <td class="data_t_hide center">
                                 <?php echo $Details->PhoneNumber;?>
@@ -122,3 +127,6 @@
                             <?php }?>
         </div>
     </div>
+<script type="text/javascript">
+$("[rel=tooltip]").tooltip();
+</script>
