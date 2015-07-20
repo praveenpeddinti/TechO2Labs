@@ -259,9 +259,9 @@ if(is_object($surveyObj)){ ?>
                         <?php if(trim($rw) != trim("")){ ?>
                             
                             <?php if($optionsSize != $k || $question['AnyOther'] == 0){ ?>
-                            <input class="questionOptionhidden_<?php echo ($k."_".$i); ?>" type="hidden" name="QuestionsSurveyForm[OptionValue][<?php echo ($k."_".$i); ?>]"   id="QuestionsSurveyForm_OptionValue_<?php echo ($k."_".$i); ?>" value="<?php echo $userAnswer[$k-1]?>"/>
+                            <input class="questionOptionhidden_<?php echo ($k."_".$i); ?> questionOptionhidden_<?php echo ($i); ?>" type="hidden" name="QuestionsSurveyForm[OptionValue][<?php echo ($k."_".$i); ?>]"   id="QuestionsSurveyForm_OptionValue_<?php echo ($k."_".$i); ?>" value="<?php echo $userAnswer[$k-1]?>"/>
                             <?php }else{ ?>
-                            <input class="questionOptionhidden_<?php echo ($k."_".$i); ?>" type="hidden" name="QuestionsSurveyForm[OptionValueOther][<?php echo ($k."_".$i); ?>]"   id="QuestionsSurveyForm_OptionValueOther_<?php echo ($k."_".$i); ?>" value="<?php echo $userAnswer[$k-1]?>"/>
+                            <input class="questionOptionhidden_<?php echo ($k."_".$i); ?> questionOptionhidden_<?php echo ($i); ?>" type="hidden" name="QuestionsSurveyForm[OptionValueOther][<?php echo ($k."_".$i); ?>]"   id="QuestionsSurveyForm_OptionValueOther_<?php echo ($k."_".$i); ?>" value="<?php echo $userAnswer[$k-1]?>"/>
                             
                             <?php } ?>
                         <td><?php if($optionsSize == $k && $question['AnyOther'] == 1){  ?>
@@ -1536,22 +1536,51 @@ $("#pagenoforsurvey").html(pageStr).show();
                   $(".displaytable").die().live('click',function(){                 
  
                         var oid = $(this).attr("data-optionid");
+                        alert(oid)
                         var hidId = $(this).attr("data-hidname"); 
                         //alert(hidId+"===="+$(this).attr("data-name"))
                         $("#"+hidId).val($(this).attr("data-name"));
-                         var checkboxvalues = "";    
+                        var column = $(this).attr("data-name"); 
+                        var checkboxvalues = "";  
+                        var checkvaluesarray = new Array();
                          var qid = $(this).attr("data-questionid");
+                         var totalrows = 0;
+                         $(".questionOptionhidden_"+qid).each(function(){
+                             totalrows++;
+                         });
+                         var temprow = 0;
                         $(".radiotype_"+qid).each(function(){
                             var $this = $(this);
-                           if($(this).is(":checked")){
-                               if(checkboxvalues == ""){
-                                   checkboxvalues = $this.val();
-                               }else{
-                                   checkboxvalues = checkboxvalues+","+$this.val();  
-                               }
-                           }
+                            alert("==ddd="+$this.closest("div.displaytable").attr("data-optionid"))
+                            var currentColumn = $this.closest("div.displaytable").attr("data-name");
+                            if(column == currentColumn){
+                                temprow++;
+//                                if($(this).is(":checked")){
+//                                    if(checkboxvalues == ""){
+//                                        checkboxvalues = $this.val();
+//                                    }else{
+//                                        checkboxvalues = checkboxvalues+","+$this.val();  
+//                                    }
+//                                }
+                            }else{
+                                temprow++;
+                            }
+                            if(temprow <= totalrows){
+                                if($(this).is(":checked")){
+//                                    if(checkboxvalues == ""){
+//                                        checkboxvalues = $this.val();
+//                                    }else{
+//                                        checkboxvalues = checkboxvalues+","+$this.val();  
+//                                    }
+
+                                    checkvaluesarray.push($this.val());
+                                }else{
+                                    checkvaluesarray.push(0);
+                                }
+                            }
                            
-                        });     
+                        });  
+                        alert(checkvaluesarray)
                        if(checkboxvalues != 0 && checkboxvalues != ""){
                            $("#QuestionsSurveyForm_OptionsSelected_"+qid).val(checkboxvalues);
                        } 
@@ -1559,11 +1588,10 @@ $("#pagenoforsurvey").html(pageStr).show();
 
                     }); 
                     
-            $(".radioRatingTable").die().live('click',function(){
+            $(".radioRatingTable").die().live('click',function(){ alert("===")
                  var oid = $(this).attr("data-optionid");
-                 
-                 var hidId = $(this).attr("data-hidname");
-                 
+                 alert(oid)
+                 var hidId = $(this).attr("data-hidname");                 
                   $("#"+hidId).val($(this).attr("data-name"));
                   var checkboxvalues = "";                        
                  var value = $("#rankingRadio_"+oid).val();
@@ -1572,7 +1600,8 @@ $("#pagenoforsurvey").html(pageStr).show();
                   
                  $(".radiotype_rat_"+qid).each(function(){
                      var $this = $(this);
-                     
+                     alert("==ddd="+$this.closest("div.displaytable").attr("data-optionid"))
+                     var rowo = $this.closest("div.displaytable").attr("data-optionid");
                     if($(this).is(":checked")){
                         if(checkboxvalues == ""){
                             checkboxvalues = $this.val();
@@ -1688,7 +1717,7 @@ $("#"+questionActiveID).css("background-color", "orange");
              for(var i =1; i<=1;i++){  
                  gQcnt++;
                 var widtype = $("#QuestionsSurveyForm_WidgetType_"+i).val();
-        var isMandatory = $("#QuestionsSurveyForm_IsMadatory_"+i).val(); 
+                var isMandatory = $("#QuestionsSurveyForm_IsMadatory_"+i).val(); 
              //   alert("isValidated=="+isValidated+"=isValidate="+isValidate+"==qCount==="+qCount+"=i=="+i)
                  PreviousValidateQuestions(i, qCount);  
                
