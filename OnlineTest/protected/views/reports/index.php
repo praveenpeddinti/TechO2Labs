@@ -127,7 +127,7 @@ var g_filterValue = "";
 var g_pageNumber = 1;
 var g_searchText = "";
 var g_startLimit = 0;
-var g_pageLength = 5; 
+var g_pageLength = 10; 
  var g_startdate = "";
  var g_enddate = "";
  var startdate = enddate = "";
