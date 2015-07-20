@@ -340,7 +340,7 @@ class ExtendedSurveyController extends Controller {
                                     if ($ExtendedSurveyForm->SurveyId == "") {
                                         $ExSurveyBean->QuestionId = new MongoId();
                                     }
-                                    $ExSurveyBean->Question = $m;
+                                    $ExSurveyBean->Question = stripslashes($m);
                                 }
                             }
                             if ($key == "RadioOption") {

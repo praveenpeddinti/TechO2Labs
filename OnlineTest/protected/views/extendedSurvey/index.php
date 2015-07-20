@@ -2235,8 +2235,8 @@ function BrandPreviewImage(id, fileName, responseJSON, type)
     
     
     
-   
-    
-    
- 
+        
+        
+
+        
 </script>   

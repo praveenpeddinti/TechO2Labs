@@ -726,7 +726,9 @@ class SkiptaExSurveyService {
                  // error_log("---".print_r($value,1));
                   $categoryId = $value["_id"];
                   $categoryNames = $value["CategoryNames"];
+                  error_log(print_r($categoryNames));
                   $reviewQuestionIds = $value["ReviewQuestionIds"];
+                  error_log(print_r($reviewQuestionIds));
                    $reviewQuestionUniqueIds = $value["ReviewQuestionUniqueIds"];
                    $reviewQuestionAnswers = $value["ReviewQuestionAnswers"];
                  
@@ -736,8 +738,10 @@ class SkiptaExSurveyService {
                      $uniqueId = $reviewQuestionUniqueIds[$key];
                      $categoryName = $categoryNames[$key];
                      array_push($questionObjArray,array("question"=>$questionObj,"answer"=>$answer,"categoryId"=>$categoryId,"categoryName"=>$categoryName,"testId"=>$testPaperId,"uniqueId"=>$uniqueId));
-                     
+                           error_log($categoryName."@@@@@@@@@123@@@@@@@@@@#######".  $questionId);
                   }
+                   
+
                   
 //                   $finalArray[$value["_id"]]=$value["Score_Sum"];
 //                   $finalArray[$value["_id"].'_IsReview']=$value["IsReviewed"];

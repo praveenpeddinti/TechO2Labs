@@ -23,8 +23,10 @@ if(is_object($surveyObj)){
          <?php 
          
          //$i = $iValue;
+        // echo "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@".sizeof($surveyObj->Questions);
          foreach($surveyObj->Questions as $question){
              $userAnswer = array();
+             
              ?>
             <input type="hidden" name="QuestionsSurveyForm[IsMadatory][<?php echo ($i); ?>]" value="<?php echo $question['IsMadatory']; ?>" id="QuestionsSurveyForm_IsMadatory_<?php echo $i; ?>">
             <?php if($question['QuestionType'] == 1){ ?>             

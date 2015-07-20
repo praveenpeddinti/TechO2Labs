@@ -1123,15 +1123,12 @@ public function getQuestionOfSurvey($surveyId,$questionId){
     
     public function getQuestionById($catId,$qid){
         try{
-            error_log("$$$$$$$111111$$$$$ =====categoryName===$catId===qid===$qid");
         $qstncriteria = new EMongoCriteria;
         $qstncriteria->addCond('_id', '==', new MongoId($catId));
         $qstncriteria->addCond('Questions.QuestionId', '==', new MongoId($qid));
         $questionobj = ExtendedSurveyCollection::model()->find($qstncriteria);
-        error_log("$$$$$$$$$$$$ sdfds details");
         $c = ExtendedSurveyCollection::model()->getCollection();
         $result = $c->aggregate(array('$match' => array('SurveyTitle' => $questionobj->SurveyTitle)), array('$unwind' => '$Questions'), array('$match' => array('Questions.QuestionId' => new MongoID($qid))), array('$group' => array("_id" => "_id", "Question" => array('$push' => '$Questions'))));
-        error_log("======result=========");
         $returnarray = array();
         $surveyobj = new ExtendedSurveyCollection;
         $surveyobj->SurveyTitle = $questionobj->SurveyTitle;
@@ -1140,11 +1137,11 @@ public function getQuestionOfSurvey($surveyId,$questionId){
         $surveyobj->SurveyLogo = $questionobj->SurveyLogo;
         $surveyobj->IsMadatory = $questionobj->IsMadatory;        
         foreach($result as $rw){
-//            error_log("======result=========".print_r($rw[0]['Questions'][0],1));
+            error_log("======result=========".print_r($rw[0]['Questions'][0],1));
             if(sizeof($rw[0])>0)
                 $surveyobj->Questions = $rw[0]['Question'];
         }
-        error_log("---".print_r($surveyobj->Questions,1));
+      //  error_log("---".print_r($surveyobj->Questions,1));
         return $surveyobj;
         } catch (Exception $ex) {
              Yii::log(" ExtendedSurveyCollection:getQuestionById::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');

@@ -1200,18 +1200,22 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $spiltCateVa = array();
             $spiltCate = split(",", $searchCategoryScore);
             $avoidFlag = 0;
+            $a=array();
             foreach ($spiltCate as $value) {
                 $a = split("~", $value);
                 
                 $spiltCateVa[$a[0]] = $a[1];
             }
             $filterNonZero = array_filter($spiltCateVa);
-            $$filterNonZeroCount = count($filterNonZero);
+            $filterNonZeroCount = count($filterNonZero);
               $reviewCountScores =array();
               $scoresByType = array();
-              $catTotalScore = array();
+
+              $bx=array();
+              $catUsers=array();
+              $catUsersScore=array();
+
             foreach ($categories as $category) {
-                array_push($catTotalScore, $category['CategoryScore']);
                
                   $reviewCountObj = ScheduleSurveyCollection::model()->getReviewCount($testId,$category['CategoryId'],$category['ScheduleId']);
                   array_push($reviewCountScores, $reviewCountObj);
@@ -1224,8 +1228,16 @@ class ScheduleSurveyCollection extends EMongoDocument {
                     if (array_key_exists($category['CategoryName'], $spiltCateVa)) {
                         $categoryObj = ScheduleSurveyCollection::model()->prepareCategoryReport($testId, $category['CategoryId'], $category['ScheduleId'], $spiltCateVa[$category['CategoryName']]);
                         array_push($categoryScores, $categoryObj);
-                        array_push($categoryLabels, $category['CategoryName']);
+                        //error_log("---fff----".print_r($categoryObj,true));
+                        //array_push($catUsers, $category['CategoryName'],$categoryObj);
                         
+                        array_push($categoryLabels, $category['CategoryName']);
+
+                        //print_r(array_merge($categoryLabels,$categoryScores));
+                        if($spiltCateVa[$category['CategoryName']]>0){
+                        array_push($bx,$category['CategoryName']);
+                        }
+
                     }
                 } else {
                     $categoryObj = ScheduleSurveyCollection::model()->prepareCategoryReport($testId, $category['CategoryId'], $category['ScheduleId'], '');
@@ -1233,13 +1245,112 @@ class ScheduleSurveyCollection extends EMongoDocument {
                     array_push($categoryLabels, $category['CategoryName']);
                 }
             }
-                // error_log("@@@@@@@@@@@asdfasdf@@@@@@@@@@@@@@@@");
-
+            $scoreuserarray=array();
+            $scoreuserarrayMain=array();
+   
             $userReportObject = array();
+            $i=0;
             
-            foreach ($testTakenUsers as $user) {
+            //error_log(print_r($bx));
+            $t=0;
+            $k1=0;
+   
+              if(count($bx)==0){error_log("---if--bx--00");
+                   $t=0;
+            $k1=0;
+               foreach ($categoryScores as $key => $categoryScore) {
+            
+              if(count($categoryScore)>$t){
+                   $t=count($categoryScore);
+               $k1=$key;
+              }
+              }
+               $ggsr=array_slice($categoryScores[$k1], $startLimit, $pageLength,true); 
+              $t=sizeof($categoryScores[$k1]);
+              }else{
+                   $i=0;
+             error_log("-----size0f---".sizeof($categoryScores));
+            foreach($categoryScores as $cat){
+                
+            foreach($cat as $kk => $cc){
+                    //$s=$bx[$i];erro_log($s."----xcxzcxzc-".$bx[$i]);
+                    if(is_array($scoreuserarray[$kk])){//error_log("if-------------");
+                       $scoreuserarray[$kk][$i] =$cc;
+                       
+                       //array_push($scoreuserarray, $userarray);
+                       //array_push($scoreuserarrayMain, $scoreuserarray);
+                    }else{
+                        $scoreuserarray[$kk]=array();
+                        $scoreuserarray[$kk][$i] =$cc;
+
+                       
+                        
+                    }
+                    
+                   
+                  
+                }
+               $i++; 
+             
+            } 
+           
+              foreach ($bx as $key => $categoryname) {
+                $key=  array_search($categoryname, $categoryLabels);
+              if(count($categoryScores[$key])>$t){//error_log("-----size0f-2--".$categoryScores[$key]);
+            
+                  
+               $k1=$key;
+              }
+              }
+              
+              
+             
+            
+             //$xx="return ".$xx.";";
+          //   $xx="$v[0] >3 && $v[1] >2";
+
+              error_log(print_r($scoreuserarray,true));
+
+              $filtered = array_filter($scoreuserarray, function($v) use ($categoryLabels,$filterNonZero)  { 
+ $xx="";
+             foreach($categoryLabels as $key1=>$value1)
+             {
+                 
+                 $k2=array_search($value1, $filterNonZero);
+                 $v2=0;
+                 if(isset($filterNonZero[$value1])){
+                   $v2=  $filterNonZero[$value1];
+                 }
+                 
+                 if($v2>0){
+                   $xx= $xx."$"."v[".$key1."] >=".$v2." && ";     
+                 }else{
+                    $xx= $xx."$"."v[".$key1."] >=0 && ";     
+                 }
+             
+             }              
+             
+             $xx=substr($xx,0, -3);
+                $xx="return ".$xx.";";
+                error_log($xx);
+                 if(eval($xx)){
+                    return $v[0];
+                 }
+              
+              
+              
+              }); 
+               $ggsr=array_slice($filtered, $startLimit, $pageLength,true); 
+               $t=sizeof($filtered);
+              }
+  
+            foreach ($ggsr as $key => $value) {
+           
+             ///   $i++;
+               
+                //error_log("@@@@@@@@@@@@@@@@@asdfasdf@@@".$key);
                 $userReportBean = new UserReportBean();
-                $userObject = UserCollection::model()->getTinyUserCollection($user);
+                $userObject = UserCollection::model()->getTinyUserCollection($key);
                 //$user=User::model()->getUserByType("UserId",$userObject->UserId);
                 $tregisterobject=TestRegister::model()->getUserTestObjectByUserIdTestId($userObject->UserId,$testId);
                  $userDetailsInDB=User::model()->getUserDetailsObjectByUserIdTestId($userObject->UserId);
@@ -1251,9 +1362,9 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 $userReportBean->PhoneNumber = $userDetailsInDB->Phone;
                 $userReportBean->userId = $userObject->UserId;
                 $userReportBean->profilepic = $userObject->ProfilePicture;
+                
                 //$userReportBean->Phone = $userObject->Phone;
-                 
-                $userReportBean->Qualification = $user->Qualification;;
+                $userReportBean->Qualification = "MCA";
                 $userCategoryScoreArray = array();
                 $totalMarks = 0;
                  $systemMarks = 0;
@@ -1263,25 +1374,16 @@ class ScheduleSurveyCollection extends EMongoDocument {
                 $dicardUser = 0;
                 foreach ($categoryScores as $key => $categoryScore) {
                     $label = $categoryLabels[$key];
-                    
-                    if ($dicardUser == 0 && in_array($userObject->UserId, array_keys($categoryScore)) ) {
+                  
                         $dicardUser = 0;
-                        $score = $categoryScore[$userObject->UserId];
-                       
-                         
-                       // $IsReview = $categoryScore[$userObject->UserId . '_IsReview'];
-                       // $totalReviewQ = $totalReviewQ + $IsReview;
-                        $totalMarks = $totalMarks + $score;
-                       
-                        array_push($userCategoryScoreArray, array("categoryName" => $label, "score" => $score));
-                    } else {
-                       if($$filterNonZeroCount >0){
-                          $dicardUser = 1; 
-                       }else{
-                           array_push($userCategoryScoreArray, array("categoryName" => $label, "score" => 0));
-                       }
-                        
-                    }
+                     
+                  
+                    $score=in_array($userObject->UserId, array_keys($categoryScore))?$categoryScore[$userObject->UserId]:0;
+                     $totalMarks = $totalMarks + $score;
+                      array_push($userCategoryScoreArray, array("categoryName" => $label, "score" => $score));
+                      
+                     
+                    //error_log(print_r($userCategoryScoreArray,true)."fuck off");
                 }
                 
                  foreach ($scoresByType as $sc) {
@@ -1291,7 +1393,6 @@ class ScheduleSurveyCollection extends EMongoDocument {
                            $reviewMarks = $reviewMarks + $scoreByTypeArray["reviewMarks"];
                            $reviewPendingCount = $reviewPendingCount + $scoreByTypeArray["reviewPendingCount"];
                            //$totalReviewQ = $scoreByTypeArray["tt"];
-                           
                         }
                 if ($dicardUser == 0) {
                     $userReportBean->categoryScoreArray = $userCategoryScoreArray;
@@ -1312,10 +1413,10 @@ class ScheduleSurveyCollection extends EMongoDocument {
                     $getTestTakenUsersCount--;
                 }
             }
+            
 
             $returnValue = $getReportsDataArray;
-            //error_log("------final----".print_r($getReportsDataArray,1));
-            return array("data" => $returnValue, "totalTakenUsers" => $getTestTakenUsersCount,"totalQuestions" => $totalQuestions);
+            return array("data" => $returnValue, "totalTakenUsers" => $t,"totalQuestions" => $totalQuestions);
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:getScheduleSurveyDetailsObject::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
             error_log("Exception Occurred in ScheduleSurveyCollection->getScheduleSurveyDetailsObject==" . $ex->getMessage());
@@ -1329,7 +1430,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             $result = $c->aggregate(array('$match' => array('_id' =>new MongoID($scheduleId),'TestId' =>new MongoID($testId),'SurveyId' =>new MongoID($categoryId))),array('$unwind' =>'$UserAnswers'),array('$group' => array('_id' => '$UserAnswers.UserId', 'count' => array('$sum' => 1),"Score_Sum" => array('$sum' => '$UserAnswers.Score'))));
            
             $result = $result['result'];
-             // error_log(print_r($result,1));
+              //error_log("pre----".print_r($result,1));
             $finalArray = array();
             if (is_array($result) && sizeof($result) > 0) {
                 foreach ($result as $value) {
@@ -1347,6 +1448,7 @@ class ScheduleSurveyCollection extends EMongoDocument {
             }else{
                 error_log("*************************");
             }
+            //error_log("pre----".print_r($finalArray,1));
             return $finalArray;
         } catch (Exception $ex) {
             Yii::log("ScheduleSurveyCollection:prepareCategoryReport::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
@@ -1446,7 +1548,6 @@ class ScheduleSurveyCollection extends EMongoDocument {
        
       $c = ScheduleSurveyCollection::model()->getCollection();
      $result = $c->aggregate(array('$match' => array('TestId' =>new MongoID($testPaperId))),array('$unwind' =>'$UserAnswers'),array('$match' => array('UserAnswers.IsReviewed' =>array('$in'=>array(1,2)),'UserAnswers.UserId' =>(int)$userId)),array('$group' => array("_id" => '$SurveyId',"ReviewQuestionIds" => array('$push' => '$UserAnswers.QuestionId'),"ReviewQuestionUniqueIds" => array('$push' => '$UserAnswers.UniqueId'),"ReviewQuestionAnswers" => array('$push' => '$UserAnswers'),"CategoryNames" => array('$push' => '$SurveyRelatedGroupName'))));          
-    // error_log("get review ---".print_r($result,1));
       $result = $result['result'];
        if(is_array($result) && sizeof($result) > 0 ){
           $returnValue =  $result; 

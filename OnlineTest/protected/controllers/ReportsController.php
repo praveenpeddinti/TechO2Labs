@@ -77,9 +77,10 @@ class ReportsController extends Controller {
         try{
            $testPaperId = $_POST["testPaperId"];
            $userId = $_POST["userId"];
-
+ //error_log("##########################gserwerwerwerwer############".$userId);
             $reviewReportsData = ServiceFactory::getSkiptaExSurveyServiceInstance()->getReviewQuestions($testPaperId,$userId);
- 
+           
+            
             $this->renderPartial("reviewQuestions",array("surveyObjArray"=>$reviewReportsData,"bufferAnswers"=>array()));
         } catch (Exception $ex) {
             error_log("Exception Occurred in ReportsController->actionRenderReports==" . $ex->getMessage());
