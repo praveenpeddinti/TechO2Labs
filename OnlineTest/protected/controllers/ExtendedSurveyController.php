@@ -1852,46 +1852,38 @@ class ExtendedSurveyController extends Controller {
     
       public function actionGenerateSurveyTakenUsersInfoAnalyticsXLS() {
         try {
-            $surveyId = $_REQUEST['surveyId'];
-            $scheduleId = $_REQUEST['scheduleId'];
+            $testId = $_REQUEST['testId'];
+            
+            $startDate = $_REQUEST['sDate'];
+            $endDate = $_REQUEST['eDate'];
+            $searchCategoryScore = $_REQUEST['searchCat'];
+            $startLimit = 0;
+            $pageLength = 1000;
             $dateFormat = CommonUtility::getDateFormat();
             $ActivityColumnsArray = array();
 
             $data = array();
-            $i = 0;
-            $resultArray = CommonUtility::prepateSurveyTakenUsersInfoData($surveyId, $scheduleId);
-            $surveyTakenUsersInfo = $resultArray["surveyTakenUsersInfo"];
-            $scheduleObject = $resultArray["scheduleObject"];
-
-            $startDate = date($dateFormat, CommonUtility::convert_date_zone($scheduleObject->StartDate->sec, Yii::app()->session['timezone'], date_default_timezone_get()));
-            $endDate = date($dateFormat, CommonUtility::convert_date_zone($scheduleObject->EndDate->sec, Yii::app()->session['timezone'], date_default_timezone_get()));
-        if(is_array($surveyTakenUsersInfo)){
-            $ActivityColumnsArray = array_slice(array_keys($surveyTakenUsersInfo[0]),1);
-       
-         
-                    $i = 0;
-                    foreach ($surveyTakenUsersInfo as $value) {
-                        $inner = 0;
-                        foreach ($value as $k => $v) {
-                            if($k != "UserId"){
-                        if($k == "Federal TaxId Or SSN"){
-                           $value[$k] =  base64_decode($value[$k]);
-                        }
-                        if($k == "State"){
-                          // $stateInfo =  State::model()->GetStateById($value[$k]);
-                           $value[$k] = $value[$k];
-                        }
-                            $data[$i][$inner] = $value[$k];
-                            $inner++;
-                        }
-                        }
-          
-                        $i++;
-                    }
-        }else{
+            $getTestReports = ScheduleSurveyCollection::model()->getTestReports('TestId', $testId,$startDate,$endDate,$searchCategoryScore,$startLimit,$pageLength);
+            $reportData= $getTestReports['data'];  
+            
+            $data[0][0] = "User Name";
+            $data[0][1] = "Email";
+            $data[0][2] = "Phone";
+            $data[0][3] = "Marks" ;               
+            $i = 1;
+            if(sizeof($reportData)>0){
+                foreach($reportData as $Details){
+                    $data[$i][0] = $Details->userName;
+                    $data[$i][1] = $Details->EmailId;
+                    $data[$i][2] = $Details->PhoneNumber;
+                    $data[$i][3] = $Details->totalMarks;
+                    $i++;
+                }
+            }else{
              $data[0][0] = "No Data Found";
-        }
-            $r = new YiiReport(array('template' => 'surveyAnalytics_users.xls'));
+            }
+        
+            $r = new YiiReport(array('template' => 'TotalScore_users.xls'));
           //  $f = preg_replace("/<\/?div[^>]*\>/i", "", Yii::app()->params['COPYRIGHTS']);
             $r->load(array(
                 array(
@@ -1909,7 +1901,7 @@ class ExtendedSurveyController extends Controller {
             CommonUtility::insertDataDynamicallyInExcelSheet($r->objPHPExcel, 1, $ActivityColumnsArray, $data);
            // $logo = Yii::app()->params['WebrootPath'] . "images/system/logo.png";
            // CommonUtility::insertImageInExcelSheet($r->objPHPExcel, 0, $logo, 'A1', 10, 10);
-           echo $r->render('excel5', $scheduleObject->SurveyTitle."_SurveyTakenUsers");
+           echo $r->render('excel5', "Test Report for Users");
 
             Yii::app()->end();
         } catch (Exception $ex) {

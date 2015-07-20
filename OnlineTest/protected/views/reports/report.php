@@ -2,7 +2,8 @@
 
 <div style="position: relative" id="reporsttopdiv" data-total="<?php echo $total; ?>">
             <div  class="block">
-                 <?php if($total>0){?>
+                 <?php //if($total>0){?> <?php if(sizeof($reportData)>0){?>
+                <a id="exportExcel" rel="tooltip" data-testId="<?php echo $testPaperId;?>" style="cursor: pointer;"  role="button"  data-placement="bottom"  data-original-title="Export Users" > <i class="icon-place-exportXls"></i></a> 
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
                     <thead><tr><th class="data_t_hide">Name</th>
                             <th class="data_t_hide">Email</th>
@@ -31,6 +32,7 @@
                             </th>
                         </tr></thead>
                     <tbody>
+                        
                         <?php $i=1;foreach($reportData as $Details){?> 
                         <tr class="<?php if($i%2==0){echo "odd";}else{echo "even";} ?>" >
                             <td class="data_t_hide">
@@ -79,13 +81,12 @@
                           
                         </tr>
                          <?php $i++;}?>
-                        
                     </tbody>
                 </table>
                 <div class="pagination pagination-right">
             <div id="pagination"></div> 
             </div> 
-                <?php } else{ ?>
+                        <?php  } else{ ?>
                 <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
                     <thead><tr><th class="data_t_hide">Name</th>
                             <th class="data_t_hide">Date</th>

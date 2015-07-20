@@ -300,5 +300,27 @@ function validAnswer(evt,value,Score){
     
 }
 
+//XLS Reports
+$("#exportExcel").live("click",function(){
+   var testId = $(this).attr("data-testId");
+  
+  var startDate = $("#InviteUserForm_StartDate").val();
+        var endDate = $("#InviteUserForm_EndDate").val();
+        var searchText='';
+        $(".categorysearch").each(function(){
+            var $this = $(this);
+        //if($this.val()!=''){
+           
+        if(searchText==''){
+                searchText = $this.attr("id")+"~"+$this.val();
+            }else{
+                searchText = searchText+','+$this.attr("id")+"~"+$this.val();
+            }//}
+        });
+        
+   //scrollPleaseWait('spinner_admin');
+  window.open("/extendedSurvey/generateSurveyTakenUsersInfoAnalyticsXLS?testId="+testId+"&sDate="+startDate+"&eDate="+endDate+"&searchCat="+searchText);
+});
+
 </script>
 
