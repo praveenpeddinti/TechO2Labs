@@ -11,7 +11,7 @@
         <td style="width:80px; text-align:left"></td>
         <td style="width:80px; text-align:left"></td>
         
-        <td style=" text-align:left;width:50px;" class="tooltiplink cursor" rel="tooltip"  data-original-title="Add New User"><a id="exportExcel" class="tooltiplink cursor" rel="tooltip"  data-testId="<?php echo $testPaperId;?>" style="cursor: pointer;"  role="button"  data-placement="bottom"  data-original-title="Export Users" > <i class="icon-place-exportXls"></i></a> </td>
+        <td style=" text-align:left;width:50px;" ><a id="exportExcel" class="tooltiplink cursor" rel="tooltip"  data-testId="<?php echo $testPaperId;?>" style="cursor: pointer;"  role="button"  data-placement="bottom"  data-original-title="Export Users" > <i class="icon-place-exportXls"></i></a> </td>
             
     </tr>
   </table>
