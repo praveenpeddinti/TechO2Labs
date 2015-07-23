@@ -1251,6 +1251,7 @@ sessionStorage.sharedURL = "";
                              $("#surveysubmitbuttons").hide(); 
 //                                $("#surveyQuestionArea").html(data); 
                                 window.location.href = "/outside/thankyouPage?done=done";
+                                return;
                         }
                  //console.log("after save next page---"+categoryId+"---"+scheduleId);
                        // alert(categoryId+"(("+sureyQuestionPage)
