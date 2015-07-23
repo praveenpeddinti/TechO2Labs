@@ -25,7 +25,7 @@ class UserRegistrationForm extends CFormModel
 	{
 		return array(
 			array('FirstName,LastName,Email,Phone', 'required' ),
-                    array('IdentityProof', 'safe' ),
+                    
                         array(
                             'FirstName',
                             'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
@@ -46,20 +46,20 @@ class UserRegistrationForm extends CFormModel
                             'message'=>Yii::t('translation','attribute_Invalid_characters')
                       ),
                     array('Phone','numerical','integerOnly'=>true,'min'=>1111111111,'tooSmall'=>'{attribute} is too short(minimum 10 numbers)',),
-//                    array('IdentityProof', 'required', 'message' => 'Please select Id Proof'),
-//                    array('IdentityProof', 'ext.YiiConditionalValidator.YiiConditionalValidator',
-//                       'if' => array(
-//                           array('IdentityProof', 'in', 'range'=>array('Pancard','Passport','Driving Licence'), 'allowEmpty'=>false)
-//                           //array('IdentityProof', 'compare', 'compareAttribute'=>'IdentityProof', 'allowEmpty'=>true),
-//                       ),
-//                       'then' => array(
-//                           array('CardNumber', 'required','message'=>'Please enter a value for Card Number'),
-//                           array(
-//                            'CardNumber',
-//                            'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9]/',
-//                            'message'=>Yii::t('translation','attribute_Invalid_characters')
-//                      ),
-//                       ),),
+                    array('IdentityProof', 'required', 'message' => 'Please select Id Proof'),
+                    array('IdentityProof', 'ext.YiiConditionalValidator.YiiConditionalValidator',
+                       'if' => array(
+                           array('IdentityProof', 'in', 'range'=>array('Pancard','Passport','Driving Licence'), 'allowEmpty'=>false)
+                           //array('IdentityProof', 'compare', 'compareAttribute'=>'IdentityProof', 'allowEmpty'=>true),
+                       ),
+                       'then' => array(
+                           array('CardNumber', 'required','message'=>'Please enter Card Number'),
+                           array(
+                            'CardNumber',
+                            'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9]/',
+                            'message'=>Yii::t('translation','attribute_Invalid_characters')
+                      ),
+                       ),),
 //                    
                     array('FirstName,LastName,Email,Phone,IdentityProof,CardNumber,Imagesrc', 'safe'),
 //
