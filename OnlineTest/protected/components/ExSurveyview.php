@@ -116,11 +116,14 @@ var TotalTimerDivs={};
             
         }   
          }
+         
+   
+         
          $(document).ready(function() {
              //main timer code
            
              //main timer end
-          
+           
              var UserId = 0;
                  var Groupname = "";
                  var isOuter = false;
@@ -186,17 +189,22 @@ var TotalTimerDivs={};
         var sureyQuestionPage=2;
         var fromPagiNation=0;
          var fromAutoSave=0;
+          var fromAutoSave=0;
          var scheduleId = "";
+         var finalDone = 0;
          $("#nextQuestion").live("click",function(){
+             //alert("&&");
              openCategory=arr_diff(CategoryDivs,closedCategory);
              fromPagiNation=1;
              fromAutoSave=0;
+             finalDone = 0;
              gotoNextPage();
+             //alert("$$$$");
 //           $("#submitQuestion").trigger("click");
           
            //  alert($("#QuestionsSurveyForm_ScheduleId").attr("value"));
             
-         })
+         });
           var currentPage=0;   
          $(".questionnos").live("click",function(){   //question by number            
              var $this = $(this);
@@ -242,6 +250,7 @@ var TotalTimerDivs={};
    
          $("#prevQuestion").live("click",function(){
              fromPagiNation=1;
+             finalDone = 0;
              previousValidation();
               savePresAnswersForQuestions(1,1)
              gotoPreviousPage();  
@@ -291,10 +300,10 @@ var TotalTimerDivs={};
               var surveyId = $("#QuestionsSurveyForm_SurveyId").attr("value");
              $("#qno_"+currentPage).addClass("completed");
 //              ValidateQuestions(1, 1);
-submitSurvey();
+                      submitSurvey();
               
          }
-         function sureyQuestionPaginationHandler(html){
+         function sureyQuestionPaginationHandler(html){//alert("hand");
              sureyQuestionPage++;             
              scrollPleaseWaitClose('surveyviewspinner');
              $("#questionviewarea").html(html);

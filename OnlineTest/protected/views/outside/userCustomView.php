@@ -995,6 +995,7 @@ sessionStorage.sharedURL = "";
              fromPagiNation = 0;
              gQcnt = 0;
              notValidate = 0;
+             finalDone = 1;
              if(autoSaveInterval != null && autoSaveInterval != "undefined"){          
                      clearInterval(autoSaveInterval);
                 }
@@ -1086,7 +1087,7 @@ sessionStorage.sharedURL = "";
         
         function ValidateQuestions(qNo,qCnt){ //alert(qNo+"-VQ--fff--"+qCnt);
              $("#"+questionActiveID).css("background-color", ""); 
-          console.log("=ValidateQuestions=========fromAutoSave=="+fromAutoSave);
+          //console.log("=ValidateQuestions=========fromAutoSave=="+fromAutoSave);
      
             
             var serializeddata = $("#questionviewWidget_"+qNo).serialize();
@@ -1182,7 +1183,7 @@ sessionStorage.sharedURL = "";
                 
                 
             }
-             console.log("count fo garray---"+Garray.length+"---"+isValidate);
+             //console.log("count fo garray---"+Garray.length+"---"+isValidate);
             }
         
 
@@ -1211,12 +1212,12 @@ sessionStorage.sharedURL = "";
         
         function saveAnswersForQuestions(){
            //alert("*p*");
-           console.log("after save next page---");
+           //console.log("after save next page---");
            if($("#surveySavingRes").length>0 && fromAutoSave == 0){
                 $("#surveySavingRes").show();  
                 $("#surveySavingRes").attr("style","margin-top:10px");
             }
-            console.log("saveAnswersForQuestions---"+Garray+"---"+CategoryIdwithCategory.toSource());
+            //console.log("saveAnswersForQuestions---"+Garray+"---");
            // alert(Garray)
          //  alert(CategoryIdwithCategory.toSource())
        var position=CategoryIdwithCategory[categoryId].split("_");
@@ -1232,7 +1233,7 @@ sessionStorage.sharedURL = "";
                 isValidated = false;
                 $.ajax({
                     type: 'POST',
-                    url: '/outside/validateSurveyAnswersQuestion?fromPagination='+fromPagiNation+'&fromAutoSave='+fromAutoSave+'&Page='+sureyQuestionPage+'&QuestionTempId=<?php echo $UserTempId?>',
+                    url: '/outside/validateSurveyAnswersQuestion?fromPagination='+fromPagiNation+'&fromAutoSave='+fromAutoSave+'&Page='+sureyQuestionPage+'&finalDone='+finalDone+'&QuestionTempId=<?php echo $UserTempId?>',
                     data: data,
                     success: function(data) {
                         //alert("---succes---");
@@ -1250,10 +1251,10 @@ sessionStorage.sharedURL = "";
 //                                $("#surveyQuestionArea").html(data); 
                                 window.location.href = "/outside/thankyouPage?done=done";
                         }
-                 console.log("after save next page---"+categoryId+"---"+scheduleId);
+                 //console.log("after save next page---"+categoryId+"---"+scheduleId);
                        // alert(categoryId+"(("+sureyQuestionPage)
                             var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};                        
-                           console.log("after save next page-1--"+queryString); 
+                           //console.log("after save next page-1--"+queryString); 
                 ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
                         }else{
                             scrollPleaseWaitClose('surveyviewspinner');

@@ -377,22 +377,23 @@ class SkiptaExSurveyService {
         }
     }
     
-    public function saveSurveyAnswer($model, $NetworkId, $UserId, $fromPagination, $fromAutoSave, $fromPage,$questionTempId=0,$eachquestionscore=0) {
-        try {
+    public function saveSurveyAnswer($model, $NetworkId, $UserId, $fromPagination, $fromAutoSave, $fromPage,$questionTempId=0,$eachquestionscore=0,$finalDone) {
+        try {error_log($finalDone."-----finalpara---fromPagination--".$fromPagination."---fromAutoSave-".$fromAutoSave."-fromPage---".$fromPage);
 
-            if ($fromPagination == 1 || $fromAutoSave == 1) {
-
-                               
-                return SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, "", $fromAutoSave, $fromPage,$questionTempId,$eachquestionscore);
+            //if ($fromPagination == 1 || $fromAutoSave == 1) {
+                if($finalDone!=1){
+                       
+                        error_log("-----next and pri--1---fromPagination--".$fromPagination."---fromAutoSave-".$fromAutoSave."-fromPage---".$fromPage);
+                return SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, "", $fromAutoSave, $fromPage,$questionTempId,$eachquestionscore,$finalDone);
                 // return ScheduleSurveyCollection::model()->updateSurveyAnswer($model,$NetworkId,$UserId,"");
             } else {
- 
+                  error_log("-----final done-----");
                 //check spots
                
                     $fromPage = $fromPage > 1 ? $fromPage - 1 : 1;
                     SurveyInteractionCollection::model()->trackSurveyLogout("", $UserId, $model->ScheduleId, $model->SurveyId, $fromPage, "notRefresh");
 
-                    $result = SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, 'Done', $fromAutoSave, $fromPage,$questionTempId,$eachquestionscore);
+                    $result = SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, 'Done', $fromAutoSave, $fromPage,$questionTempId,$eachquestionscore,$finalDone);
 
                     $surveyDetails = ExtendedSurveyCollection::model()->getSurveyDetailsById('Id', $model->SurveyId);
                  

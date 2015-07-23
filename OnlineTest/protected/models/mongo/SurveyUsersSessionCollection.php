@@ -157,7 +157,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
           }
       }
        
-    public function updateSurveyAnswer2($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage,$qTempId,$eachquestionscore){
+    public function updateSurveyAnswer2($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage,$qTempId,$eachquestionscore,$finalDone){
         try{        
           
             $returnValue = "failed";
@@ -256,7 +256,7 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                   }
             
             }
-                    if($flag == "Done"){    error_log("-------Done 1----");                    
+                    if($flag == "Done"){    error_log("-------Done 1----".$finalDone);                    
                         $criteria = new EMongoCriteria;
                         $criteria->addCond("_id","==",new MongoId($qTempId));
                         $userQuestionObj = UserQuestionsCollection::model()->find($criteria);
@@ -264,12 +264,16 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                             $criteria = new EMongoCriteria;
                             $criteria->addCond("_id","==", new MongoId($userQuestionObj->Testid));
                             $testPrepareObj = TestPreparationCollection::model()->find($criteria);
+                            if($finalDone==1){ error_log("-----------noooooooo- ---".$finalDone);
                             $modifier = new EMongoModifier;
+                            //$criteria->addCond('UserAnswers.TestTakenUsers', '!=', (int)$UserId);
                             $modifier->addModifier("TestTakenUsers", "push", (int)$UserId);
                             $modifier->addModifier("TestTakenUsersCount", "inc", (int)1);
                             if($testPrepareObj->updateAll($modifier, $criteria)){
                                 ;
-                            }
+                            }}
+                            error_log("-----------noooooooo---------------------------------UUU----".$UserId);
+                            
                         }
                         
                         $co = UserQuestionsCollection::model()->getCollection();                        

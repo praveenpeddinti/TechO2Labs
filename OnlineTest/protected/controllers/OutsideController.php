@@ -56,7 +56,7 @@ class OutsideController extends Controller {
        
     
     public function actionIndex() {
-        try {
+        try {error_log("---after index call----");
             $userId = Yii::app()->session['TinyUserCollectionObj']->UserId;            
             $vType = "1";
             $testId = "";
@@ -194,7 +194,7 @@ class OutsideController extends Controller {
                             
                             array_push($qn['CategoryQuestions'], (string)$qstn["QuestionId"]); 
                         }
-                        error_log($totalquestions."=to=====".$cat['NoofQuestions']."========@@@@%55555555 55555 55 55 5 55 54444&&&&&7==sizeof===========".print_r($qn['CategoryQuestions'],1));
+                        //error_log($totalquestions."=to=====".$cat['NoofQuestions']."========@@@@%55555555 55555 55 55 5 55 54444&&&&&7==sizeof===========".print_r($qn['CategoryQuestions'],1));
                         break;
                       //  if($totalquestions==)
                         
@@ -416,7 +416,7 @@ function get_values_for_keys($mapping, $keys) {
                 $surveyObjArray = ServiceFactory::getSkiptaExSurveyServiceInstance()->getCustomSurveyDetailsById('Id',$userQuestionTempId,$scheduleId,$page,$categoryId,$action);            
                        
             $bufferAnswers = array();
-         error_log("***######gsr3#####asdf##############****QuestionTemp id==***".print_r($surveyObjArray,true));
+         //error_log("***######gsr3#####asdf##############****QuestionTemp id==***".print_r($surveyObjArray,true));
 
              $surveyObj = $surveyObjArray["data"];
              $categoryId = $surveyObjArray["categoryId"];
@@ -437,7 +437,7 @@ function get_values_for_keys($mapping, $keys) {
      }
     public function actionValidateSurveyAnswersQuestion(){
         try{       
-              error_log("******SURESH**********I am match".$_REQUEST['QuestionTempId']);
+              error_log("******SURESH**********I am match".$_REQUEST['finalDone']);
 //            ini_set('memory_limit', '2048M');
             $QuestionsSurveyForm = new QuestionsSurveyForm();
             if(isset($_POST['QuestionsSurveyForm'])){
@@ -897,8 +897,8 @@ function get_values_for_keys($mapping, $keys) {
                     }
                      $fromPage = $_REQUEST["Page"];
                      $NetworkId=1;
-                    error_log("Iam form".print_r($QuestionsSurveyForm,true));
-                     $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId,$eachQuestionScore);
+                    //error_log("Iam form".print_r($QuestionsSurveyForm,true));
+                     $surveyObject = ServiceFactory::getSkiptaExSurveyServiceInstance()->saveSurveyAnswer($QuestionsSurveyForm,$NetworkId,$UserId,$fromPagination,$fromAutoSave,$fromPage,$questionTempId,$eachQuestionScore,$_REQUEST['finalDone']);
 
 
                      
