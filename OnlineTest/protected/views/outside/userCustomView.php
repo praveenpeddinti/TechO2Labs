@@ -1236,7 +1236,8 @@ sessionStorage.sharedURL = "";
                     url: '/outside/validateSurveyAnswersQuestion?fromPagination='+fromPagiNation+'&fromAutoSave='+fromAutoSave+'&Page='+sureyQuestionPage+'&finalDone='+finalDone+'&QuestionTempId=<?php echo $UserTempId?>',
                     data: data,
                     success: function(data) {
-                        //alert("---succes---");
+                        finalDone =0;
+                        
                       $("#surveySavingRes").hide();
                        Garray = new Array();
                            if(fromAutoSave == 0){
