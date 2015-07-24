@@ -263,16 +263,16 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                             $criteria = new EMongoCriteria;
                             $criteria->addCond("_id","==", new MongoId($userQuestionObj->Testid));
                             $testPrepareObj = TestPreparationCollection::model()->find($criteria);
-                            //if($finalDone==1){ error_log("-----------noooooooo- ---".$finalDone);
+                            if($finalDone==1){ error_log("-----------noooooooo- ---".$finalDone);
                             $modifier = new EMongoModifier;
                             //$criteria->addCond('UserAnswers.TestTakenUsers', '!=', (int)$UserId);
                             $modifier->addModifier("TestTakenUsers", "push", (int)$UserId);
                             $modifier->addModifier("TestTakenUsersCount", "inc", (int)1);
                             if($testPrepareObj->updateAll($modifier, $criteria)){
-                                ;
+                               error_log($finalDone."-----updateAll------noooooooo--".$UserId) ;
                             }
                             
-                            //}
+                            }
                             error_log("-----------noooooooo---------------------------------UUU----".$UserId);
                             
                         }
