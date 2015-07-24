@@ -159,7 +159,6 @@ class SurveyUsersSessionCollection extends EMongoDocument {
        
     public function updateSurveyAnswer2($model,$NetworkId,$UserId,$flag="",$fromAutoSave,$fromPage,$qTempId,$eachquestionscore,$finalDone){
         try{        
-          
             $returnValue = "failed";
             $scheduleObj = new SurveyUsersSessionCollection();
             $scheduleObj->UserAnswers = $model->UserAnswers;     
@@ -256,22 +255,24 @@ class SurveyUsersSessionCollection extends EMongoDocument {
                   }
             
             }
-                    if($flag == "Done"){    error_log("-------Done 1----".$finalDone);                    
+                    if($flag == "Done"){                     
                         $criteria = new EMongoCriteria;
                         $criteria->addCond("_id","==",new MongoId($qTempId));
                         $userQuestionObj = UserQuestionsCollection::model()->find($criteria);
-                        if(isset($userQuestionObj)){error_log("-------Done 2----");   
+                        if(isset($userQuestionObj)){  
                             $criteria = new EMongoCriteria;
                             $criteria->addCond("_id","==", new MongoId($userQuestionObj->Testid));
                             $testPrepareObj = TestPreparationCollection::model()->find($criteria);
-                            if($finalDone==1){ error_log("-----------noooooooo- ---".$finalDone);
+                            //if($finalDone==1){ error_log("-----------noooooooo- ---".$finalDone);
                             $modifier = new EMongoModifier;
                             //$criteria->addCond('UserAnswers.TestTakenUsers', '!=', (int)$UserId);
                             $modifier->addModifier("TestTakenUsers", "push", (int)$UserId);
                             $modifier->addModifier("TestTakenUsersCount", "inc", (int)1);
                             if($testPrepareObj->updateAll($modifier, $criteria)){
                                 ;
-                            }}
+                            }
+                            
+                            //}
                             error_log("-----------noooooooo---------------------------------UUU----".$UserId);
                             
                         }

@@ -183,8 +183,10 @@ var TotalTimerDivs={};
                    $("#cancelsurveyquestions").show();
                 <?php } ?>
         function timeisUp(){
-           // alert('timeup');
+            
+            
             $('#submitQuestion').attr('disabled','disabled');
+           
         }
         var sureyQuestionPage=2;
         var fromPagiNation=0;

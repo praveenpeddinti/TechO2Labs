@@ -1003,14 +1003,14 @@ sessionStorage.sharedURL = "";
        }
         });
          
-          function submitSurvey(){
+          function submitSurvey(){ 
 //              if ($("#"+questionActiveID).css('background-color') == 'green') {
 //              $("#"+questionActiveID).css("background-color", "green");   
 //             }else{
 //                $("#"+questionActiveID).css("background-color", ""); 
 //             }
                $("#"+questionActiveID).css("background-color", "");
-             //alert("==submitsurvey===="+fromAutoSave)
+            
               
                 if(fromAutoSave == 0){
                      scrollPleaseWait('surveyviewspinner');
@@ -1085,9 +1085,9 @@ sessionStorage.sharedURL = "";
             $("#" + pId).val($("#" + id).val());
         }
         
-        function ValidateQuestions(qNo,qCnt){ //alert(qNo+"-VQ--fff--"+qCnt);
+        function ValidateQuestions(qNo,qCnt){ 
              $("#"+questionActiveID).css("background-color", ""); 
-          //console.log("=ValidateQuestions=========fromAutoSave=="+fromAutoSave);
+          console.log("=ValidateQuestions=========fromAutoSave=="+fromAutoSave);
      
             
             var serializeddata = $("#questionviewWidget_"+qNo).serialize();
@@ -1213,11 +1213,12 @@ sessionStorage.sharedURL = "";
         function saveAnswersForQuestions(){
            //alert("*p*");
            //console.log("after save next page---");
+           console.log("after save next page-1--"+categoryId+"---"+scheduleId);
            if($("#surveySavingRes").length>0 && fromAutoSave == 0){
                 $("#surveySavingRes").show();  
                 $("#surveySavingRes").attr("style","margin-top:10px");
             }
-            //console.log("saveAnswersForQuestions---"+Garray+"---");
+            console.log("saveAnswersForQuestions---"+Garray+"---");
            // alert(Garray)
          //  alert(CategoryIdwithCategory.toSource())
        var position=CategoryIdwithCategory[categoryId].split("_");
@@ -1253,10 +1254,10 @@ sessionStorage.sharedURL = "";
                                 window.location.href = "/outside/thankyouPage?done=done";
                                 return;
                         }
-                 //console.log("after save next page---"+categoryId+"---"+scheduleId);
+                 console.log("after save next page--2-"+categoryId+"---"+scheduleId);
                        // alert(categoryId+"(("+sureyQuestionPage)
                             var queryString = {"userQuestionTempId":userTempId,"categoryId":categoryId,"scheduleId":scheduleId,"page":sureyQuestionPage,"action":"next"};                        
-                           //console.log("after save next page-1--"+queryString); 
+                           console.log("after save next page-queryString--"+queryString); 
                 ajaxRequest("/outside/sureyQuestionPagination1", queryString, sureyQuestionPaginationHandler,"html");
                         }else{
                             scrollPleaseWaitClose('surveyviewspinner');

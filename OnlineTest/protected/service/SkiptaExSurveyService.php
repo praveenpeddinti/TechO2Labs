@@ -378,12 +378,12 @@ class SkiptaExSurveyService {
     }
     
     public function saveSurveyAnswer($model, $NetworkId, $UserId, $fromPagination, $fromAutoSave, $fromPage,$questionTempId=0,$eachquestionscore=0,$finalDone) {
-        try {error_log($finalDone."-----finalpara---fromPagination--".$fromPagination."---fromAutoSave-".$fromAutoSave."-fromPage---".$fromPage);
+        try {
 
-            //if ($fromPagination == 1 || $fromAutoSave == 1) {
-                if($finalDone!=1){
+            if ($fromPagination == 1 || $fromAutoSave == 1) {
+                //if($finalDone!=1){
                        
-                        error_log("-----next and pri--1---fromPagination--".$fromPagination."---fromAutoSave-".$fromAutoSave."-fromPage---".$fromPage);
+                        
                 return SurveyUsersSessionCollection::model()->updateSurveyAnswer2($model, $NetworkId, $UserId, "", $fromAutoSave, $fromPage,$questionTempId,$eachquestionscore,$finalDone);
                 // return ScheduleSurveyCollection::model()->updateSurveyAnswer($model,$NetworkId,$UserId,"");
             } else {
