@@ -2,7 +2,7 @@
 
 
 /* CSS Document */
-body{ margin: 0; padding: 0; color:#000080; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif Georgia, seriffont-family: "Ramabhadra";
+body{ margin: 0; padding: 0; color:#000080; font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif Georgia, seriffont-family, "Ramabhadra";
 	 font-style: normal;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -50,7 +50,6 @@ a {
     margin: 0px 0 0px;
     padding-bottom: 0px; min-height: 60px;}
 
-}
 .navbar-brand {
     float: left;
     font-size: 14px;
