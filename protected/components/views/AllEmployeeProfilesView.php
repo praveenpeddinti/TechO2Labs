@@ -79,19 +79,40 @@ $this->widget('zii.widgets.grid.CGridView', array(
         /* View Section Start */
         array(
             'class' => 'CButtonColumn',
-            'buttons' => array('view' =>
-                array(
-                    'url' => 'Yii::app()->createUrl("Techo2Employee/ViewEmployeeDetails", array("id"=>$data->ID,"asDialog"=>1))',
-                    'options' => array(
-                        'ajax' => array(
-                            'type' => 'POST',
-                            // ajax post will use 'url' specified above 
-                            'url' => "js:$(this).attr('href')",
-                            'update' => '#id_view',
-                        ),
-                    ),
+            'template' => '{view_employee}{edit_employee}{suspend_employee}{activate_employee}',
+            'buttons' => array(
+                'suspend_employee' => array(
+                    'label' => 'Suspend',
+                    'url'=>'Yii::app()->createUrl("Techo2Employee/SuspendEmployee", array("employee_id"=>$data["employee_id"]))',
+                    "options" => array(
+                         'confirm'=>'Do you want to suspend ?',
+                         'ajax' => array('type' => 'post', 'url'=>'js:$(this).attr("href")', 'success' => 'js:function(data) { $.fn.yiiGridView.update("my-grid")}'),
+
+                    )
                 ),
+                'activate_employee' => array(
+                    'label' => 'Activate',
+                    'url'=>'Yii::app()->createUrl("Techo2Employee/ActivateEmployee", array("employee_id"=>$data["employee_id"]))',
+                    "options" => array(
+                         'confirm'=>'Do you want to activate ?',
+                         'ajax' => array('type' => 'post', 'url'=>'js:$(this).attr("href")', 'success' => 'js:function(data) { $.fn.yiiGridView.update("my-grid")}'),
+
+                    )
+                ),
+                
+                'edit_employee' => array(
+                    'label' => 'Edit'
+                ),
+                'view_employee' => array(
+                    'label' => 'View'
+                ),
+                
             ),
+            "htmlOptions" => array(
+                'style'=>'width: 60px;',
+                'class' => 'action_class'
+            )
+
         ),
     /* View Section End */
     ),
@@ -99,6 +120,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
 ?>
 
 
-<div id="id_view"></div>
+
+
+
+
+<div id="cru-frame"></div>
+
+
 
 

@@ -125,6 +125,54 @@ Class InstantDashboardService {
         }
     }
 
+    public function suspendEmployee($emp_id) {
+        try {
+            $response = 0;
+            $employee_id = 0;
+            if (isset($emp_id) && $emp_id > 0) {
+                $employee_id = $emp_id;
+            }
+            $response_on_suspend = 0;
+
+            if ($employee_id > 0) {
+
+                $response_on_suspend = DashboardModel::model()->suspendEmployee($employee_id);
+
+                if (1 == $response_on_suspend) {
+                    $response = $response_on_suspend;
+                }
+            }
+
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:suspendEmployee::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    public function activateEmployee($emp_id) {
+        try {
+            $response = 0;
+            $employee_id = 0;
+            if (isset($emp_id) && $emp_id > 0) {
+                $employee_id = $emp_id;
+            }
+            $response_on_activation = 0;
+
+            if ($employee_id > 0) {
+
+                $response_on_activation = DashboardModel::model()->activateEmployee($employee_id);
+
+                if (1 == $response_on_activation) {
+                    $response = $response_on_activation;
+                }
+            }
+
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:activateEmployee::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+
 }
 
 ?>

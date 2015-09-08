@@ -205,6 +205,45 @@ Class DashboardModel extends CActiveRecord {
             Yii::log("DashboardModel:updateEmployeePhoneDet::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
+       /* 
+ * Author      : Meda Vinod Kumar
+ * Date        : 07-Sep-2015
+ * Method      : suspendEmployee
+ * Function    : Suspend employee 
+ * Params      : Employee Id
+ * Return Type : It will return an integer resposne as 1.[ affected rows ]
+ */
+    public function suspendEmployee($employee_id) {
+        try {
+            $response = 0;
+            $update = 0;
+            $update = Yii::app()->db->createCommand()
+                    ->update('techo2_employee', array('employee_status' => 0), 'employee_id=:idemployee', array(':idemployee' => $employee_id)
+            );
+            if ($update > 0) {
+                $response = 1;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:suspendEmployee::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    public function activateEmployee($employee_id) {
+        try {
+            $response = 0;
+            $update = 0;
+            $update = Yii::app()->db->createCommand()
+                    ->update('techo2_employee', array('employee_status' => 1), 'employee_id=:idemployee', array(':idemployee' => $employee_id)
+            );
+            if ($update > 0) {
+                $response = 1;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:activateEmployee::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
 
 }
 
