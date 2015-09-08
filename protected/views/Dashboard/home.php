@@ -10,7 +10,6 @@
 <?php
   
   echo "<br/>";
-  
   if(isset($logged_in_emp_data) && count($logged_in_emp_data) > 0){
      $this->widget('application.components.EmployeeProfile', array('employee_profile' => $logged_in_emp_data));    
   }

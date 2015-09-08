@@ -10,6 +10,7 @@ return array(
     'name' => 'Techo2 - HRM',
     // preloading 'log' component
     'preload' => array('log'),
+    'language' =>'en',
     // autoloading model and component classes
     'import' => array(
         'application.models.*',
@@ -39,40 +40,64 @@ return array(
         // uncomment the following to enable URLs in path-format
         'urlManager' => array(
             'urlFormat' => 'path',
+             'showScriptName'=>false,
             'rules' => array(
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ),
-        // database settings are configured in database.php
+        
+        // Database Configurations
         'db' => require(dirname(__FILE__) . '/database.php'),
+        
+        
+        //Unexpected Errors Like Unknow Controller Or Methods
         'errorHandler' => array(
-            // use 'site/error' action to display errors
             'errorAction' => 'Techo2Employee/Error',
         ),
+        
+        
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
                 array(
                     'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning',
+                    'levels' => 'trace, info, error, warning, vardump',
                 ),
-            // uncomment the following to show log messages on web pages
-            /*
-              array(
+                
+//                array(
+//                    'class' => 'CFileLogRoute',
+//                    'levels' => 'error,warning',
+//                    'categories' => "application",
+//                    'logFile' => 'error.log' . date('d-m-y'),
+//               ),
+//                
+//                 array(
+//                    'class'=>'ext.LogDb',
+//                    'autoCreateLogTable'=>true,
+//                    'connectionID'=>'db',
+//                    'enabled'=>true,
+//                    'levels'=>'error',//You can replace trace,info,warning,error
+//                ),
+                
+                
+             //uncomment the following to show log messages on web pages
+             /* array(
               'class'=>'CWebLogRoute',
               ),
              */
             ),
         ),
     ),
+    
+    
     // application-level parameters that can be accessed
     'params' => array(
-        'widgetLables' => require(dirname(__FILE__) . '/WidgetLabels.php'),
-        'pageTitles' => require(dirname(__FILE__) . '/PageTitles.php'),
-    //'errorMessages' => require(dirname(__FILE__) . '/ErrorMessages.php'),
-    //'successMessages' => require(dirname(__FILE__) . '/successMessages.php'),
-    //'notificationMessages' => require(dirname(__FILE__) . '/notificationMessages.php'),
+      //  'widgetLables' => require(dirname(__FILE__) . '/WidgetLabels.php'),
+       // 'pageTitles' => require(dirname(__FILE__) . '/PageTitles.php'),
+       // 'errorMessages' => require(dirname(__FILE__) . '/ErrorMessages.php'),
+      //  'successMessages' => require(dirname(__FILE__) . '/SuccessMessages.php'),
+       // 'infoMessages' => require(dirname(__FILE__) . '/InfoMessages.php'),
     ),
 );

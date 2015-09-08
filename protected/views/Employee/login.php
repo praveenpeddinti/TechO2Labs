@@ -50,13 +50,13 @@ $password_arr = array('placeholder' => 'Enter your password', 'autocomplete' => 
 
             <div class="form-group">
                 <?php echo $form->labelEx($employeeLoginModelForm, 'techo2_Emp_Username', $user_name_label); ?>
-                <?php echo $form->textField($employeeLoginModelForm, 'techo2_Emp_Username', $user_name_arr); ?>
+                <?php echo $form->textField($employeeLoginModelForm, 'techo2_Emp_Username', $userNameArr); ?>
                 <?php echo $form->error($employeeLoginModelForm, 'techo2_Emp_Username'); ?>
 
             </div>
             <div class="form-group">
                 <?php echo $form->labelEx($employeeLoginModelForm, 'techo2_Emp_Password', $password_arr_label); ?>
-                <?php echo $form->passwordField($employeeLoginModelForm, 'techo2_Emp_Password', $password_arr); ?>
+                <?php echo $form->passwordField($employeeLoginModelForm, 'techo2_Emp_Password', $passwordArr); ?>
                 <?php echo $form->error($employeeLoginModelForm, 'techo2_Emp_Password'); ?>
 
             </div>

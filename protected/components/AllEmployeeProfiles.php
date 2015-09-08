@@ -18,7 +18,7 @@ class AllEmployeeProfiles extends CWidget {
             $all_profile_count = 0;
             $all_profile_count = count($profile_arr);
             $response = new CArrayDataProvider($profile_arr, array(
-                'keyField' => 'employee_designation',
+                'keyField' => 'designation_iddesignation',
                 'totalItemCount' => $all_profile_count,
                 'sort' => array(
                     'attributes' => array(

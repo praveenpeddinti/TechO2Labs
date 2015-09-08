@@ -6,32 +6,32 @@ if (isset($profile) && count($profile) > 0) {
         <tr>
             <th>
                 <?php
-                echo Yii::app()->params['widgetLables']['fullname'];
+                echo Yii::t('WidgetLables', 'fullname');
                 ?>
             </th>       
             <th>
                 <?php
-                echo Yii::app()->params['widgetLables']['designation'];
+                echo Yii::t('WidgetLables', 'designation');
                 ?>
             </th>
             <th>
                 <?php
-                echo Yii::app()->params['widgetLables']['code'];
+                 echo Yii::t('WidgetLables', 'code');
                 ?>
             </th>
             <th>
                 <?php
-                echo Yii::app()->params['widgetLables']['email'];
+                echo Yii::t('WidgetLables', 'email');
                 ?>
             </th>
             <th>
                 <?php
-                echo Yii::app()->params['widgetLables']['mobile'];
+                echo Yii::t('WidgetLables', 'mobile');
                 ?>
             </th>
             <th>
                 <?php
-                echo Yii::app()->params['widgetLables']['status'];
+                echo Yii::t('WidgetLables', 'status');
                 ?>
             </th>
         </tr>
@@ -72,11 +72,12 @@ if (isset($profile) && count($profile) > 0) {
                 <td>
                     <?php
                     if (isset($profile['employee_status']) && 1 == $profile['employee_status']) {
-                        echo Yii::app()->params['widgetLables']['active'];
+                        echo Yii::t('WidgetLables', 'active');
                     }
+                    
 
                     if (isset($profile['employee_status']) && 0 == $profile['employee_status']) {
-                        echo Yii::app()->params['widgetLables']['inactive'];
+                        echo Yii::t('WidgetLables', 'inactive');
                     }
                     ?>
                 </td>
