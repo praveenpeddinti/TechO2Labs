@@ -1,5 +1,22 @@
 
 <?php
+
+$pageSize = Yii::app()->user->getState('pageSize', Yii::app()->params['configValues']['defaultPageSize']);
+$pageSizeDropDown = CHtml::dropDownList(
+                'pageSize', $pageSize, Yii::app()->params['configValues']['pageSizeOptions'], array(
+            'class' => 'change-pagesize',
+            'onchange' => "$.fn.yiiGridView.update('grid-view-id',{data:{pageSize:$(this).val()}});",
+                )
+);
+?>
+<div class="page-size-wrap">
+    <span>Display by:</span><?php echo $pageSizeDropDown; ?>
+</div>
+<?php 
+
+
+Yii::app()->clientScript->registerCss('initPageSizeCSS', '.page-size-wrap{text-align: right;}'); 
+
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'all_profiles_grid',
     'dataProvider' => $all_emp_profiles_arr,
@@ -81,7 +98,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'template' => '{view_employee}{edit_employee}{suspend_employee}{activate_employee}',
             'buttons' => array(
                 'suspend_employee' => array(
-                    'label' => 'Suspend',
+                    'label' => Yii::t('WidgetLables', 'suspend'),
                     'url'=>'Yii::app()->createUrl("Techo2Employee/SuspendEmployee", array("employee_id"=>$data["employee_id"]))',
                     "options" => array(
                          'confirm'=>'Do you want to suspend ?',
@@ -90,7 +107,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     )
                 ),
                 'activate_employee' => array(
-                    'label' => 'Activate',
+                    'label' => Yii::t('WidgetLables', 'activate'),
                     'url'=>'Yii::app()->createUrl("Techo2Employee/ActivateEmployee", array("employee_id"=>$data["employee_id"]))',
                     "options" => array(
                          'confirm'=>'Do you want to activate ?',
@@ -100,10 +117,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
                 ),
                 
                 'edit_employee' => array(
-                    'label' => 'Edit'
+                    'label' => Yii::t('WidgetLables', 'update')
                 ),
                 'view_employee' => array(
-                    'label' => 'View'
+                    'label' => Yii::t('WidgetLables', 'view')
                 ),
                 
             ),

@@ -20,7 +20,16 @@ $pageSizeDropDown = CHtml::dropDownList(
 </div>
 <?php Yii::app()->clientScript->registerCss('initPageSizeCSS', '.page-size-wrap{text-align: right;}'); ?>
 
-<?php
+<title>
+    <?php
+    $commonTitle = Yii::app()->params['pageTitles']['commonTitle'];
+    echo isset($pageTitle) ? $pageTitle : $commonTitle;
+    ?>
+
+</title>
+
+
+    <?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'grid-view-id',
     'dataProvider' => $allProfiles->getAllProfiles(),
@@ -80,9 +89,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value' => 'CHtml::encode($data->employee_address)'
         ),
         array(
-            'name' => 'state_name',
+            'name' => 'statename',
             'type' => 'raw',
-            'value' => 'CHtml::encode($data->state_name)'
+            'value' => 'CHtml::encode($data->statename)'
         ),
         array(
             'name' => 'country_name',

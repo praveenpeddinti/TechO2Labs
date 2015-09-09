@@ -22,7 +22,7 @@ class AllEmployeeProfiles extends CWidget {
                 'totalItemCount' => $all_profile_count,
                 'sort' => array(
                     'attributes' => array(
-                        'firstname', 'middlename', 'lastname'
+                        'firstname', 'middlename', 'lastname','username','employee_code','employee_dob','employee_status','employee_gender','employee_address','employee_state','country_name','employee_designation','employee_email','employee_phonenumber'
                     ),
                     'defaultOrder' => array(
                         'firstname' => CSort::SORT_ASC, //default sort value

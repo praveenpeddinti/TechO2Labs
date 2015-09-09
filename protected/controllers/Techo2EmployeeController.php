@@ -195,13 +195,6 @@ class Techo2EmployeeController extends Controller {
                 $employee_id = isset($session['employee_id']) ? $session['employee_id'] : $employee_id;
                 $data['employee_id'] = $employee_id;
                 $data['designation_id'] = $designation_id;
-                //If he is Managing Director
-                if (isset($designation_id) && 1 == $designation_id) {
-                    $all_employee_profiles = $this->actionGetAllEmpData();
-                    if (isset($all_employee_profiles) && count($all_employee_profiles) > 0) {
-                        $data['all_employee_profiles'] = $all_employee_profiles;
-                    }
-                }
                 $this->render('/Dashboard/home', $data);
             }
         } catch (Exception $ex) {
@@ -217,6 +210,7 @@ class Techo2EmployeeController extends Controller {
      */
 
     public function actionEmployeeProfile() {
+        
         try {
 
 
@@ -247,6 +241,11 @@ class Techo2EmployeeController extends Controller {
      */
 
     public function actionEditEmployeeProfile() {
+        $session = array();
+            $session = Yii::app()->session['employee_data'];
+            if (0 == count($session)) {
+                $this->redirect(array('Techo2Employee/LoggedOut'));
+            } else{
         try {
 
 
@@ -531,6 +530,7 @@ class Techo2EmployeeController extends Controller {
         } catch (Exception $ex) {
             Yii::log("Techo2EmployeeController:actionEditEmployeeProfile::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
+            }
     }
 
     /*
