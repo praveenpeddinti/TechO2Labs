@@ -148,7 +148,7 @@ Class InstantDashboardService {
             Yii::log("InstantDashboardService:suspendEmployee::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
-    
+
     public function activateEmployee($emp_id) {
         try {
             $response = 0;
@@ -172,12 +172,14 @@ Class InstantDashboardService {
             Yii::log("InstantDashboardService:activateEmployee::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
+
     /*
      * Author   : Renigunta Kavya 
      * Date     : 09-09-2015
      * Method   : getAllRatingData
      * Function : Get all the data of ratings      
      */
+
     public function getAllRatingData() {
         try {
             $response = array();
@@ -191,13 +193,15 @@ Class InstantDashboardService {
             Yii::log("InstantDashboardService:getAllRatingData::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
+
     /*
      * Author   : Renigunta Kavya 
      * Date     : 09-09-2015
      * Method   : specificUserRating
      * Function : Get the data of select row of ratings    
-    */
-    public function specificUserRating($emp_id){
+     */
+
+    public function specificUserRating($emp_id) {
         try {
             $response = array();
             $ratingData = array();
@@ -214,6 +218,104 @@ Class InstantDashboardService {
             return $response;
         } catch (Exception $ex) {
             Yii::log("InstantDashboardService:specificUserRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+
+    //[Need To Review]
+    public function getAllUploadedImages($start_count, $limit) {
+        try {
+            $response = array();
+            $all_images_data = array();
+            $all_images_data = DashboardModel::model()->getAllImagesList($start_count, $limit);
+            if (isset($all_images_data) && count($all_images_data) > 0) {
+                $response = $all_images_data;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:getAllUploadedImages::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+
+    //[Need To Review]
+    public function totalCounOnImages() {
+        try {
+            $response = array();
+            $all_images_count = array();
+            $all_images_count = DashboardModel::model()->totalCounOnImages();
+            if (isset($all_images_count) && count($all_images_count) > 0) {
+                $response = $all_images_count;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:totalCounOnImages::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+
+    //[Need To Review]
+    public function addRating($updated_rating_on_image) {
+        try {
+            $response = 0;
+            $response_rating = 0;
+            if (isset($updated_rating_on_image) && count($updated_rating_on_image) > 0) {
+                $response_rating = DashboardModel::model()->addRating($updated_rating_on_image);
+                if ($response_rating > 0) {
+                    $response = $response_rating;
+                }
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:addRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+
+    //Check Previous Rating Of User [ Need To Review ] 
+    public function checkPreviousRating($imageId,$employee_id){
+         try {
+            $response = 0;
+            $response_chk_rating = 0;
+            if (isset($imageId) && $imageId > 0 && isset($employee_id) && $employee_id > 0) {
+                $response_chk_rating = DashboardModel::model()->checkPreviousRating($imageId,$employee_id);
+                if ($response_chk_rating > 0) {
+                    $response = $response_chk_rating;
+                }
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:checkPreviousRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    //Get Ratings On Images Of User [ Need To Review ] 
+    public function getPersonRatingOnImages($employee_id){
+         try {
+            $response = array();
+            $person_images_rate = array();
+            if (isset($employee_id) && $employee_id > 0) {
+                $person_images_rate = DashboardModel::model()->getPersonRatingOnImages($employee_id);
+                if (isset($person_images_rate) && count($person_images_rate) > 0) {
+                    $response = $person_images_rate;
+                }
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:getPersonRatingOnImages::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    //Update Ratings On Image Of User[ Need To Review ] 
+    public function updateRatingOnImageId($existed_employee_rating_id,$rate){
+         try {
+            $response = 0;
+            $updated_image_rate_res = 0;
+            if (isset($existed_employee_rating_id) && $existed_employee_rating_id > 0) {
+                $updated_image_rate_res = DashboardModel::model()->updateRatingOnImageId($existed_employee_rating_id,$rate);
+                if ($updated_image_rate_res >  0) {
+                    $response = $updated_image_rate_res;
+                }
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:updateRatingOnImageId::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
 }

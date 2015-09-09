@@ -132,6 +132,53 @@ Class DashboardModel extends CActiveRecord {
             Yii::log("DashboardModel:updateEmployeeBasicDet::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
+      /* 
+ * Author      : Meda Vinod Kumar
+ * Date        : 09-Sep-2015
+ * Method      : updateRatingOnImageId
+ * Function    : Update Rating On Image
+ * Params      : employee_rating_id, rate
+ * Return Type : It will return an integer resposne as 1.[ affected rows ]
+ */
+    public function updateRatingOnImageId($existed_employee_rating_id,$rate){
+        try {
+            $response = 0;
+            $update = 0;
+            $update = Yii::app()->db->createCommand()
+                    ->update('techo2_employee_rating', array('rating'=>$rate), 'employee_rating_id=:employee_rating_id', array(':employee_rating_id' => $existed_employee_rating_id)
+            );
+            if ($update > 0) {
+                $response = $update;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:updateRatingOnImageId::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+      /* 
+ * Author      : Meda Vinod Kumar
+ * Date        : 07-Sep-2015
+ * Method      : addRating
+ * Function    : Add Rating On Image
+ * Params      : Array [It contains rate,imageid,customer,status,createddate]
+ * Return Type : It will return an integer resposne as 1.[ inserted rows ]
+ */
+    public function addRating($updated_rating_on_image) {
+        try {
+            
+            $response = 0;
+            $insert = 0;
+            $insert = Yii::app()->db->createCommand()
+                    ->insert('techo2_employee_rating', $updated_rating_on_image);
+            if ($insert > 0) {
+                $response = $insert;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:addRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
 
        /* 
  * Author      : Meda Vinod Kumar
@@ -296,6 +343,117 @@ Class DashboardModel extends CActiveRecord {
             Yii::log("DashboardModel:specificUserRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
+    
+      /* 
+ * Author      : Meda Vinod Kumar
+ * Date        : 09-Sep-2015
+ * Method      : getAllImagesList
+ * Function    : Get all images data
+ * Return Type : It will return an array resposne
+ */
+    
+    public function getAllImagesList($start_count,$limit){
+         try {
+
+            $response = array();
+            $all_images_list = array();
+            $all_images_list = Yii::app()->db->createCommand()
+                    ->select('tri.rating_images_id as image_id,tri.image_name')
+                    ->from('techo2_rating_images tri')
+                    ->limit($limit,$start_count)
+                    ->queryAll();
+            if (isset($all_images_list) && is_array($all_images_list) && count($all_images_list) > 0) {
+                $response = $all_images_list;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:getAllImagesList::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+      /* 
+ * Author      : Meda Vinod Kumar
+ * Date        : 09-Sep-2015
+ * Method      : totalCounOnImages
+ * Function    : We will get count on how many images we have uploaded
+ * Return Type : It will return an array resposne [ It contains the count ]
+ */
+    
+    public function totalCounOnImages(){
+         try {
+
+        $response = array();
+        $count = array();
+        $count = Yii::app()->db->createCommand()
+                ->select("count(*) as totalImages")
+                ->from("techo2_rating_images tri")
+                ->queryRow();
+        if (isset($count) && $count > 0) {
+            $response = $count;
+        }
+        return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:totalCounOnImages::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+      /* 
+ * Author      : Meda Vinod Kumar
+ * Date        : 09-Sep-2015
+ * Method      : checkPreviousRating
+ * Function    : Check is user contains rating on image
+ * Return Type : It will return an array resposne [ It contains the count ]
+ */
+    public function checkPreviousRating($imageId,$employee_id){
+        try {
+
+        $response = array();
+        $count = array();
+        $limit = 1;
+        $count = Yii::app()->db->createCommand()
+                ->select("employee_rating_id")
+                ->from("techo2_employee_rating ter")
+                ->where('ter.ratingimage_idratingimage=:idimage and ter.employee_idemployee =:idemployee and ter.status =:status', array(':idimage' => $imageId,':idemployee' => $employee_id, ':status' => $limit))
+                ->queryRow();
+        if (isset($count) && $count > 0) {
+            $response = $count;
+        }
+        return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:checkPreviousRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+  
+      /* 
+ * Author      : Meda Vinod Kumar
+ * Date        : 09-Sep-2015
+ * Method      : getPersonRatingOnImages
+ * Function    : Get all previous rating on images of user
+ * Return Type : It will return an array resposne
+ */
+    public function getPersonRatingOnImages($employee_id){
+        try {
+
+        $response = array();
+        $total_images_arr = array();
+        $limit = 1;
+        $total_images_arr = Yii::app()->db->createCommand()
+                ->select("employee_rating_id,rating,ratingimage_idratingimage as image_id,employee_idemployee as employee_id")
+                ->from("techo2_employee_rating ter")
+                ->where('ter.employee_idemployee =:idemployee and ter.status =:status', array(':idemployee' => $employee_id, ':status' => $limit))
+                ->queryAll();
+        if (isset($total_images_arr) && count($total_images_arr) > 0) {
+            $response = $total_images_arr;
+        }
+        return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:getPersonRatingOnImages::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+  
+    
+    
 }
 
 ?>
