@@ -44,7 +44,7 @@
                 <?php
                 $this->widget('CMultiFileUpload', array(
                     'model' => $validations,
-                    'accept' => 'jpg|gif|png',
+                    'accept' => 'jpeg|jpg|gif|png',
                     'remove' => '[X]',
                     'duplicate' => 'Already Selected',
                     'denied' => 'Invalid file type',
