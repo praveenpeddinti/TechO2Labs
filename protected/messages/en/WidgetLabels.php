@@ -33,7 +33,15 @@ return Array
     "view"   => "View Employee",
     "update"   => "Update Employee",
     /*EmployeeProfileView Widget Section Start*/
-    
-    
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 08-09-2015
+     */
+    /*RatingDetailsView Widget Section Start*/
+    "s_no" => "S No",
+    "emp_name" => "Employee Name",
+    "emp_code" => "Employee Code",
+    "admin_actions" => "Actions",
+    /*RatingDetailsView Widget Section End*/
 );
 ?>

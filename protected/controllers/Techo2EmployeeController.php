@@ -952,6 +952,132 @@ class Techo2EmployeeController extends Controller {
         echo $response;
     }
 
+    
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 09-09-2015
+     * Method   : GetAllRatingData
+     * Function : Get all the data of ratings      
+     */
+    public function actionGetAllRatingData() {
+        try {
+            $all_ratings = array();
+            $all_ratings_response = array();
+            $all_ratings_response = ServiceFactory::dashboardServiceProvider()->getAllRatingData();
+            if (isset($all_ratings_response) && count($all_ratings_response) > 0) {
+                $all_ratings = $all_ratings_response;
+            }
+            return $all_ratings;
+        } 
+        catch (Exception $ex) {
+            Yii::log("Techo2EmployeeController:actionGetAllRatingData::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 08-09-2015
+     * Method   : RatingDashboard
+     * Function : Show all the data of ratings - can view and edit      
+     */
+    public function actionRatingDashboard() {
+        try {
+            $session = array();
+            $session = Yii::app()->session['employee_data'];
+            if (0 == count($session)) {
+                $this->redirect(array('Techo2Employee/LoggedOut'));
+            } else if (isset($session) && count($session) > 0) {
+                $data_array = array();
+                $data_array['pageTitle'] = Yii::t('PageTitles', 'ratingDashboard');
+                $rating_details = array();
+                $designation_id = 0;
+                $employee_id = 0;
+                $designation_id = isset($session['employee_designation_id']) ? $session['employee_designation_id'] : $designation_id;
+                $employee_id = isset($session['employee_id']) ? $session['employee_id'] : $employee_id;
+                $data_array['employee_id'] = $employee_id;
+                
+                //If he is Managing Director
+                if (isset($designation_id) && 1 == $designation_id) {
+                    $rating_details = $this->actionGetAllRatingData();
+                    if (isset($rating_details) && count($rating_details) > 0) {
+                        $data_array['rating_details'] = $rating_details;
+                    }
+                }
+                $this->render('/Dashboard/RatingDashboard', $data_array);
+            }
+        } catch (Exception $ex) {
+            Yii::log("Techo2EmployeeController:actionRatingDashboard::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 09-09-2015
+     * Method   : ViewRating
+     * Function : Show the data of ratings of particular image
+     * Params   : employee_id   
+    */
+    public function actionViewRating() {
+        try {
+            $employee_id = 0;
+            if (NULL == $_GET['employee_id'] || $_GET['employee_id'] <= 0) {
+                $this->redirect(array('Techo2Employee/LoggedOut'));
+            } else {
+                $data = array();
+                $rating_details = array();
+                $employee_id = $_REQUEST['employee_id'];
+                $rating_details = ServiceFactory::dashboardServiceProvider()->specificUserRating($employee_id);
+                if (isset($rating_details) && count($rating_details) > 0) {
+                    $data['rating_data'] = $rating_details;
+                }
+                if (Yii::app()->request->isAjaxRequest){
+                    $this->renderPartial('/Dashboard/ViewRating',$data,false,true);
+                    //js-code to open the dialog    
+                    if (!empty($_GET['asDialog'])) 
+                        echo CHtml::script('$("#dlg-rating-view").dialog("open")');
+                    Yii::app()->end();
+                }
+                else{
+                    $this->render('/Dashboard/ViewRating', $data);
+                }
+            }
+        } catch (Exception $ex) {
+            Yii::log("Techo2EmployeeController:actionViewRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 09-09-2015
+     * Method   : EditRating
+     * Function : Edit the data of ratings of particular image
+     * Params   : employee_id   
+    */
+    public function actionEditRating() {
+        try {
+            $employee_id = 0;
+            if (NULL == $_GET['employee_id'] || $_GET['employee_id'] <= 0) {
+                $this->redirect(array('Techo2Employee/LoggedOut'));
+            } else {
+                $data = array();
+                $rating_details = array();
+                $employee_id = $_GET['employee_id'];
+                $editRatingsForm = new EditRatingsForm;
+                $data['editRatingsForm'] = $editRatingsForm;
+                $rating_details = ServiceFactory::dashboardServiceProvider()->specificUserRating($employee_id);
+                if (isset($rating_details) && count($rating_details) > 0) {
+                    $data['rating_data'] = $rating_details;
+                }
+                if (!isset($_POST['EditRatingsForm'])){
+//                    echo "kavya";
+                    $populateData = $editRatingsForm->findByPK($employee_id);
+                }
+                $this->render('/Dashboard/EditRating', $data);
+            }
+        } catch (Exception $ex) {
+            Yii::log("Techo2EmployeeController:actionEditRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+
+
     public function actionAllProfiles() {
         $response = array();
         
@@ -982,6 +1108,7 @@ class Techo2EmployeeController extends Controller {
             $this->renderPartial('/Dashboard/viewAllEmployeeProfiles', $response);
         }
     }
+
 
 }
 

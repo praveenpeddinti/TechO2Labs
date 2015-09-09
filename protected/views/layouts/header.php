@@ -59,10 +59,12 @@ if (isset($session) && count($session) > 0) {
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                           <?php if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?> <li><a href="<?php  echo $this->createUrl('Techo2Employee/Dashboard'); ?>">Dashboard</a></li> <?php } ?>
+                                           <?php if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?> <li><a href="<?php  echo $this->createUrl('Techo2Employee/RatingDashboard'); ?>">Rating Dashboard</a></li> <?php } ?>
                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/EmployeeProfile',array('employee_id'=>$employee_id)); ?>">View profile</a></li>
                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/EditEmployeeProfile',array('employee_id'=>$employee_id)); ?>">Edit profile</a></li>
-                                           <li><a href="<?php  echo $this->createUrl('Techo2Employee/AllProfiles'); ?>">All Profiles</a></li>
-                                            <li><a href="<?php  echo Yii::app()->request->baseUrl.'/Techo2Employee/LoggedOut'; ?>">Log out</a></li>
+                                           <li><a href="<?php  echo Yii::app()->request->baseUrl.'/Techo2Employee/LoggedOut'; ?>">Log out</a></li>
+                                           <?php if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?><li><a href="<?php  echo $this->createUrl('Techo2Employee/AllProfiles'); ?>">All Profiles</a></li><?php } ?>
                                         </ul>
                                     </div>
 

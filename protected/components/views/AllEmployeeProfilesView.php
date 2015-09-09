@@ -1,6 +1,5 @@
 
 <?php
-
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'all_profiles_grid',
     'dataProvider' => $all_emp_profiles_arr,

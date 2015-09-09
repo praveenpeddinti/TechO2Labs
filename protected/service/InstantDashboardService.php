@@ -172,7 +172,50 @@ Class InstantDashboardService {
             Yii::log("InstantDashboardService:activateEmployee::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
-
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 09-09-2015
+     * Method   : getAllRatingData
+     * Function : Get all the data of ratings      
+     */
+    public function getAllRatingData() {
+        try {
+            $response = array();
+            $allRatingData = array();
+            $allRatingData = DashboardModel::model()->getAllRatingData();
+            if (isset($allRatingData) && count($allRatingData) > 0) {
+                $response = $allRatingData;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:getAllRatingData::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 09-09-2015
+     * Method   : specificUserRating
+     * Function : Get the data of select row of ratings    
+    */
+    public function specificUserRating($emp_id){
+        try {
+            $response = array();
+            $ratingData = array();
+            $employee_id = 0;
+            if (isset($emp_id) && !empty($emp_id) && $emp_id > 0) {
+                $employee_id = $emp_id;
+            }
+            if ($employee_id > 0) {
+                $ratingData = DashboardModel::model()->specificUserRating($employee_id);
+                if (isset($ratingData) && count($ratingData) > 0) {
+                    $response = $ratingData;
+                }
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:specificUserRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
 }
 
 ?>

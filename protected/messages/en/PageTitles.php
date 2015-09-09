@@ -7,5 +7,6 @@ return Array
     "dashboard"   => "Techo2 - Dashboard",
     "editProfile"   => "Techo2 - Edit Profile",
     "employeeProfile" =>"Techo2 - Employee Profile",
+    "ratingDashboard" => "Techo2 - Rating Dashboard",
 );
 ?>

@@ -76,7 +76,6 @@ Class DashboardModel extends CActiveRecord {
             Yii::log("DashboardModel:getAllEmpData::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
-
     
      /* 
  * Author      : Meda Vinod Kumar
@@ -244,7 +243,59 @@ Class DashboardModel extends CActiveRecord {
             Yii::log("DashboardModel:activateEmployee::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
-
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 09-09-2015
+     * Method   : getAllRatingData
+     * Function : Get all the data of ratings  and employees    
+    */
+    public function getAllRatingData(){
+        try {
+            $response = array();
+            $allRatingsData = array();
+            $active = 1;
+            $allRatingsData = Yii::app()->db->createCommand()
+                    ->select('te.employee_id,concat(te.employee_firstname," ",te.employee_middlename," ",te.employee_lastname) as employee_name,te.employee_tag_code as employee_code,tee.email as employee_email,tep.phonenumber as employee_phone')
+                    ->from('techo2_employee te')
+                    ->join('techo2_employee_email tee', 'tee.employee_idemployee = te.employee_id and tee.isdefault=:isdefault', array(':isdefault' => $active))
+                    ->join('techo2_employee_phone tep', 'tep.employee_idemployee = te.employee_id and tep.isdefault=:isdefault', array(':isdefault' => $active))
+                    ->order(array('te.employee_id asc'))
+                    ->queryAll();
+            if (isset($allRatingsData) && count($allRatingsData) > 0) {
+                $response = $allRatingsData;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:getAllRatingData::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 09-09-2015
+     * Method   : specificUserRating
+     * Function : Get the data of select row of ratings    
+    */
+    public function specificUserRating($employee_id) {
+        try {
+            $response = array();
+            $employeeArr = array();
+            $limit = 1;
+            $employeeArr = Yii::app()->db->createCommand()
+                    ->select('te.employee_id,concat(te.employee_firstname," ",te.employee_middlename," ",te.employee_lastname) as employee_name,te.employee_tag_code as employee_code,tee.email as employee_email,tep.phonenumber as employee_phone')
+                    ->from('techo2_employee te')
+                    ->join('techo2_employee_email tee', 'tee.employee_idemployee = te.employee_id and tee.isdefault=:isdefault', array(':isdefault' => $limit))
+                    ->join('techo2_employee_phone tep', 'tep.employee_idemployee = te.employee_id and tep.isdefault=:isdefault', array(':isdefault' => $limit))
+                    ->where('te.employee_id=:idemployee and te.employee_status =:status', array(':idemployee' => $employee_id, ':status' => $limit))
+                    ->limit($limit)
+                    ->queryRow();
+            if (isset($employeeArr) && is_array($employeeArr) && count($employeeArr) > 0) {
+                $response = $employeeArr;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:specificUserRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
 }
 
 ?>
