@@ -540,7 +540,8 @@ class Techo2EmployeeController extends Controller {
      * Function    : Get all employee data
      */
 
-    public function actionGetAllEmpData() {
+    public function actionGetAllEmpData() 
+            {
         try {
 
 
@@ -554,7 +555,7 @@ class Techo2EmployeeController extends Controller {
         } catch (Exception $ex) {
             Yii::log("Techo2EmployeeController:actionGetAllEmpData::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
-    }
+            }
 
     /*
      * Author      : Meda Vinod Kumar
@@ -952,6 +953,91 @@ class Techo2EmployeeController extends Controller {
         echo $response;
     }
 
+
+    
+    
+     /*
+     * Author   : Vamsi Nallana 
+     * Date     : 08-09-2015
+     * Method   : actionEmployeeMultiupload
+     * Function : Multi File Upload
+     * 
+     *      
+     */
+    
+       
+    public function actionEmployeeMultiupload() {
+        
+        try{
+        
+        $session = array();
+        $session = Yii::app()->session['employee_data'];
+        if (!isset($session) && count($session < 0)) 
+            {
+           $this->redirect(array('Techo2Employee/EmployeeRegNLogin'));
+          }
+          else
+          {
+        $data = array();
+        $validations = new UploadRulesModal;
+        $storagemodel = new StorageModel;
+        $data['validations'] = $validations;
+        
+       
+        
+        if (Yii::app()->getRequest()->isPostRequest && isset($_FILES)) {
+            $filesUploaded = array();
+            $filesUploaded = CUploadedFile::getInstancesByName('image');
+            $path = Yii::getPathOfAlias('webroot') . '/uploads';
+        if (!is_dir($path)) {
+                mkdir($path, 0777);
+                chmod($path, 0777);
+            }
+        if (isset($filesUploaded) && count($filesUploaded) > 0) {
+                foreach ($filesUploaded as $eachfile) {
+                    $rnd = rand(0, 9999);  // generate random number between 0-9999
+                    $saveFileName = $rnd . $eachfile;
+                    $uploadspath = $path . '/' . $saveFileName;
+                    $uploadedFile = $eachfile->saveAs($uploadspath);
+                    chmod($uploadspath, 0777);
+                    $storeData = array();
+                    $storeData = $this->myservices->storedata($eachfile, $saveFileName,$session['employee_id']);
+                }
+        if ($storeData) 
+                    {                
+                    // Need to redirect to the page once User Page is done.                   
+                   //$this->redirect(array('Techo2Employee/Get_uploaded_data'));
+                    }
+            }
+        }
+        $this->render('/Dashboard/EmpUploads', $data);
+          }
+    }
+        
+        catch (Exception $ex) {
+            Yii::log("Techo2EmployeeController:actionEmployeeMultiupload::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    
+     /*
+     * Author   : Vamsi Nallana 
+     * Date     : 08-09-2015
+     * Method   : actionFileUploads
+     * Function : Adding Fileupload input while adding clicking on Add 
+     *       
+     */
+
+    public function actionFileUploads() 
+    {
+        $validations = new UploadRulesModal;
+        $data['validations'] = $validations;
+        $this->renderPartial('/Dashboard/Addnew', $data);
+    }
+    
+
+
+
     
     /*
      * Author   : Renigunta Kavya 
@@ -1076,6 +1162,7 @@ class Techo2EmployeeController extends Controller {
             Yii::log("Techo2EmployeeController:actionEditRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
+
 
 
     public function actionAllProfiles() {
