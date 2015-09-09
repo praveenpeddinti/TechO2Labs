@@ -28,6 +28,10 @@ return Array
     "country"   => "pays",
     "state"   => "état",
     "address"   => "adresse",
+    "suspend"   => "suspendre employés",
+    "activate"   => "activer employés",
+    "view"   => "Voir employés",
+    "update"   => "Mise à jour des employés",
     /*EmployeeProfileView Widget Section Start*/
     
     

@@ -94,10 +94,7 @@ return array(
     
     // application-level parameters that can be accessed
     'params' => array(
-      //  'widgetLables' => require(dirname(__FILE__) . '/WidgetLabels.php'),
-       // 'pageTitles' => require(dirname(__FILE__) . '/PageTitles.php'),
-       // 'errorMessages' => require(dirname(__FILE__) . '/ErrorMessages.php'),
-      //  'successMessages' => require(dirname(__FILE__) . '/SuccessMessages.php'),
-       // 'infoMessages' => require(dirname(__FILE__) . '/InfoMessages.php'),
+      'configValues' => require(dirname(__FILE__) . '/ConfigValues.php'),
+
     ),
 );

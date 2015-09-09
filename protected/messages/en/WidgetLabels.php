@@ -28,6 +28,10 @@ return Array
     "country"   => "Country",
     "state"   => "State",
     "address"   => "Address",
+    "suspend"   => "Suspend Employee",
+    "activate"   => "Activate Employee",
+    "view"   => "View Employee",
+    "update"   => "Update Employee",
     /*EmployeeProfileView Widget Section Start*/
     
     

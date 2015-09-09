@@ -4,23 +4,25 @@ class Techo2EmployeeController extends Controller {
 
     public $defaultAction = 'EmployeeRegNLogin';
 
-               /* 
- * Author      : Meda Vinod Kumar
- * Date        : 04-Sep-2015
- * Method      : Error
- * Function    : To overcome miscellaneous actions
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 04-Sep-2015
+     * Method      : Error
+     * Function    : To overcome miscellaneous actions
+     */
+
     public function actionError() {
 
         $this->render('/Employee/error');
     }
 
-              /* 
- * Author      : Meda Vinod Kumar
- * Date        : 04-Sep-2015
- * Method      : EmployeeRegNLogin
- * Function    : Handle registration and login functionalities
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 04-Sep-2015
+     * Method      : EmployeeRegNLogin
+     * Function    : Handle registration and login functionalities
+     */
+
     public function actionEmployeeRegNLogin() {
         try {
             $data = array();
@@ -113,13 +115,14 @@ class Techo2EmployeeController extends Controller {
         }
     }
 
-             /* 
- * Author      : Meda Vinod Kumar
- * Date        : 04-Sep-2015
- * Method      : GetStateList
- * Function    : Get all active states list 
- * Params      : Country Id 
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 04-Sep-2015
+     * Method      : GetStateList
+     * Function    : Get all active states list 
+     * Params      : Country Id 
+     */
+
     public function actionGetStateList() {
         try {
 
@@ -143,12 +146,13 @@ class Techo2EmployeeController extends Controller {
         }
     }
 
-            /* 
- * Author      : Meda Vinod Kumar
- * Date        : 07-Sep-2015
- * Method      : SetLoginDetails
- * Function    : Set session data
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 07-Sep-2015
+     * Method      : SetLoginDetails
+     * Function    : Set session data
+     */
+
     public function actionSetLoginDetails($loggedInAccData) {
         try {
 
@@ -165,12 +169,13 @@ class Techo2EmployeeController extends Controller {
         }
     }
 
-           /* 
- * Author      : Meda Vinod Kumar
- * Date        : 07-Sep-2015
- * Method      : Dashboard
- * Function    : Redirect to dashboard [ logged in employee ] 
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 07-Sep-2015
+     * Method      : Dashboard
+     * Function    : Redirect to dashboard [ logged in employee ] 
+     */
+
     public function actionDashboard() {
         try {
 
@@ -189,6 +194,7 @@ class Techo2EmployeeController extends Controller {
                 $designation_id = isset($session['employee_designation_id']) ? $session['employee_designation_id'] : $designation_id;
                 $employee_id = isset($session['employee_id']) ? $session['employee_id'] : $employee_id;
                 $data['employee_id'] = $employee_id;
+                $data['designation_id'] = $designation_id;
                 //If he is Managing Director
                 if (isset($designation_id) && 1 == $designation_id) {
                     $all_employee_profiles = $this->actionGetAllEmpData();
@@ -203,12 +209,13 @@ class Techo2EmployeeController extends Controller {
         }
     }
 
-          /* 
- * Author      : Meda Vinod Kumar
- * Date        : 07-Sep-2015
- * Method      : EmployeeProfile
- * Function    : Get Logged In  Employee Basic Details [  Profile ]
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 07-Sep-2015
+     * Method      : EmployeeProfile
+     * Function    : Get Logged In  Employee Basic Details [  Profile ]
+     */
+
     public function actionEmployeeProfile() {
         try {
 
@@ -232,13 +239,13 @@ class Techo2EmployeeController extends Controller {
         }
     }
 
-    
-         /* 
- * Author      : Meda Vinod Kumar
- * Date        : 07-Sep-2015
- * Method      : EditEmployeeProfile
- * Function    : Edit Employee Details Or Profile Data
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 07-Sep-2015
+     * Method      : EditEmployeeProfile
+     * Function    : Edit Employee Details Or Profile Data
+     */
+
     public function actionEditEmployeeProfile() {
         try {
 
@@ -291,7 +298,7 @@ class Techo2EmployeeController extends Controller {
                 //Date Of Birth
                 $date_of_birth = isset($employeeProfileDet['employee_dob']) ? $employeeProfileDet['employee_dob'] : NULL;
                 $editEmployeeProfileVal->techo2_Emp_Dob = $date_of_birth;
-                
+
                 //Get All Genders Start
                 $genderRes = ServiceFactory::getAllActiveGendersList()->getGendersList();
                 if (isset($genderRes) && count($genderRes) > 0) {
@@ -526,12 +533,13 @@ class Techo2EmployeeController extends Controller {
         }
     }
 
-         /* 
- * Author      : Meda Vinod Kumar
- * Date        : 07-Sep-2015
- * Method      : GetAllEmpData
- * Function    : Get all employee data
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 07-Sep-2015
+     * Method      : GetAllEmpData
+     * Function    : Get all employee data
+     */
+
     public function actionGetAllEmpData() {
         try {
 
@@ -548,12 +556,13 @@ class Techo2EmployeeController extends Controller {
         }
     }
 
-        /* 
- * Author      : Meda Vinod Kumar
- * Date        : 07-Sep-2015
- * Method      : LoggedOut
- * Function    : Destory all the session data
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 07-Sep-2015
+     * Method      : LoggedOut
+     * Function    : Destory all the session data
+     */
+
     public function actionLoggedOut() {
         try {
 
@@ -564,13 +573,14 @@ class Techo2EmployeeController extends Controller {
         }
     }
 
-       /* 
- * Author      : Meda Vinod Kumar
- * Date        : 07-Sep-2015
- * Method      : chkForUnique
- * Function    : Check email address and phone number to maintain unique details
- * Params      : email address, phone number, hidden email address, hidden phone number
- */
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 07-Sep-2015
+     * Method      : chkForUnique
+     * Function    : Check email address and phone number to maintain unique details
+     * Params      : email address, phone number, hidden email address, hidden phone number
+     */
+
     public function chkForUnique($emp_email, $emp_phone, $hid_email, $hid_phone) {
         try {
             $employee_email = isset($emp_email) ? $emp_email : NULL;
@@ -626,8 +636,9 @@ class Techo2EmployeeController extends Controller {
      * Params   : Employee Id
      *      
      */
-    public function actionViewEmployeeDetails(){
-       try {
+
+    public function actionViewEmployeeDetails() {
+        try {
 
 
             $employee_id = 0;
@@ -678,7 +689,7 @@ class Techo2EmployeeController extends Controller {
                 //Date Of Birth
                 $date_of_birth = isset($employeeProfileDet['employee_dob']) ? $employeeProfileDet['employee_dob'] : NULL;
                 $editEmployeeProfileVal->techo2_Emp_Dob = $date_of_birth;
-                
+
                 //Get All Genders Start
                 $genderRes = ServiceFactory::getAllActiveGendersList()->getGendersList();
                 if (isset($genderRes) && count($genderRes) > 0) {
@@ -906,40 +917,72 @@ class Techo2EmployeeController extends Controller {
                     }
                 }
 
-               echo  $this->renderPartial('/Dashboard/EditEmployeeProfile', $data);
+                echo $this->renderPartial('/Dashboard/EditEmployeeProfile', $data);
             }
         } catch (Exception $ex) {
             Yii::log("Techo2EmployeeController:actionEditEmployeeProfile::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
-    
-    public function actionSuspendEmployee(){
+
+    public function actionSuspendEmployee() {
         $employee_id = 0;
         $response = 0;
         $suspend_employee_response = 0;
         $employee_id = $_GET['employee_id'];
-        if($employee_id > 0){
-           $suspend_employee_response  =  ServiceFactory::dashboardServiceProvider()->suspendEmployee($employee_id);  
-           if(1 == $suspend_employee_response){
-               $response = $suspend_employee_response;
-           }
+        if ($employee_id > 0) {
+            $suspend_employee_response = ServiceFactory::dashboardServiceProvider()->suspendEmployee($employee_id);
+            if (1 == $suspend_employee_response) {
+                $response = $suspend_employee_response;
+            }
         }
         echo $response;
     }
-    
-    public function actionActivateEmployee(){
+
+    public function actionActivateEmployee() {
         $employee_id = 0;
         $response = 0;
         $activate_employee_response = 0;
         $employee_id = $_GET['employee_id'];
-        if($employee_id > 0){
-           $activate_employee_response  =  ServiceFactory::dashboardServiceProvider()->activateEmployee($employee_id);  
-           if(1 == $activate_employee_response){
-               $response = $activate_employee_response;
-           }
+        if ($employee_id > 0) {
+            $activate_employee_response = ServiceFactory::dashboardServiceProvider()->activateEmployee($employee_id);
+            if (1 == $activate_employee_response) {
+                $response = $activate_employee_response;
+            }
         }
         echo $response;
     }
+
+    public function actionAllProfiles() {
+        $response = array();
+        
+        if (isset($_GET['pageSize'])) {
+            Yii::app()->user->setState('pageSize', (int) $_GET['pageSize']);
+            unset($_GET['pageSize']);
+        }
+
+        
+        $responseOnAllProfiles = new AllProfiles('getAllProfiles');
+  
+        
+        if (isset($_GET['AllProfiles'])) {
+            $responseOnAllProfiles->attributes = $_GET['AllProfiles'];
+        }
+
+        if(isset($responseOnAllProfiles) && count($responseOnAllProfiles) > 0){
+            $response = array(
+               'allProfiles' => $responseOnAllProfiles,
+            );
+        }
+        
+        
+        
+        if (!isset($_GET['ajax'])) {
+            $this->render('/Dashboard/viewAllEmployeeProfiles', $response);
+        } else {
+            $this->renderPartial('/Dashboard/viewAllEmployeeProfiles', $response);
+        }
+    }
+
 }
 
 ?>
