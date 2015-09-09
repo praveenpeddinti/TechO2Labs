@@ -10,7 +10,7 @@
                 'model'=>$validations,
                 'name' => 'image',
                 'attribute'=>'image',
-                'accept'=>'jpg|gif|png', 
+                'accept'=>'jpeg|jpg|gif|png', 
                 'remove'=>'[X]',
                 'max'=>4,
                 'duplicate'=>'Already Selected',
