@@ -1,6 +1,12 @@
-<title>    
+<?php
+/*
+ * Author   : Vamsi Nallana 
+ * Date     : 08-09-2015
+ */
+?>
+<title>
     <?php
-    $commonTitle = Yii::app()->params['pageTitles']['commonTitle'];
+    $commonTitle = Yii::t('PageTitles', 'commonTitle');
     echo isset($pageTitle) ? $pageTitle : $commonTitle;
     ?>
 </title>
@@ -53,7 +59,7 @@
                 ));
                 ?>
 
-                        <?php echo $form->error($validations, 'image'); ?>
+                <?php echo $form->error($validations, 'image'); ?>
 
 
                     </div>  
