@@ -1,3 +1,4 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 <?php
 $employee_id = 0;
 $employee_name = NULL;
@@ -66,13 +67,13 @@ if (isset($session) && count($session) > 0) {
 
 
                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/EmployeeMultiupload',array('employee_id'=>$employee_id)); ?>">Add New Files</a></li>
-                                           <li><a href="<?php  echo Yii::app()->request->baseUrl.'/Techo2Employee/LoggedOut'; ?>">Log out</a></li>
+                                          
 
                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/AllProfiles'); ?>">All Profiles</a></li>
 
 
                                            <li><a href="<?php  echo Yii::app()->request->baseUrl.'/Techo2Employee/LoggedOut'; ?>">Log out</a></li>
-                                           <?php if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?><li><a href="<?php  echo $this->createUrl('Techo2Employee/AllProfiles'); ?>">All Profiles</a></li><?php } ?>
+                                           
 
                                         </ul>
                                     </div>
