@@ -224,10 +224,12 @@ class Techo2EmployeeController extends Controller {
      */
 
     public function actionEmployeeProfile() {
-
         try {
+
+
             $cs = Yii::app()->getClientScript();
             $cs->registerCoreScript('jquery');
+
 
             $data = array();
             $data['pageTitle'] = Yii::t('PageTitles', 'employeeProfile');
@@ -692,6 +694,7 @@ class Techo2EmployeeController extends Controller {
     public function actionEmployeeMultiupload() {
 
         try {
+            $this->myservices =  new InstantEmpStorage();
 
             $session = array();
             $session = Yii::app()->session['employee_data'];
@@ -719,16 +722,17 @@ class Techo2EmployeeController extends Controller {
                         chmod($path, 0777);
                     }
                     if (isset($filesUploaded) && count($filesUploaded) > 0) {                        
-                        foreach ($filesUploaded as $eachfile) {
+                        foreach ($filesUploaded as $eachfile) {                            
                             $rnd = rand(0, 9999);  // generate random number between 0-9999
                             $saveFileName = $rnd . $eachfile;
                             $uploadspath = $path . '/' . $saveFileName;
                             $uploadedFile = $eachfile->saveAs($uploadspath);
                             chmod($uploadspath, 0777);
                             $storeData = array();
-                           // ServiceFactory::dashboardServiceProvider()->activateEmployee($employee_id);
-                            //print_r($saveFileName); die;
-                            $storeData = ServiceFactory::multifiles()->storedata($eachfile, $saveFileName, $session['employee_id']);
+                            
+                            $storeData = $this->myservices->storedata($eachfile, $saveFileName, $session['employee_id']);
+                           // ServiceFactory::dashboardServiceProvider()->activateEmployee($employee_id)                        
+                           
                         }
                         if ($storeData) {
                             // Need to redirect to the page once User Page is done.                   
@@ -970,7 +974,8 @@ class Techo2EmployeeController extends Controller {
             $employee_id = 0;
             if (NULL == $_GET['employee_id'] || $_GET['employee_id'] <= 0) {
                 $this->redirect(array('Techo2Employee/LoggedOut'));
-            } else {
+            } 
+            else {
                 $data = array();
                 $employee_details = array();
                 $employee_id = $_REQUEST['employee_id'];
