@@ -20,13 +20,7 @@ $pageSizeDropDown = CHtml::dropDownList(
 </div>
 <?php Yii::app()->clientScript->registerCss('initPageSizeCSS', '.page-size-wrap{text-align: right;}'); ?>
 
-<title>
-    <?php
-    $commonTitle = Yii::app()->params['pageTitles']['commonTitle'];
-    echo isset($pageTitle) ? $pageTitle : $commonTitle;
-    ?>
 
-</title>
 
 
     <?php
