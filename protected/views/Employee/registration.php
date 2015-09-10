@@ -1,18 +1,16 @@
 
-
-
 <?php
 $desigArr = array();
 $cntryArr = array();
 $gnderArr = array();
-$first_name_arr = array('placeholder' => "Enter firstname", 'autocomplete' => "off");
-$middle_name_arr = array('placeholder' => "Enter middlename", 'autocomplete' => "off");
-$last_name_arr = array('placeholder' => "Enter lastname", 'autocomplete' => "off");
-$email_address_arr = array('placeholder' => "Enter email address", 'autocomplete' => "off");
-$phone_arr = array('placeholder' => "Enter mobile number", 'autocomplete' => "off");
-$reg_password_arr = array('placeholder' => "Enter password", 'autocomplete' => "off");
-$reg_confirm_password_arr = array('placeholder' => "Confirm password", 'autocomplete' => "off");
-$address_arr = array('rows' => 3, 'cols' => 50, 'placeholder' => "Enter your address", 'autocomplete' => "off");
+$first_name_arr = array('placeholder' => "Enter firstname", 'class' => 'form-control','autocomplete' => "off");
+$middle_name_arr = array('placeholder' => "Enter middlename", 'class' => 'form-control','autocomplete' => "off");
+$last_name_arr = array('placeholder' => "Enter lastname",'class' => 'form-control', 'autocomplete' => "off");
+$email_address_arr = array('placeholder' => "Enter email address",'class' => 'form-control', 'autocomplete' => "off");
+$phone_arr = array('placeholder' => "Enter mobile number", 'class' => 'form-control','autocomplete' => "off");
+$reg_password_arr = array('placeholder' => "Enter password",'class' => 'form-control', 'autocomplete' => "off");
+$reg_confirm_password_arr = array('placeholder' => "Confirm password",'class' => 'form-control', 'autocomplete' => "off");
+$address_arr = array('rows' => 3, 'cols' => 50, 'placeholder' => "Enter your address",'class' => 'form-control', 'autocomplete' => "off");
 
 //Designations Array
 
@@ -69,8 +67,17 @@ if (isset($gendersList) && count($gendersList) > 0) {
 <!--Display Session Flash Messages Section End-->
 
 
-<div class="col xs-12 col-sm-6 col-md-6 form-box">
-    <?php
+<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+            <div class="modal-header" style="background-color: #f0ad4e;">
+			<button type="button" class="close" data-dismiss="modal">
+                         <span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h3 class="modal-title" style="color: #fff" id="lineModalLabel">Please Register</h3>
+		</div>
+		<div class="modal-body">
+                    
+                    <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'login-form',
         'enableClientValidation' => true,
@@ -78,24 +85,19 @@ if (isset($gendersList) && count($gendersList) > 0) {
             'validateOnSubmit' => true,
         ),
     ));
-    ?>
-    <div class="form-top">
-        <div class="form-top-left"><h1 style="color:#FFFFFF">New Registration</h1></div>
-
-    </div>
-    <div class="form-bottom">
-
-
-
+    ?>			
+        <!-- content goes here -->
         <div class="row">
+            
             <div class="col-xs-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Firstname'); ?>
                     <?php echo $form->textField($employeeRegModelForm, 'techo2_Emp_Firstname', $first_name_arr); ?>
                     <?php echo $form->error($employeeRegModelForm, 'techo2_Emp_Firstname'); ?>
                 </div>
-
             </div>
+            
+            
             <div class="col-xs-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Middlename'); ?>
@@ -104,6 +106,7 @@ if (isset($gendersList) && count($gendersList) > 0) {
                 </div>
 
             </div>
+            
             <div class="col-xs-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Lastname'); ?>
@@ -112,6 +115,7 @@ if (isset($gendersList) && count($gendersList) > 0) {
                 </div>
 
             </div>
+            
             <div class="col-xs-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Email'); ?>
@@ -120,7 +124,8 @@ if (isset($gendersList) && count($gendersList) > 0) {
                 </div>
 
             </div>
-            <div class="col-xs-6">
+            
+             <div class="col-xs-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Phone'); ?>
                     <?php echo $form->textField($employeeRegModelForm, 'techo2_Emp_Phone', $phone_arr); ?>
@@ -128,6 +133,7 @@ if (isset($gendersList) && count($gendersList) > 0) {
                 </div>
 
             </div>
+            
             <div class="col-xs-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Password'); ?>
@@ -136,6 +142,8 @@ if (isset($gendersList) && count($gendersList) > 0) {
                 </div>
 
             </div>
+            
+            
             <div class="col-xs-6">
                 <div class="form-group">
                     <?php echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_ConfirmPassword'); ?>
@@ -144,23 +152,22 @@ if (isset($gendersList) && count($gendersList) > 0) {
                 </div>
 
             </div>
-        </div>
-
-
-        <!--Designation Section Start-->
+            
+            </div>
+        <div class="col-xs-6">
         <div class="form-group desig">
             <?php
             echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Designation');
             echo $form->dropDownList($employeeRegModelForm, 'techo2_Emp_Designation', $desigArr);
             echo $form->error($employeeRegModelForm, 'techo2_Emp_Designation');
             ?>
+        </div>
 
 
         </div>
-        <!--Designation Section End-->
-
-        <!--Country Section Start-->
-        <div class="form-group desig">
+        
+        <div class="col-xs-6">
+            <div class="form-group desig">
 
             <?php
             echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Country');
@@ -179,10 +186,10 @@ if (isset($gendersList) && count($gendersList) > 0) {
             ?>
 
         </div>
-        <!--Country Section End-->
-
-        <!--State Section Start-->
-        <div class="form-group desig">
+        </div>
+        
+        
+          <div class="form-group desig">
 
             <?php
             echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_State');
@@ -191,25 +198,19 @@ if (isset($gendersList) && count($gendersList) > 0) {
             ?>
 
         </div>
-        <!--State Section End-->
-
-        <!--Gender Section Start-->
+        
         <?php
         echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Gender');
         echo "<br/>";
         echo $form->radioButtonList($employeeRegModelForm, 'techo2_Emp_Gender', $gnderArr);
         echo $form->error($employeeRegModelForm, 'techo2_Emp_Gender');
         ?>
-        <!--Gender Section End-->
-
+        
         <div class="row">
             <div class="col xs-12 col-sm-6 col-md-6">
                 <div class="form-group">
                     <?php
-                    //M -> It is for Sep, Aug
-                    //m -> It is for month number feb-2, Jan - 1
-                    //MM -> It is for September, August
-                    //dd-mm-yy or yy-mm-dd
+
                     echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Dob');
                     $this->widget('zii.widgets.jui.CJuiDatePicker', array(
                         'model' => $employeeRegModelForm,
@@ -227,9 +228,7 @@ if (isset($gendersList) && count($gendersList) > 0) {
                 </div>
             </div>
         </div>
-
-
-
+        
         <div class="form-group add">
             <?php
             echo $form->labelEx($employeeRegModelForm, 'techo2_Emp_Address');
@@ -248,13 +247,38 @@ if (isset($gendersList) && count($gendersList) > 0) {
                 ?>
 
             </label>
-            <?php echo CHtml::submitButton('Submit'); ?>
+            
+            
+            
         </div>
+            
+              
+              
 
-
-    </div>
-    <?php $this->endWidget(); ?>
+		</div>
+		<div class="modal-footer">
+			<div class="btn-group btn-group-justified" role="group" aria-label="group button">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Close</button>
+				</div>
+				<div class="btn-group btn-delete hidden" role="group">
+					<button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal"  role="button">Delete</button>
+				</div>
+				<div class="btn-group" role="group">
+                                            <?php echo CHtml::submitButton('Submit',array('class'=>'btn btn-default btn-hover-green','data-action'=>'save','id' => 'saveImage','role'=>'button','data-action'=>'save')); ?>
+					
+				</div>
+			</div>
+		</div>
+            
+            <?php $this->endWidget(); ?>
+	</div>
+  </div>
 </div>
+
+
+
+
 
 
 
