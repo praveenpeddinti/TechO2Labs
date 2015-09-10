@@ -118,7 +118,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                     )
                 ),
                 'status_employee' => array(
-                    'label' => 'Edit status',
+                    'label' => 'Edit',
                     'url'=>'Yii::app()->createUrl("Techo2Employee/AjaxStatusui",array("employee_id"=>$data["employee_id"],"status"=>$data["employee_status"]))',
                     "options" => array(
                          'ajax' => array('type' => 'post', 'url'=>'js:$(this).attr("href")','success' => 'js:function(data,xhr,ajaxOptions) {$(".emp_"+data.emp_id).find("#yt0").hide();var emp_id = getUrlParameters("employee_id", this.url, true) ;console.log();$(".emp_"+emp_id).find(".emp_status").html(data);$(this).hide();}'),
