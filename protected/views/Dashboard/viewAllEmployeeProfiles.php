@@ -98,6 +98,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'type' => 'raw',
             'value' => 'CHtml::encode($data->country_name)'
         ),
+        array(
+            'name' => 'status',
+            'type' => 'raw',
+            'value' => 'CHtml::encode($data->status)'
+        ),
         
         
     ),
