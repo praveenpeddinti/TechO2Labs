@@ -3,7 +3,7 @@ $user_name_label = array('class' => '');
 $user_name_arr = array('placeholder' => 'Enter your username', 'class' => 'form-last-name form-control', 'autocomplete' => 'off');
 
 $password_arr_label = array('class' => '');
-$password_arr = array('placeholder' => 'Enter your password', 'autocomplete' => 'off');
+$password_arr = array('placeholder' => 'Enter your password', 'class' => 'form-last-name form-control','autocomplete' => 'off');
 ?>
 
 <!--Display Session Flash Messages Section Start-->
