@@ -65,7 +65,7 @@ if (isset($session) && count($session) > 0) {
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                            
-                                           <?php if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?> <li><a href="<?php  echo $this->createUrl('Techo2Employee/RatingDashboard'); ?>">Rating Dashboard</a></li> <?php } ?>
+                                           <?php //if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?><!-- <li><a href="<?php  //echo $this->createUrl('Techo2Employee/RatingDashboard'); ?>">Rating Dashboard</a></li> --><?php  //} ?>
                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/EmployeeProfile',array('employee_id'=>$employee_id)); ?>">View profile</a></li>
                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/EditEmployeeProfile',array('employee_id'=>$employee_id)); ?>">Edit profile</a></li>
                                            <?php if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?><li><a href="<?php  echo $this->createUrl('Techo2Employee/AllProfiles'); ?>">All Profiles</a>

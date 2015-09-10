@@ -103,7 +103,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'header' => Yii::t('WidgetLabels', 'admin_actions'),
             'class' => 'CButtonColumn',
-            'template' => '{view_employee}{edit_employee}{status_employee}',
+            'template' => '{view_employee}<br/>{status_employee}',
             'buttons' => array(
              'view_employee' => array(
                     'label' => 'View',
@@ -124,6 +124,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
                          'ajax' => array('type' => 'post', 'url'=>'js:$(this).attr("href")','success' => 'js:function(data,xhr,ajaxOptions) {$(".emp_"+data.emp_id).find("#yt0").hide();var emp_id = getUrlParameters("employee_id", this.url, true) ;console.log();$(".emp_"+emp_id).find(".emp_status").html(data);$(this).hide();}'),
                     ),  
                 ),
+
             ),
             "htmlOptions" => array(
                 'style'=>'width: 70px;',
@@ -150,4 +151,20 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 ));
 ?>
 <div id="employee_view"></div>
+<?php $this->endWidget();?>
+
+<?php
+//the dialog
+$this->beginWidget('zii.widgets.jui.CJuiDialog', array( 
+'id'=>'dlg-employee-views',
+'options'=>array(
+    'title'=>'Edit Employee details',
+    'autoOpen'=>false, //important!
+    'modal'=>false,
+    'width'=>550,
+    'height'=>470,
+),
+));
+?>
+<div id="edit_employee_view"></div>
 <?php $this->endWidget();?>
