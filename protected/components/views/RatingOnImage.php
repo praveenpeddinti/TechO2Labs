@@ -23,19 +23,33 @@ $this->widget('CListPager', array(
   foreach($all_rating_images_data['all_rating_images'] as $arid){
       
           $previous_rating = 0;
+          
           $defaultImageName = Yii::app()->params['configValues']['defaultImageName'];
-          $imageHeight = Yii::app()->params['configValues']['defaultImageHeight'];
-          $imageWidth = Yii::app()->params['configValues']['defaultImageWidth'];
-          $imageAdjust = array('width'=>$imageWidth,'height'=>$imageHeight,'title'=>$imageName);
-          $imageId = 0;
-          $result_on_file = NULL;
-          $image_path = Yii::app()->request->getBaseUrl() . "/uploads/";
+          
+          $imageName = NULL;
+          
           $imageName = isset($arid['image_name']) ? $arid['image_name'] :$defaultImageName;
+          
+          $imageHeight = Yii::app()->params['configValues']['defaultImageHeight'];
+          
+          $imageWidth = Yii::app()->params['configValues']['defaultImageWidth'];
+          
+          $imageId = 0;
+          
+          $result_on_file = NULL;
+          
           /*Check is file exists or not section start*/
-          $result_on_file = file_exists($image_path.$imageName);
-          if(0 == $result_on_file || FALSE == $result_on_file){
-              $imageName = $defaultImageName;
+          if(file_exists(Yii::app()->request->getBaseUrl() . "/uploads/".$imageName)){
+              
+             $imageName = $imageName;
+             
+          }else{
+              
+             $imageName = $defaultImageName;
+             
           }
+          
+          $imageAdjust = array('width'=>$imageWidth,'height'=>$imageHeight,'title'=>$imageName);
           /*Check is file exists or not section end*/
           $imageId = isset($arid['image_id']) ? $arid['image_id'] :$imageId;
           $previous_rating = isset($previous_rating_images[$imageId]) ? $previous_rating_images[$imageId] : $previous_rating;    
