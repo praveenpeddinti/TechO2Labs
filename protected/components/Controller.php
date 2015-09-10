@@ -26,8 +26,8 @@ class Controller extends CController
         public function init()
         {
             //$this->myservices =  new InstantEmpStorage();
-            $cs = Yii::app()->getClientScript();
-            $cs->registerCoreScript('jquery');
+//            $cs = Yii::app()->getClientScript();
+//            $cs->registerCoreScript('jquery');
             
         }
 }

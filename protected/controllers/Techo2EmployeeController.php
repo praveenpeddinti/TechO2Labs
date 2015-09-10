@@ -176,7 +176,9 @@ class Techo2EmployeeController extends Controller {
 
 
     public function actionDashboard() {
-        try {            
+        try {
+            $cs = Yii::app()->getClientScript();
+            $cs->registerCoreScript('jquery');
             $session = array();
             $session = Yii::app()->session['employee_data'];
            
@@ -222,7 +224,8 @@ class Techo2EmployeeController extends Controller {
     public function actionEmployeeProfile() {
 
         try {
-
+            $cs = Yii::app()->getClientScript();
+            $cs->registerCoreScript('jquery');
 
             $data = array();
             $data['pageTitle'] = Yii::t('PageTitles', 'employeeProfile');
@@ -981,7 +984,7 @@ class Techo2EmployeeController extends Controller {
                     Yii::app()->end();
                 }
                 else {
-                    $this->render('/Dashboard/ViewEmployeeDet', $data);
+                    $this->renderPartial('/Dashboard/ViewEmployeeDet', $data);
                 }
             }
         } catch (Exception $ex) {
