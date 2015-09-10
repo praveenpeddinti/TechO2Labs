@@ -28,6 +28,21 @@ Class ServiceFactory {
         }
     }
     
+    
+    //Inserting multi files data
+    public static function multifiles() {
+        try {
+            if (!self::$inst_multifiles) {
+                self::$inst_multifiles = new InstantEmpStorage();
+            }
+            return self::$inst_multifiles;
+        } catch (Exception $ex) {
+            Yii::log("ServiceFactory:multifiles::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    
+    
     //Get Login Credentials Data
     public static function validateLogin() {
         try {
