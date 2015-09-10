@@ -125,8 +125,6 @@ class Techo2EmployeeController extends Controller {
 
     public function actionGetStateList() {
         try {
-
-
             $country_id = 0;
             $stateRes = array();
             $stateArr = array();
@@ -177,11 +175,10 @@ class Techo2EmployeeController extends Controller {
      */
 
     public function actionDashboard() {
-        try {
-
-
+        try {            
             $session = array();
             $session = Yii::app()->session['employee_data'];
+           
             if (0 == count($session)) {
                 $this->redirect(array('Techo2Employee/LoggedOut'));
             } else if (isset($session) && count($session) > 0) {
@@ -689,18 +686,23 @@ class Techo2EmployeeController extends Controller {
                 $validations = new UploadRulesModal;
                 $storagemodel = new StorageModel;
                 $data['validations'] = $validations;
+                $filesUploaded = array();
 
 
 
                 if (Yii::app()->getRequest()->isPostRequest && isset($_FILES)) {
-                    $filesUploaded = array();
-                    $filesUploaded = CUploadedFile::getInstancesByName('image');
+                    
+                    
+                    $filesUploaded = CUploadedFile::getInstancesByName('image');  
+                    
+                    //print_r($filesUploaded); die;
+                    
                     $path = Yii::getPathOfAlias('webroot') . '/uploads';
                     if (!is_dir($path)) {
                         mkdir($path, 0777);
                         chmod($path, 0777);
                     }
-                    if (isset($filesUploaded) && count($filesUploaded) > 0) {
+                    if (isset($filesUploaded) && count($filesUploaded) > 0) {                        
                         foreach ($filesUploaded as $eachfile) {
                             $rnd = rand(0, 9999);  // generate random number between 0-9999
                             $saveFileName = $rnd . $eachfile;
@@ -708,7 +710,9 @@ class Techo2EmployeeController extends Controller {
                             $uploadedFile = $eachfile->saveAs($uploadspath);
                             chmod($uploadspath, 0777);
                             $storeData = array();
-                            $storeData = $this->myservices->storedata($eachfile, $saveFileName, $session['employee_id']);
+                           // ServiceFactory::dashboardServiceProvider()->activateEmployee($employee_id);
+                            //print_r($saveFileName); die;
+                            $storeData = ServiceFactory::multifiles()->storedata($eachfile, $saveFileName, $session['employee_id']);
                         }
                         if ($storeData) {
                             // Need to redirect to the page once User Page is done.                   
