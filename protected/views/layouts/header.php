@@ -1,3 +1,9 @@
+
+<!--
+Designed By: Vamsi Nallana
+copyrights@Techo2 India Pvt Limited
+-->
+
 <?php
 $employee_id = 0;
 $employee_name = NULL;
@@ -63,20 +69,25 @@ if (isset($session) && count($session) > 0) {
                                             ?>
                                             <span class="caret"></span>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                           
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">               
                                            <?php //if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?><!-- <li><a href="<?php  //echo $this->createUrl('Techo2Employee/RatingDashboard'); ?>">Rating Dashboard</a></li> --><?php  //} ?>
                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/EmployeeProfile',array('employee_id'=>$employee_id)); ?>">View profile</a></li>
                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/EditEmployeeProfile',array('employee_id'=>$employee_id)); ?>">Edit profile</a></li>
+
+                                           <?php if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?><li><a href="<?php  echo $this->createUrl('Techo2Employee/AllProfiles'); ?>">All Profiles</a></li><?php } ?>                                          
+                                           <?php if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?> <li><a href="<?php  echo $this->createUrl('Techo2Employee/EmployeeMultiupload'); ?>">Add New Files</a></li> <?php } ?>
+                                                                                     
+
                                            <?php if(isset($employee_designation_id) && 1 == $employee_designation_id){ ?><li><a href="<?php  echo $this->createUrl('Techo2Employee/AllProfiles'); ?>">All Profiles</a>
                                            
                                            </li>
-                                               <li><a href="<?php  echo $this->createUrl('Techo2Employee/EmployeeMultiupload',array('employee_id'=>$employee_id)); ?>">Add New Files</a></li>
+                                             
                                                    <?php } ?>
                                            
                                            
                                            <li><a href="<?php  echo Yii::app()->request->baseUrl.'/Techo2Employee/LoggedOut'; ?>">Log out</a></li>
                                            
+
 
                                         </ul>
                                     </div>
