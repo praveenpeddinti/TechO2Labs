@@ -29,6 +29,8 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'dataProvider' => $allProfiles->getAllProfiles(),
     'enableSorting' => true,
     'enablePagination' => true,
+    'rowCssClassExpression' => '
+        ( $data->employee_status == 1 ? "active" : "Inactive" ) . ( $row%2 ? " even" : " odd" ) . " emp_".$data->employee_id',
     'summaryText' => '{start} - {end} / {count}',
     'columns' => array(
         array(
@@ -77,6 +79,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'value' => 'CHtml::encode($data->email)'
         ),
         array(
+            'name' => Yii::t('WidgetLabels', 'status'),
+            'type' => 'raw',
+            'cssClassExpression' => '"emp_status"',
+            'value' => 'CHtml::encode($data->employee_status == 1 ? "Active" : ($data->employee_status == 0 ? "Inactive" : "None"))'
+        ),
+        array(
             'name' => Yii::t('WidgetLabels', 'address'),
             'type' => 'raw',
             'value' => 'CHtml::encode($data->employee_address)'
@@ -91,15 +99,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
             'type' => 'raw',
             'value' => 'CHtml::encode($data->country_name)'
         ),
-        array(
-            'name' => Yii::t('WidgetLabels', 'status'),
-            'type' => 'raw',
-            'value' => 'CHtml::encode($data->status)'
-        ),
+    /* View Section End */
         array(
             'header' => Yii::t('WidgetLabels', 'admin_actions'),
             'class' => 'CButtonColumn',
-            'template' => '{view_employee}{edit_employee}',
+            'template' => '{view_employee}{edit_employee}{status_employee}',
             'buttons' => array(
              'view_employee' => array(
                     'label' => 'View',
@@ -113,6 +117,13 @@ $this->widget('zii.widgets.grid.CGridView', array(
                         ),
                     )
                 ),
+                'status_employee' => array(
+                    'label' => 'Edit status',
+                    'url'=>'Yii::app()->createUrl("Techo2Employee/AjaxStatusui",array("employee_id"=>$data["employee_id"],"status"=>$data["employee_status"]))',
+                    "options" => array(
+                         'ajax' => array('type' => 'post', 'url'=>'js:$(this).attr("href")','success' => 'js:function(data,xhr,ajaxOptions) {$(".emp_"+data.emp_id).find("#yt0").hide();var emp_id = getUrlParameters("employee_id", this.url, true) ;console.log();$(".emp_"+emp_id).find(".emp_status").html(data);$(this).hide();}'),
+                    ),  
+                ),
             ),
             "htmlOptions" => array(
                 'style'=>'width: 70px;',
@@ -120,7 +131,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
             )
         ),
         /* View/Edit Section End */
-        
+       
     ),
 ));
 ?>

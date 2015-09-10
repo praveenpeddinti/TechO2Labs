@@ -71,7 +71,7 @@ class AllProfiles extends CActiveRecord {
         $criteria->join .="INNER JOIN techo2_state as ts ON(ts.idstate = tea.state_idstate and ts.status = 1)";
         $criteria->join .="INNER JOIN techo2_country as tc ON(tc.idcountry = ts.country_idcountry and tc.status = 1)";
 
-        $criteria->select = 'te.employee_dob,te.employee_firstname,te.employee_middlename,te.employee_lastname,tep.phonenumber,tee.email,te.employee_tag_code,ted.name as designation_name,tea.address as employee_address,ts.name as statename,tc.name as country_name,CASE te.employee_gender WHEN "M" THEN "Male" WHEN "F" THEN "Female" WHEN "O" THEN "Other" ELSE "Other" END AS employee_gender,CASE te.employee_status WHEN 0 THEN "Inactive" WHEN 1 THEN "Active" ELSE "Inactive" END as status,te.employee_id';
+        $criteria->select = 'te.employee_dob,te.employee_firstname,te.employee_middlename,te.employee_lastname,te.employee_id,te.employee_status,tep.phonenumber,tee.email,te.employee_tag_code,ted.name as designation_name,tea.address as employee_address,ts.name as statename,tc.name as country_name,CASE te.employee_gender WHEN "M" THEN "Male" WHEN "F" THEN "Female" WHEN "O" THEN "Other" ELSE "Other" END AS employee_gender,CASE te.employee_status WHEN 0 THEN "Inactive" WHEN 1 THEN "Active" ELSE "Inactive" END as status,te.employee_id';
 
 //[Need To Review ]
 //        $criteria->compare('employee_firstname', $this->employee_firstname, true);

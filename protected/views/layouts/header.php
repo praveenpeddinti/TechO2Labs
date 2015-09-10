@@ -1,4 +1,3 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 <?php
 $employee_id = 0;
 $employee_name = NULL;
@@ -27,6 +26,11 @@ if (isset($session) && count($session) > 0) {
               <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
               <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
             <![endif]-->
+        <!-- Link custom javascript file -->
+        <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/custom.js"></script>
+
+        
+        
     </head>
     <body>
         <!-- ***************************FULL PAGE BACKGROUND******************************* --> 

@@ -174,6 +174,7 @@ class Techo2EmployeeController extends Controller {
      * Function    : Redirect to dashboard [ logged in employee ] 
      */
 
+
     public function actionDashboard() {
         try {            
             $session = array();
@@ -193,6 +194,16 @@ class Techo2EmployeeController extends Controller {
                 $designation_id = isset($session['employee_designation_id']) ? $session['employee_designation_id'] : $designation_id;
                 $employee_id = isset($session['employee_id']) ? $session['employee_id'] : $employee_id;
                 $data['employee_id'] = $employee_id;
+
+
+                //If he is Managing Director
+                if (isset($designation_id) && 1 == $designation_id) {
+                    $all_employee_profiles = $this->actionGetAllEmpData();
+                    if (isset($all_employee_profiles) && count($all_employee_profiles) > 0) {
+                        $data['all_employee_profiles'] = $all_employee_profiles;
+                    }
+                }
+
                 $data['designation_id'] = $designation_id;
                 $this->render('/Dashboard/home', $data);
             }
@@ -978,6 +989,64 @@ class Techo2EmployeeController extends Controller {
         }
      }
 
+    /* 
+    * Author      : Upendra Tarnoju
+    * Date        : 10-Sep-2015
+    * Method      : AjaxStatusChange
+    * Function    : Employee status changes based on dropdown selection
+    */  
+    public function actionAjaxStatusChange(){
+        
+        $employee_id = 0;
+        $status = 0;
+        if($_POST['employee_id']){
+            $employee_id = $_POST['employee_id'];
+        }
+        if($_POST['status']){
+            $status = $_POST['status'];
+        }
+        
+        if($employee_id > 0){
+            if($status == 0){
+                $response = ServiceFactory::dashboardServiceProvider()->suspendEmployee($employee_id);
+            }elseif ($status == 1) {
+                $response = ServiceFactory::dashboardServiceProvider()->activateEmployee($employee_id);
+            }
+        }
+        if($status == 1){
+            $response = 'Active';
+        }
+        else{
+            $response = 'Inactive';
+        }
+        $response=array('emp_id'=>$employee_id,'status'=>$response);
+        
+        echo CJSON::encode($response);
+   
+    }
+    
+    /* 
+    * Author      : Upendra Tarnoju
+    * Date        : 10-Sep-2015
+    * Method      : AjaxStatusui
+    * Function    : Renders a dropdown with status
+    */
+    public function actionAjaxStatusui(){
+        $employee_id = 0;
+        $status = 0;
+        if($_GET['employee_id']){
+            $employee_id = $_GET['employee_id'];
+        }
+        if($_GET['status']){
+            $status = $_GET['status'];
+        }
+        
+        $data=array();
+        $data['employee']=array('employee_id'=>$employee_id,'status'=>$status);
+
+        echo $this->renderPartial('/Dashboard/dropDownList', $data,false,true);
+        
+    }
 }
 
 ?>
