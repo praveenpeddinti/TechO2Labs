@@ -24,6 +24,7 @@ $pageSizeDropDown = CHtml::dropDownList(
 
 
     <?php
+    $row = 1;
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'grid-view-id',
     'dataProvider' => $allProfiles->getAllProfiles(),
@@ -33,6 +34,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ( $data->employee_status == 1 ? "active" : "Inactive" ) . ( $row%2 ? " even" : " odd" ) . " emp_".$data->employee_id',
     'summaryText' => '{start} - {end} / {count}',
     'columns' => array(
+        array(
+          'header'=>'S.No',
+          'value'=>'++$row',
+        ),
         array(
             'name' => Yii::t('WidgetLabels', 'firstname'),
             'type' => 'raw',
