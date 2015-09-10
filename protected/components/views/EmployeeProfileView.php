@@ -6,32 +6,32 @@ if (isset($profile) && count($profile) > 0) {
         <tr>
             <th>
                 <?php
-                echo Yii::t('WidgetLables', 'fullname');
+                echo Yii::t('WidgetLabels', 'full_name');
                 ?>
             </th>       
             <th>
                 <?php
-                echo Yii::t('WidgetLables', 'designation');
+                echo Yii::t('WidgetLabels', 'designation');
                 ?>
             </th>
             <th>
                 <?php
-                 echo Yii::t('WidgetLables', 'code');
+                 echo Yii::t('WidgetLabels', 'code');
                 ?>
             </th>
             <th>
                 <?php
-                echo Yii::t('WidgetLables', 'email');
+                echo Yii::t('WidgetLabels', 'email');
                 ?>
             </th>
             <th>
                 <?php
-                echo Yii::t('WidgetLables', 'mobile');
+                echo Yii::t('WidgetLabels', 'mobile');
                 ?>
             </th>
             <th>
                 <?php
-                echo Yii::t('WidgetLables', 'status');
+                echo Yii::t('WidgetLabels', 'status');
                 ?>
             </th>
         </tr>

@@ -91,12 +91,14 @@ Class DashboardModel extends CActiveRecord {
             $employeeArr = array();
             $limit = 1;
             $employeeArr = Yii::app()->db->createCommand()
-                    ->select('te.employee_id,te.employee_firstname,te.employee_middlename,te.employee_lastname,te.employee_tag_code as employee_code,tee.email as employee_email,tep.phonenumber as employee_phone,te.employee_status,te.designation_iddesignation as designation_id,te.employee_gender as gender_type,te.employee_dob,tea.address as employee_address,tea.state_idstate as employee_state,ts.country_idcountry as  employee_country')
+                    ->select('te.employee_id,te.employee_firstname,te.employee_middlename,te.employee_lastname,te.employee_tag_code as employee_code,tee.email as employee_email,tep.phonenumber as employee_phone,te.employee_status,te.designation_iddesignation as designation_id,te.employee_gender as gender_type,te.employee_dob,tea.address as employee_address,tea.state_idstate as employee_state,ts.country_idcountry as  employee_country,tc.name as country_name,ts.name as state_name,ted.name as designation_name')
                     ->from('techo2_employee te')
+                    ->join('techo2_employee_designation ted', 'ted.employee_designation_id = te.designation_iddesignation and ted.status =:status', array(':status' => $limit))
                     ->join('techo2_employee_email tee', 'tee.employee_idemployee = te.employee_id and tee.isdefault=:isdefault', array(':isdefault' => $limit))
                     ->join('techo2_employee_phone tep', 'tep.employee_idemployee = te.employee_id and tep.isdefault=:isdefault', array(':isdefault' => $limit))
                     ->join('techo2_employee_address tea', 'tea.employee_idemployee = te.employee_id and tea.isdefault=:isdefault', array(':isdefault' => $limit))
                     ->join('techo2_state ts', 'ts.idstate = tea.state_idstate and ts.status=:status', array(':status' => $limit))
+                    ->join('techo2_country tc', 'tc.idcountry = ts.country_idcountry and tc.status=:status', array(':status' => $limit))
                     ->where('te.employee_id=:idemployee and te.employee_status =:status', array(':idemployee' => $employee_id, ':status' => $limit))
                     ->limit($limit)
                     ->queryRow();

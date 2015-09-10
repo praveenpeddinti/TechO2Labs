@@ -949,7 +949,34 @@ class Techo2EmployeeController extends Controller {
     }
     
     
-
+     public function actionViewEmployeeDetails(){
+         try {
+            $employee_id = 0;
+            if (NULL == $_GET['employee_id'] || $_GET['employee_id'] <= 0) {
+                $this->redirect(array('Techo2Employee/LoggedOut'));
+            } else {
+                $data = array();
+                $employee_details = array();
+                $employee_id = $_REQUEST['employee_id'];
+                $employee_details = ServiceFactory::dashboardServiceProvider()->getEmpProfileDet($employee_id);
+                if (isset($employee_details) && count($employee_details) > 0) {
+                    $data['employee_data'] = $employee_details;
+                }
+                if (Yii::app()->request->isAjaxRequest) {
+                    $this->renderPartial('/Dashboard/ViewEmployeeDet', $data, false, true);
+                    //js-code to open the dialog    
+                    if (!empty($_GET['asDialog']))
+                        echo CHtml::script('$("#dlg-employee-view").dialog("open")');
+                    Yii::app()->end();
+                }
+                else {
+                    $this->render('/Dashboard/ViewEmployeeDet', $data);
+                }
+            }
+        } catch (Exception $ex) {
+            Yii::log("Techo2EmployeeController:actionViewEmployeeDetails::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+     }
 
 }
 
