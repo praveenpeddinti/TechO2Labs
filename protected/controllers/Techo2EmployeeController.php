@@ -646,12 +646,11 @@ class Techo2EmployeeController extends Controller {
     }
 
     /*
-     * Author   : Meda Vinod Kumar 
-     * Date     : 08-09-2015
-     * Method   : ViewEmployeeDetails
-     * Function : Show all employee details in popup
-     * Params   : Employee Id
-     *      
+     * Author   : Meda Vinod Kumar
+     * Date     : 09-09-2015
+     * Method   : SuspendEmployee
+     * Function : Change The Employee Status [ Suspend ] 
+     * Params   : Employee Id.  
      */
 
     public function actionSuspendEmployee() {
@@ -668,6 +667,13 @@ class Techo2EmployeeController extends Controller {
         echo $response;
     }
 
+    /*
+     * Author   : Meda Vinod Kumar
+     * Date     : 09-09-2015
+     * Method   : ActivateEmployee
+     * Function : Change The Employee Status [ Activate ] 
+     * Params   : Employee Id.  
+     */
     public function actionActivateEmployee() {
         $employee_id = 0;
         $response = 0;
@@ -889,6 +895,13 @@ class Techo2EmployeeController extends Controller {
         }
     }
 
+    /*
+     * Author   : Meda Vinod Kumar
+     * Date     : 09-09-2015
+     * Method   : AllProfiles
+     * Function : Get the records by page size which select by end user ( by default we have pagesize is 5 )
+     * Params   : pagesize  
+     */
     public function actionAllProfiles() {
         $session = array();
         $session = Yii::app()->session['employee_data'];
@@ -896,8 +909,6 @@ class Techo2EmployeeController extends Controller {
             $this->redirect(array('Techo2Employee/LoggedOut'));
         } else if (isset($session) && count($session) > 0) {
             $data = array();
-            $data['pageTitle'] = Yii::t('PageTitles', 'dashboard');
-
             if (isset($_GET['pageSize'])) {
                 Yii::app()->user->setState('pageSize', (int) $_GET['pageSize']);
                 unset($_GET['pageSize']);
@@ -928,6 +939,13 @@ class Techo2EmployeeController extends Controller {
 
 
 
+    /*
+     * Author   : Meda Vinod Kumar
+     * Date     : 09-09-2015
+     * Method   : StarRatingAjax
+     * Function : Insert Or Update Rating Based On The End User Pose.
+     * Params   : Employee Id, Image Id, Rate.  
+     */
     public function actionStarRatingAjax() {
         $session = array();
         $session = Yii::app()->session['employee_data'];
@@ -968,7 +986,13 @@ class Techo2EmployeeController extends Controller {
         }
     }
     
-    
+    /*
+     * Author   : Meda Vinod Kumar
+     * Date     : 10-09-2015
+     * Method   : ViewEmployeeDetails
+     * Function : Show Employee Details When Click On View.
+     * Params   : Employee Id.  
+     */
      public function actionViewEmployeeDetails(){
          try {
             $employee_id = 0;
