@@ -454,7 +454,57 @@ Class DashboardModel extends CActiveRecord {
         }
     }
   
-    
+     /* 
+ * Author      : Meda Vinod Kumar
+ * Date        : 11-Sep-2015
+ * Method      : getStatusList
+ * Function    : Get all active status list
+ * Return Type : It will return an array resposne
+ */
+  public function getStatusList(){
+      try {
+
+        $response = array();
+        $all_status_list = array();
+        $active = 1;
+        $all_status_list = Yii::app()->db->createCommand()
+                ->select("ts.status_id,ts.status_name")
+                ->from("techo2_status ts")
+                ->where('ts.status_status =:status', array(':status' => $active))
+                ->queryAll();
+        if (isset($all_status_list) && count($all_status_list) > 0) {
+            $response = $all_status_list;
+        }
+        return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:getStatusList::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+  }  
+  
+     /* 
+ * Author      : Meda Vinod Kumar
+ * Date        : 11-Sep-2015
+ * Method      : getCategoriesList
+ * Function    : Get all categories list from the table
+ * Return Type : It will return an array resposne
+ */
+    public function getCategoriesList() {
+        try {
+            $response = array();
+            $categoryList = array();
+            $categoryList = Yii::app()->db->createCommand()
+                    ->select("tc.category_id,tc.category_name,tc.category_status")
+                    ->from("techo2_categories tc")
+                    ->queryAll();
+            if (isset($categoryList) && count($categoryList) > 0) {
+                $response = $categoryList;
+            }
+
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("AuthenticationModel:getCategoriesList::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
     
 }
 

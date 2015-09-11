@@ -378,30 +378,7 @@ Class AuthenticationModel extends CActiveRecord {
         }
     }
 
-     /* 
- * Author      : Meda Vinod Kumar
- * Date        : 11-Sep-2015
- * Method      : getCategoriesList
- * Function    : Get all categories list from the table
- * Return Type : It will return an array resposne
- */
-    public function getCategoriesList() {
-        try {
-            $response = array();
-            $categoryList = array();
-            $categoryList = Yii::app()->db->createCommand()
-                    ->select("tc.category_id,tc.category_name,tc.category_status")
-                    ->from("techo2_categories tc")
-                    ->queryAll();
-            if (isset($categoryList) && count($categoryList) > 0) {
-                $response = $categoryList;
-            }
-
-            return $response;
-        } catch (Exception $ex) {
-            Yii::log("AuthenticationModel:getCategoriesList::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
-        }
-    }
+  
 }
 
 ?>
