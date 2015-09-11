@@ -24,7 +24,7 @@ class Techo2EmployeeController extends Controller {
      */
 
     public function actionEmployeeRegNLogin() {
-        $session = array();
+            $session = array();
             $session = Yii::app()->session['employee_data'];
             if (isset($session) && count($session) > 0) {
                 $this->redirect(array('Techo2Employee/LoggedOut'));

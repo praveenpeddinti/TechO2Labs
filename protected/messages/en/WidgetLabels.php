@@ -40,5 +40,7 @@ return Array
     "emp_code" => "Employee Code",
     "admin_actions" => "Actions",
     /*RatingDetailsView Widget Section End*/
+    
+    
 );
 ?>

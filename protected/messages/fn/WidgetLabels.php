@@ -35,6 +35,8 @@ return Array
     "update"   => "Mise à jour des employés",
     /*EmployeeProfileView Widget Section Start*/
     
+     
+    
     
 );
 ?>

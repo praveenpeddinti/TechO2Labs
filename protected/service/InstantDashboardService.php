@@ -318,6 +318,70 @@ Class InstantDashboardService {
             Yii::log("InstantDashboardService:updateRatingOnImageId::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
+    
+    public function getStatusList(){
+       try {
+            $response = array();
+            $all_active_status_list = array();
+            $all_active_status_list = DashboardModel::model()->getStatusList();
+            if (isset($all_active_status_list) && count($all_active_status_list) > 0) {
+                $response = $all_active_status_list;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:getStatusList::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }      
+    }
+    
+    public function createNewCategory($add_category_values){
+        try {
+            $response = array();
+            $new_category_det = array();
+            if(isset($add_category_values) && count($add_category_values) > 0){
+                $new_category_det = $add_category_values;
+            }
+            $response_on_category_add = 0;
+            $response_on_category_add = DashboardModel::model()->createNewCategory($new_category_det);
+            if ($response_on_category_add > 0) {
+                $response = $response_on_category_add;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:createNewCategory::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }      
+    }
+    
+    public function chkCategoryName($cat_name){
+        try {
+            $response = 0;
+            $category_name = NULL;
+            if(isset($cat_name) && !empty($cat_name)){
+                $category_name = $cat_name;
+            }
+            $response_on_category_name_chk = 0;
+            $response_on_category_name_chk = DashboardModel::model()->chkCategoryName($category_name);
+            if ($response_on_category_name_chk > 0) {
+                $response = $response_on_category_name_chk;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:chkCategoryName::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }      
+    }
+    
+    public function getAllActiveCategories(){
+        try {
+            $response = array();
+            $all_category_det = array();
+            $all_category_det = DashboardModel::model()->getCategoriesList();
+            if (isset($all_category_det) && count($all_category_det) > 0) {
+                $response = $all_category_det;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:getAllActiveCategories::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }      
+    }
 }
 
 ?>

@@ -16,6 +16,7 @@ return array(
         'application.models.*',
         'application.models.mysql.*',
         'application.models.formModels.*',
+        'application.models.formModels.AdminFormModels.*',
         'application.components.*',
         'application.service.*',
         'application.controllers.*',
@@ -66,12 +67,12 @@ return array(
                     'levels' => 'trace, info, error, warning, vardump',
                 ),
                 
-//                array(
-//                    'class' => 'CFileLogRoute',
-//                    'levels' => 'error,warning',
-//                    'categories' => "application",
-//                    'logFile' => 'error.log' . date('d-m-y'),
-//               ),
+                array(
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error,warning',
+                    'categories' => "application",
+                    'logFile' => 'error.log' . date('d-m-y'),
+               ),
 //                
 //                 array(
 //                    'class'=>'ext.LogDb',
