@@ -90,6 +90,8 @@ return array(
              */
             ),
         ),
+//        Renigunta Kavya : added this line to avoid the conflicts with js loaded with widgets and other sources
+        'clientScript' => array('scriptMap' => array('jquery.js' => false, )),
     ),
     
     

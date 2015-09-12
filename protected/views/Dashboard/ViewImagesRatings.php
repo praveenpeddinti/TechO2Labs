@@ -1,3 +1,9 @@
+<?php
+/*
+ * Author   : Renigunta Kavya 
+ * Date     : 12-09-2015  
+ */
+?>
 <?php 
 if(isset($rating_data) && count($rating_data)>0){ ?>
 <div id="popup_images">

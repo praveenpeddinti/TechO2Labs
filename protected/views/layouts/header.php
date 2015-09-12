@@ -32,11 +32,12 @@ if (isset($session) && count($session) > 0) {
               <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
               <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
             <![endif]-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+        
         <!-- Link custom javascript file -->
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/custom.js"></script>
-
-        
+        <!--Renigunta Kavya : added this line to get the jquery latest and compatible all the time -->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
         
     </head>
     <body>
@@ -81,7 +82,7 @@ if (isset($session) && count($session) > 0) {
                                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/AllProfiles'); ?>">All Profiles</a></li>
                                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/EmployeeMultiupload'); ?>">Add New Files</a></li>
                                                            <!--<li><a href="<?php // echo $this->createUrl('Techo2Employee/RatingDashboard'); ?>">Rating Dashboard</a></li>-->
-                                                           <!--<li><a href="<?php // echo $this->createUrl('Techo2Employee/UsersRating'); ?>">Rating Dashboard With Popup</a></li>-->
+                                                           <li><a href="<?php echo $this->createUrl('Techo2Employee/UsersRating'); ?>">Rating Dashboard</a></li>
                                                      <?php 
                                                  } 
                                                  ?>                                          

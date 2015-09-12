@@ -34,11 +34,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
     'enablePagination' => true,
     'summaryText' => '{start} - {end} / {count}',
     'columns' => array(
-        array(
-            'name' => 's_no',
-            'type' => 'raw',
-            'value' => 'CHtml::encode($data->s_no])'
-        ),
+//        array(
+//            'name' => 's_no',
+//            'type' => 'raw',
+//            'value' => 'CHtml::encode($data->s_no])'
+//        ),
         array(
             'name' => 'emp_name',
             'type' => 'raw',

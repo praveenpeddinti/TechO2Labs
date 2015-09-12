@@ -932,10 +932,7 @@ class Techo2EmployeeController extends Controller {
                     $data['isEdit'] = $isEdit;
                 }
                 if (Yii::app()->request->isAjaxRequest) {
-                    if (!empty($_GET['asDialog']))
-                        $this->renderPartial('/Dashboard/ViewImagesRatings', $data, false, true);
-                    else
-                        $this->renderPartial('/Dashboard/ViewImagesRatings', $data);
+                    $this->renderPartial('/Dashboard/ViewImagesRatings', $data,false, true);
                     Yii::app()->end();
                 }
                 else {
