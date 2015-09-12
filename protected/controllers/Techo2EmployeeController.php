@@ -860,16 +860,57 @@ class Techo2EmployeeController extends Controller {
             Yii::log("Techo2EmployeeController:actionViewRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
-
+    
     /*
      * Author   : Renigunta Kavya 
-     * Date     : 09-09-2015
-     * Method   : EditRating
-     * Function : Edit the data of ratings of particular image
-     * Params   : employee_id   
+     * Date     : 10-09-2015
+     * Method   : UsersRating
+     * Function : Show all the data of ratings - can view and edit 
+     * Alternative to RatingDashboard - performance  
      */
 
-    public function actionEditRating() {
+    public function actionUsersRating() {
+            $session = array();
+            $session = Yii::app()->session['employee_data'];
+            if (0 == count($session)) {
+                $this->redirect(array('Techo2Employee/LoggedOut'));
+            } else if (isset($session) && count($session) > 0) {
+                $data_array = array();
+                $data_array['pageTitle'] = Yii::t('PageTitles', 'ratingDashboard');
+
+                if (isset($_GET['pageSize'])) {
+                    Yii::app()->user->setState('pageSize', (int) $_GET['pageSize']);
+                    unset($_GET['pageSize']);
+                }
+
+                $rating_details = array();
+                $designation_id = 0;
+                $employee_id = 0;
+
+                $designation_id = isset($session['employee_designation_id']) ? $session['employee_designation_id'] : $designation_id;
+                $employee_id = isset($session['employee_id']) ? $session['employee_id'] : $employee_id;
+                $data_array['employee_id'] = $employee_id;
+
+                //If he is Managing Director
+                if (isset($designation_id) && 1 == $designation_id) {
+//                $rating_details = $this->actionGetAllRatingData();
+                    $rating_details = new AllProfiles('getAllRatingData');
+
+                    if (isset($rating_details) && count($rating_details) > 0) {
+                        $data_array['rating_details'] = $rating_details;
+                    }
+                }
+                $this->render('/Dashboard/UsersRating', $data_array);
+            }
+    }
+    
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 10-09-2015
+     * Method   : ViewImagesRatings
+     * Function : Show all the images with ratings 
+    */
+    public function actionViewImagesRatings(){
         try {
             $employee_id = 0;
             if (NULL == $_GET['employee_id'] || $_GET['employee_id'] <= 0) {
@@ -877,21 +918,32 @@ class Techo2EmployeeController extends Controller {
             } else {
                 $data = array();
                 $rating_details = array();
-                $employee_id = $_GET['employee_id'];
-                $editRatingsForm = new EditRatingsForm;
-                $data['editRatingsForm'] = $editRatingsForm;
-                $rating_details = ServiceFactory::dashboardServiceProvider()->specificUserRating($employee_id);
+                $isEdit = 0;
+                $body = NULL;
+                $employee_id = $_REQUEST['employee_id'];
+                $rating_details = ServiceFactory::dashboardServiceProvider()->getAllImagesRatings($employee_id);
                 if (isset($rating_details) && count($rating_details) > 0) {
                     $data['rating_data'] = $rating_details;
                 }
-                if (!isset($_POST['EditRatingsForm'])) {
-//                    echo "kavya";
-                    $populateData = $editRatingsForm->findByPK($employee_id);
+                $employee_details = ServiceFactory::dashboardServiceProvider()->getEmpProfileDet($employee_id);
+                $data['employee_name']= $employee_details['employee_firstname']." ".$employee_details['employee_middlename']." ".$employee_details['employee_lastname'];
+                if(!empty($_GET['edit_rating']) && $_GET['edit_rating']==1){
+                    $isEdit = 1;
+                    $data['isEdit'] = $isEdit;
                 }
-                $this->render('/Dashboard/EditRating', $data);
+                if (Yii::app()->request->isAjaxRequest) {
+                   if (!empty($_GET['asDialog']))
+                      $this->renderPartial('/Dashboard/ViewImagesRatings', $data,false,true);
+                   else
+                      $this->renderPartial('/Dashboard/ViewImagesRatings', $data);
+                   Yii::app()->end();
+                }
+                else {
+                    $this->render('/Dashboard/ViewImagesRatings', $data,false,true);
+                }
             }
         } catch (Exception $ex) {
-            Yii::log("Techo2EmployeeController:actionEditRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+            Yii::log("Techo2EmployeeController:actionViewImagesRatings::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
 
@@ -936,9 +988,7 @@ class Techo2EmployeeController extends Controller {
             }
         }
     }
-
-
-
+    
     /*
      * Author   : Meda Vinod Kumar
      * Date     : 09-09-2015
@@ -963,9 +1013,15 @@ class Techo2EmployeeController extends Controller {
             $imageId = $_POST['imageId'];
             $rate = $_POST['rate'];
             $employee_id = isset($session['employee_id']) ? $session['employee_id'] : $employee_id;
+//            echo $employee_id;exit();
+            if(!empty($_POST['rated_employeeid']) && $_POST['rated_employeeid']>0){
+               $employee_id =  $_POST['rated_employeeid'];
+            }
             if ($imageId > 0) {
                 $chkRatingOnImageIdOfUser = ServiceFactory::dashboardServiceProvider()->checkPreviousRating($imageId,$employee_id);
+//                echo $chkRatingOnImageIdOfUser['employee_rating_id'];exit();
                 $existed_employee_rating_id = isset($chkRatingOnImageIdOfUser['employee_rating_id']) ? $chkRatingOnImageIdOfUser['employee_rating_id'] : '0';
+//                echo $existed_employee_rating_id;exit();
                 if($existed_employee_rating_id > 0){
                    $updateRateOnImageIdRes = ServiceFactory::dashboardServiceProvider()->updateRatingOnImageId($existed_employee_rating_id,$rate); 
                    if(1 == $updateRateOnImageIdRes){

@@ -171,8 +171,8 @@ Class InstantDashboardService {
         } catch (Exception $ex) {
             Yii::log("InstantDashboardService:activateEmployee::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
-    }
-
+    }    
+    
     /*
      * Author   : Renigunta Kavya 
      * Date     : 09-09-2015
@@ -316,6 +316,27 @@ Class InstantDashboardService {
             return $response;
         } catch (Exception $ex) {
             Yii::log("InstantDashboardService:updateRatingOnImageId::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 10-09-2015
+     * Method   : getAllImagesRatings
+     * Function : Get all the images with ratings
+     * Return Type : Array 
+     */
+    public function getAllImagesRatings($employee_id) {
+        try {
+            $response = array();
+            $allRatingData = array();
+            $allRatingData = DashboardModel::model()->getAllImagesRatings($employee_id);
+            if (isset($allRatingData) && count($allRatingData) > 0) {
+                $response = $allRatingData;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:getAllRatingData::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
     

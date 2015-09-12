@@ -9,6 +9,12 @@ class AllProfiles extends CActiveRecord {
     public $statename;
     public $country_name;
     public $status;
+    /*Kavya Sep10 Start*/
+    public $s_no;
+    public $emp_name;
+    public $emp_code;
+    public $contact;
+    /*Kavya Sep10 End*/
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -52,6 +58,12 @@ class AllProfiles extends CActiveRecord {
             'statename' => 'State',
             'country_name' => 'Country',
             'employee_status' => 'Status',
+            /*Kavya Sep10 Start*/
+            's_no'=> Yii::t('WidgetLabels', 's_no'),
+            'emp_name'=> Yii::t('WidgetLabels', 'emp_name'),
+            'emp_code'=> Yii::t('WidgetLabels', 'emp_code'),
+            'contact'=> Yii::t('WidgetLabels', 'contact'),
+            /*Kavya Sep10 End*/
         );
     }
 
@@ -105,7 +117,42 @@ class AllProfiles extends CActiveRecord {
 
         return $dataProvider;
     }
+    
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 10-09-2015
+     * Method   : getAllRatingData
+     * Function : Get the data of ratings based on pagination count 
+     * Return type : Array
+     */
+    
+    public function getAllRatingData() {
 
+
+        $criteria = new CDbCriteria;
+
+        $criteria->together = true;
+
+        $criteria->alias = "te";
+
+        $criteria->join = "INNER JOIN techo2_employee_phone as tep ON(tep.employee_idemployee=te.employee_id)";
+        $criteria->join .="INNER JOIN techo2_employee_email as tee ON(tee.employee_idemployee=te.employee_id)";
+
+        $criteria->select = 'te.employee_id as s_no,concat(te.employee_firstname," ",te.employee_middlename," ",te.employee_lastname) as emp_name,te.employee_tag_code as emp_code,tee.email as email,tep.phonenumber as contact';
+        
+        $dataProvider = new CActiveDataProvider(get_class($this), array(
+            'criteria' => $criteria,
+            'sort' => array(
+                'defaultOrder' => 's_no ASC',
+            ),
+            'pagination' => array(
+                'pageSize' => Yii::app()->user->getState('pageSize', Yii::app()->params['configValues']['defaultPageSize']),
+            ),
+        ));
+
+        return $dataProvider;
+    }
+    
 }
 
 ?>

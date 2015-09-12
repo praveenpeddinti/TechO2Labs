@@ -337,8 +337,9 @@ Class DashboardModel extends CActiveRecord {
      * Date     : 09-09-2015
      * Method   : getAllRatingData
      * Function : Get all the data of ratings  and employees    
-     */
-
+     * Return type : array
+    */
+   
     public function getAllRatingData() {
         try {
             $response = array();
@@ -364,7 +365,8 @@ Class DashboardModel extends CActiveRecord {
      * Author   : Renigunta Kavya 
      * Date     : 09-09-2015
      * Method   : specificUserRating
-     * Function : Get the data of select row of ratings    
+     * Function : Get the data of select row of ratings 
+     * Return type : array [row] 
      */
 
     public function specificUserRating($employee_id) {
@@ -495,6 +497,32 @@ Class DashboardModel extends CActiveRecord {
             return $response;
         } catch (Exception $ex) {
             Yii::log("DashboardModel:getPersonRatingOnImages::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+  
+    /*
+     * Author   : Renigunta Kavya 
+     * Date     : 10-09-2015
+     * Method   : getAllImagesRatings
+     * Function : Get all the images with ratings
+     * Return type : Array
+     */
+    public function getAllImagesRatings($employee_id){
+        try {
+            $response = array();
+            $employeeArr = array();
+            $employeeArr = Yii::app()->db->createCommand()
+                    ->select('ter.rating as emp_rating,ter.ratingimage_idratingimage as rated_imageid,ter.employee_idemployee as emp_id,tri.image_name as rated_imagename')
+                    ->where('ter.employee_idemployee=:idemployee',array(':idemployee' => $employee_id))
+                    ->from('techo2_employee_rating ter')
+                    ->join('techo2_rating_images tri', 'tri.rating_images_id = ter.ratingimage_idratingimage')
+                    ->queryAll();
+            if (isset($employeeArr) && is_array($employeeArr) && count($employeeArr) > 0) {
+                $response = $employeeArr;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:getAllImagesRatings::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
 

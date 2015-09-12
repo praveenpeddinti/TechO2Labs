@@ -32,6 +32,7 @@ if (isset($session) && count($session) > 0) {
               <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
               <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
             <![endif]-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
         <!-- Link custom javascript file -->
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/custom.js"></script>
 
@@ -79,6 +80,8 @@ if (isset($session) && count($session) > 0) {
                                                      ?>
                                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/AllProfiles'); ?>">All Profiles</a></li>
                                                            <li><a href="<?php  echo $this->createUrl('Techo2Employee/EmployeeMultiupload'); ?>">Add New Files</a></li>
+                                                           <!--<li><a href="<?php // echo $this->createUrl('Techo2Employee/RatingDashboard'); ?>">Rating Dashboard</a></li>-->
+                                                           <!--<li><a href="<?php // echo $this->createUrl('Techo2Employee/UsersRating'); ?>">Rating Dashboard With Popup</a></li>-->
                                                      <?php 
                                                  } 
                                                  ?>                                          
@@ -110,3 +113,38 @@ if (isset($session) && count($session) > 0) {
         
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<?php  echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
+    
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <!--      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>-->
+            </div>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+    // this will open the Modal with the given id
+    function openModal( id, header, body){
+        var closeButton = '<button data-dismiss="modal" class="close" type="button">×</button>';
+ 
+        $("#" + id + " .modal-header").html( closeButton + '<h3>'+ header + '</h3>');
+        $("#" + id + " .modal-body").html(body);
+     // $("#" + id + " .modal-footer").html(footer data); // you can also change the footer
+        $("#" + id).modal("show");
+    }
+ 
+    </script>
+    
