@@ -197,7 +197,7 @@ Class DashboardModel extends CActiveRecord {
      * Method      : createNewCategory
      * Function    : Create new cateogry
      * Params      : Array [It contains category name,category status,category created date,category created by]
-     * Return Type : It will return an integer resposne as 1.[ inserted rows ]
+     * Return Type : It will return an integer resposne.[ inserted rows ]
      */
 
     public function createNewCategory($new_category_det) {
@@ -213,6 +213,54 @@ Class DashboardModel extends CActiveRecord {
             return $response;
         } catch (Exception $ex) {
             Yii::log("DashboardModel:createNewCategory::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 12-Sep-2015
+     * Method      : createNewStatus
+     * Function    : Create new status
+     * Params      : Array [It contains status name,status,status created date,status created by]
+     * Return Type : It will return an integer resposne.[ inserted rows ]
+     */
+
+    public function createNewStatus($new_status_det) {
+        try {
+
+            $response = 0;
+            $insert = 0;
+            $insert = Yii::app()->db->createCommand()
+                    ->insert('techo2_status', $new_status_det);
+            if ($insert > 0) {
+                $response = Yii::app()->db->getLastInsertId();
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:createNewStatus::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 12-Sep-2015
+     * Method      : createNewRole
+     * Function    : Create new role or designation
+     * Params      : Array [It contains role name,status,role created date,role created by]
+     * Return Type : It will return an integer resposne.[ inserted rows ]
+     */
+
+    public function createNewRole($role_values_arr) {
+        try {
+            $response = 0;
+            $insert = 0;
+            $insert = Yii::app()->db->createCommand()
+                    ->insert('techo2_employee_designation', $role_values_arr);
+            if ($insert > 0) {
+                $response = Yii::app()->db->getLastInsertId();
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:createNewRole::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
 
@@ -603,6 +651,58 @@ Class DashboardModel extends CActiveRecord {
             return $response;
         } catch (Exception $ex) {
             Yii::log("DashboardModel:chkCategoryName::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 12-Sep-2015
+     * Method      : chkStatusName
+     * Function    : To maintain unique status
+     * Params      : Status name
+     * Return Type : It will return integer response
+     */
+    public function chkStatusName($status_name) {
+        try {
+            $response = 0;
+            $count = array();
+            $count = Yii::app()->db->createCommand()
+                    ->select("ts.status_id")
+                    ->from("techo2_status ts")
+                    ->where('ts.status_name=:statusname', array(':statusname' => $status_name))
+                    ->queryRow();
+            if (isset($count) && is_array($count) && count($count) > 0) {
+                $response = 1;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:chkStatusName::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }
+    }
+    
+    /*
+     * Author      : Meda Vinod Kumar
+     * Date        : 12-Sep-2015
+     * Method      : chkStatusName
+     * Function    : To maintain unique status
+     * Params      : Status name
+     * Return Type : It will return integer response
+     */
+    public function chkRoleName($role_name) {
+        try {
+            $response = 0;
+            $count = array();
+            $count = Yii::app()->db->createCommand()
+                    ->select("ted.employee_designation_id")
+                    ->from("techo2_employee_designation ted")
+                    ->where('ted.name=:name', array(':name' => $role_name))
+                    ->queryRow();
+            if (isset($count) && is_array($count) && count($count) > 0) {
+                $response = 1;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("DashboardModel:chkRoleName::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
 

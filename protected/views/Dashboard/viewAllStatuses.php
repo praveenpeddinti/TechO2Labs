@@ -6,17 +6,16 @@
 </title>
 
 <?php
-if (isset($allActiveCategories) && count($allActiveCategories)) {
+if (isset($allStatuses) && count($allStatuses)) {
     ?>
 
 
     <?php
     $pageSize = Yii::app()->user->getState('pageSize', Yii::app()->params['configValues']['defaultPageSize']);
-
     $pageSizeDropDown = CHtml::dropDownList(
                     'pageSize', $pageSize, Yii::app()->params['configValues']['pageSizeOptions'], array(
                 'class' => 'change-pagesize',
-                'onchange' => "$.fn.yiiGridView.update('categories-view-id',{data:{pageSize:$(this).val()}});",
+                'onchange' => "$.fn.yiiGridView.update('statuses-view-id',{data:{pageSize:$(this).val()}});",
                     )
     );
     ?>
@@ -31,8 +30,8 @@ if (isset($allActiveCategories) && count($allActiveCategories)) {
     <?php
     $row = 1;
     $this->widget('zii.widgets.grid.CGridView', array(
-        'id' => 'categories-view-id',
-        'dataProvider' => $allActiveCategories->getAllActiveCategories(),
+        'id' => 'statuses-view-id',
+        'dataProvider' => $allStatuses->getAllStatuses(),
         'enableSorting' => true,
         'enablePagination' => true,
         'columns' => array(
@@ -41,9 +40,9 @@ if (isset($allActiveCategories) && count($allActiveCategories)) {
                 'value' => '++$row',
             ),
             array(
-                'name' => 'categoryName',
+                'name' => 'statusName',
                 'type' => 'raw',
-                'value' => 'CHtml::encode($data->categoryName)'
+                'value' => 'CHtml::encode($data->statusName)'
             ),
             array(
                 'name' => 'status',
@@ -55,8 +54,8 @@ if (isset($allActiveCategories) && count($allActiveCategories)) {
     ?>
 
     <?php
-}  else {
-    echo "No records are available.";
+}else{
+    echo "No records are available."
 ?>
 
 <?php } ?>

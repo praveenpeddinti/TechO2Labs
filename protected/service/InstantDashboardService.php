@@ -372,6 +372,42 @@ Class InstantDashboardService {
         }      
     }
     
+    public function createNewStatus($status_values_arr){
+        try {
+            $response = array();
+            $new_status_det = array();
+            if(isset($status_values_arr) && count($status_values_arr) > 0){
+                $new_status_det = $status_values_arr;
+            }
+            $response_on_new_status = 0;
+            $response_on_new_status = DashboardModel::model()->createNewStatus($new_status_det);
+            if ($response_on_new_status > 0) {
+                $response = $response_on_new_status;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:createNewStatus::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }      
+    }
+    
+    public function createNewRole($role_values_arr){
+        try {
+            $response = array();
+            $new_role_det = array();
+            if(isset($role_values_arr) && count($role_values_arr) > 0){
+                $new_role_det = $role_values_arr;
+            }
+            $response_on_new_role = 0;
+            $response_on_new_role = DashboardModel::model()->createNewRole($role_values_arr);
+            if ($response_on_new_role > 0) {
+                $response = $response_on_new_role;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:createNewRole::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }      
+    }
+    
     public function chkCategoryName($cat_name){
         try {
             $response = 0;
@@ -401,6 +437,42 @@ Class InstantDashboardService {
             return $response;
         } catch (Exception $ex) {
             Yii::log("InstantDashboardService:getAllActiveCategories::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }      
+    }
+    
+    public function chkStatusName($status){
+        try {
+            $response = 0;
+            $status_name = NULL;
+            if(isset($status) && !empty($status)){
+                $status_name = $status;
+            }
+            $response_on_status_name_chk = 0;
+            $response_on_status_name_chk = DashboardModel::model()->chkStatusName($status_name);
+            if ($response_on_status_name_chk > 0) {
+                $response = $response_on_status_name_chk;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:chkStatusName::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
+        }      
+    }
+    
+    public function chkRoleName($role){
+        try {
+            $response = 0;
+            $role_name = NULL;
+            if(isset($role) && !empty($role)){
+                $role_name = $role;
+            }
+            $response_on_role_name_chk = 0;
+            $response_on_role_name_chk = DashboardModel::model()->chkRoleName($role_name);
+            if ($response_on_role_name_chk > 0) {
+                $response = $response_on_role_name_chk;
+            }
+            return $response;
+        } catch (Exception $ex) {
+            Yii::log("InstantDashboardService:chkRoleName::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }      
     }
 }
