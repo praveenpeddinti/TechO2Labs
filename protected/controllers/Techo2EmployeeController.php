@@ -24,11 +24,11 @@ class Techo2EmployeeController extends Controller {
      */
 
     public function actionEmployeeRegNLogin() {
-            $session = array();
-            $session = Yii::app()->session['employee_data'];
-            if (isset($session) && count($session) > 0) {
-                $this->redirect(array('Techo2Employee/LoggedOut'));
-            }
+        $session = array();
+        $session = Yii::app()->session['employee_data'];
+        if (isset($session) && count($session) > 0) {
+            $this->redirect(array('Techo2Employee/Dashboard'));
+        }
         try {
             $data = array();
             $data['pageTitle'] = Yii::t('PageTitles', 'home');
@@ -179,14 +179,13 @@ class Techo2EmployeeController extends Controller {
      * Function    : Redirect to dashboard [ logged in employee ] 
      */
 
-
     public function actionDashboard() {
         try {
             $cs = Yii::app()->getClientScript();
             $cs->registerCoreScript('jquery');
             $session = array();
             $session = Yii::app()->session['employee_data'];
-           
+
             if (0 == count($session)) {
                 $this->redirect(array('Techo2Employee/LoggedOut'));
             } else if (isset($session) && count($session) > 0) {
@@ -674,6 +673,7 @@ class Techo2EmployeeController extends Controller {
      * Function : Change The Employee Status [ Activate ] 
      * Params   : Employee Id.  
      */
+
     public function actionActivateEmployee() {
         $employee_id = 0;
         $response = 0;
@@ -700,7 +700,7 @@ class Techo2EmployeeController extends Controller {
     public function actionEmployeeMultiupload() {
 
         try {
-            $this->myservices =  new InstantEmpStorage();
+            $this->myservices = new InstantEmpStorage();
 
             $session = array();
             $session = Yii::app()->session['employee_data'];
@@ -716,29 +716,28 @@ class Techo2EmployeeController extends Controller {
 
 
                 if (Yii::app()->getRequest()->isPostRequest && isset($_FILES)) {
-                    
-                    
-                    $filesUploaded = CUploadedFile::getInstancesByName('image');  
-                    
+
+
+                    $filesUploaded = CUploadedFile::getInstancesByName('image');
+
                     //print_r($filesUploaded); die;
-                    
+
                     $path = Yii::getPathOfAlias('webroot') . '/uploads';
                     if (!is_dir($path)) {
                         mkdir($path, 0777);
                         chmod($path, 0777);
                     }
-                    if (isset($filesUploaded) && count($filesUploaded) > 0) {                        
-                        foreach ($filesUploaded as $eachfile) {                            
+                    if (isset($filesUploaded) && count($filesUploaded) > 0) {
+                        foreach ($filesUploaded as $eachfile) {
                             $rnd = rand(0, 9999);  // generate random number between 0-9999
                             $saveFileName = $rnd . $eachfile;
                             $uploadspath = $path . '/' . $saveFileName;
                             $uploadedFile = $eachfile->saveAs($uploadspath);
                             chmod($uploadspath, 0777);
                             $storeData = array();
-                            
+
                             $storeData = $this->myservices->storedata($eachfile, $saveFileName, $session['employee_id']);
-                           // ServiceFactory::dashboardServiceProvider()->activateEmployee($employee_id)                        
-                           
+                            // ServiceFactory::dashboardServiceProvider()->activateEmployee($employee_id)                        
                         }
                         if ($storeData) {
                             // Need to redirect to the page once User Page is done.                   
@@ -860,7 +859,7 @@ class Techo2EmployeeController extends Controller {
             Yii::log("Techo2EmployeeController:actionViewRating::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
     }
-    
+
     /*
      * Author   : Renigunta Kavya 
      * Date     : 10-09-2015
@@ -870,47 +869,48 @@ class Techo2EmployeeController extends Controller {
      */
 
     public function actionUsersRating() {
-            $session = array();
-            $session = Yii::app()->session['employee_data'];
-            if (0 == count($session)) {
-                $this->redirect(array('Techo2Employee/LoggedOut'));
-            } else if (isset($session) && count($session) > 0) {
-                $data_array = array();
-                $data_array['pageTitle'] = Yii::t('PageTitles', 'ratingDashboard');
+        $session = array();
+        $session = Yii::app()->session['employee_data'];
+        if (0 == count($session)) {
+            $this->redirect(array('Techo2Employee/LoggedOut'));
+        } else if (isset($session) && count($session) > 0) {
+            $data_array = array();
+            $data_array['pageTitle'] = Yii::t('PageTitles', 'ratingDashboard');
 
-                if (isset($_GET['pageSize'])) {
-                    Yii::app()->user->setState('pageSize', (int) $_GET['pageSize']);
-                    unset($_GET['pageSize']);
-                }
-
-                $rating_details = array();
-                $designation_id = 0;
-                $employee_id = 0;
-
-                $designation_id = isset($session['employee_designation_id']) ? $session['employee_designation_id'] : $designation_id;
-                $employee_id = isset($session['employee_id']) ? $session['employee_id'] : $employee_id;
-                $data_array['employee_id'] = $employee_id;
-
-                //If he is Managing Director
-                if (isset($designation_id) && 1 == $designation_id) {
-//                $rating_details = $this->actionGetAllRatingData();
-                    $rating_details = new AllProfiles('getAllRatingData');
-
-                    if (isset($rating_details) && count($rating_details) > 0) {
-                        $data_array['rating_details'] = $rating_details;
-                    }
-                }
-                $this->render('/Dashboard/UsersRating', $data_array);
+            if (isset($_GET['pageSize'])) {
+                Yii::app()->user->setState('pageSize', (int) $_GET['pageSize']);
+                unset($_GET['pageSize']);
             }
+
+            $rating_details = array();
+            $designation_id = 0;
+            $employee_id = 0;
+
+            $designation_id = isset($session['employee_designation_id']) ? $session['employee_designation_id'] : $designation_id;
+            $employee_id = isset($session['employee_id']) ? $session['employee_id'] : $employee_id;
+            $data_array['employee_id'] = $employee_id;
+
+            //If he is Managing Director
+            if (isset($designation_id) && 1 == $designation_id) {
+//                $rating_details = $this->actionGetAllRatingData();
+                $rating_details = new AllProfiles('getAllRatingData');
+
+                if (isset($rating_details) && count($rating_details) > 0) {
+                    $data_array['rating_details'] = $rating_details;
+                }
+            }
+            $this->render('/Dashboard/UsersRating', $data_array);
+        }
     }
-    
+
     /*
      * Author   : Renigunta Kavya 
      * Date     : 10-09-2015
      * Method   : ViewImagesRatings
      * Function : Show all the images with ratings 
-    */
-    public function actionViewImagesRatings(){
+     */
+
+    public function actionViewImagesRatings() {
         try {
             $employee_id = 0;
             if (NULL == $_GET['employee_id'] || $_GET['employee_id'] <= 0) {
@@ -926,20 +926,20 @@ class Techo2EmployeeController extends Controller {
                     $data['rating_data'] = $rating_details;
                 }
                 $employee_details = ServiceFactory::dashboardServiceProvider()->getEmpProfileDet($employee_id);
-                $data['employee_name']= $employee_details['employee_firstname']." ".$employee_details['employee_middlename']." ".$employee_details['employee_lastname'];
-                if(!empty($_GET['edit_rating']) && $_GET['edit_rating']==1){
+                $data['employee_name'] = $employee_details['employee_firstname'] . " " . $employee_details['employee_middlename'] . " " . $employee_details['employee_lastname'];
+                if (!empty($_GET['edit_rating']) && $_GET['edit_rating'] == 1) {
                     $isEdit = 1;
                     $data['isEdit'] = $isEdit;
                 }
                 if (Yii::app()->request->isAjaxRequest) {
-                   if (!empty($_GET['asDialog']))
-                      $this->renderPartial('/Dashboard/ViewImagesRatings', $data,false,true);
-                   else
-                      $this->renderPartial('/Dashboard/ViewImagesRatings', $data);
-                   Yii::app()->end();
+                    if (!empty($_GET['asDialog']))
+                        $this->renderPartial('/Dashboard/ViewImagesRatings', $data, false, true);
+                    else
+                        $this->renderPartial('/Dashboard/ViewImagesRatings', $data);
+                    Yii::app()->end();
                 }
                 else {
-                    $this->render('/Dashboard/ViewImagesRatings', $data,false,true);
+                    $this->render('/Dashboard/ViewImagesRatings', $data, false, true);
                 }
             }
         } catch (Exception $ex) {
@@ -954,6 +954,7 @@ class Techo2EmployeeController extends Controller {
      * Function : Get the records by page size which select by end user ( by default we have pagesize is 5 )
      * Params   : pagesize  
      */
+
     public function actionAllProfiles() {
         $session = array();
         $session = Yii::app()->session['employee_data'];
@@ -988,7 +989,7 @@ class Techo2EmployeeController extends Controller {
             }
         }
     }
-    
+
     /*
      * Author   : Meda Vinod Kumar
      * Date     : 09-09-2015
@@ -996,6 +997,7 @@ class Techo2EmployeeController extends Controller {
      * Function : Insert Or Update Rating Based On The End User Pose.
      * Params   : Employee Id, Image Id, Rate.  
      */
+
     public function actionStarRatingAjax() {
         $session = array();
         $session = Yii::app()->session['employee_data'];
@@ -1014,34 +1016,33 @@ class Techo2EmployeeController extends Controller {
             $rate = $_POST['rate'];
             $employee_id = isset($session['employee_id']) ? $session['employee_id'] : $employee_id;
 //            echo $employee_id;exit();
-            if(!empty($_POST['rated_employeeid']) && $_POST['rated_employeeid']>0){
-               $employee_id =  $_POST['rated_employeeid'];
+            if (!empty($_POST['rated_employeeid']) && $_POST['rated_employeeid'] > 0) {
+                $employee_id = $_POST['rated_employeeid'];
             }
             if ($imageId > 0) {
-                $chkRatingOnImageIdOfUser = ServiceFactory::dashboardServiceProvider()->checkPreviousRating($imageId,$employee_id);
+                $chkRatingOnImageIdOfUser = ServiceFactory::dashboardServiceProvider()->checkPreviousRating($imageId, $employee_id);
 //                echo $chkRatingOnImageIdOfUser['employee_rating_id'];exit();
                 $existed_employee_rating_id = isset($chkRatingOnImageIdOfUser['employee_rating_id']) ? $chkRatingOnImageIdOfUser['employee_rating_id'] : '0';
 //                echo $existed_employee_rating_id;exit();
-                if($existed_employee_rating_id > 0){
-                   $updateRateOnImageIdRes = ServiceFactory::dashboardServiceProvider()->updateRatingOnImageId($existed_employee_rating_id,$rate); 
-                   if(1 == $updateRateOnImageIdRes){
-                       $finalResponse = 1;
-                   }
-                }else if($existed_count <= 0){
+                if ($existed_employee_rating_id > 0) {
+                    $updateRateOnImageIdRes = ServiceFactory::dashboardServiceProvider()->updateRatingOnImageId($existed_employee_rating_id, $rate);
+                    if (1 == $updateRateOnImageIdRes) {
+                        $finalResponse = 1;
+                    }
+                } else if ($existed_count <= 0) {
                     $updated_rating_on_image = array('rating' => $rate, 'ratingimage_idratingimage' => $imageId, 'employee_idemployee' => $employee_id, 'status' => 1, 'createddate' => date('Y-m-d H:i:s'));
-                    if(isset($updated_rating_on_image) && count($updated_rating_on_image) > 0){
-                       $rateResponse = ServiceFactory::dashboardServiceProvider()->addRating($updated_rating_on_image);
-                       if(1 == $rateResponse){
-                           $finalResponse = 1;
-                           
-                       }
+                    if (isset($updated_rating_on_image) && count($updated_rating_on_image) > 0) {
+                        $rateResponse = ServiceFactory::dashboardServiceProvider()->addRating($updated_rating_on_image);
+                        if (1 == $rateResponse) {
+                            $finalResponse = 1;
+                        }
                     }
                 }
             }
             echo $finalResponse;
         }
     }
-    
+
     /*
      * Author   : Meda Vinod Kumar
      * Date     : 10-09-2015
@@ -1049,13 +1050,13 @@ class Techo2EmployeeController extends Controller {
      * Function : Show Employee Details When Click On View.
      * Params   : Employee Id.  
      */
-     public function actionViewEmployeeDetails(){
-         try {
+
+    public function actionViewEmployeeDetails() {
+        try {
             $employee_id = 0;
             if (NULL == $_GET['employee_id'] || $_GET['employee_id'] <= 0) {
                 $this->redirect(array('Techo2Employee/LoggedOut'));
-            } 
-            else {
+            } else {
                 $data = array();
                 $employee_details = array();
                 $employee_id = $_REQUEST['employee_id'];
@@ -1077,66 +1078,66 @@ class Techo2EmployeeController extends Controller {
         } catch (Exception $ex) {
             Yii::log("Techo2EmployeeController:actionViewEmployeeDetails::" . $ex->getMessage() . "--" . $ex->getTraceAsString(), 'error', 'application');
         }
-     }
+    }
 
-    /* 
-    * Author      : Upendra Tarnoju
-    * Date        : 10-Sep-2015
-    * Method      : AjaxStatusChange
-    * Function    : Employee status changes based on dropdown selection
-    */  
-    public function actionAjaxStatusChange(){
-        
+    /*
+     * Author      : Upendra Tarnoju
+     * Date        : 10-Sep-2015
+     * Method      : AjaxStatusChange
+     * Function    : Employee status changes based on dropdown selection
+     */
+
+    public function actionAjaxStatusChange() {
+
         $employee_id = 0;
         $status = 0;
-        if($_POST['employee_id']){
+        if ($_POST['employee_id']) {
             $employee_id = $_POST['employee_id'];
         }
-        if($_POST['status']){
+        if ($_POST['status']) {
             $status = $_POST['status'];
         }
-        
-        if($employee_id > 0){
-            if($status == 0){
+
+        if ($employee_id > 0) {
+            if ($status == 0) {
                 $response = ServiceFactory::dashboardServiceProvider()->suspendEmployee($employee_id);
-            }elseif ($status == 1) {
+            } elseif ($status == 1) {
                 $response = ServiceFactory::dashboardServiceProvider()->activateEmployee($employee_id);
             }
         }
-        if($status == 1){
+        if ($status == 1) {
             $response = 'Active';
-        }
-        else{
+        } else {
             $response = 'Inactive';
         }
-        $response=array('emp_id'=>$employee_id,'status'=>$response);
-        
+        $response = array('emp_id' => $employee_id, 'status' => $response);
+
         echo CJSON::encode($response);
-   
     }
-    
-    /* 
-    * Author      : Upendra Tarnoju
-    * Date        : 10-Sep-2015
-    * Method      : AjaxStatusui
-    * Function    : Renders a dropdown with status
-    */
-    public function actionAjaxStatusui(){
+
+    /*
+     * Author      : Upendra Tarnoju
+     * Date        : 10-Sep-2015
+     * Method      : AjaxStatusui
+     * Function    : Renders a dropdown with status
+     */
+
+    public function actionAjaxStatusui() {
         $employee_id = 0;
         $status = 0;
-        if($_GET['employee_id']){
+        if ($_GET['employee_id']) {
             $employee_id = $_GET['employee_id'];
         }
-        if($_GET['status']){
+        if ($_GET['status']) {
             $status = $_GET['status'];
         }
-        
-        $data=array();
-        $data['employee']=array('employee_id'=>$employee_id,'status'=>$status);
 
-        echo $this->renderPartial('/Dashboard/dropDownList', $data,false,true);
-        
+        $data = array();
+        $data['employee'] = array('employee_id' => $employee_id, 'status' => $status);
+
+        echo $this->renderPartial('/Dashboard/dropDownList', $data, false, true);
     }
+
 }
 
 ?>
