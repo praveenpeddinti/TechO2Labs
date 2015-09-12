@@ -48,7 +48,7 @@ if (isset($session) && count($session) > 0) {
                 <div class="row">
                     <div class="col xs-12 col-sm-2 col-md-2">
                         <a class="navbar-brand" href="<?php  echo Yii::app()->request->baseUrl; ?>"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/techo2_images/logo.png" class="img-responsive" alt=""/></a>
-                        
+                       
                         
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 mobilemenuheader" >
@@ -58,7 +58,7 @@ if (isset($session) && count($session) > 0) {
                       if(isset($session) && count($session) > 0){
                     ?>
                   
-                    <div class="col-xs-12 col-sm-6 col-md-6 mobile">
+                    <div class="col-xs-12 col-sm-6 col-md-4 mobile">
                         <div class="pull-right normalpaddingtop">
                             <div class="row">
                                 <div class="col-xs-4"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/techo2_images/pic.jpg" alt=""/></div>
@@ -106,6 +106,7 @@ if (isset($session) && count($session) > 0) {
                     <?php
                       }
                     ?>
+                    <div class="col-xs-12 col-sm-7 col-md-2 employee_count"></div>
                 </div>
             </div>
         </header>
@@ -147,4 +148,25 @@ if (isset($session) && count($session) > 0) {
     }
  
     </script>
+<!--    Author      : Upendra Tarnoju
+        Date        : 12-Sep-2015       -->
+<script src="http://10.10.73.60:8080/socket.io/socket.io.js"></script>
+<script>
+  var socket = io('http://10.10.73.60:8080'); 
+    socket.on('connect_error', function() {
+        socket.disconnect();
+    });
+    socket.emit('get count',{ my : 'data' });
+    
+    setInterval(function () {       
+     socket.emit('get count',{ my : 'data' });
+    },4000);
+    
+   socket.on('count',function(data){
+         if(data.count){
+             $(".employee_count").html("Employees : [Real time data] : "+data.count);
+         }
+     });
+    
+</script>
     

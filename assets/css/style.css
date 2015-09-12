@@ -678,4 +678,6 @@ position:relative;
     color: rgb(12, 97, 33);
 }
 
-
+.employee_count{
+    padding: 15px;
+}
