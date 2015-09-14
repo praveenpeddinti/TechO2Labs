@@ -126,8 +126,7 @@ class AllProfiles extends CActiveRecord {
      * Return type : Array
      */
     
-    public function getAllRatingData() {
-
+    public function getAllRatingData($searchel=NULL) {
 
         $criteria = new CDbCriteria;
 
@@ -139,6 +138,14 @@ class AllProfiles extends CActiveRecord {
         $criteria->join .="INNER JOIN techo2_employee_email as tee ON(tee.employee_idemployee=te.employee_id)";
 
         $criteria->select = 'te.employee_id as s_no,concat(te.employee_firstname," ",te.employee_middlename," ",te.employee_lastname) as emp_name,te.employee_tag_code as emp_code,tee.email as email,tep.phonenumber as contact';
+        
+        if(NULL!=$searchel){
+//            $criteria->addSearchCondition('employee_firstname', $searchel, true, 'OR');
+//            $criteria->addSearchCondition('employee_middlename', $searchel, true, 'OR');
+//            $criteria->addSearchCondition('employee_lastname', $searchel, true, 'OR');
+            $criteria->addSearchCondition('concat(employee_firstname," ",employee_middlename," ",employee_lastname)', $searchel, true, 'OR');
+        }
+        
         
         $dataProvider = new CActiveDataProvider(get_class($this), array(
             'criteria' => $criteria,

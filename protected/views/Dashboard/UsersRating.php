@@ -21,24 +21,40 @@ $pageSizeDropDown = CHtml::dropDownList(
                 )
 );
 ?>
+
+<form method="get" class="paddingtop10">
+<input type="search" placeholder="Enter name to search" name="search_element" value="<?php echo isset($_GET['search_element']) ? CHtml::encode($_GET['search_element']) : '' ; ?>" />
+<input type="submit" value="search" />
+</form>
+
 <div class="page-size-wrap">
     <span>Display:</span><?php echo $pageSizeDropDown; ?>
 </div>
 <?php Yii::app()->clientScript->registerCss('initPageSizeCSS', '.page-size-wrap{text-align: right;}'); ?>
 
+<?php 
+if(isset($_GET['search_element']) && !empty($_GET['search_element'])){
+    $dataProvider = $rating_details->getAllRatingData($_GET['search_element']);
+}
+else{
+    $dataProvider = $rating_details->getAllRatingData();
+}
+?>
+
 <?php
 $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'rating-grid-view-id',
-    'dataProvider' => $rating_details->getAllRatingData(),
+    'dataProvider' => $dataProvider,
     'enableSorting' => true,
     'enablePagination' => true,
     'summaryText' => '{start} - {end} / {count}',
     'columns' => array(
-//        array(
-//            'name' => 's_no',
+        array(
+            'name' => 's_no',
 //            'type' => 'raw',
-//            'value' => 'CHtml::encode($data->s_no])'
-//        ),
+//            'value' => '$data->s_no',
+            'value'=>'$this->grid->dataProvider->pagination->currentPage * $this->grid->dataProvider->pagination->pageSize + ($row+1)',
+        ),
         array(
             'name' => 'emp_name',
             'type' => 'raw',

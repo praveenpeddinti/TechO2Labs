@@ -4,14 +4,15 @@
  * Date     : 12-09-2015  
  */
 ?>
+
 <?php 
 if(isset($rating_data) && count($rating_data)>0){ ?>
-<div id="popup_images">
+<div id="popup_images" class="text-center">
     <?php 
     $defaultImageName = Yii::app()->params['configValues']['defaultImageName'];
     ?>
     <div><?php echo $employee_name;?></div>
-    <table border = "2">
+    <table border = "2" class="margin-auto">
         <tr>
             <th>Image</th>
             <th>Rate</th>
@@ -23,10 +24,8 @@ if(isset($rating_data) && count($rating_data)>0){ ?>
                 $rated_employeeid = 0; 
                 $defaultImageName = Yii::app()->params['configValues']['defaultImageName'];
                 if (isset($eachImage['rated_imagename']) && !empty($eachImage['rated_imagename'])) {
-
                     $imageName = $eachImage['rated_imagename'];
                 } else {
-
                     $imageName = $defaultImageName;
                 }
 
@@ -62,14 +61,16 @@ if(isset($rating_data) && count($rating_data)>0){ ?>
                                 'name' => 'rating[]' . $imageId,
                                 'value' => $previous_rating,
                                 'callback' => '
-                                    function(){
+                                        function(){
                                         $.ajax({
                                             type: "POST",
                                             url: "' . Yii::app()->createUrl('Techo2Employee/StarRatingAjax') . '",
                                             data: "' . Yii::app()->request->csrfTokenName . '=' . Yii::app()->request->getCsrfToken() . '&rated_employeeid='.$rated_employeeid.'&imageId=' . $imageId . '&rate="+$(this).val(),
                                             success: function(msg){
                                                 $("#result").html(msg);
-                                            }})}',
+                                            }
+                                        })
+                                    }',
                     ));
                 ?>
                 <?php } else { ?>
@@ -91,3 +92,11 @@ if(isset($rating_data) && count($rating_data)>0){ ?>
 <div><?php echo $employee_name;?></div>
 <div>No ratings yet</div>
 <?php } ?>
+
+<style>
+    #myModal .modal-body {
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
+    }
+</style>
+

@@ -892,7 +892,6 @@ class Techo2EmployeeController extends Controller {
 
             //If he is Managing Director
             if (isset($designation_id) && 1 == $designation_id) {
-//                $rating_details = $this->actionGetAllRatingData();
                 $rating_details = new AllProfiles('getAllRatingData');
 
                 if (isset($rating_details) && count($rating_details) > 0) {
