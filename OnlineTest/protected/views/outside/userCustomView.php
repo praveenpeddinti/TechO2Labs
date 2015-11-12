@@ -678,7 +678,7 @@ if(is_object($surveyObj)){ ?>
                          <?php } else{ ?> 
                             
                          <div class="answerview" id="morethan500chars">
-                             <textarea class="textfield span12" name="" id="userquestionanswer500_<?php echo $i; ?>" data-hiddenname="QuestionsSurveyForm_UserAnswer_hid_<?php echo $i; ?>" onkeyup="insertText(this.id)" onblur="insertText(this.id)" maxlength="<?php echo $question['NoofChars']; ?>" ><?php echo $userAnswer;?></textarea>                             
+                             <textarea rows="12" class="textfield span12" name="" id="userquestionanswer500_<?php echo $i; ?>" data-hiddenname="QuestionsSurveyForm_UserAnswer_hid_<?php echo $i; ?>" onkeyup="insertText(this.id)" onblur="insertText(this.id)"  ><?php echo $userAnswer;?></textarea>                             
                          </div>
                         <?php } ?>
                          </div>
