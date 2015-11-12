@@ -11149,13 +11149,15 @@ static function getGeocodes($addressArray){
             $totalBeansArray = array();            
             foreach ($surveyObject as $data) {
                 $extendedBean = new TestPreparationCollection();
+                $userReport = TestRegister::model()->getUsersTakenTestCount($data->_id);
                 $extendedBean->_id = $data->_id;
                 $extendedBean->Title = $data->Title;
                 $extendedBean->Description = $data->Description;
                 $extendedBean->Category = $data->Category;
                 $extendedBean->InviteUsers = $data->InviteUsers;
                 $extendedBean->TestTakenUsers = $data->TestTakenUsers;
-                $extendedBean->TestTakenUsersCount = $data->TestTakenUsersCount;
+                //$extendedBean->TestTakenUsersCount = $data->TestTakenUsersCount;
+                $extendedBean->TestTakenUsersCount = $userReport['totalCount'];
                 
                 $TotalQuestions = 0;
                 foreach($data->Category as $rw){
