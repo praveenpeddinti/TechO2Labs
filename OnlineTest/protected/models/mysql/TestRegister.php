@@ -217,15 +217,23 @@ TestRegister T on U.UserId not in (T.UserId)";*/
     }
     
     public function getReportinfo($testId){
-        try{ error_log("************userObject##$testId");
+        try{
              $query="select r.RegistredDate,u.Phone,u.Qualification from TestRegister r join User1 u on r.UserId = u.UserId  where r.TestId = '".$testId."'";
-             error_log("****************Query".$query);
              $result = Yii::app()->db->createCommand($query)->queryAll();
-             error_log("*******111111111111*****userObject##$testId".print_r($result,1));
         } catch (Exception $ex) {
             Yii::log("User:getReportinfo::".$ex->getMessage(), 'error', 'application');
         }
         
+    }
+    
+    public function getUsersTakenTestCount($TestId) {
+        try {
+            $query="select count(*) as totalCount from TestRegister where TestId ='$TestId' AND Status=2";
+            $result = Yii::app()->db->createCommand($query)->queryRow();
+        } catch (Exception $ex) {
+            Yii::log("TestRegister:getUsersTakenTestCount::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
+        }
+        return $result;
     }
     
 }
