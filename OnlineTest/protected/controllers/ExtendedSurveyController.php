@@ -1865,11 +1865,12 @@ class ExtendedSurveyController extends Controller {
             $data = array();
             $getTestReports = ScheduleSurveyCollection::model()->getTestReports('TestId', $testId,$startDate,$endDate,$searchCategoryScore,$startLimit,$pageLength);
             $reportData= $getTestReports['data'];  
-            
+           
             $data[0][0] = "User Name";
             $data[0][1] = "Email";
             $data[0][2] = "Phone";
-            $data[0][3] = "Marks" ;               
+            $data[0][3] = "Total Marks" ;    
+           
             $i = 1;
             if(sizeof($reportData)>0){
                 foreach($reportData as $Details){
@@ -1877,6 +1878,14 @@ class ExtendedSurveyController extends Controller {
                     $data[$i][1] = $Details->EmailId;
                     $data[$i][2] = $Details->PhoneNumber;
                     $data[$i][3] = $Details->totalMarks;
+                    
+                     $j=4;
+            foreach($Details->categoryScoreArray as $row){
+              $data[0][$j] = $row['categoryName'] ;  
+             $data[$i][$j] = $row['score'];
+              $j++;
+            }
+                    
                     $i++;
                 }
             }else{
