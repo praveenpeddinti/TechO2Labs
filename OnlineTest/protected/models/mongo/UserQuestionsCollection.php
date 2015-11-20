@@ -323,6 +323,7 @@ public function getTestUserDetails($testId,$sDate,$eDate,$startLimit,$pageLength
             $criteria->CreatedOn = array('$gte' =>new MongoDate(strtotime($sDate)),'$lte' => new MongoDate(strtotime($eDate)));
             }
             $Testobj = UserQuestionsCollection::model()->findAll($criteria);
+            error_log("-----date----".print_r($Testobj,1));
             return $Testobj;
             
         } catch (Exception $ex) {
@@ -331,14 +332,16 @@ public function getTestUserDetails($testId,$sDate,$eDate,$startLimit,$pageLength
             return $returnValue;
         }
     }
-    public function getTestTakenUsers($testId,$startDate,$endDate){
+    public function getTestTakenUsers($testId,$sDate,$eDate){
         try{
+            error_log("tstd---".$testId."---datra000---".$sDate."---end--".$eDate);
             $criteria = new EMongoCriteria;            
             $criteria->addCond('Testid', '==', new MongoId($testId));
             //$criteria->addCond('CreatedOn', '>=', new MongoDate(strtotime($date)));
             if(!empty($sDate)){
                 $criteria->CreatedOn = array('$gte' =>new MongoDate(strtotime($sDate)),'$lte' => new MongoDate(strtotime($eDate)));
             }
+            
             return UserQuestionsCollection::model()->count($criteria);
         } catch (Exception $ex) {
             Yii::log("UserQuestionsCollection:getTestTakenUsers::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');

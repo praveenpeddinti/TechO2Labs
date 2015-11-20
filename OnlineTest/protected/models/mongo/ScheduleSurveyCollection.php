@@ -1184,6 +1184,10 @@ class ScheduleSurveyCollection extends EMongoDocument {
             
             $getTestUserObject = UserQuestionsCollection::model()->getTestUserDetails($testId, $startDate, $endDate, $startLimit, $pageLength);
             $getTestTakenUsersCount = UserQuestionsCollection::model()->getTestTakenUsers($testId, $startDate, $endDate);
+            error_log(sizeof($getTestUserObject)."--count---".$getTestTakenUsersCount);
+            if($getTestTakenUsersCount == 0){
+                return array("data" => array());
+            }
             foreach ($getTestUserObject as $u) {
                 //CommonUtility::styleDateTime($u['CreatedOn']);
                 
