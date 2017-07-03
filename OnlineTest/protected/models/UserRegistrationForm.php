@@ -28,12 +28,12 @@ class UserRegistrationForm extends CFormModel
                     
                         array(
                             'FirstName',
-                            'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
+                            'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9_-]/',
                             'message'=>Yii::t('translation','attribute_Invalid_characters'),
                       ),
                     array(
                             'LastName',
-                            'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
+                            'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9_-]/',
                             'message'=>Yii::t('translation','attribute_Invalid_characters')
                       ),
                     array('Email', 'email','checkMX'=>false),

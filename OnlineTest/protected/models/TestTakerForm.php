@@ -23,12 +23,12 @@ class TestTakerForm extends CFormModel {
             array('Qualification', 'required','message'=>'Select Qualification'),
             array(
                 'FirstName',
-                'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
+                'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9_-]/',
                 'message'=>Yii::t('translation','attribute_Invalid_characters'),
             ),
             array(
                 'LastName',
-                'match', 'not' => true, 'pattern' => '/[^a-zA-Z_-]/',
+                'match', 'not' => true, 'pattern' => '/[^a-zA-Z0-9_-]/',
                 'message'=>Yii::t('translation','attribute_Invalid_characters'),
             ),
             array('Phone','numerical','integerOnly'=>true,'min'=>1111111111,'tooSmall'=>'{attribute} is too short(minimum is 10 numbers)',),
