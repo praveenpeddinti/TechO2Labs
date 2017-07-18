@@ -3,9 +3,8 @@
     
            <?php
            $Totaltime = 0;
- $k = 0; foreach($CatName as $row){
-     
-     ?>
+          
+ $k = 0; foreach($CatName as $row){     ?>
    <div class="q_catogories_progress position_R" id="q_categories_<?php echo ($k+1); ?>" data-val="<?php echo ($k+1); ?>" >
        <div class="headerbg_cat" data-timerid='#hms_timer<?php echo ($k+1); ?>' id="CategoryId_<?php echo $row['CategoryId']; ?>">
    	<h3 class="pull-left" data-info="<?php echo ($k+1); ?>" data-original-title="<?php echo $row['CategoryName']; ?>" rel="tooltip"><?php echo $row['CategoryName']; ?></h3> 
@@ -18,16 +17,14 @@
     <table cellpadding="0" cellspacing="0"  border="0" class="categoryQuestions">
        
         <tr>
-        <?php //error_log("====noofquestions=====".print_r($row)); 
-        for($i=0;$i < sizeof($row['CategoryQuestions']);$i++){ ?>       
-       <?php if($i%5==0){  ?>
+        <?php $UserId = Yii::app()->session['TinyUserCollectionObj']->UserId; 
+          //   echo $row['ScheduleId'];
+            $userCatObj = CommonUtility::getSessionSurveyAnswersByScheduleId($UserId,$row['ScheduleId']);  
+        for($i=0;$i < sizeof($row['CategoryQuestions']);$i++){
+        if($i%5==0){  ?>
         </tr><tr>
              <?php } ?>
-            <td class="questionnos" id="qno_<?php echo ($k+1-1)._.($i+1); ?>" data-activetimer="hms_timer<?php echo ($k+1); ?>_hidden" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>
-            
-        
-        
-            
+            <td class="questionnos" style="background-color:<?php echo (isset($userCatObj['UserAnswers'][$i]['SelectedOption']) &&  $userCatObj['UserAnswers'][$i]['SelectedOption'][0]!='')?"green":"gray";?>" id="qno_<?php echo ($k+1-1)._.($i+1); ?>" data-activetimer="hms_timer<?php echo ($k+1); ?>_hidden" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>
        <?php   } ?>
         </tr>
      
@@ -73,7 +70,6 @@
                            
                                CategoryIdwithCategory["<?php echo $row['CategoryId']?>"]="q_categories_<?php echo ($k+1); ?>";
                                
-                              // alert(TotalTimerDivs)
                                 </script>
  <?php $k++; } ?>
 <input type="button" value="I'm done" name="commit" class="btn" id="submitQuestion" >
