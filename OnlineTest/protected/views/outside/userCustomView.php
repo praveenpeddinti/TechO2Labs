@@ -868,10 +868,8 @@ sessionStorage.sharedURL = "";
      $("div.checkboxselectalldiv span.checkbox").die().live('click',function(){
         var $this = $(this);
         var qId = $this.closest("div.checkboxselectalldiv").attr("data-questionid");
-        //alert(qId)
         var isChecked = 0;
         var checkboxvalues = "";
-        //alert($this.attr("style"))
         if($this.attr("style") == "background-position: 0px -50px;"){      
             $("#selectall_"+qId).attr("checked",true);
             $("input[name='checkbox_"+qId+"']").each(function(key, value) {
@@ -1164,7 +1162,6 @@ sessionStorage.sharedURL = "";
                     var error = eval(data.error);
                 }
                 $.each(error, function(key, val) { 
-                    //alert(data.status+"--ValidateQuestionsHandler id-else-"+key+"---"+val);                       
                         var strArr = key.split("_");  
                         if($("#QuestionsSurveyForm_WidgetType_"+qNo).val() == 3 || $("#QuestionsSurveyForm_WidgetType_"+qNo).val() == 4){
                             saveAnswersForQuestions()
@@ -1652,7 +1649,11 @@ $("#"+questionActiveID).css("background-color", "orange");
           userTempId = '<?php echo $UserTempId?>';
          
       var loginUserId = '<?php echo $this->tinyObject->UserId; ?>';
-   
+      setInterval(function(){ 
+          if(loginUserId=='') {
+            window.location.href='/site/register';
+          }
+      }, 3000);
     var scheduleId = "<?php echo $scheduleId; ?>";
      sessionStorage.userId = loginUserId;
      sessionStorage.scheduleId = scheduleId;
