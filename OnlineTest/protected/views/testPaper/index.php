@@ -283,7 +283,7 @@ $(document).ready(function(){
         } else {
             questionsCount = 1;
         }
-        //updateDivs();
+        updateDivs();
     });
      
      var Garray = new Array();
@@ -339,7 +339,7 @@ $(document).ready(function(){
             success: function(data) {
                 var data = eval(data);
                 if (data.status == 'success') {
-                    isValidate++;                    
+                    isValidate++; 
                 }
                 if(data.status == "error"){
                     isValidate = 0;
@@ -355,10 +355,12 @@ $(document).ready(function(){
             dataType: 'json'
         });
     }
-    function surveyHandler(data,totalQuestions,no) {  
+    function surveyHandler(data,totalQuestions,no) {
         var data = eval(data);
-        if (data.status == 'success') {           
-              if(isValidate == totalQuestions){                    
+        if (data.status == 'success') {
+            
+              if(isValidate == totalQuestions){ 
+                  
                     isValidated = true;
                     surveyFinalSubmit();
                 }
@@ -396,8 +398,6 @@ $(document).ready(function(){
 //                
 //            }); 
             
-            
-            
             $.each(error, function(key, val) {
                 if (key == "TestPaperForm_Title") {
                     if ($("#TestPaperForm_Title").val() == "") {
@@ -428,31 +428,20 @@ $(document).ready(function(){
     }
      
      
-     
-     
-     
     function updateDivs(){
         $(".subsectionremove").each(function(key) {
             $(this).attr("data-questionId", key + 1);
         });
        
-        
-       
-       
         preq = 0;
         nextq = 0;
         i = 0;
-        
-        
         
         $(".QuestionWidget").each(function(key) {
             $(this).attr("data-questionId", (key + 1));
             $(this).attr("id", "QuestionWidget_" + (key + 1));
 
         });
-       
-      
-       
 
         $(".questionwidgetform").each(function() {
             var $this = $(this);
@@ -460,7 +449,6 @@ $(document).ready(function(){
             $this.attr("id", "questionWidget_" + qNo); 
         });
        
-        
         preq = 0;
         nextq = 0;
         i = 0;
@@ -480,10 +468,7 @@ $(document).ready(function(){
             $this.html(qNo+")");
         });
         
-            
-       
     } 
-     
      
      function surveyFinalSubmit(){
         $("#TestPaperForm_Questions").val(JSON.stringify(Garray));
