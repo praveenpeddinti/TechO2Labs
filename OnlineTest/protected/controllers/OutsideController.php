@@ -60,30 +60,28 @@ class OutsideController extends Controller {
             $userId = Yii::app()->session['TinyUserCollectionObj']->UserId;            
             $vType = "1";
             $testId = "";
+            $state='';
+           // echo session_id()."===".$userId;
+            if($userId==''){
+             $this->redirect('/site/register');
+            }else{
             $testRegObj = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId($userId);
+           // error_log(print_r($testRegObj,1)."========RRRRRRRRRRR========");
             if(isset($testRegObj) && sizeof($testRegObj)>0){
-                $testId = $testRegObj[0]->TestId;
+                $testId = $testRegObj->TestId;
             }     
-
             $this->layout = 'adminLayout';
-
-            $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
-            //error_log("=UserId==$userId====TestId=$testId==questionPrepObj===".print_r($questionprepareObj,1));
+               $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);
 //            $surveyObj = ServiceFactory::getSkiptaExSurveyServiceInstance()->getSurveyDetailsById('GroupName',"Amgen");   
-
             $UTestObj = ServiceFactory::getTO2TestPreparaService()->getUserTestObjectByUserIdTestId($userId,$testId);
             if(isset($UTestObj->UserId) && $UTestObj->Status == 0){
-                //$reg = TestRegister::model()->updateTestByUserId($userId,1);
                 $questionprepareObj = TestPreparationCollection::model()->getTestDetails($testId);                
                 $QuestionsSurveyForm = new QuestionsSurveyForm;
                 $this->render('index',array('QuestionsSurveyForm'=>$QuestionsSurveyForm,"userId" => $userId,"groupName"=>$groupName,"outerFlag" => $outerFlag,"vType"=>$vType,"TestId"=>$testId,"CatName"=>array()));
             }else{
                 $this->render('submissionerror');
-            }
-
-            
-            
-            
+            }  
+        }
             } catch (Exception $ex) {
             Yii::log("OutsideController:actionIndex::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
@@ -1196,13 +1194,11 @@ function get_values_for_keys($mapping, $keys) {
     
     public function actionRenderCategories(){
         try{
-              //error_log("############Exception occurred########");
             $testId = $_REQUEST['TestId'];
             $UserId = $_REQUEST['UserId'];
-             $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
-                //error_log("############Exception occurred########".$testId);
-           $getTestObj = TestPreparationCollection::model()->getTestDetailsById("Id",(string)$testId);
-             //error_log("############Exception occurred########".$testId);
+            $testquestionObj = UserQuestionsCollection::model()->getTestAvailable($UserId,$testId);
+            $getTestObj = TestPreparationCollection::model()->getTestDetailsById("Id",(string)$testId);
+            // error_log("----------------111111111111----------------".print_r($getTestObj,1));
 
             if($testquestionObj == "failure"){
               $testquestionObj = $this->prepareTempQuestions($getTestObj,$UserId,$testId); // saving temp. test for a user and fetching saved obj...           
