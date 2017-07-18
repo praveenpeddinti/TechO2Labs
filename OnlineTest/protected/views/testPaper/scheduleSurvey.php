@@ -310,7 +310,7 @@
             var surveyId = data.surveyId;           
             $("#sucmsgForSurveySchedule").html(msg);
             $("#sucmsgForSurveySchedule").show();
-            $("#sucmsgForSurveySchedule").fadeOut(7000,function(){
+            $("#sucmsgForSurveySchedule").fadeOut(4000,function(){
                 $("#newModal").modal('hide');
                 $("#scheduleSurvey").removeAttr("disabled");
                  page = 1;
@@ -323,7 +323,7 @@
             $("#errmsgForSurveySchedule").html(data.data);
             $("#errmsgForSurveySchedule").show();
             $("#sucmsgForSurveySchedule").hide();
-            $("#errmsgForSurveySchedule").fadeOut(7000);
+            $("#errmsgForSurveySchedule").fadeOut(4000);
         } else {
             $("#scheduleSurvey").removeAttr("disabled");
             scrollPleaseWaitClose("extededsurvey_spinner");

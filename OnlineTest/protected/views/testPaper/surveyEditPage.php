@@ -2,8 +2,9 @@
 $i = 0;
 if(!empty($surveyObj) && sizeof($surveyObj)>0){    
 
-    foreach ($surveyObj->Questions as $question) {
-    if ($question['QuestionType'] == 1) {
+    foreach ($surveyObj->Questions as $question) { ?>
+<div style="display:none" id="ExtendedSurveyForm_Question_<?php echo ($i + 1); ?>_em_" class="alert alert-error"></div>
+     <?php if ($question['QuestionType'] == 1) {
         ?>
         <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
             <?php
@@ -135,6 +136,8 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
         <?php } else if ($question['QuestionType'] == 2) {
             ?>
         <div class="QuestionWidget child" data-questionId="<?php echo ($i + 1); ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo ($i + 1); ?>">       
+            
+                    
             <?php
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'questionWidget_' . ($i + 1),
