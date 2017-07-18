@@ -13,8 +13,7 @@
 
             </div>
             <div class="questionlabel positionabsolutediv q_minimize" style=" "><i class="icon-minus-sign" style="font-size:18px;" data-placement="bottom" rel="tooltip"  data-original-title="minimize"></i> </div>
-            <div style="display:none" id="ExtendedSurveyForm_Question_<?php echo ($i + 1); ?>_em_" class="errorMessage questionserror" data-questionno="<?php echo ($i + 1); ?>" ></div>
-
+            
         </div>
     </div>
 </div>
