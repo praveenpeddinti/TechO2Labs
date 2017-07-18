@@ -91,6 +91,13 @@ return array(
             'password' => DBPASSWORD,
             'charset' => 'utf8',
         ),
+        'session' => array(
+    'class' => 'CDbHttpSession',
+    'autoStart' => true,
+    'connectionID' => 'db',
+    'sessionTableName' => 'BrowserSessionIds',
+    'autoCreateSessionTable' => true    // for performance reasons
+),
         'errorHandler' => array(
             // use 'site/error' action to display errors
          
