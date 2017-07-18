@@ -91,7 +91,7 @@
      
     </div>
     <script>
-    $("#reportssearchUsers").click(function() { 
+    $("#reportssearchUsers").click(function() {
         var testPaperId=$("#TId").val();
         var startDate = $("#InviteUserForm_StartDate").val();
         var endDate = $("#InviteUserForm_EndDate").val();
@@ -141,6 +141,7 @@ $(document).ready(function(){
 
 });
 function renderReport(){
+
      var data= {"testPaperId":"<?php echo $testPaperId?>","startDate":'',"endDate":'',"pageLength":g_pageLength};
   
     //    var data= {"testPaperId":"<?php echo $testPaperId?>"};
@@ -174,7 +175,6 @@ function renderReport(){
 
     }
 function renderReportsHandler(html){
-    
     $("#inviteuser_div").html(html);
     var testPaperId=$("#TId").val();
         if (typeof g_pageNumber == "undefined") {
@@ -286,7 +286,6 @@ $("#submitReviewAnswers").live("click",function(){
        ajaxRequest("/reports/saveReviewQuestions",data ,saveReviewQuestionsHandler);
 })
 function saveReviewQuestionsHandler(data){
-    
      $("#newModal").modal('hide');
     renderReport();
     }
