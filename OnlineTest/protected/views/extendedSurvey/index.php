@@ -626,7 +626,6 @@ bindToMandatory();
             async:true,
             success: function(data) { 
                 var data = eval(data);
-                //alert(data.status) 
                 if (data.status == 'success') {
                     isValidate++;                    
                 }
@@ -677,7 +676,7 @@ bindToMandatory();
                  if($("#"+key+"_em_") && val != ""){                     
                     $("#"+key+"_em_").text(val);                                                    
                     $("#"+key+"_em_").show();   
-                    $("#"+key+"_em_").fadeOut(50000);
+                    $("#"+key+"_em_").fadeOut(5000);
                    // $("#"+key).parent().addClass('error');
                 }
                 
@@ -689,7 +688,7 @@ bindToMandatory();
                 if($.trim(strArr[1]) == "MatrixAnswer"){                            
                     $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").text("Please fill all the fields");
                     $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").show();
-                    $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").fadeOut(50000);
+                    $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").fadeOut(5000);
                     $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").addClass('error');
 
                 }else
@@ -697,26 +696,26 @@ bindToMandatory();
                     if ($("#ExtendedSurveyForm_SurveyDescription").val() == "") {
                         $("#ExtendedSurveyForm_SurveyDescription_em_").text(val);
                         $("#ExtendedSurveyForm_SurveyDescription_em_").show();
-                        $("#ExtendedSurveyForm_SurveyDescription_em_").fadeOut(50000);
+                        $("#ExtendedSurveyForm_SurveyDescription_em_").fadeOut(5000);
                         $("#ExtendedSurveyForm_SurveyDescription").parent().addClass('error');
                     }
                 } else if (key == "ExtendedSurveyForm_SurveyTitle") {
                     if ($("#ExtendedSurveyForm_SurveyTitle").val() == "") {
                         $("#ExtendedSurveyForm_SurveyTitle_em_").text(val);
                         $("#ExtendedSurveyForm_SurveyTitle_em_").show();
-                        $("#ExtendedSurveyForm_SurveyTitle_em_").fadeOut(50000);
+                        $("#ExtendedSurveyForm_SurveyTitle_em_").fadeOut(5000);
                         $("#ExtendedSurveyForm_SurveyTitle").parent().addClass('error');
                     }
                 } else if (key == "ExtendedSurveyForm_SurveyLogo") {
                     $('#surveyLogo_error').html("Please upload Research Logo ");
                     $('#surveyLogo_error').show();
-                    $('#surveyLogo_error').fadeOut(50000);
+                    $('#surveyLogo_error').fadeOut(5000);
                 } 
                 else {
                     if ($("#" + key + "_em_")) {
                         $("#" + key + "_em_").text(val);
                         $("#" + key + "_em_").show();
-                        $("#" + key + "_em_").fadeOut(50000);
+                        $("#" + key + "_em_").fadeOut(5000);
                         $("#" + key).parent().addClass('error');
                     }
                 }
@@ -763,7 +762,7 @@ bindToMandatory();
                  $("#sucmsg").html("Updated Successfully. <?php echo Yii::t("translation","Ex_Success_Msg"); ?>");
              <?php } ?>
                  $("body,html").animate({scrollTop:0}, 1000,function(){})
-            $("#sucmsg").fadeOut(50000,function(){
+            $("#sucmsg").fadeOut(5000,function(){
                 $("#surveyFormButtonId").attr("disabled",false);
                 scrollPleaseWaitClose("extededsurvey_spinner");
                 window.location.href = "/inventory";
@@ -808,7 +807,7 @@ bindToMandatory();
        $('#' + type + '_error').html(message);
         // $('#'+type+'_error').css("padding-top:20px;");
         $('#' + type + '_error').show();
-        $('#' + type + '_error').fadeOut(50000);
+        $('#' + type + '_error').fadeOut(5000);
   
     }
     function updateDivs(){
