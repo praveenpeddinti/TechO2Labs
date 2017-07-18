@@ -534,7 +534,6 @@ $(document).ready(function(){
                     $(this).attr("style",'background-position: 0px -50px');
                     $("#ReviewQuestion_"+qid).val(1);
             }else{
-                //alert("ye check");
             }
             //alert(otherQuestions+"if--"+$("#TestTakerForm_NoofQuestions_"+qid).val());
         //}
