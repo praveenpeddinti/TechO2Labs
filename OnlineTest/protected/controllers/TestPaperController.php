@@ -1,3 +1,5 @@
+
+
 <?php
 
 /*
@@ -196,12 +198,13 @@ class TestPaperController extends Controller {
                                     $TestPreparationBean->ReviewQuestion = (int) $value;
                                 }
                                 if ($Flag == 'Edit' && $key == "ScheduleId") {
-                                    $TestPreparationBean->ScheduleId = new MongoId($value);
+                                   // $TestPreparationBean->ScheduleId = new MongoId($value);
+                                    $TestPreparationBean->ScheduleId = $value;
                                 }
                                 if ($Flag == 'Edit' && $key == "CategoryId") {
-                                    $TestPreparationBean->CategoryId =  new MongoId($value);
+                                  //  $TestPreparationBean->CategoryId =  new MongoId($value);
+                                   $TestPreparationBean->CategoryId = $value;
                                 }
-                                
                         }
                         array_push($questionArray, $TestPreparationBean);
                     }
