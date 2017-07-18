@@ -1,4 +1,7 @@
 <div class="QuestionWidget" data-questionId="<?php echo $widgetCount; ?>" style="padding:15px 20px 15px 10px" id="QuestionWidget_<?php echo $widgetCount; ?>">       
+ <div style="display:none" id="ExtendedSurveyForm_Question_<?php echo $widgetCount; ?>_em_"   class="alert alert-error ">
+                        
+                            </div> 
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'questionWidget_' . $widgetCount,
@@ -36,11 +39,8 @@
                                 <div contenteditable="true" placeholder="Enter Question <?php echo $widgetCount; ?> here..." name="ExtendedSurveyForm[Question][<?php echo $widgetCount; ?>]" class="span12 textfield questionname notallowed divstyle" maxlength="20000" id="ExtendedSurveyForm_div_Question_<?php echo $widgetCount; ?>" onkeyup="copyquestion(this.id)" onblur="copyquestion(this.id)" data-hiddenname="ExtendedSurveyForm_Question_<?php echo ($widgetCount); ?>" ></div>
                                 <input type="hidden"  value="<?php echo htmlspecialchars(addslashes($question['Question'])); ?>" type="text" name="ExtendedSurveyForm[Question][<?php echo ($i + 1); ?>]" class="span12 textfield notallowed" id="ExtendedSurveyForm_Question_<?php echo $widgetCount; ?>"/>
 <!--                            <input type="text" placeholder="Enter Question <?php //echo $widgetCount; ?> here..." name="ExtendedSurveyForm[Question][<?php //echo $widgetCount; ?>]" class="span12 textfield questionname notallowed" maxlength="1000" id="ExtendedSurveyForm_Question_<?php //echo $widgetCount; ?>" onkeyup="insertText(this.id)" onblur="insertText(this.id)"/>-->
-
-                        <div style="display:none" id="ExtendedSurveyForm_Question_<?php echo "$widgetCount"; ?>_em_" class="errorMessage questionserror" data-questionno="<?php echo "$widgetCount"; ?>" >
-                        
+                                <?php error_log("********************************".$widgetCount);  ?>
                         </div>
-                            </div>
                         </div>
                         <div class="questionlabel positionabsolutediv q_minimize" style=" "><i class="icon-minus-sign" style="font-size:18px;" data-placement="bottom" rel="tooltip"  data-original-title="minimize"></i> </div>
                     </div>
