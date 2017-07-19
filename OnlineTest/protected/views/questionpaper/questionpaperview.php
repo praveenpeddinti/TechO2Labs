@@ -136,14 +136,14 @@ function getQuestion(sno){
 
 function questionHandler(data){
     //alert('me2');   //$('#question_area').html(data)
-   alert("ddfdf--"+data.toSource());
+   //alert("ddfdf--"+data.toSource());
     //var item = {
      //       'data': data
      //   };
         $("#sss").html(
             $("#question_Tmp").render()
         );
-alert("ddfdf-2-"+data.status);
+//alert("ddfdf-2-"+data.status);
         //$("#question_area").html(data.data.SurveyTitle);
     
 }
