@@ -76,10 +76,11 @@ var TotalTimerDivs={};
 
     
      <script type="text/javascript">
-        
         var closedCategory=new Array();
         var openCategory=new Array();
         var userTempId="";
+      //  alert("SSSSS"); 
+          
          function expiryCategory(divid){
              if(divid=='timeisup'){
                  Garray = new Array();
@@ -93,15 +94,13 @@ var TotalTimerDivs={};
             savePresAnswersForQuestions(0,0)
              }else{
              closedCategory.push(divid)
-           //  alert("I am done----"+divid)
              $('#'+divid+" .categorydivpadding" ).css('opacity',0.2);
              $('#'+divid).append("<div class='suspendcontentdiv'></div><div class='suspenddiv'></div>");
              
              openCategory=arr_diff(CategoryDivs,closedCategory);
              if(openCategory.length>0){
-              //alert(openCategory[0]+"i am in");
           
-               activeCategoryDiv(openCategory[0])
+               activeCategoryDiv(openCategory[0]);
                 stopandStartTimer(TotalTimerDivs[openCategory[0]]); 
                 savePresAnswersForQuestions(1,1);
                 getOpenCategoryQuestion(openCategory[0]);
@@ -142,7 +141,7 @@ var TotalTimerDivs={};
                 if(isOuter == true || isOuter == 'true'){
                     $("#streamsectionarea").removeClass();
                 }
-                
+             
                     // scrollPleaseWait('streamsectionarea_spinner');
                     //alert("UserId="+UserId+"&GroupName="+Groupname+"&viewType="+viewType+"&TestId="+testId)
                  ajaxRequest("/outside/renderQuestionView", "UserId="+UserId+"&GroupName="+Groupname+"&viewType="+viewType+"&TestId="+testId, function(data) {
@@ -152,11 +151,10 @@ var TotalTimerDivs={};
              }
              function renderCategoriesView(html){
                  $("#allcategories").html(html);
-                 //alert(html)
                  
              }
              renderSurveyView('<?php echo $userId; ?>','<?php echo $TestId; ?>')
-             function renderSurveyView(UserId,testId){  
+             function renderSurveyView(UserId,testId){ 
                  ajaxRequest("/outside/renderCategories", "UserId="+UserId+"&TestId="+testId, function(data) {
                     renderCategoriesView(data)
                      doAjax();
@@ -208,6 +206,7 @@ var TotalTimerDivs={};
             
          });
           var currentPage=0;   
+          $(".questionnos").addClass("active");
          $(".questionnos").live("click",function(){   //question by number            
              var $this = $(this);
              //$("#"+questionActiveID).css("background-color", "");
@@ -221,7 +220,6 @@ var TotalTimerDivs={};
                 savePresAnswersForQuestions(1,1);
              //$this.addClass("active");
 //              var activetimerdiv = $this.data("activetimer");
-//              //alert(activetimerdiv);
 //              stopandStartTimer(activetimerdiv);
              var scheduleid = $this.data("scheduleid");
              var catid = $this.data("catid");
@@ -266,12 +264,10 @@ var TotalTimerDivs={};
               
     }
     function stopandStartTimer(div){
-       
         $(TimerDivs).val("pause").trigger('click');
         $('#'+div).val("resume").trigger('click'); 
     }
       function activeCategoryDiv(div){
-
         $(CategoryDivsID).removeClass("q_catogories_progress_active");
         $('#'+div).addClass("q_catogories_progress_active"); 
     }
@@ -336,7 +332,7 @@ var TotalTimerDivs={};
  });
          
          
-         $(window).unload(function(){
+             $(window).unload(function(){
      savePresAnswersForQuestions(1,1);
 }); 
 </script>
