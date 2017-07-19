@@ -133,14 +133,12 @@ return $imgpath;
     
     public function actionRegistration() {
     try {
-    
             $testTakerForm = new UserRegistrationForm();
             if (isset($_POST['UserRegistrationForm'])) {
             $testTakerForm->attributes = $_POST['UserRegistrationForm'];
             $errors = CActiveForm::validate($testTakerForm);
             if ($errors != '[]') {
-
-$obj = array('status' => 'error', 'data' => '', 'error' => $errors);
+            $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
             } else {
                 $takerexist =array();
                 $takerPhoneexist =array();
@@ -156,16 +154,16 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                                     fwrite($fp, $unencoded);
                                     fclose($fp);
                  }
-
-
                 $takerexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExist($testTakerForm->Email);  
                 $takerPhoneexist = ServiceFactory::getSkiptaUserServiceInstance()->checkUserExistWithPhone($testTakerForm->Phone);
+                $isSessionExist = ServiceFactory::getTO2TestPreparaService()->isSessionExistToUser($takerPhoneexist->UserId);
+               // error_log(print_r($isSessionExist,1)."===============$$$$$$$$$$$$$======================");
+                $sessionObj = ServiceFactory::getTO2TestPreparaService()->updateSessionWithUserId(session_id(),$takerPhoneexist->UserId);
                 if ((count($takerexist) > 0) && (count($takerPhoneexist) > 0) ) {
                     //if ( (count($takerPhoneexist) > 0) ) {
                         $checkUserTesttaken = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId($takerPhoneexist->UserId);
                         if(isset($checkUserTesttaken) && sizeof($checkUserTesttaken)>0){
-                                
-                            if($checkUserTesttaken->Status==0){
+                             if($checkUserTesttaken->Status==0){
                                 $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerDetails($testTakerForm);
                                 
                                 $userObj = ServiceFactory::getSkiptaUserServiceInstance()->getUserByType($testTakerForm->Email, 'Email');
@@ -180,7 +178,7 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
                                 }
                                 
                                 $testTakerForm->Imagesrc=$destpath;
-                              $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerImagePath($testTakerForm,$userObj->UserId);
+                                $updatedDetails = ServiceFactory::getSkiptaUserServiceInstance()->updateTestTakerImagePath($testTakerForm,$userObj->UserId);
 
 
                                 $tinyUserCollectionObj = ServiceFactory::getSkiptaUserServiceInstance()->getTinyUserCollection($userObj->UserId);
@@ -209,11 +207,16 @@ $obj = array('status' => 'error', 'data' => '', 'error' => $errors);
         }
     } 
      public function actionPrivacyPolicy() {
+          if(Yii::app()->session['TinyUserCollectionObj']->UserId==''){
+             $this->redirect('/site/register');
+            }else{
          $testRegObj = ServiceFactory::getTO2TestPreparaService()->getTestIdByUserId(Yii::app()->session['TinyUserCollectionObj']->UserId);
-         $testInfo = TestPreparationCollection::model()->getTestDetails($testRegObj[0]->TestId);
+      
+         $testInfo = TestPreparationCollection::model()->getTestDetails($testRegObj->TestId);
+      //   error_log('===========FFFFFFFFFFFF=============='.print_r($testInfo,1));
        $PrivacyPolicyForm = new PrivacyPolicyForm();
      $this->render('privacyPolicy', array("PrivacyPolicyForm"=>$PrivacyPolicyForm,"TestInfo"=>$testInfo));          
       }             
-      
+     } 
 }
 ?>
