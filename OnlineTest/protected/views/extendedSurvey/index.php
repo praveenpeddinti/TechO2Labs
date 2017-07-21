@@ -474,11 +474,13 @@ bindToMandatory();
     });
 
          $(".surveyremoveicon").live('click', function() {
+           
         var $this = $(this);
         var questionno = $this.closest("div.answersection1").attr("data-questionId");
         var optionType = $this.closest("div.answersection1").attr("data-optionType");
         var totalOptions = 0;
         $("input[name='" + optionType + "_" + questionno + "']").each(function(key, value) {
+            
             totalOptions++
         });
         //changed the options dropdown value....
@@ -519,9 +521,13 @@ bindToMandatory();
         preq = 0;
         nextq = 0;
         i = 0;
-       updateDivs();
+       // alert($("#ExtendedSurveyForm_IsAnswerFilled_"+questionno).val())
+       // $("#ExtendedSurveyForm_answerSelected_"+questionno).val('');
+        $("#ExtendedSurveyForm_IsAnswerFilled_"+questionno).val('');
+      //  alert($("#ExtendedSurveyForm_IsAnswerFilled_"+questionno).val())
+        updateDivs();
 
-
+   
     });
     $(".surveyaddoption").live('click', function() {
         var $this = $(this);
@@ -672,7 +678,7 @@ bindToMandatory();
             }else{
                 var errorStr=eval(data.oerror);
             }
-            $.each(errorStr, function(key, val) { 
+            $.each(errorStr, function(key, val) {
                  if($("#"+key+"_em_") && val != ""){                     
                     $("#"+key+"_em_").text(val);                                                    
                     $("#"+key+"_em_").show();   
@@ -684,7 +690,6 @@ bindToMandatory();
             }); 
             $.each(error, function(key, val) {
                 var strArr = key.split("_");  
-                
                 if($.trim(strArr[1]) == "MatrixAnswer"){                            
                     $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").text("Please fill all the fields");
                     $("#ExtendedSurveyForm_IsAnswerFilled_"+strArr[2]+"_em_").show();
@@ -710,8 +715,9 @@ bindToMandatory();
                     $('#surveyLogo_error').html("Please upload Research Logo ");
                     $('#surveyLogo_error').show();
                     $('#surveyLogo_error').fadeOut(5000);
-                } 
+                }
                 else {
+                    //alert(key+"key");
                     if ($("#" + key + "_em_")) {
                         $("#" + key + "_em_").text(val);
                         $("#" + key + "_em_").show();
