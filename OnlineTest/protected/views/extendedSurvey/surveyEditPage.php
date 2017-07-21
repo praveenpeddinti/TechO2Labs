@@ -33,7 +33,9 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
             <input type="hidden" name="ExtendedSurveyForm[QuestionId][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_QuestionId_<?php echo ($i + 1); ?>" value="<?php echo $question['QuestionId']; ?>"/>
             <input type="hidden" name="ExtendedSurveyForm[AnswerSelected][<?php echo ($i + 1); ?>]"   id="ExtendedSurveyForm_answerSelected_<?php echo ($i + 1); ?>" value="<?php echo $question['Answers'][0]?>" />
             <input type="hidden" name="ExtendedSurveyForm[IsSuspend][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsSuspend_<?php echo ($i + 1); ?>" value="<?php echo $question['IsSuspended']; ?>" />
-            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="1"/>
+            <input type="hidden" name="ExtendedSurveyForm[IsAnswerFilled][<?php echo ($i + 1); ?>]" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>" value="<?php echo trim($question['Answers'][0])==''?'':1; ?>"/> 
+            <div style="display: none;" id="ExtendedSurveyForm_IsAnswerFilled_<?php echo ($i + 1); ?>_em_" class="alert alert-error " data-questionno="<?php echo ($i + 1); ?>" ></div>
+
             <div class="surveyquestionsbox">
                  
                 <div class="surveyareaheader">
@@ -144,37 +146,6 @@ if(!empty($surveyObj) && sizeof($surveyObj)>0){
 
                 });
                 
-//                 $(".onlinetestradio").die().live("click",function(){ 
-//       var $this = $(this);
-//       var radiovalue = "";
-//        var qId = $this.closest('div.answersection1').attr("data-questionId");
-//        var qtype = $this.closest('div.answersection1').attr("data-qtype");
-//         if(qtype == 3){
-//            var i = $this.attr("data-info");
-//            //radiovalue=$("input[name='radio_"+i+"_"+qId+"']:checked").val();
-//            $(".radiotype_"+qId).each(function(){
-//                      var $this = $(this);
-//                           if($(this).is(":checked")){
-//                               if(radiovalue == ""){
-//                                   radiovalue = $this.val();
-//                               }else{
-//                                   radiovalue = radiovalue+","+$this.val();  
-//                               }
-//                           }
-//                           
-//                        }); 
-//            
-//           //alert(radiovalue) 
-//                   
-//        }else{
-//            radiovalue=$("input[name='radioinput']:checked").val();
-//           //alert(radiovalue) 
-//        }
-//        $("#ExtendedSurveyForm_IsAnswerFilled_"+qId).val(1);
-//      $("#ExtendedSurveyForm_answerSelected_"+qId).val(radiovalue);
-//    });
-//    
-
         </script>
 
         <?php } else if ($question['QuestionType'] == 2) {
