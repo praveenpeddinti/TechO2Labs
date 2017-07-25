@@ -24,8 +24,11 @@
         if($i%5==0){  ?>
         </tr><tr>
              <?php } ?>
-            <td class="questionnos" style="background-color:<?php echo (isset($userCatObj['UserAnswers'][$i]['SelectedOption']) &&  $userCatObj['UserAnswers'][$i]['SelectedOption'][0]!='' || $userCatObj['UserAnswers'][$i]['UsergeneratedRankingOptions'][$i]!='')?"green":"gray";?>" id="qno_<?php echo ($k+1-1)._.($i+1); ?>" data-activetimer="hms_timer<?php echo ($k+1); ?>_hidden" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>
-       <?php   } ?>
+            
+            <td class="questionnos" style="background-color:<?php echo (isset($userCatObj['UserAnswers'][$i]['IsCompleted'])) && $userCatObj['UserAnswers'][$i]['IsCompleted']==1 &&  ($userCatObj['UserAnswers'][$i]['SelectedOption'][0]!='' || $userCatObj['UserAnswers'][$i]['UsergeneratedRankingOptions'][$i]!='' || $userCatObj['UserAnswers'][$i]['DistributionValues'][$i]!='' || $userCatObj['UserAnswers'][$i]['UserAnswer']!='')?"green":"gray";?>" id="qno_<?php echo ($k+1-1)._.($i+1); ?>" data-activetimer="hms_timer<?php echo ($k+1); ?>_hidden" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>
+    <!--<td class="questionnos" style="background-color:<?php echo ($userCatObj['UserAnswers'][$i]['IsCompleted']==1)?"green":"gray"?>" id="qno_<?php echo ($k+1-1)._.($i+1); ?>" data-activetimer="hms_timer<?php echo ($k+1); ?>_hidden" data-qno="<?php echo $i ?>" data-catid="<?php echo $row['CategoryId']; ?>" data-scheduleid="<?php echo $row['ScheduleId']; ?>"><?php echo ($i+1); ?></td>-->
+
+ <?php   } ?>
         </tr>
      
     </table>
