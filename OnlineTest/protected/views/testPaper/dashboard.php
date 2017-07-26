@@ -74,7 +74,9 @@
             optionsC.container.imagesLoaded(function() {
                 // Create a new layout handler when images have loaded.
                 handler = $('#surveyDashboardWall li.surveylist');
-
+if($("#surveyDashboardWallDiv").height() <= 1930){
+       $("#footer_sticky").css({position:'fixed',bottom:0,left:0, right:0,margin:'auto'});
+}
                 if ($window.width() < 753) {
                     optionsC.itemWidth = '100%';
                     optionsC.flexibleWidth = '100%';
