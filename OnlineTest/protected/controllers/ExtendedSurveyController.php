@@ -924,7 +924,7 @@ class ExtendedSurveyController extends Controller {
             if (isset($_GET['ExtendedSurveyBean_page']) && isset(Yii::app()->session['TinyUserCollectionObj']) && !empty(Yii::app()->session['TinyUserCollectionObj'])) {
                 $streamIdArray = array();
                 $userId = $this->tinyObject['UserId'];
-                $pageSize = 6;                
+                $pageSize = 13;                
                 $isNotifiable = 1;
                 if (Yii::app()->session['IsAdmin'] != 1) {
                     $isNotifiable = 0;
@@ -2447,5 +2447,5 @@ class ExtendedSurveyController extends Controller {
             Yii::log("ExtendedSurveyController:array_search_inner::".$ex->getMessage()."--".$ex->getTraceAsString(), 'error', 'application');
         }
     }
-
+    
 }
