@@ -1,10 +1,10 @@
    
 
 <div style="position: relative" id="reporsttopdiv" data-total="<?php echo $total; ?>">
-            <div  class="block" >
+            <div  class="block table-responsive" >
                  <?php //if($total>0){?> <?php if(sizeof($reportData)>0){?>
                 
-                <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header">
+                <table cellspacing="0" cellpadding="0" width="100%" border="0" class="dtb_header table">
   	<tr >
                     <td style=" text-align:left"> </td>
     	<td style="width:130px; text-align:left"> </td>
