@@ -202,8 +202,8 @@ class TestPaperController extends Controller {
                                     $TestPreparationBean->ScheduleId = $value;
                                 }
                                 if ($Flag == 'Edit' && $key == "CategoryId") {
-                                  //  $TestPreparationBean->CategoryId =  new MongoId($value);
-                                   $TestPreparationBean->CategoryId = $value;
+                                    $TestPreparationBean->CategoryId =  new MongoId($value);
+                                  // $TestPreparationBean->CategoryId = $value;
                                 }
                         }
                         array_push($questionArray, $TestPreparationBean);
