@@ -198,8 +198,8 @@ class TestPaperController extends Controller {
                                     $TestPreparationBean->ReviewQuestion = (int) $value;
                                 }
                                 if ($Flag == 'Edit' && $key == "ScheduleId") {
-                                   // $TestPreparationBean->ScheduleId = new MongoId($value);
-                                    $TestPreparationBean->ScheduleId = $value;
+                                    $TestPreparationBean->ScheduleId = new MongoId($value);
+                                    //$TestPreparationBean->ScheduleId = $value;
                                 }
                                 if ($Flag == 'Edit' && $key == "CategoryId") {
                                     $TestPreparationBean->CategoryId =  new MongoId($value);
@@ -213,7 +213,8 @@ class TestPaperController extends Controller {
                    
                     if($Flag!='Edit'){
                     $saveTest = ServiceFactory::getTO2TestPreparaService()->saveTestPrepair($TestPaperForm, $UserId);
-                    }else{
+                    }
+                    else{
                     $updateTest = ServiceFactory::getTO2TestPreparaService()->updateTestPrepair($TestPaperForm, $TestPaperId);
                     }
                     $obj = array("status" => "success");
